@@ -5,6 +5,9 @@ import Typography from "views/Typography/Typography.jsx";
 import Icons from "views/Icons/Icons.jsx";
 import Maps from "views/Maps/Maps.jsx";
 import NotificationsPage from "views/Notifications/Notifications.jsx";
+import LandingPage from "views/Landing/Landing.jsx";
+
+import { generateRequireSignInWrapper } from 'redux-token-auth';
 
 import {
   Dashboard,
@@ -15,6 +18,12 @@ import {
   LocationOn,
   Notifications
 } from "material-ui-icons";
+
+
+const requireSignIn = generateRequireSignInWrapper({
+    redirectPathIfNotSignedIn: '/'
+    }
+);
 
 const appRoutes = [
   {
@@ -65,6 +74,13 @@ const appRoutes = [
     navbarName: "Notifications",
     icon: Notifications,
     component: NotificationsPage
+  },
+  {
+    path: "/login",
+    sidebarName: "Landing",
+    navbarName: "Landing",
+    icon: Notifications,
+    component: LandingPage
   },
   { redirect: true, path: "/", to: "/dashboard", navbarName: "Redirect" }
 ];
