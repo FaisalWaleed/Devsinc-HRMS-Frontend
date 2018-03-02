@@ -7,8 +7,6 @@ import Maps from "views/Maps/Maps.jsx";
 import NotificationsPage from "views/Notifications/Notifications.jsx";
 import LandingPage from "views/Landing/Landing.jsx";
 
-import { generateRequireSignInWrapper } from 'redux-token-auth';
-
 import {
   Dashboard,
   Person,
@@ -20,25 +18,21 @@ import {
 } from "material-ui-icons";
 
 
-const requireSignIn = generateRequireSignInWrapper({
-    redirectPathIfNotSignedIn: '/'
-    }
-);
-
 const appRoutes = [
   {
     path: "/dashboard",
     sidebarName: "Dashboard",
     navbarName: "Material Dashboard",
     icon: Dashboard,
-    component: DashboardPage
+    component: DashboardPage,
   },
   {
     path: "/user",
     sidebarName: "User Profile",
     navbarName: "Profile",
     icon: Person,
-    component: UserProfile
+    component: UserProfile,
+    unprotected: true
   },
   {
     path: "/table",

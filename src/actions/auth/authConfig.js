@@ -2,13 +2,13 @@ import { generateAuthActions } from 'redux-token-auth';
 import { AUTH_URL } from "../../config/authConfig";
 
 const config = {
-    AUTH_URL,
+    authUrl: AUTH_URL,
     userAttributes: {
         firstName: 'first_name',
         imageUrl: 'image',
     },
     userRegistrationAttributes: {
-        firstName: 'first_name',
+
     },
 };
 
@@ -17,7 +17,7 @@ const {
     signInUser,
     signOutUser,
     verifyCredentials,
-} = generateAuthActions(config)
+} = generateAuthActions(config);
 
 export {
     registerUser,

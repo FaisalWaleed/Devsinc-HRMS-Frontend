@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import reduxTokenAuthReducer from 'redux-token-auth';
+import { reduxTokenAuthReducer } from 'redux-token-auth'
 
 const rootReducer = combineReducers({
-    reduxTokenAuth: reduxTokenAuthReducer,
+    reduxTokenAuth:reduxTokenAuthReducer,
 });
 
 export default rootReducer;

@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { createBrowserHistory } from "history";
 import { Router, Route, Switch } from "react-router-dom";
+
 import { Provider } from 'react-redux';
 import configureStore from './store/configureStore';
 import { verifyCredentials } from "./actions/auth/authConfig";
@@ -13,6 +14,7 @@ import indexRoutes from "routes/index.jsx";
 const hist = createBrowserHistory();
 
 const store = configureStore();
+
 verifyCredentials(store);
 
 ReactDOM.render(

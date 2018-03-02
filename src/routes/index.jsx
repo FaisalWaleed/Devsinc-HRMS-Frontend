@@ -1,5 +1,6 @@
-import App from "containers/App/App.jsx";
+import App from "../containers/App/App";
 
-const indexRoutes = [{ path: "/", component: App }];
+const indexRoutes = [
+    { path: "/", component: App }];
 
 export default indexRoutes;
