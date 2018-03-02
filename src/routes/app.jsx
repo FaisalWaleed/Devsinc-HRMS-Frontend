@@ -17,7 +17,6 @@ import {
     Notifications
 } from "material-ui-icons";
 
-
 const appRoutes = [
     {
         path: "/dashboard",
