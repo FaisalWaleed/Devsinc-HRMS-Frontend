@@ -8,7 +8,6 @@ const config = {
     //    FrontendName: BackendAttributeName
     },
     userRegistrationAttributes: {
-    //    Add REQUIRED parameters here (other than email and password)
     },
 };
 
