@@ -1,4 +1,4 @@
-export default{
+const initialState = {
     reduxTokenAuth: {
         currentUser: {
             isLoading: false,
@@ -8,4 +8,6 @@ export default{
             },
         },
     },
-}
+};
+
+export default initialState

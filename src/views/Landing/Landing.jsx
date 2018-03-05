@@ -111,7 +111,6 @@ class Landing extends React.Component{
                     </Grid>
                 </form>
             </div>
-
         );
     }
 }
