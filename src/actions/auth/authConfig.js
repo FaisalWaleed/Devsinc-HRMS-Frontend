@@ -4,11 +4,11 @@ import { AUTH_URL } from "../../config/authConfig";
 const config = {
     authUrl: AUTH_URL,
     userAttributes: {
-        firstName: 'first_name',
-        imageUrl: 'image',
+    //    Add additional parameters here
+    //    FrontendName: BackendAttributeName
     },
     userRegistrationAttributes: {
-
+    //    Add REQUIRED parameters here (other than email and password)
     },
 };
 

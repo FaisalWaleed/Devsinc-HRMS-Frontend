@@ -40,8 +40,8 @@ class Landing extends React.Component{
             password,
         } = this.state;
         signInUser({ email, password })
-            .then((response) => {
-                console.log(response);
+            .then(() => {
+                this.props.history.push('/dashboard');
             })
             .catch((error) => {
                 this.setState({
@@ -97,7 +97,6 @@ class Landing extends React.Component{
                                             </ItemGrid>
                                         </Grid>
                                     </div>
-
                                 }
                                 footer={
                                     <div>
@@ -106,7 +105,6 @@ class Landing extends React.Component{
                                         })}
                                         <Button onClick={this.handleSubmit} style={{float: "right"}} color="primary">Sign In</Button>
                                     </div>
-
                                 }
                             />
                         </ItemGrid>
@@ -118,7 +116,4 @@ class Landing extends React.Component{
     }
 }
 
-export default connect(
-    null,
-    { signInUser },
-)(Landing);
+export default connect(null,{signInUser})(Landing);
