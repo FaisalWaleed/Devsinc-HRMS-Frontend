@@ -7,3 +7,4 @@ export const HIDE_MODAL = 'HIDE_MODAL';
 
 //Modal Types
 export const DELETE_MODAL = 'DELETE_MODAL';
+export const FORM_MODAL = 'FORM_MODAL';

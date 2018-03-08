@@ -19,7 +19,6 @@ class Landing extends React.Component{
 
         return signInUser({email, password})
             .then((error) => {
-
                 this.props.history.push('/dashboard');
             })
             .catch((error) => {

@@ -23,11 +23,12 @@ class DeleteModal extends React.Component {
                 <Dialog
                     open={this.props.open}
                     onBackdropClick={this.props.handleClose}
-                    onClose={this.handleClose}
+                    onClose={this.props.handleClose}
+                    onEscapeKeyDown={this.props.handleClose}
                     aria-labelledby="alert-dialog-title"
                     aria-describedby="alert-dialog-description"
                 >
-                    <DialogTitle id="alert-dialog-title">{"Are you sure you want to Delete this user?"}</DialogTitle>
+                    <DialogTitle id="alert-dialog-title">{`Are you sure you want to Delete this ${this.props.resourceType}?`}</DialogTitle>
                     <DialogContent>
                         <DialogContentText id="alert-dialog-description">
                             You can not undo this action!

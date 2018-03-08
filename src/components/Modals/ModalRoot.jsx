@@ -1,11 +1,13 @@
 import React from 'react';
 import * as types from '../../actions/actionTypes';
-import DeleteModal from "./DeleteModal";
+import DeleteModal from './DeleteModal';
+import FormModal from './FormModal';
 import { connect } from 'react-redux';
 
 
 const MODAL_COMPONENTS = {
     [types.DELETE_MODAL] : DeleteModal,
+    [types.FORM_MODAL] : FormModal
 };
 
 class ModalRoot extends React.Component{
