@@ -57,7 +57,6 @@ class ManageUsers extends React.Component{
 
     handleEditUserSubmit(values){
         console.log(values);
-
     }
 
     render(){

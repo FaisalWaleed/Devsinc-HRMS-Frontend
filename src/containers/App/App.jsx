@@ -7,7 +7,7 @@ import "perfect-scrollbar/css/perfect-scrollbar.css";
 import { withStyles } from "material-ui";
 
 import { Header, Footer, Sidebar } from "components";
-import ModalRoot from 'components/Modals/ModalRoot';
+import ModalRoot from '../../components/Modals/ModalRoot';
 
 import appRoutes from "routes/app.jsx";
 

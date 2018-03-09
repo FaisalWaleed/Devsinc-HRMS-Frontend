@@ -1,10 +1,9 @@
 import React from 'react';
 import Dialog, {
-    DialogActions,
     DialogContent,
     DialogContentText,
     DialogTitle,
-} from 'material-ui/Dialog';import Button from 'material-ui/Button';
+} from 'material-ui/Dialog';
 import { connect } from 'react-redux';
 import * as types from '../../actions/actionTypes';
 

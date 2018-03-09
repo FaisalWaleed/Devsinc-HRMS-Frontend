@@ -8,7 +8,6 @@ import configureStore from './store/configureStore';
 import { verifyCredentials } from "./actions/auth/authConfig";
 
 import "assets/css/material-dashboard-react.css";
-
 import indexRoutes from "routes/index.jsx";
 
 const hist = createBrowserHistory();
@@ -20,23 +19,20 @@ function sleep(ms) {
 }
 
 async function demo() {
-    // console.log('Taking a break...');
     verifyCredentials(store);
     await sleep(400);
-    // console.log(store.getState());
     ReactDOM.render(
         <Provider store={store}>
-            <Router history={hist}>
-                <Switch>
-                    {indexRoutes.map((prop, key) => {
-                        return <Route path={prop.path} component={prop.component} key={key} />;
-                    })}
-                </Switch>
-            </Router>
+                <Router history={hist}>
+                    <Switch>
+                        {indexRoutes.map((prop, key) => {
+                            return <Route path={prop.path} component={prop.component} key={key} />;
+                        })}
+                    </Switch>
+                </Router>
         </Provider>,
         document.getElementById("root")
     );
-    // console.log('1 second later');
 }
 
 demo();

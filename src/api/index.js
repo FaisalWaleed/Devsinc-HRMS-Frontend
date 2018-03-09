@@ -9,7 +9,7 @@ export const createDepartment = (params, successAction, failureAction) => {
     },
     body: JSON.stringify(params)
   }, successAction, failureAction);
-}
+};
 
 export const fetchDepartments = (successAction, failureAction) => {
   return request('departments', {}, successAction, failureAction);

@@ -11,6 +11,9 @@ const MODAL_COMPONENTS = {
 };
 
 class ModalRoot extends React.Component{
+    componentDidMount(){
+        console.log("i am modal root");
+    }
 
     render(){
         if(!this.props.modalType){
@@ -23,8 +26,6 @@ class ModalRoot extends React.Component{
             ]);
         }
     }
-
-
 }
 
 export default connect(state => state.modals)(ModalRoot);
