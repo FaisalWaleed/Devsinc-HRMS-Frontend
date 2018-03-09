@@ -1,4 +1,5 @@
 const initialState = {
+    departments: [],
     reduxTokenAuth: {
         currentUser: {
             isLoading: false,

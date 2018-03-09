@@ -1,1 +1,2 @@
 // export const ACTION_NAME = 'ACTION_NAME';
+// export const FETCH_DEPARTMENTS = 'FETCH_DEPARTMENTS';

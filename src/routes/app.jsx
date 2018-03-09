@@ -6,6 +6,8 @@ import Icons from "views/Icons/Icons.jsx";
 import Maps from "views/Maps/Maps.jsx";
 import NotificationsPage from "views/Notifications/Notifications.jsx";
 import LandingPage from "views/Landing/Landing.jsx";
+import DepartmentsPage from "views/Departments/Departments.jsx";
+import NewDepartmentsPage from "views/Departments/NewDepartment.jsx";
 
 import {
     Dashboard,
@@ -18,64 +20,79 @@ import {
 } from "material-ui-icons";
 
 const appRoutes = [
-    {
-        path: "/dashboard",
-        sidebarName: "Dashboard",
-        navbarName: "Material Dashboard",
-        icon: Dashboard,
-        component: DashboardPage,
-    },
-    {
-        path: "/user",
-        sidebarName: "User Profile",
-        navbarName: "Profile",
-        icon: Person,
-        component: UserProfile,
-    },
-    {
-        path: "/table",
-        sidebarName: "Table List",
-        navbarName: "Table List",
-        icon: ContentPaste,
-        component: TableList
-    },
-    {
-        path: "/typography",
-        sidebarName: "Typography",
-        navbarName: "Typography",
-        icon: LibraryBooks,
-        component: Typography
-    },
-    {
-        path: "/icons",
-        sidebarName: "Icons",
-        navbarName: "Icons",
-        icon: BubbleChart,
-        component: Icons
-    },
-    {
-        path: "/maps",
-        sidebarName: "Maps",
-        navbarName: "Map",
-        icon: LocationOn,
-        component: Maps
-    },
-    {
-        path: "/notifications",
-        sidebarName: "Notifications",
-        navbarName: "Notifications",
-        icon: Notifications,
-        component: NotificationsPage
-    },
-    {
-        path: "/login",
-        sidebarName: "Landing",
-        navbarName: "Landing",
-        icon: Notifications,
-        component: LandingPage,
-        unprotected: true
-    },
-    { redirect: true, path: "/", to: "/dashboard", navbarName: "Redirect" }
+  {
+    path: "/dashboard",
+    sidebarName: "Dashboard",
+    navbarName: "Material Dashboard",
+    icon: Dashboard,
+    component: DashboardPage,
+  },
+  {
+    path: "/user",
+    sidebarName: "User Profile",
+    navbarName: "Profile",
+    icon: Person,
+    component: UserProfile,
+    unprotected: true
+  },
+  {
+    path: "/table",
+    sidebarName: "Table List",
+    navbarName: "Table List",
+    icon: ContentPaste,
+    component: TableList
+  },
+  {
+    path: "/typography",
+    sidebarName: "Typography",
+    navbarName: "Typography",
+    icon: LibraryBooks,
+    component: Typography
+  },
+  {
+    path: "/icons",
+    sidebarName: "Icons",
+    navbarName: "Icons",
+    icon: BubbleChart,
+    component: Icons
+  },
+  {
+    path: "/maps",
+    sidebarName: "Maps",
+    navbarName: "Map",
+    icon: LocationOn,
+    component: Maps
+  },
+  {
+    path: "/notifications",
+    sidebarName: "Notifications",
+    navbarName: "Notifications",
+    icon: Notifications,
+    component: NotificationsPage
+  },
+  {
+    path: "/login",
+    sidebarName: "Landing",
+    navbarName: "Landing",
+    icon: Notifications,
+    component: LandingPage
+  },
+  {
+    path: "/departments",
+    sidebarName: "Departments",
+    navbarName: "Departments",
+    icon: Notifications,
+    component: DepartmentsPage
+  },
+  {
+    path: "/newdepartment",
+    sidebarName: "New Department",
+    navbarName: "New Department",
+    icon: Notifications,
+    component: NewDepartmentsPage
+  },
+  { redirect: true, path: "/", to: "/dashboard", navbarName: "Redirect" }
 ];
+
 
 export default appRoutes;
