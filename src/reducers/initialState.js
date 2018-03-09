@@ -1,4 +1,5 @@
 const initialState = {
+    departments: [],
     reduxTokenAuth: {
         currentUser: {
             isLoading: false,
@@ -8,6 +9,5 @@ const initialState = {
             },
         },
     },
-};
-
+}
 export default initialState
