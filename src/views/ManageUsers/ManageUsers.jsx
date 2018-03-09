@@ -2,14 +2,21 @@ import React from 'react';
 import { Grid } from "material-ui";
 import { RegularCard, Button, Table, ItemGrid } from "components";
 import { connect } from 'react-redux';
-import { loadUsers } from "../../actions/userActions";
+
+import { fetchUsers } from "../../api/index";
+import {fetchUsersSuccess, fetchUsersFailure, editUserSuccess, editUserFailure} from "../../actions/user";
+
+import { deleteUser } from "../../api/index";
+import { deleteUserSuccess,deleteUserFailure } from "../../actions/user";
+
 import { Delete,Edit } from "material-ui-icons";
 import * as types from '../../actions/actionTypes';
-import * as resourceTypes from '../../actions/resourceTypes';
 import EditUserForm from './EditUserForm';
 import CreateUserForm from './CreateUserForm';
 import { registerUser } from "../../actions/auth/authConfig";
 import {SubmissionError} from "redux-form";
+import {HIDE_MODAL} from "../../actions/modal";
+import {editUser} from "../../api";
 
 class ManageUsers extends React.Component{
     constructor(props){
@@ -19,7 +26,7 @@ class ManageUsers extends React.Component{
     }
 
     componentDidMount(){
-        this.props.dispatch(loadUsers());
+        this.props.fetchUsers();
     }
 
     handleCreateUserSubmit(values){
@@ -35,7 +42,7 @@ class ManageUsers extends React.Component{
         let password = "11111111";
         return registerUser({ email, password, name, username, company_id, department_id })
             .then( (response) => {
-                this.props.dispatch(loadUsers());
+                this.props.fetchUsers(fetchUsersSuccess,fetchUsersFailure);
                 this.props.closeModal();
             })
             .catch( (error) =>{
@@ -56,8 +63,8 @@ class ManageUsers extends React.Component{
     }
 
     handleEditUserSubmit(values){
-        console.log(values);
-    }
+        this.props.editUser(values);
+    };
 
     render(){
         return(
@@ -85,7 +92,19 @@ class ManageUsers extends React.Component{
                                                     <div>
                                                         <Delete
                                                             style={{'marginRight' : '10px'}}
-                                                            onClick={ this.props.openModal.bind(this, types.DELETE_MODAL, {resourceType: resourceTypes.USER, resourceId: prop["id"]}) }
+                                                            onClick={
+                                                                this.props.openModal.bind(this,
+                                                                    types.DELETE_MODAL,
+                                                                    {
+                                                                        deleteAction: deleteUser(
+                                                                            prop["id"],
+                                                                            deleteUserSuccess,
+                                                                            deleteUserFailure
+                                                                        ),
+                                                                        resourceType: 'user'
+                                                                    }
+                                                                )
+                                                            }
                                                         />
                                                         <Edit
                                                             onClick={
@@ -125,8 +144,11 @@ class ManageUsers extends React.Component{
 function mapDispatchToProps(dispatch){
     return {
         openModal: (modalType,modalProps = null) => { dispatch({ type: types.SHOW_MODAL, modalType: modalType, modalProps: modalProps}) },
+        closeModal: () => { dispatch(HIDE_MODAL) },
         registerUser: (...params) => dispatch(registerUser(...params)),
-        closeModal: () => { dispatch({type: types.HIDE_MODAL}) }
+        fetchUsers: () => { dispatch(fetchUsers(fetchUsersSuccess,fetchUsersFailure)) },
+        editUser: (params) => { dispatch(editUser(params,editUserSuccess,editUserFailure))}
+
     }
 }
 

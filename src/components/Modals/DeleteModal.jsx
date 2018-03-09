@@ -4,10 +4,10 @@ import Dialog, {
     DialogContent,
     DialogContentText,
     DialogTitle,
-} from 'material-ui/Dialog';import Button from 'material-ui/Button';
-import * as types from "../../actions/actionTypes";
+} from 'material-ui/Dialog';
+import Button from 'material-ui/Button';
 import { connect } from 'react-redux';
-import {deleteResource} from "../../actions/resourceActions";
+import {HIDE_MODAL} from "../../actions/modal";
 
 /**
  * Dialog with action buttons. The actions are passed in as an array of React objects,
@@ -28,7 +28,7 @@ class DeleteModal extends React.Component {
                     aria-labelledby="alert-dialog-title"
                     aria-describedby="alert-dialog-description"
                 >
-                    <DialogTitle id="alert-dialog-title">{`Are you sure you want to Delete this ${this.props.resourceType}?`}</DialogTitle>
+                    <DialogTitle id="alert-dialog-title">{`Are you sure you want to delete this ${this.props.resourceType}?`}</DialogTitle>
                     <DialogContent>
                         <DialogContentText id="alert-dialog-description">
                             You can not undo this action!
@@ -38,7 +38,7 @@ class DeleteModal extends React.Component {
                         <Button onClick={this.props.handleClose} color="primary">
                             No
                         </Button>
-                        <Button onClick={this.props.deleteResource.bind(this,this.props.resourceType,this.props.resourceId)} color="primary" autoFocus>
+                        <Button onClick={this.props.deleteResource.bind(this)} color="primary" autoFocus>
                             Yes
                         </Button>
                     </DialogActions>
@@ -48,10 +48,10 @@ class DeleteModal extends React.Component {
     }
 }
 
-function mapDispatchToProps(dispatch){
+function mapDispatchToProps(dispatch,ownProps){
     return({
-        deleteResource: (resourceType,resourceId) => {dispatch(deleteResource(resourceType,resourceId)); dispatch({type: types.HIDE_MODAL}); },
-        handleClose: () => { dispatch({type: types.HIDE_MODAL}) }
+        deleteResource: () => { dispatch(ownProps.deleteAction); dispatch(HIDE_MODAL); },
+        handleClose: () => { dispatch(HIDE_MODAL) }
     })
 }
 
