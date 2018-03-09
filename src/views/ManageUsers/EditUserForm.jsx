@@ -1,16 +1,19 @@
 import React from 'react';
-import { Field,reduxForm } from 'redux-form'
-
+import { Field,reduxForm } from 'redux-form';
+import { connect } from 'react-redux';
 import { Grid } from "material-ui";
 import {
     CustomInput,
     ItemGrid,
+    Danger,
+    Button
 } from "components";
+import * as types from "../../actions/actionTypes";
 
 
 
 let EditUserForm = props => {
-    const { user,handleSubmit } = props;
+    const { handleSubmit,error,submitting } = props;
     return (
         <form onSubmit={handleSubmit}>
             <Grid container>
@@ -31,7 +34,6 @@ let EditUserForm = props => {
                                         required: "required",
                                         name: "id",
                                         autoComplete: "id",
-                                        value: user.id,
                                         disabled: true
                                     }}
                                 />
@@ -53,7 +55,6 @@ let EditUserForm = props => {
                                         required: "required",
                                         name: "email",
                                         autoComplete: "email",
-                                        value: user.email
                                     }}
                                 />
                             }
@@ -74,7 +75,6 @@ let EditUserForm = props => {
                                         required: "required",
                                         name: "username",
                                         autoComplete: "on",
-                                        value: user.username ? user.username : ""
                                     }}
                                 />
                             }
@@ -97,7 +97,6 @@ let EditUserForm = props => {
                                         required: "required",
                                         name: "name",
                                         autoComplete: "name",
-                                        value: user.name ? user.name : ""
                                     }}
                                 />
                             }
@@ -118,7 +117,6 @@ let EditUserForm = props => {
                                         required: "text",
                                         name: "company_id",
                                         autoComplete: "company_id",
-                                        value: user.company_id
                                     }}
                                 />
                             }
@@ -127,10 +125,27 @@ let EditUserForm = props => {
                     </Grid>
                 </ItemGrid>
             </Grid>
+            <br/>
+            {error
+                ? <Danger>{error}</Danger>
+                : null
+            }
+            <div>
+                <Button onClick={props.handleClose} disabled={submitting} color="primary">Cancel</Button>
+                <Button disabled={submitting} onClick={handleSubmit} color="primary">Save Changes</Button>
+            </div>
         </form>
     )
 };
 
-export default reduxForm({
-    form: 'edit_user'
+function mapDispatchToProps(dispatch){
+    return({
+        handleClose: () => { dispatch({type: types.HIDE_MODAL}) }
+    })
+}
+
+EditUserForm = reduxForm({
+    form: 'edit_user',
 })(EditUserForm);
+
+export default EditUserForm = connect(null,mapDispatchToProps)(EditUserForm);

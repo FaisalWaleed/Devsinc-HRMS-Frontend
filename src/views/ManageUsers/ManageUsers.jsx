@@ -15,6 +15,7 @@ class ManageUsers extends React.Component{
     constructor(props){
         super(props);
         this.handleCreateUserSubmit = this.handleCreateUserSubmit.bind(this);
+        this.handleEditUserSubmit = this.handleEditUserSubmit.bind(this);
     }
 
     componentDidMount(){
@@ -26,11 +27,16 @@ class ManageUsers extends React.Component{
 
         const {
             email,
+            name,
+            username,
+            company_id,
+            department_id,
         } = values;
-        let password = "111111";
-        return registerUser({ email, password })
+        let password = "11111111";
+        return registerUser({ email, password, name, username, company_id, department_id })
             .then( (response) => {
-                console.log(response);
+                this.props.dispatch(loadUsers());
+                this.props.closeModal();
             })
             .catch( (error) =>{
                 console.log();
@@ -47,6 +53,11 @@ class ManageUsers extends React.Component{
                     });
                 }
             })
+    }
+
+    handleEditUserSubmit(values){
+        console.log(values);
+
     }
 
     render(){
@@ -73,8 +84,30 @@ class ManageUsers extends React.Component{
                                                     prop["image"],
                                                     prop["company_id"].toString(),
                                                     <div>
-                                                        <Delete style={{'marginRight' : '10px'}} onClick={this.props.openModal.bind(this,types.DELETE_MODAL,{resourceType: resourceTypes.USER, resourceId: prop["id"]})}/>
-                                                        <Edit onClick={this.props.openModal.bind(this,types.FORM_MODAL,{form: <EditUserForm user={this.props.users[key]}/>, title: `Edit ${prop["email"]}`, noText: 'Cancel', yesText: 'Save Changes' })}/>
+                                                        <Delete
+                                                            style={{'marginRight' : '10px'}}
+                                                            onClick={ this.props.openModal.bind(this, types.DELETE_MODAL, {resourceType: resourceTypes.USER, resourceId: prop["id"]}) }
+                                                        />
+                                                        <Edit
+                                                            onClick={
+                                                                this.props.openModal.bind(this, types.FORM_MODAL,
+                                                                    { form:
+                                                                            <EditUserForm
+                                                                                initialValues={{
+                                                                                    id: prop["id"],
+                                                                                    name: prop["name"],
+                                                                                    username: prop["username"],
+                                                                                    email: prop["email"],
+                                                                                    image: prop["image"],
+                                                                                    company_id: prop["company_id"]
+                                                                                }}
+                                                                                onSubmit={this.handleEditUserSubmit}
+                                                                            />,
+                                                                        title: `Edit ${prop["email"]}`,
+                                                                    }
+                                                                )
+                                                            }
+                                                        />
                                                     </div>
                                                 ];
                                             })
@@ -93,7 +126,8 @@ class ManageUsers extends React.Component{
 function mapDispatchToProps(dispatch){
     return {
         openModal: (modalType,modalProps = null) => { dispatch({ type: types.SHOW_MODAL, modalType: modalType, modalProps: modalProps}) },
-        registerUser: (...params) => dispatch(registerUser(...params))
+        registerUser: (...params) => dispatch(registerUser(...params)),
+        closeModal: () => { dispatch({type: types.HIDE_MODAL}) }
     }
 }
 

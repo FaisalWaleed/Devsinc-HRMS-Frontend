@@ -6,14 +6,17 @@ const config = {
     userAttributes: {
     //    Add additional parameters here other than email and password
     //    FrontendName: BackendAttributeName
-    //     username: 'username',
-    //     name: 'name',
-    //     company_id: 'company_id',
-    //     department_id: 'department_id'
+        username: 'username',
+        name: 'name',
+        company_id: 'company_id',
+        department_id: 'department_id'
     },
     userRegistrationAttributes: {
     //    Add REQUIRED parameters here (other than email and password)
-    //     company_id: 'company_id'
+        username: 'username',
+        name: 'name',
+        company_id: 'company_id',
+        department_id: 'department_id'
     },
 };
 

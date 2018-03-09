@@ -125,13 +125,13 @@ let CreateUserForm = props => {
                     </Grid>
                 </ItemGrid>
             </Grid>
+            <br/>
+            {error
+                ? <Danger>{error}</Danger>
+                : null
+            }
             <div>
-                {error
-                    ? <Danger>{error}</Danger>
-                    : null
-                }
-                <br/>
-                <Button onClick={props.handleClose ? props.handleClose : null} disabled={submitting} color="primary">Cancel</Button>
+                <Button onClick={props.handleClose} disabled={submitting} color="primary">Cancel</Button>
                 <Button disabled={submitting} onClick={handleSubmit} color="primary">Create User</Button>
             </div>
         </form>
