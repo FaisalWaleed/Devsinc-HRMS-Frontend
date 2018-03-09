@@ -7,10 +7,6 @@ import { Provider } from 'react-redux';
 import configureStore from './store/configureStore';
 import { verifyCredentials } from "./actions/auth/authConfig";
 
-import { Provider } from 'react-redux';
-import configureStore from './store/configureStore';
-import { verifyCredentials } from "./actions/auth/authConfig";
-
 import "assets/css/material-dashboard-react.css";
 
 import indexRoutes from "routes/index.jsx";
