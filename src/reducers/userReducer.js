@@ -1,7 +1,7 @@
 import initialState from "./initialState";
 import * as types from '../actions/actionTypes';
 
-export const userReducer = (state = initialState.users,action) => {
+export const userReducer = (state = initialState,action) => {
     switch(action.type) {
         case types.FETCH_USERS_SUCCESS:
             return action.payload;
@@ -16,16 +16,13 @@ export const userReducer = (state = initialState.users,action) => {
             return state;
 
         case types.EDIT_USER_SUCCESS:
-            //modify user in state
-            console.log(state);
             let newstate = state.slice();
-            newstate.forEach( user => {
+            newstate.forEach( (user,index) => {
             if(parseInt(user.id,10) === parseInt(action.payload.id,10)){
-                this.user = action.payload;
+                newstate[index].id = user.id;
+                newstate[index] = action.payload;
             }});
-            console.log(newstate);
             return newstate;
-
 
         case types.EDIT_USER_FAILURE:
             return state;

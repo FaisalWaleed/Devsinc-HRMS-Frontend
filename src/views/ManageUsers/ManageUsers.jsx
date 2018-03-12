@@ -3,11 +3,8 @@ import { Grid } from "material-ui";
 import { RegularCard, Button, Table, ItemGrid } from "components";
 import { connect } from 'react-redux';
 
-import { fetchUsers } from "../../api/index";
-import {fetchUsersSuccess, fetchUsersFailure, editUserSuccess, editUserFailure} from "../../actions/user";
-
-import { deleteUser } from "../../api/index";
-import { deleteUserSuccess,deleteUserFailure } from "../../actions/user";
+import { fetchUsers, deleteUser, editUser } from "../../api";
+import {fetchUsersSuccess, fetchUsersFailure, editUserSuccess, editUserFailure, deleteUserSuccess,deleteUserFailure } from "../../actions/user";
 
 import { Delete,Edit } from "material-ui-icons";
 import * as types from '../../actions/actionTypes';
@@ -16,7 +13,6 @@ import CreateUserForm from './CreateUserForm';
 import { registerUser } from "../../actions/auth/authConfig";
 import {SubmissionError} from "redux-form";
 import {HIDE_MODAL} from "../../actions/modal";
-import {editUser} from "../../api";
 
 class ManageUsers extends React.Component{
     constructor(props){

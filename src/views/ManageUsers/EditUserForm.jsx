@@ -132,7 +132,7 @@ let EditUserForm = props => {
             }
             <div>
                 <Button onClick={props.handleClose} disabled={submitting} color="primary">Cancel</Button>
-                <Button disabled={submitting} onClick={handleSubmit} color="primary">Save Changes</Button>
+                <Button disabled={submitting} onClick={(event) => {handleSubmit();props.handleClose();}} color="primary">Save Changes</Button>
             </div>
         </form>
     )
