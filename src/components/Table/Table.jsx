@@ -13,7 +13,7 @@ import PropTypes from "prop-types";
 import tableStyle from "variables/styles/tableStyle";
 
 function CustomTable({ ...props }) {
-  const { classes, tableHead, tableData, tableHeaderColor } = props;
+  const { classes, tableHead, tableData, tableHeaderColor, actions } = props;
   return (
     <div className={classes.tableResponsive}>
       <Table className={classes.table}>
@@ -69,7 +69,7 @@ CustomTable.propTypes = {
     "gray"
   ]),
   tableHead: PropTypes.arrayOf(PropTypes.string),
-  tableData: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string))
+  tableData: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.object,PropTypes.string])))
 };
 
 export default withStyles(tableStyle)(CustomTable);

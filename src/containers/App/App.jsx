@@ -27,8 +27,8 @@ const switchRoutes = (
             if (prop.redirect)
                 return <Redirect from={prop.path} to={prop.to} key={key} />;
             return prop.unprotected
-                ? <Route path={prop.path} component={prop.component} key={key} />
-                : <Route path={prop.path} component={requireSignIn(prop.component)} key={key} />;
+                ? <Route path={prop.path} component={prop.component} key={key} exact={prop.exact} />
+                : <Route path={prop.path} component={requireSignIn(prop.component)} key={key} exact={prop.exact} />;
         })}
     </Switch>
 );

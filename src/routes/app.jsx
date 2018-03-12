@@ -8,6 +8,7 @@ import NotificationsPage from "views/Notifications/Notifications.jsx";
 import LandingPage from "views/Landing/Landing.jsx";
 import DepartmentsPage from "views/Departments/Departments.jsx";
 import NewDepartmentsPage from "views/Departments/NewDepartment.jsx";
+import EditDepartmentsPage from "views/Departments/EditDepartment.jsx";
 
 import {
     Dashboard,
@@ -75,21 +76,32 @@ const appRoutes = [
     sidebarName: "Landing",
     navbarName: "Landing",
     icon: Notifications,
-    component: LandingPage
+    component: LandingPage,
+    unprotected: true
   },
   {
     path: "/departments",
     sidebarName: "Departments",
     navbarName: "Departments",
     icon: Notifications,
+    exact: true,
     component: DepartmentsPage
   },
   {
-    path: "/newdepartment",
+    path: "/departments/new",
     sidebarName: "New Department",
     navbarName: "New Department",
     icon: Notifications,
-    component: NewDepartmentsPage
+    component: NewDepartmentsPage,
+    notSidebar: true
+  },
+  {
+    path: "/departments/edit/:id",
+    sidebarName: "Edit Department",
+    navbarName: "Edit Department",
+    icon: Notifications,
+    component: EditDepartmentsPage,
+    notSidebar: true
   },
   { redirect: true, path: "/", to: "/dashboard", navbarName: "Redirect" }
 ];
