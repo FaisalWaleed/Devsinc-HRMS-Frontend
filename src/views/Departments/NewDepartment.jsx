@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from 'react-redux'
 import DepartmentForm from './DepartmentForm';
 import { createDepartment } from "api/index";
+import { Redirect } from 'react-router';
 
 import { createDepartmentSuccess, createDepartmentFailure } from "actions/department";
 
@@ -19,7 +20,9 @@ class NewDepartment extends React.Component{
 
   render(){
     return (
-      <DepartmentForm onSubmit={this.handleSubmit}  />
+      this.props.departmentCreated?
+      <Redirect to='/departments'/> :
+      <DepartmentForm onSubmit={this.handleSubmit} isNew />
     );
   }
 }
@@ -27,5 +30,9 @@ class NewDepartment extends React.Component{
 // const mapDispatchToProps = {
 //   createDepartment
 // };
+const mapStateToProps = ({departments: { departmentCreated}}, props ) => ({
+  departmentCreated
+});
 
-export default connect(null, null)(NewDepartment);
+
+export default connect(mapStateToProps, null)(NewDepartment);

@@ -9,17 +9,17 @@ import {
     ItemGrid,
     Danger
 } from "components";
-
+import { connect } from "react-redux";
 
 
 let DepartmentForm = props => {
-    const { error,handleSubmit, submitting } = props;
+    const { error,handleSubmit, submitting, isNew } = props;
     return (
         <form onSubmit={handleSubmit}>
             <Grid container>
                 <ItemGrid xs={12} sm={12} md={8}>
                     <RegularCard
-                        cardTitle="New Department"
+                        cardTitle={ isNew? "New Department" : "Edit Department" }
                         content={
                             <div>
                                 <Grid container>
@@ -84,6 +84,14 @@ let DepartmentForm = props => {
     )
 };
 
-export default reduxForm({
+DepartmentForm =  reduxForm({
     form: 'new_department'
 })(DepartmentForm);
+
+DepartmentForm = connect(
+  state => ({
+    initialValues: state.departments.department
+  })
+)(DepartmentForm)
+
+export default DepartmentForm

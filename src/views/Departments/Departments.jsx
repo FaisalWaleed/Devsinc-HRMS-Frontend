@@ -4,30 +4,37 @@ import { Grid } from "material-ui";
 import { RegularCard, Table, ItemGrid } from "components";
 
 import { connect } from "react-redux";
-import { fetchDepartments } from "api/index"
-import _ from 'lodash';
+import { fetchDepartments, deleteDepartment } from "api/index"
+import { values, map, drop } from 'lodash';
 import RegularButton from "components/CustomButtons/Button"
 import { Link } from "react-router-dom";
+import { Delete, Edit } from "material-ui-icons";
 
-import { fetchDepartmentsSuccess, fetchDepartmentsFailure } from "actions/department";
+import { fetchDepartmentsSuccess, fetchDepartmentsFailure, deleteDepartmentSuccess, deleteDepartmentFailure } from "actions/department";
 
 class Departments extends React.Component {
   componentDidMount() {
-    const { dispatch } = this.props;
-    dispatch(fetchDepartments(fetchDepartmentsSuccess, fetchDepartmentsFailure));
+    // this.props.const { dispatch } = this.props;
+    this.props.fetchDepartments(fetchDepartmentsSuccess, fetchDepartmentsFailure);
+  }
+
+  departmentWithButtons = (department) => {
+    const { id } = department;
+
+    return [
+      ...drop(values(department)),
+      <Delete onClick={() => this.props.onDeleteDepartment(id, deleteDepartmentSuccess, deleteDepartmentFailure)}/>, 
+      <Link to={`/departments/edit/${id}`}><Edit /></Link>
+    ];  
   }
 
   render() {
-    let departments = [];
-    if (this.props.departments.departments) {
-      departments = this.props.departments.departments.map(function(item){
-        return _.values(item);
-      })
-    }
+    const departments = map(this.props.departments, this.departmentWithButtons);
+
     return (
       <div>
         <RegularButton>
-          <Link to="/newdepartment">New Department</Link>
+          <Link to="/departments/new">New Department</Link>
         </RegularButton>
         <Grid container>
           <ItemGrid xs={12} sm={12} md={12}>
@@ -37,7 +44,7 @@ class Departments extends React.Component {
               content={
                 <Table
                   tableHeaderColor="primary"
-                  tableHead={["Name", "Description"]}
+                  tableHead={["Name", "Description", "Actions"]}
                   tableData={departments}
                 />
               }
@@ -48,10 +55,15 @@ class Departments extends React.Component {
     );
   }
 }
-function mapStateToProps(state) {
-  return { departments: state.departments };
+function mapStateToProps({ departments }) {
+  return { 
+    departments: departments.departments 
+  };
 }
-// const mapDispatchToProps = dispatch => ({loadDeps: () => dispatch(departmentApi.loadDeps())})
-const withConnect = connect(mapStateToProps, null)(Departments);
+const mapDispatchToProps = {
+  fetchDepartments,
+  onDeleteDepartment: deleteDepartment
+};
+const withConnect = connect(mapStateToProps, mapDispatchToProps)(Departments);
 
 export default withConnect;
