@@ -12,6 +12,7 @@ import UserForm from './UserForm';
 import { registerUser } from "../../actions/auth/authConfig";
 import {SubmissionError} from "redux-form";
 import {HIDE_MODAL} from "../../actions/modal";
+import { drop,map,values } from 'lodash';
 
 class ManageUsers extends React.Component{
     constructor(props){
@@ -20,9 +21,53 @@ class ManageUsers extends React.Component{
         this.handleEditUserSubmit = this.handleEditUserSubmit.bind(this);
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.props.fetchUsers();
     }
+
+    userWithButtons = (user) => {
+        const { id,name,username,email,image,company_id } = user;
+        return [
+            ...drop(values(user)),
+            <Delete style={{'marginRight': '10px'}}
+                    onClick={
+                        this.props.openModal.bind(this,
+                            types.DELETE_MODAL,
+                            {
+                                deleteAction: deleteUser(
+                                    id,
+                                    deleteUserSuccess,
+                                    deleteUserFailure
+                                ),
+                                resourceType: 'user'
+                            }
+                        )
+                    }
+            />,
+            <Edit
+                onClick={
+                    this.props.openModal.bind(this, types.FORM_MODAL,
+                        {
+                            form:
+                                <UserForm
+                                    initialValues={{
+                                        id: id,
+                                        name: name,
+                                        username: username,
+                                        email: email,
+                                        image: image,
+                                        company_id: company_id
+                                    }}
+                                    onSubmit={this.handleEditUserSubmit}
+                                    isNew={false}
+                                />,
+                            title: `Edit ${email}`,
+                        }
+                    )
+                }
+            />
+        ];
+    };
 
     handleCreateUserSubmit(values){
         const { registerUser } = this.props;
@@ -41,7 +86,6 @@ class ManageUsers extends React.Component{
                 this.props.closeModal();
             })
             .catch( (error) =>{
-                console.log();
                 if(!error.response){
                     throw new SubmissionError({
                         _error: "Something went wrong. Please try again later."
@@ -62,6 +106,7 @@ class ManageUsers extends React.Component{
     };
 
     render(){
+        const users = map(this.props.users, this.userWithButtons);
         return(
             <Grid container>
                 <ItemGrid xs={12} sm={12} md={12}>
@@ -73,61 +118,8 @@ class ManageUsers extends React.Component{
                                 <Button onClick={this.props.openModal.bind(this,types.FORM_MODAL,{title: 'Create New User', form: <UserForm onSubmit={this.handleCreateUserSubmit} isNew={true} />  })} color="primary">Create a New User</Button>
                                 <Table
                                     tableHeaderColor="primary"
-                                    tableHead={["ID", "Name","Username","Email","Image","Company ID","Operations"]}
-                                    tableData={
-                                        this.props.users
-                                            ? this.props.users.map((prop,key)=>{
-                                                return [
-                                                    prop["id"].toString(),
-                                                    prop["name"],
-                                                    prop["username"],
-                                                    prop["email"],
-                                                    prop["image"],
-                                                    prop["company_id"].toString(),
-                                                    <div>
-                                                        <Delete
-                                                            style={{'marginRight' : '10px'}}
-                                                            onClick={
-                                                                this.props.openModal.bind(this,
-                                                                    types.DELETE_MODAL,
-                                                                    {
-                                                                        deleteAction: deleteUser(
-                                                                            prop["id"],
-                                                                            deleteUserSuccess,
-                                                                            deleteUserFailure
-                                                                        ),
-                                                                        resourceType: 'user'
-                                                                    }
-                                                                )
-                                                            }
-                                                        />
-                                                        <Edit
-                                                            onClick={
-                                                                this.props.openModal.bind(this, types.FORM_MODAL,
-                                                                    {
-                                                                        form:
-                                                                            <UserForm
-                                                                                initialValues={{
-                                                                                    id: prop["id"],
-                                                                                    name: prop["name"],
-                                                                                    username: prop["username"],
-                                                                                    email: prop["email"],
-                                                                                    image: prop["image"],
-                                                                                    company_id: prop["company_id"]
-                                                                                }}
-                                                                                onSubmit={this.handleEditUserSubmit}
-                                                                                isNew={false}
-                                                                            />,
-                                                                        title: `Edit ${prop["email"]}`,
-                                                                    }
-                                                                )
-                                                            }
-                                                        />
-                                                    </div>
-                                                ];
-                                            })
-                                            :[]
-                                    }
+                                    tableHead={["Name","Username","Email","Image","Company ID","Delete","Edit"]}
+                                    tableData={users}
                                 />
                             </div>
                         }
@@ -151,7 +143,7 @@ function mapDispatchToProps(dispatch){
 
 function mapStateToProps(state){
     return {
-        users: state.users
+        users: state.users.allUsers
     }
 }
 
