@@ -15,7 +15,9 @@ const initialState = {
             open: false
         }
     },
-    users: []
+    users: {
+        allUsers: [],
+    }
 };
 
 export default initialState;

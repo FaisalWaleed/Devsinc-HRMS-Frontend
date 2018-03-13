@@ -105,13 +105,6 @@ const appRoutes = [
         notSidebar: true
     },
     {
-        path: "/newdepartment",
-        sidebarName: "New Department",
-        navbarName: "New Department",
-        icon: Notifications,
-        component: NewDepartmentsPage
-    },
-    {
         path: "/manageusers",
         sidebarName: "Manage Users",
         navbarName: "Manage USers",
