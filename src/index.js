@@ -8,24 +8,33 @@ import configureStore from './store/configureStore';
 import { verifyCredentials } from "./actions/auth/authConfig";
 
 import "assets/css/material-dashboard-react.css";
-
 import indexRoutes from "routes/index.jsx";
 
 const hist = createBrowserHistory();
 
 const store = configureStore();
 
-verifyCredentials(store);
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 
-ReactDOM.render(
-    <Provider store={store}>
-        <Router history={hist}>
-            <Switch>
-                {indexRoutes.map((prop, key) => {
-                    return <Route path={prop.path} component={prop.component} key={key} />;
-                })}
-            </Switch>
-        </Router>
-    </Provider>,
-    document.getElementById("root")
-);
+async function demo() {
+    verifyCredentials(store);
+    await sleep(400);
+    ReactDOM.render(
+        <Provider store={store}>
+                <Router history={hist}>
+                    <Switch>
+                        {indexRoutes.map((prop, key) => {
+                            return <Route path={prop.path} component={prop.component} key={key} />;
+                        })}
+                    </Switch>
+                </Router>
+        </Provider>,
+        document.getElementById("root")
+    );
+}
+
+demo();
+
+

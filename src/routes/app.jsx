@@ -9,6 +9,7 @@ import LandingPage from "views/Landing/Landing.jsx";
 import DepartmentsPage from "views/Departments/Departments.jsx";
 import NewDepartmentsPage from "views/Departments/NewDepartment.jsx";
 import EditDepartmentsPage from "views/Departments/EditDepartment.jsx";
+import ManageUsers from "../views/ManageUsers/ManageUsers";
 
 import {
     Dashboard,
@@ -21,89 +22,103 @@ import {
 } from "material-ui-icons";
 
 const appRoutes = [
-  {
-    path: "/dashboard",
-    sidebarName: "Dashboard",
-    navbarName: "Material Dashboard",
-    icon: Dashboard,
-    component: DashboardPage,
-  },
-  {
-    path: "/user",
-    sidebarName: "User Profile",
-    navbarName: "Profile",
-    icon: Person,
-    component: UserProfile,
-    unprotected: true
-  },
-  {
-    path: "/table",
-    sidebarName: "Table List",
-    navbarName: "Table List",
-    icon: ContentPaste,
-    component: TableList
-  },
-  {
-    path: "/typography",
-    sidebarName: "Typography",
-    navbarName: "Typography",
-    icon: LibraryBooks,
-    component: Typography
-  },
-  {
-    path: "/icons",
-    sidebarName: "Icons",
-    navbarName: "Icons",
-    icon: BubbleChart,
-    component: Icons
-  },
-  {
-    path: "/maps",
-    sidebarName: "Maps",
-    navbarName: "Map",
-    icon: LocationOn,
-    component: Maps
-  },
-  {
-    path: "/notifications",
-    sidebarName: "Notifications",
-    navbarName: "Notifications",
-    icon: Notifications,
-    component: NotificationsPage
-  },
-  {
-    path: "/login",
-    sidebarName: "Landing",
-    navbarName: "Landing",
-    icon: Notifications,
-    component: LandingPage,
-    unprotected: true
-  },
-  {
-    path: "/departments",
-    sidebarName: "Departments",
-    navbarName: "Departments",
-    icon: Notifications,
-    exact: true,
-    component: DepartmentsPage
-  },
-  {
-    path: "/departments/new",
-    sidebarName: "New Department",
-    navbarName: "New Department",
-    icon: Notifications,
-    component: NewDepartmentsPage,
-    notSidebar: true
-  },
-  {
-    path: "/departments/edit/:id",
-    sidebarName: "Edit Department",
-    navbarName: "Edit Department",
-    icon: Notifications,
-    component: EditDepartmentsPage,
-    notSidebar: true
-  },
-  { redirect: true, path: "/", to: "/dashboard", navbarName: "Redirect" }
+    {
+        path: "/dashboard",
+        sidebarName: "Dashboard",
+        navbarName: "Material Dashboard",
+        icon: Dashboard,
+        component: DashboardPage,
+    },
+    {
+        path: "/user",
+        sidebarName: "User Profile",
+        navbarName: "Profile",
+        icon: Person,
+        component: UserProfile,
+        unprotected: true
+    },
+    {
+        path: "/table",
+        sidebarName: "Table List",
+        navbarName: "Table List",
+        icon: ContentPaste,
+        component: TableList
+    },
+    {
+        path: "/typography",
+        sidebarName: "Typography",
+        navbarName: "Typography",
+        icon: LibraryBooks,
+        component: Typography
+    },
+    {
+        path: "/icons",
+        sidebarName: "Icons",
+        navbarName: "Icons",
+        icon: BubbleChart,
+        component: Icons
+    },
+    {
+        path: "/maps",
+        sidebarName: "Maps",
+        navbarName: "Map",
+        icon: LocationOn,
+        component: Maps
+    },
+    {
+        path: "/notifications",
+        sidebarName: "Notifications",
+        navbarName: "Notifications",
+        icon: Notifications,
+        component: NotificationsPage
+    },
+    {
+        path: "/login",
+        sidebarName: "Landing",
+        navbarName: "Landing",
+        icon: Notifications,
+        component: LandingPage,
+        unprotected: true
+    },
+    {
+        path: "/departments",
+        sidebarName: "Departments",
+        navbarName: "Departments",
+        icon: Notifications,
+        exact: true,
+        component: DepartmentsPage
+    },
+    {
+        path: "/departments/new",
+        sidebarName: "New Department",
+        navbarName: "New Department",
+        icon: Notifications,
+        component: NewDepartmentsPage,
+        notSidebar: true
+    },
+    {
+        path: "/departments/edit/:id",
+        sidebarName: "Edit Department",
+        navbarName: "Edit Department",
+        icon: Notifications,
+        component: EditDepartmentsPage,
+        notSidebar: true
+    },
+    {
+        path: "/newdepartment",
+        sidebarName: "New Department",
+        navbarName: "New Department",
+        icon: Notifications,
+        component: NewDepartmentsPage
+    },
+    {
+        path: "/manageusers",
+        sidebarName: "Manage Users",
+        navbarName: "Manage USers",
+        icon: Person,
+        component: ManageUsers
+    },
+    { redirect: true, path: "/", to: "/dashboard", navbarName: "Redirect" }
 ];
 
 
