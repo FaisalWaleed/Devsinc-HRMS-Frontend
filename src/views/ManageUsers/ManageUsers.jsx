@@ -8,8 +8,7 @@ import {fetchUsersSuccess, fetchUsersFailure, editUserSuccess, editUserFailure, 
 
 import { Delete,Edit } from "material-ui-icons";
 import * as types from '../../actions/actionTypes';
-import EditUserForm from './EditUserForm';
-import CreateUserForm from './CreateUserForm';
+import UserForm from './UserForm';
 import { registerUser } from "../../actions/auth/authConfig";
 import {SubmissionError} from "redux-form";
 import {HIDE_MODAL} from "../../actions/modal";
@@ -71,7 +70,7 @@ class ManageUsers extends React.Component{
                         cardSubtitle="Click on operations to perform actions"
                         content={
                             <div>
-                                <Button onClick={this.props.openModal.bind(this,types.FORM_MODAL,{title: 'Create New User', form: <CreateUserForm onSubmit={this.handleCreateUserSubmit}/>  })} color="primary">Create a New User</Button>
+                                <Button onClick={this.props.openModal.bind(this,types.FORM_MODAL,{title: 'Create New User', form: <UserForm onSubmit={this.handleCreateUserSubmit} isNew={true} />  })} color="primary">Create a New User</Button>
                                 <Table
                                     tableHeaderColor="primary"
                                     tableHead={["ID", "Name","Username","Email","Image","Company ID","Operations"]}
@@ -105,8 +104,9 @@ class ManageUsers extends React.Component{
                                                         <Edit
                                                             onClick={
                                                                 this.props.openModal.bind(this, types.FORM_MODAL,
-                                                                    { form:
-                                                                            <EditUserForm
+                                                                    {
+                                                                        form:
+                                                                            <UserForm
                                                                                 initialValues={{
                                                                                     id: prop["id"],
                                                                                     name: prop["name"],
@@ -116,6 +116,7 @@ class ManageUsers extends React.Component{
                                                                                     company_id: prop["company_id"]
                                                                                 }}
                                                                                 onSubmit={this.handleEditUserSubmit}
+                                                                                isNew={false}
                                                                             />,
                                                                         title: `Edit ${prop["email"]}`,
                                                                     }

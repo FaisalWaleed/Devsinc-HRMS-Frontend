@@ -13,8 +13,8 @@ import { connect } from 'react-redux';
 
 
 
-let CreateUserForm = props => {
-    const { error, handleSubmit, submitting } = props;
+let UserForm = props => {
+    const { error, handleSubmit, submitting, isNew } = props;
     return (
         <form onSubmit={handleSubmit}>
             <Grid container>
@@ -132,7 +132,7 @@ let CreateUserForm = props => {
             }
             <div>
                 <Button onClick={props.handleClose} disabled={submitting} color="primary">Cancel</Button>
-                <Button disabled={submitting} onClick={handleSubmit} color="primary">Create User</Button>
+                <Button disabled={submitting} onClick={handleSubmit} color="primary">{isNew ? "Create User" : "Save Changes"}</Button>
             </div>
         </form>
     )
@@ -144,9 +144,9 @@ function mapDispatchToProps(dispatch){
     })
 }
 
-CreateUserForm = reduxForm({
-    form: 'create_user'
-})(CreateUserForm);
+UserForm = reduxForm({
+    form: 'user_form'
+})(UserForm);
 
 
-export default CreateUserForm = connect(null,mapDispatchToProps)(CreateUserForm);
+export default UserForm = connect(null,mapDispatchToProps)(UserForm);
