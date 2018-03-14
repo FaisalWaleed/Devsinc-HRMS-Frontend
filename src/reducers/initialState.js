@@ -9,5 +9,15 @@ const initialState = {
             },
         },
     },
-}
-export default initialState
+    modals: {
+        modalType: null,
+        modalProps: {
+            open: false
+        }
+    },
+    users: {
+        allUsers: [],
+    }
+};
+
+export default initialState;

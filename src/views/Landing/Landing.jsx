@@ -19,15 +19,21 @@ class Landing extends React.Component{
 
         return signInUser({email, password})
             .then((error) => {
-
                 this.props.history.push('/dashboard');
             })
             .catch((error) => {
-                error.response.data.errors.forEach((error) => {
+                if(!error.response){
                     throw new SubmissionError({
-                        _error: error
-                    })
-                })
+                        _error: "Something went wrong. Please try again later."
+                    });
+                }
+                else{
+                    error.response.data.errors.forEach((error) => {
+                        throw new SubmissionError({
+                            _error: error
+                        })
+                    });
+                }
             })
     }
 
