@@ -1,16 +1,27 @@
 import React from "react";
 import { Grid } from "material-ui";
 
-import { RegularCard, Table, ItemGrid } from "components";
+import { RegularCard, 
+  Table, 
+  ItemGrid 
+} from "components";
 
 import { connect } from "react-redux";
-import { fetchDepartments, deleteDepartment } from "api/index"
+import { 
+  fetchDepartments, 
+  deleteDepartment 
+} from "api/department"
 import { values, map, drop } from 'lodash';
 import RegularButton from "components/CustomButtons/Button"
 import { Link } from "react-router-dom";
 import { Delete, Edit } from "material-ui-icons";
 
-import { fetchDepartmentsSuccess, fetchDepartmentsFailure, deleteDepartmentSuccess, deleteDepartmentFailure } from "actions/department";
+import { 
+  fetchDepartmentsSuccess, 
+  fetchDepartmentsFailure, 
+  deleteDepartmentSuccess, 
+  deleteDepartmentFailure 
+} from "actions/department";
 
 class Departments extends React.Component {
   componentDidMount() {
