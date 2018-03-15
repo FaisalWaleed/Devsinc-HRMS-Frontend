@@ -5,7 +5,7 @@ import DepartmentForm from './DepartmentForm';
 import { 
   getDepartment, 
   updateDepartment 
-} from "api/index";
+} from "api/department";
 
 import { getDepartmentSuccess, 
   getDepartmentFailure, 
