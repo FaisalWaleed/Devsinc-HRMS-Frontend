@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from 'react-redux'
 import DepartmentForm from './DepartmentForm';
-import { createDepartment } from "api/index";
+import { createDepartment } from "api/department";
 import { Redirect } from 'react-router';
 
 import { createDepartmentSuccess, createDepartmentFailure } from "actions/department";

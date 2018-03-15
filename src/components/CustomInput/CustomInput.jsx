@@ -3,6 +3,7 @@ import { withStyles, FormControl, InputLabel, Input } from "material-ui";
 import { Clear, Check } from "material-ui-icons";
 import PropTypes from "prop-types";
 import cx from "classnames";
+import Select from 'material-ui/Select';
 
 import customInputStyle from "variables/styles/customInputStyle";
 
@@ -13,9 +14,11 @@ function CustomInput({ ...props }) {
         labelText,
         id,
         labelProps,
+        isSelect,
         inputProps,
         error,
-        success
+        success,
+        children
     } = props;
 
     const labelClasses = cx({
@@ -44,16 +47,30 @@ function CustomInput({ ...props }) {
                     {labelText}
                 </InputLabel>
             ) : null}
-            <Input
-                {...inputProps}
-                classes={{
-                    root: marginTop,
-                    disabled: classes.disabled,
-                    underline: classes.underline,
-                    inkbar: inkbarClasses
-                }}
-                id={id}
-            />
+
+            {isSelect
+                ? <Select
+                    {...inputProps}
+                    classes={{
+                        root: marginTop,
+                        disabled: classes.disabled,
+                    }}
+                    id={id}
+                >
+                    {children}
+                </Select>
+                : <Input
+                    {...inputProps}
+                    classes={{
+                        root: marginTop,
+                        disabled: classes.disabled,
+                        underline: classes.underline,
+                        inkbar: inkbarClasses
+                    }}
+                    id={id}
+                />
+            }
+
 
             {error ? (
                 <Clear className={classes.feedback + " " + classes.labelRootError} />
