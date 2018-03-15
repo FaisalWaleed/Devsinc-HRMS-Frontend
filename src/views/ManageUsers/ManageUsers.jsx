@@ -3,7 +3,7 @@ import { Grid } from "material-ui";
 import { RegularCard, Button, Table, ItemGrid } from "components";
 import { connect } from 'react-redux';
 
-import { fetchUsers, deleteUser, editUser } from "../../api";
+import { fetchUsers, deleteUser, editUser } from "../../api/user";
 import {fetchUsersSuccess, fetchUsersFailure, editUserSuccess, editUserFailure, deleteUserSuccess,deleteUserFailure } from "../../actions/user";
 
 import { Delete,Edit } from "material-ui-icons";

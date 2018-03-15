@@ -13,7 +13,7 @@ import PropTypes from "prop-types";
 import tableStyle from "variables/styles/tableStyle";
 
 function CustomTable({ ...props }) {
-  const { classes, tableHead, tableData, tableHeaderColor, actions } = props;
+  const { classes, tableHead, tableData, tableHeaderColor } = props;
   return (
     <div className={classes.tableResponsive}>
       <Table className={classes.table}>

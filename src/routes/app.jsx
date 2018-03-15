@@ -18,8 +18,10 @@ import {
     LibraryBooks,
     BubbleChart,
     LocationOn,
-    Notifications
+    Notifications,
+    ErrorOutline
 } from "material-ui-icons";
+import Tickets from "../views/Tickets/Tickets";
 
 const appRoutes = [
     {
@@ -110,6 +112,13 @@ const appRoutes = [
         navbarName: "Manage USers",
         icon: Person,
         component: ManageUsers
+    },
+    {
+        path: "/tickets",
+        sidebarName: "Tickets",
+        navbarName: "Tickets",
+        icon: ErrorOutline,
+        component: Tickets
     },
     { redirect: true, path: "/", to: "/dashboard", navbarName: "Redirect" }
 ];
