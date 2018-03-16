@@ -20,7 +20,7 @@ class FormModal extends React.Component {
                     maxWidth={'md'}
                     disableBackdropClick={true}
                     disableEscapeKeyDown={true}
-                    fullScreen={false}
+                    fullScreen={this.props.fullscreen ? this.props.fullscreen : false}
                 >
                     <DialogTitle id="alert-dialog-title">{this.props.title ? this.props.title : "Title"}</DialogTitle>
                     <DialogContent>

@@ -7,11 +7,13 @@ import {
   Danger,
   Button,
 } from "components";
-import { Grid } from "material-ui";
+import { Grid, IconButton, InputAdornment } from 'material-ui';
+import { DateRange } from 'material-ui-icons';
 import { HIDE_MODAL } from "../../actions/modal";
 import TicketOptions from './TicketOptions';
-import { AddCircle } from 'material-ui-icons';
-
+import { DatePicker } from 'material-ui-pickers'
+import * as moment from 'moment';
+import { KeyboardArrowLeft, KeyboardArrowRight } from 'material-ui-icons';
 
 class TicketForm extends React.Component {
 
@@ -20,7 +22,6 @@ class TicketForm extends React.Component {
 
     return (
       <form onSubmit={handleSubmit}>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
         <Grid container>
           <ItemGrid xs={12} sm={12} md={12}>
             <br />
@@ -71,6 +72,33 @@ class TicketForm extends React.Component {
                 />
               </ItemGrid>
             </Grid>
+            <Grid container>
+              <ItemGrid xs={12} sm={12} md={12}>
+                <br />
+                <Field name="date" component={(input,label,custom) => (
+                  <DatePicker
+                    label="Due Date"
+                    {...input}
+                    {...custom}
+                    format="Do MMMM YYYY"
+                    value={input.input.value ? moment(input.input.value) : null }
+                    onChange={(event) => input.input.onChange(event.format("YYYY-MM-DD"))}
+                    disablePast={true}
+                    leftArrowIcon={<KeyboardArrowLeft/>}
+                    rightArrowIcon={<KeyboardArrowRight/>}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton>
+                            <DateRange />
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                )} />
+              </ItemGrid>
+            </Grid>
           </ItemGrid>
         </Grid>
         <br/>
@@ -95,12 +123,17 @@ function mapDispatchToProps(dispatch){
 }
 
 function mapStateToProps(){
-  return {initialValues: {ticketOptions: [{department:null,role:null}]}}
+  return {
+    initialValues: {
+      ticketOptions: [
+        {department:null,role:null}
+      ],
+    }
+  }
 }
 
 TicketForm = reduxForm({
-  form: 'ticket_form',
-  initialValues: {ticketOptions: [{department: null,role: null}]}
+  form: 'ticket_form'
 })(TicketForm);
 
 export default TicketForm = connect(mapStateToProps,mapDispatchToProps)(TicketForm);

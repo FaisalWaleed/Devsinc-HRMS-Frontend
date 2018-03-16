@@ -15,6 +15,7 @@ import {
   Button
 } from "components";
 import ticketOptionsStyle from './styles/ticketOptionsStyle';
+import { Clear } from 'material-ui-icons'
 
 class TicketOptions extends React.Component {
 
@@ -25,7 +26,7 @@ class TicketOptions extends React.Component {
   }
 
   render() {
-    const { classes, allDepartments, selectedDepartment, selectedRole, ticketOptions, fields } = this.props;
+    const { classes, allDepartments, ticketOptions, fields } = this.props;
 
     const users = [
       'Oliver Hansen',
@@ -142,7 +143,7 @@ class TicketOptions extends React.Component {
                 </ItemGrid> : null
               }
               {(ticketOptions[index].department !== "All Departments" && ticketOptions[index].role !== "All Roles") ?
-                <ItemGrid xs={5} sm={5} md={5}>
+                <ItemGrid xs={4} sm={4} md={4}>
                   <Field name={`${option}.user`} component={({input, ...custom}) => {
                     input.value = input.value ? input.value : [];
                     return <CustomInput
@@ -200,6 +201,14 @@ class TicketOptions extends React.Component {
                   </Field>
                 </ItemGrid> : null
               }
+              <ItemGrid xs={1} sm={1} md={1} >
+                <br />
+                <br />
+                {fields.length > 1 ?
+                  <Clear onClick={() => fields.remove(index)}/>
+                  : null
+                }
+              </ItemGrid>
             </Grid>
           )
         )}
@@ -218,9 +227,7 @@ function mapStateToProps(state){
   const ticketForm = formValueSelector('ticket_form');
   return {
     allDepartments: state.departments.departments,
-    ticketOptions: ticketForm(state,'ticketOptions'),
-    selectedDepartment: ticketForm(state,'department'),
-    selectedRole: ticketForm(state,'role'),
+    ticketOptions: ticketForm(state,'ticketOptions')
   }
 }
 
