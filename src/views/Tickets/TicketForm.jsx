@@ -1,5 +1,5 @@
 import React from 'react';
-import { Field,reduxForm } from 'redux-form';
+import { Field, FieldArray, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import {
   CustomInput,
@@ -10,32 +10,21 @@ import {
 import { Grid } from "material-ui";
 import { HIDE_MODAL } from "../../actions/modal";
 import TicketOptions from './TicketOptions';
-import Icon from 'material-ui/Icon';
-import { withStyles } from 'material-ui/styles';
+import { AddCircle } from 'material-ui-icons';
 
-const styles = (theme) => ({
-  icon: {
-    margin: theme.spacing.unit * 2,
-  },
-});
 
 class TicketForm extends React.Component {
 
   render() {
-    const {error, handleSubmit, submitting, closeModal, classes } = this.props;
+    const {error, handleSubmit, submitting, closeModal } = this.props;
 
     return (
       <form onSubmit={handleSubmit}>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
         <Grid container>
           <ItemGrid xs={12} sm={12} md={12}>
-            <TicketOptions/>
-            <Grid container>
-              <ItemGrid xs={12} sm={12} md={12}>
-                <Icon className={classes.icon} color="primary" style={{ fontSize: 30 }}>
-                  add_circle
-                </Icon>
-              </ItemGrid>
-            </Grid>
+            <br />
+            <FieldArray name={"ticketOptions"} component={TicketOptions}/>
             <Grid container>
               <ItemGrid xs={12} sm={12} md={12}>
                 <Field name="title" type="text" component={({input, label, ...custom}) =>
@@ -105,8 +94,13 @@ function mapDispatchToProps(dispatch){
   }
 }
 
+function mapStateToProps(){
+  return {initialValues: {ticketOptions: [{department:null,role:null}]}}
+}
+
 TicketForm = reduxForm({
-  form: 'ticket_form'
+  form: 'ticket_form',
+  initialValues: {ticketOptions: [{department: null,role: null}]}
 })(TicketForm);
 
-export default TicketForm = connect(null,mapDispatchToProps)(withStyles(styles)(TicketForm));
+export default TicketForm = connect(mapStateToProps,mapDispatchToProps)(TicketForm);
