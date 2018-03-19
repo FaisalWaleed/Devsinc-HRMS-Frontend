@@ -1,0 +1,206 @@
+import React from 'react';
+import Checkbox from 'material-ui/Checkbox';
+import { MenuItem } from 'material-ui/Menu';
+import { ListItemText } from 'material-ui/List';
+import Chip from 'material-ui/Chip';
+import { Clear } from 'material-ui-icons';
+import { Grid } from "material-ui";
+import {
+  CustomInput,
+  ItemGrid
+} from "components";
+import { Field } from 'redux-form';
+import ticketOptionStyle from './styles/ticketOptionStyle';
+import {withStyles} from "material-ui/styles/index";
+
+
+
+class TicketOption extends React.Component{
+
+  render(){
+    const {classes, allDepartments, ticketOptions, fields, index, option} = this.props;
+
+    const users = [
+      'Oliver Hansen',
+      'Van Henry',
+      'April Tucker',
+      'Ralph Hubbard',
+      'Omar Alexander',
+      'Carlos Abbott',
+      'Miriam Wagner',
+      'Bradley Wilkerson',
+      'Virginia Andrews',
+      'Kelly Snyder',
+    ];
+
+    const roles = [
+      'Project Manager',
+      'Software Engineer',
+      'Principal Software Engineer',
+      'Senior Resource',
+    ];
+
+    return (
+      <Grid key={index} container>
+        <ItemGrid xs={4} sm={4} md={4}>
+          <Field name={`${option}.department`}
+                 component={({input}) => (
+                   <CustomInput
+                     isSelect={true}
+                     formControlProps={{
+                       fullWidth: true
+                     }}
+                     labelText={"Department"}
+                     inputProps={{
+                       renderValue: selected => (
+                         <div className={classes.chips}>
+                           <Chip key={selected} label={selected}
+                                 className={classes.chip}/>
+                         </div>
+                       ),
+                       value: input.value,
+                       onChange: (event) => input.onChange(event, event.target.value),
+                       required: "required",
+                       name: input.name,
+                       autoComplete: "department",
+                     }}
+                   >
+                     <MenuItem value="All Departments" key="all">
+                       <ListItemText primary={"All Departments"}/>
+                     </MenuItem>
+                     {
+                       allDepartments ?
+                         allDepartments.map((department, index) => (
+                             <MenuItem
+                               key={index}
+                               value={department.name}
+                             >
+                               <ListItemText primary={department.name}/>
+                             </MenuItem>
+                           )
+                         )
+                         : null
+                     }
+                   </CustomInput>
+                 )
+                 }
+          >
+          </Field>
+        </ItemGrid>
+        {ticketOptions[index].department !== "All Departments" ?
+          <ItemGrid xs={3} sm={3} md={3}>
+            <Field name={`${option}.role`} component={({input, ...custom}) => (
+              <CustomInput
+                isSelect={true}
+                formControlProps={{
+                  fullWidth: true
+                }}
+                labelText={"Role"}
+                inputProps={{
+                  renderValue: selected => (
+                    <div className={classes.chips}>
+                      <Chip key={selected} label={selected}
+                            className={classes.chip}/>
+                    </div>
+                  ),
+                  value: input.value,
+                  onChange: (event) => input.onChange(event, event.target.value),
+                  required: "required",
+                  name: input.name,
+                  autoComplete: "role",
+                }}
+              >
+                <MenuItem value="All Roles" key="all">
+                  <ListItemText primary={"All Roles"}/>
+                </MenuItem>
+                {
+                  roles.map(name => (
+                      <MenuItem
+                        key={name}
+                        value={name}
+                      >
+                        <ListItemText primary={name}/>
+                      </MenuItem>
+                    )
+                  )
+                }
+              </CustomInput>
+            )
+            }
+            >
+            </Field>
+          </ItemGrid> : null
+        }
+        {(ticketOptions[index].department !== "All Departments" && ticketOptions[index].role !== "All Roles") ?
+          <ItemGrid xs={4} sm={4} md={4}>
+            <Field name={`${option}.user`} component={({input, ...custom}) => {
+              input.value = input.value ? input.value : [];
+              return <CustomInput
+                isSelect={true}
+                formControlProps={{
+                  fullWidth: true
+                }}
+                labelText={"User"}
+                inputProps={{
+                  renderValue: selected => (
+                    <div className={classes.chips}>
+                      {selected.map(value => <Chip key={value} label={value}
+                                                   className={classes.chip}/>)}
+                    </div>
+                  ),
+                  multiple: true,
+                  value: input.value,
+                  onChange: (event) => input.onChange(event, () => {
+                    let options = event.target.options;
+                    let selectedOptions = [];
+                    if (options) {
+                      for (let x = 0; x < options.length; x++) {
+                        if (options[x].selected) {
+                          selectedOptions.push(options[x].value);
+                        }
+                      }
+                      return selectedOptions;
+                    }
+                  }),
+                  required: "required",
+                  name: input.name,
+                  autoComplete: "user",
+                }}
+              >
+                <MenuItem value="All Users" key="all">
+                  <Checkbox checked={input.value.indexOf("All Users") !== -1}/>
+                  <ListItemText primary={"All Users"}/>
+                </MenuItem>
+                {
+                  users.map(name => (
+                      <MenuItem
+                        key={name}
+                        value={name}
+                      >
+                        <Checkbox checked={input.value.indexOf(name) !== -1}/>
+                        <ListItemText primary={name}/>
+                      </MenuItem>
+                    )
+                  )
+                }
+              </CustomInput>
+            }
+            }
+            >
+            </Field>
+          </ItemGrid> : null
+        }
+        <ItemGrid xs={1} sm={1} md={1}>
+          <br/>
+          <br/>
+          {fields.length > 1 ?
+            <Clear onClick={() => fields.remove(index)}/>
+            : null
+          }
+        </ItemGrid>
+      </Grid>
+    );
+  }
+}
+
+export default withStyles(ticketOptionStyle)(TicketOption);

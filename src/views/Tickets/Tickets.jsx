@@ -22,6 +22,7 @@ import * as types from "../../actions/actionTypes";
 import TicketForm from './TicketForm';
 import { fetchTickets } from "../../api/ticket";
 import {fetchTicketsFailure, fetchTicketsSuccess} from "../../actions/ticket";
+import { uniqBy } from 'lodash';
 
 
 const styles = theme => ({
@@ -67,25 +68,42 @@ class Tickets extends React.Component{
 
   handleCreateTicketSubmit(values){
     let allDepsChosen = false;
+    let allRolesChosenDeps = [];
     let emptyIndexes = [];
 
     values.ticketOptions.forEach((option,index) => {
+      //check for all departments
       if(option.department === "All Departments"){
         allDepsChosen = true;
       }
+      //check for empty objects
       if(Object.keys(option).length === 0 && option.constructor === Object){
         emptyIndexes.push(index);
       }
+      if(option.role === "All Roles"){
+        allRolesChosenDeps.push(option.department);
+      }
     });
 
-    if(allDepsChosen){
-      values.allDeps = true;
-    }
+    //filter out empty objects from received objects array and remove all others if All Departments chosen
+    values.ticketOptions = values.ticketOptions.filter( (value,index) => {
+      if(allDepsChosen){
+        return value.department === "All Departments"
+      }
+      else{
+        return (emptyIndexes.indexOf(index) === -1) //not empty objects
+          // dep exists in all roles and role is all roles
+          || ((allRolesChosenDeps.indexOf(value.department) !== -1 ) && (value.role === "All Roles"))
+          //dep does not exist in all roles and role is not all roles
+          || ((allRolesChosenDeps.indexOf(value.department)) === -1 && (value.role !== "All Roles"))
+      }
+    });
 
-    //remove empty objects from received objects array
-    values.ticketOptions = values.ticketOptions.filter( (value,index) => (
-      emptyIndexes.indexOf(index) === -1
-    ));
+    //remove duplicates
+    values.ticketOptions = uniqBy(values.ticketOptions,'department','role','user');
+
+    console.log(values);
+
 
   }
 
