@@ -21,23 +21,23 @@ class TicketOption extends React.Component{
     const {classes, allDepartments, ticketOptions, fields, index, option} = this.props;
 
     const users = [
-      'Oliver Hansen',
-      'Van Henry',
-      'April Tucker',
-      'Ralph Hubbard',
-      'Omar Alexander',
-      'Carlos Abbott',
-      'Miriam Wagner',
-      'Bradley Wilkerson',
-      'Virginia Andrews',
-      'Kelly Snyder',
+      {id: 1, name: 'Oliver Hansen'},
+      {id: 2, name: 'Van Henry'},
+      {id: 3, name: 'April Tucker'},
+      {id: 4, name: 'Ralph Hubbard'},
+      {id: 5, name: 'Omar Alexander'},
+      {id: 6, name: 'Carlos Abbott'},
+      {id: 7, name: 'Miriam Wagner'},
+      {id: 8, name: 'Bradley Wilkerson'},
+      {id: 9, name: 'Virginia Andrews'},
+      {id: 10, name: 'Kelly Snyder'},
     ];
 
     const roles = [
-      'Project Manager',
-      'Software Engineer',
-      'Principal Software Engineer',
-      'Senior Resource',
+      {id:1, name:'Project Manager'},
+      {id:2, name:'Software Engineer'},
+      {id:3, name:'Principal Software Engineer'},
+      {id:4, name:'Senior Resource'},
     ];
 
     return (
@@ -52,12 +52,6 @@ class TicketOption extends React.Component{
                      }}
                      labelText={"Department"}
                      inputProps={{
-                       renderValue: selected => (
-                         <div className={classes.chips}>
-                           <Chip key={selected} label={selected}
-                                 className={classes.chip}/>
-                         </div>
-                       ),
                        value: input.value,
                        onChange: (event) => input.onChange(event, event.target.value),
                        required: "required",
@@ -65,7 +59,7 @@ class TicketOption extends React.Component{
                        autoComplete: "department",
                      }}
                    >
-                     <MenuItem value="All Departments" key="all">
+                     <MenuItem value={0} key="all">
                        <ListItemText primary={"All Departments"}/>
                      </MenuItem>
                      {
@@ -73,7 +67,7 @@ class TicketOption extends React.Component{
                          allDepartments.map((department, index) => (
                              <MenuItem
                                key={index}
-                               value={department.name}
+                               value={department.id}
                              >
                                <ListItemText primary={department.name}/>
                              </MenuItem>
@@ -87,9 +81,9 @@ class TicketOption extends React.Component{
           >
           </Field>
         </ItemGrid>
-        {ticketOptions[index].department !== "All Departments" ?
+        {ticketOptions[index].department !== 0 ?
           <ItemGrid xs={3} sm={3} md={3}>
-            <Field name={`${option}.role`} component={({input, ...custom}) => (
+            <Field name={`${option}.role`} component={({input}) => (
               <CustomInput
                 isSelect={true}
                 formControlProps={{
@@ -97,12 +91,6 @@ class TicketOption extends React.Component{
                 }}
                 labelText={"Role"}
                 inputProps={{
-                  renderValue: selected => (
-                    <div className={classes.chips}>
-                      <Chip key={selected} label={selected}
-                            className={classes.chip}/>
-                    </div>
-                  ),
                   value: input.value,
                   onChange: (event) => input.onChange(event, event.target.value),
                   required: "required",
@@ -110,16 +98,16 @@ class TicketOption extends React.Component{
                   autoComplete: "role",
                 }}
               >
-                <MenuItem value="All Roles" key="all">
+                <MenuItem value={0} key="all">
                   <ListItemText primary={"All Roles"}/>
                 </MenuItem>
                 {
-                  roles.map(name => (
+                  roles.map((role,index) => (
                       <MenuItem
-                        key={name}
-                        value={name}
+                        key={index}
+                        value={role.id}
                       >
-                        <ListItemText primary={name}/>
+                        <ListItemText primary={role.name}/>
                       </MenuItem>
                     )
                   )
@@ -131,9 +119,9 @@ class TicketOption extends React.Component{
             </Field>
           </ItemGrid> : null
         }
-        {(ticketOptions[index].department !== "All Departments" && ticketOptions[index].role !== "All Roles") ?
+        {(ticketOptions[index].department !== 0 && ticketOptions[index].role !== 0) ?
           <ItemGrid xs={4} sm={4} md={4}>
-            <Field name={`${option}.user`} component={({input, ...custom}) => {
+            <Field name={`${option}.user`} component={({input}) => {
               input.value = input.value ? input.value : [];
               return <CustomInput
                 isSelect={true}
@@ -144,7 +132,7 @@ class TicketOption extends React.Component{
                 inputProps={{
                   renderValue: selected => (
                     <div className={classes.chips}>
-                      {selected.map(value => <Chip key={value} label={value}
+                      {selected.map(value => <Chip key={value} label={ value === 0 ? "All Users" : users[users.findIndex(user => user.id === value)].name }
                                                    className={classes.chip}/>)}
                     </div>
                   ),
@@ -167,18 +155,18 @@ class TicketOption extends React.Component{
                   autoComplete: "user",
                 }}
               >
-                <MenuItem value="All Users" key="all">
-                  <Checkbox checked={input.value.indexOf("All Users") !== -1}/>
+                <MenuItem value={0} key="all">
+                  <Checkbox checked={input.value.indexOf(0) !== -1}/>
                   <ListItemText primary={"All Users"}/>
                 </MenuItem>
                 {
-                  users.map(name => (
+                  users.map((user,index) => (
                       <MenuItem
-                        key={name}
-                        value={name}
+                        key={index}
+                        value={user.id}
                       >
-                        <Checkbox checked={input.value.indexOf(name) !== -1}/>
-                        <ListItemText primary={name}/>
+                        <Checkbox checked={input.value.indexOf(user.id) !== -1}/>
+                        <ListItemText primary={user.name}/>
                       </MenuItem>
                     )
                   )

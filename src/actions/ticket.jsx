@@ -10,4 +10,13 @@ export const fetchTicketsFailure = (payload) => ({
     payload
 });
 
+export const createTicketSuccess = (payload) => ({
+  type: types.CREATE_TICKET_SUCCESS,
+  payload
+});
+
+export const createTicketFailure = (payload) => ({
+  type: types.CREATE_TICKET_FAILURE,
+  payload
+});
 

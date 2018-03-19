@@ -25,7 +25,7 @@ class TicketForm extends React.Component {
         <Grid container>
           <ItemGrid xs={12} sm={12} md={12}>
             <br />
-            <FieldArray name={"ticketOptions"} component={TicketOptions}/>
+            <FieldArray name={"ticket_options"} component={TicketOptions}/>
             <Grid container>
               <ItemGrid xs={12} sm={12} md={12}>
                 <Field name="title" type="text" component={({input, label, ...custom}) =>
@@ -75,7 +75,7 @@ class TicketForm extends React.Component {
             <Grid container>
               <ItemGrid xs={12} sm={12} md={12}>
                 <br />
-                <Field name="date" component={(input,label,custom) => (
+                <Field name="due_date" component={(input,label,custom) => (
                   <DatePicker
                     label="Due Date"
                     {...input}
@@ -125,7 +125,7 @@ function mapDispatchToProps(dispatch){
 function mapStateToProps(){
   return {
     initialValues: {
-      ticketOptions: [
+      ticket_options: [
         {department:null,role:null}
       ],
     }

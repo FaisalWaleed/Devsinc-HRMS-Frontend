@@ -20,9 +20,9 @@ import { connect } from 'react-redux';
 import {HIDE_MODAL} from "../../actions/modal";
 import * as types from "../../actions/actionTypes";
 import TicketForm from './TicketForm';
-import { fetchTickets } from "../../api/ticket";
-import {fetchTicketsFailure, fetchTicketsSuccess} from "../../actions/ticket";
-import { uniqBy } from 'lodash';
+import {createTicket, fetchTickets} from "../../api/ticket";
+import {createTicketFailure, createTicketSuccess, fetchTicketsFailure, fetchTicketsSuccess} from "../../actions/ticket";
+import { uniqWith, isEqual } from 'lodash';
 
 
 const styles = theme => ({
@@ -71,40 +71,38 @@ class Tickets extends React.Component{
     let allRolesChosenDeps = [];
     let emptyIndexes = [];
 
-    values.ticketOptions.forEach((option,index) => {
+    values.ticket_options.forEach((option,index) => {
       //check for all departments
-      if(option.department === "All Departments"){
+      if(option.department === 0){
         allDepsChosen = true;
       }
       //check for empty objects
       if(Object.keys(option).length === 0 && option.constructor === Object){
         emptyIndexes.push(index);
       }
-      if(option.role === "All Roles"){
+      if(option.role === 0){
         allRolesChosenDeps.push(option.department);
       }
     });
 
     //filter out empty objects from received objects array and remove all others if All Departments chosen
-    values.ticketOptions = values.ticketOptions.filter( (value,index) => {
+    values.ticket_options = values.ticket_options.filter( (value,index) => {
       if(allDepsChosen){
-        return value.department === "All Departments"
+        return value.department === 0
       }
       else{
         return (emptyIndexes.indexOf(index) === -1) //not empty objects
           // dep exists in all roles and role is all roles
-          || ((allRolesChosenDeps.indexOf(value.department) !== -1 ) && (value.role === "All Roles"))
+          || ((allRolesChosenDeps.indexOf(value.department) !== -1 ) && (value.role === 0))
           //dep does not exist in all roles and role is not all roles
-          || ((allRolesChosenDeps.indexOf(value.department)) === -1 && (value.role !== "All Roles"))
+          || ((allRolesChosenDeps.indexOf(value.department)) === -1 && (value.role !== 0))
       }
     });
 
     //remove duplicates
-    values.ticketOptions = uniqBy(values.ticketOptions,'department','role','user');
+    values.ticket_options = uniqWith(values.ticket_options,isEqual);
 
-    console.log(values);
-
-
+    this.props.createTicket(values);
   }
 
   componentDidMount(){
@@ -259,7 +257,8 @@ function mapDispatchToProps(dispatch){
   return {
     openModal: (modalType,modalProps = null) => { dispatch({ type: types.SHOW_MODAL, modalType: modalType, modalProps: modalProps}) },
     closeModal: () => { dispatch(HIDE_MODAL) },
-    fetchTickets: () => { dispatch(fetchTickets(fetchTicketsSuccess,fetchTicketsFailure)) }
+    fetchTickets: () => { dispatch(fetchTickets(fetchTicketsSuccess,fetchTicketsFailure)) },
+    createTicket: (params) => { dispatch(createTicket(params,createTicketSuccess,createTicketFailure))}
   }
 }
 
