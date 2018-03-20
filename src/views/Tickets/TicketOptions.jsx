@@ -25,7 +25,7 @@ class TicketOptions extends React.Component {
     let allDepsChosen = false;
 
     ticketOptions.forEach((option) => {
-      if (option.department === 0) {
+      if (option.department_id === 0) {
         allDepsChosen = true;
       }
     });
@@ -40,7 +40,7 @@ class TicketOptions extends React.Component {
 
         {
           fields.map((option, index) => {
-              if (allDepsChosen && ticketOptions[index].department === 0) {
+              if (allDepsChosen && ticketOptions[index].department_id === 0) {
                   return <TicketOption allDepartments={allDepartments} fields={fields} ticketOptions={ticketOptions} key={index} index={index} option={option}/>
               }
               else if (!allDepsChosen){

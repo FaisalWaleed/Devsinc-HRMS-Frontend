@@ -1,18 +1,30 @@
 import initialState from "./initialState";
 import * as types from '../actions/actionTypes';
 
-export const ticketReducer = (state = initialState,action) => {
+export const ticketReducer = (state = initialState.tickets,action) => {
   switch(action.type) {
     case types.FETCH_TICKETS_SUCCESS:
-      return { allTickets: action.payload };
+      return {...state, createdTickets: action.payload };
 
-    case types.FETCH_USERS_FAILURE:
+    case types.FETCH_TICKETS_FAILURE:
+      return state;
+
+    case types.FETCH_ASSIGNED_TICKETS_SUCCESS:
+      return {...state, assignedTickets: action.payload };
+
+    case types.FETCH_ASSIGNED_TICKETS_FAILURE:
       return state;
 
     case types.CREATE_TICKET_SUCCESS:
       return state;
 
     case types.CREATE_TICKET_FAILURE:
+      return state;
+
+    case types.UPDATE_TICKET_SUCCESS:
+      return state;
+
+    case types.UPDATE_TICKET_FAILURE:
       return state;
 
     default:

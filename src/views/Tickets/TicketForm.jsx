@@ -126,7 +126,7 @@ function mapStateToProps(){
   return {
     initialValues: {
       ticket_options: [
-        {department:null,role:null}
+        {department_id:null,role_id:null}
       ],
     }
   }

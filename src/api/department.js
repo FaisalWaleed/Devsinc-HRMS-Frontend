@@ -1,7 +1,7 @@
 import request from "./request";
 
 export const createDepartment = (params, successAction, failureAction) => {
-    return request('departments', {
+    return request('admin/departments', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -12,19 +12,19 @@ export const createDepartment = (params, successAction, failureAction) => {
 };
 
 export const fetchDepartments = (successAction, failureAction) => {
-    return request('departments', {}, successAction, failureAction);
+    return request('admin/departments', {}, successAction, failureAction);
 }
 
 export const deleteDepartment = (params, successAction, failureAction) => {
-    return request(`departments/${params}`, { method: 'DELETE' }, successAction, failureAction);
+    return request(`admin/departments/${params}`, { method: 'DELETE' }, successAction, failureAction);
 }
 
 export const getDepartment = (id , successAction, failureAction) => {
-    return request(`departments/${id}`, {}, successAction, failureAction);
+    return request(`admin/departments/${id}`, {}, successAction, failureAction);
 }
 
 export const updateDepartment = (params, id, successAction, failureAction) => {
-    return request(`departments/${id}`, {
+    return request(`admin/departments/${id}`, {
         method: 'PUT',
         headers: {
             'Accept': 'application/json',

@@ -43,7 +43,7 @@ class TicketOption extends React.Component{
     return (
       <Grid key={index} container>
         <ItemGrid xs={4} sm={4} md={4}>
-          <Field name={`${option}.department`}
+          <Field name={`${option}.department_id`}
                  component={({input}) => (
                    <CustomInput
                      isSelect={true}
@@ -56,7 +56,7 @@ class TicketOption extends React.Component{
                        onChange: (event) => input.onChange(event, event.target.value),
                        required: "required",
                        name: input.name,
-                       autoComplete: "department",
+                       autoComplete: "department_id",
                      }}
                    >
                      <MenuItem value={0} key="all">
@@ -81,9 +81,9 @@ class TicketOption extends React.Component{
           >
           </Field>
         </ItemGrid>
-        {ticketOptions[index].department !== 0 ?
+        {ticketOptions[index].department_id !== 0 && ticketOptions[index].department_id != null ?
           <ItemGrid xs={3} sm={3} md={3}>
-            <Field name={`${option}.role`} component={({input}) => (
+            <Field name={`${option}.role_id`} component={({input}) => (
               <CustomInput
                 isSelect={true}
                 formControlProps={{
@@ -95,7 +95,7 @@ class TicketOption extends React.Component{
                   onChange: (event) => input.onChange(event, event.target.value),
                   required: "required",
                   name: input.name,
-                  autoComplete: "role",
+                  autoComplete: "role_id",
                 }}
               >
                 <MenuItem value={0} key="all">
@@ -119,9 +119,9 @@ class TicketOption extends React.Component{
             </Field>
           </ItemGrid> : null
         }
-        {(ticketOptions[index].department !== 0 && ticketOptions[index].role !== 0) ?
+        {(ticketOptions[index].department_id !== 0 && ticketOptions[index].role_id !== 0 && ticketOptions[index].role_id != null) ?
           <ItemGrid xs={4} sm={4} md={4}>
-            <Field name={`${option}.user`} component={({input}) => {
+            <Field name={`${option}.user_id`} component={({input}) => {
               input.value = input.value ? input.value : [];
               return <CustomInput
                 isSelect={true}
@@ -132,8 +132,9 @@ class TicketOption extends React.Component{
                 inputProps={{
                   renderValue: selected => (
                     <div className={classes.chips}>
-                      {selected.map(value => <Chip key={value} label={ value === 0 ? "All Users" : users[users.findIndex(user => user.id === value)].name }
-                                                   className={classes.chip}/>)}
+                      {selected.indexOf(0) !== -1
+                        ? <Chip key={0} label={"All Users"} className={classes.chip}/>
+                        : selected.map(value => <Chip key={value} label={ users[users.findIndex(user => user.id === value)].name } className={classes.chip}/>)}
                     </div>
                   ),
                   multiple: true,
@@ -152,7 +153,7 @@ class TicketOption extends React.Component{
                   }),
                   required: "required",
                   name: input.name,
-                  autoComplete: "user",
+                  autoComplete: "user_id",
                 }}
               >
                 <MenuItem value={0} key="all">
@@ -165,7 +166,7 @@ class TicketOption extends React.Component{
                         key={index}
                         value={user.id}
                       >
-                        <Checkbox checked={input.value.indexOf(user.id) !== -1}/>
+                        <Checkbox checked={input.value.indexOf(user.id) !== -1 || input.value.indexOf(0) !== -1}/>
                         <ListItemText primary={user.name}/>
                       </MenuItem>
                     )
