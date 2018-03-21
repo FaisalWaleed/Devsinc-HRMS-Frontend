@@ -24,6 +24,9 @@ export const createTicket = (params, successAction, failureAction) => {
   return request('tickets', {
     method: 'POST',
     headers: {
+      'client': localStorage.getItem('client'),
+      'uid': localStorage.getItem('uid'),
+      'access-token': localStorage.getItem('access-token'),
       'Accept': 'application/json',
       'Content-Type': 'application/json',
     },

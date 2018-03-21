@@ -15,6 +15,7 @@ export const HIDE_MODAL = 'HIDE_MODAL';
 //Modal Types
 export const DELETE_MODAL = 'DELETE_MODAL';
 export const FORM_MODAL = 'FORM_MODAL';
+export const CONTENT_MODAL = 'CONTENT_MODAL';
 
 //Ticket Action Types
 export const FETCH_TICKETS_SUCCESS = 'FETCH_TICKETS_SUCCESS';
