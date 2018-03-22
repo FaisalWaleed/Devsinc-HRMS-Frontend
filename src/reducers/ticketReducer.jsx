@@ -21,10 +21,10 @@ export const ticketReducer = (state = initialState.tickets,action) => {
     case types.CREATE_TICKET_FAILURE:
       return state;
 
-    case types.UPDATE_TICKET_SUCCESS:
+    case types.UPDATE_TICKET_STATUS_SUCCESS:
       return state;
 
-    case types.UPDATE_TICKET_FAILURE:
+    case types.UPDATE_TICKET_STATUS_FAILURE:
       return state;
 
     default:

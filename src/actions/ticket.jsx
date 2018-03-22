@@ -1,5 +1,5 @@
 import * as types from "./actionTypes";
-import {fetchTickets} from "../api/ticket";
+import {fetchAssignedTickets, fetchTickets} from "../api/ticket";
 
 export const fetchTicketsSuccess = (payload) => ({
     type: types.FETCH_TICKETS_SUCCESS,
@@ -36,13 +36,19 @@ export const createTicketFailure = (payload) => ({
   payload
 });
 
-export const updateTicketSuccess = (payload) => ({
-  type: types.UPDATE_TICKET_SUCCESS,
-  payload
-});
+export const updateTicketStatusSuccess = (payload) => {
+  return dispatch => {
+    dispatch({
+      type: types.UPDATE_TICKET_STATUS_SUCCESS,
+      payload
+    });
+    dispatch(fetchTickets(fetchTicketsSuccess,fetchTicketsFailure));
+    dispatch(fetchAssignedTickets(fetchAssignedTicketsSuccess,fetchAssignedTicketsFailure));
+  }
+};
 
-export const updateTicketFailure = (payload) => ({
-  type: types.UPDATE_TICKET_FAILURE,
+export const updateTicketStatusFailure = (payload) => ({
+  type: types.UPDATE_TICKET_STATUS_FAILURE,
   payload
 });
 

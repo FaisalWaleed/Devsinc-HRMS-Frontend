@@ -23,14 +23,14 @@ import { connect } from 'react-redux';
 import {HIDE_MODAL} from "../../actions/modal";
 import * as types from "../../actions/actionTypes";
 import TicketForm from './TicketForm';
-import {createTicket, fetchAssignedTickets, fetchTickets} from "../../api/ticket";
+import {createTicket, fetchAssignedTickets, fetchTickets, updateTicketStatus} from "../../api/ticket";
 import {
   createTicketFailure,
   createTicketSuccess,
   fetchAssignedTicketsFailure,
   fetchAssignedTicketsSuccess,
   fetchTicketsFailure,
-  fetchTicketsSuccess
+  fetchTicketsSuccess, updateTicketStatusFailure, updateTicketStatusSuccess
 } from "../../actions/ticket";
 import { uniqWith, isEqual } from 'lodash';
 import ShowTicket from './ShowTicket';
@@ -265,13 +265,13 @@ class Tickets extends React.Component{
                                                 },
                                               }}
                                             >
-                                              <MenuItem key={1} onClick={this.handleVertMenuClose}>
+                                              <MenuItem key={1} onClick={() => {this.handleVertMenuClose(); this.props.updateTicketStatus({id: ticket.id, status: "Open"})}}>
                                                 Mark as Open
                                               </MenuItem>
-                                              <MenuItem key={2} onClick={this.handleVertMenuClose}>
+                                              <MenuItem key={2} onClick={() => {this.handleVertMenuClose(); this.props.updateTicketStatus({id: ticket.id, status: "Closed"})}}>
                                                 Mark as Closed
                                               </MenuItem>
-                                              <MenuItem key={3} onClick={this.handleVertMenuClose}>
+                                              <MenuItem key={3} onClick={() => {this.handleVertMenuClose(); this.props.updateTicketStatus({id: ticket.id, status: "Completed"})}}>
                                                 Mark as Resolved
                                               </MenuItem>
                                             </Menu>
@@ -375,13 +375,13 @@ class Tickets extends React.Component{
                                             },
                                           }}
                                         >
-                                          <MenuItem key={1} onClick={this.handleVertMenuClose}>
+                                          <MenuItem key={1} onClick={() => {this.handleVertMenuClose(); this.props.updateTicketStatus({id: ticket.id, status: "Open"})}}>
                                             Mark as Open
                                           </MenuItem>
-                                          <MenuItem key={2} onClick={this.handleVertMenuClose}>
+                                          <MenuItem key={2} onClick={() => {this.handleVertMenuClose(); this.props.updateTicketStatus({id: ticket.id, status: "Closed"})}}>
                                             Mark as Closed
                                           </MenuItem>
-                                          <MenuItem key={3} onClick={this.handleVertMenuClose}>
+                                          <MenuItem key={3} onClick={() => {this.handleVertMenuClose(); this.props.updateTicketStatus({id: ticket.id, status: "Completed"})}}>
                                             Mark as Resolved
                                           </MenuItem>
                                         </Menu>
@@ -417,6 +417,7 @@ function mapDispatchToProps(dispatch){
     closeModal: () => { dispatch(HIDE_MODAL) },
     fetchTickets: () => { dispatch(fetchTickets(fetchTicketsSuccess,fetchTicketsFailure)) },
     fetchAssignedTickets: () => { dispatch(fetchAssignedTickets(fetchAssignedTicketsSuccess,fetchAssignedTicketsFailure))},
+    updateTicketStatus: (params) => {dispatch(updateTicketStatus(params,updateTicketStatusSuccess,updateTicketStatusFailure)) },
     createTicket: (params) => { dispatch(createTicket(params,createTicketSuccess,createTicketFailure))}
   }
 }

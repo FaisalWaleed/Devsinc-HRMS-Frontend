@@ -35,13 +35,16 @@ export const createTicket = (params, successAction, failureAction) => {
 };
 
 
-export const updateTicket = (params, successAction, failureAction) => {
+export const updateTicketStatus = (params, successAction, failureAction) => {
   return request(`tickets/${params.id}`,{
     method: 'PUT',
     headers: {
+      'client': localStorage.getItem('client'),
+      'uid': localStorage.getItem('uid'),
+      'access-token': localStorage.getItem('access-token'),
       'Accept': 'application/json',
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(params)
+    body: JSON.stringify({ticket: params})
   },successAction,failureAction);
 };
