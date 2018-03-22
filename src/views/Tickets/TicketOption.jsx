@@ -11,34 +11,18 @@ import {
 } from "components";
 import { Field } from 'redux-form';
 import ticketOptionStyle from './styles/ticketOptionStyle';
+import { connect } from 'react-redux';
 import {withStyles} from "material-ui/styles/index";
+import {fetchTicketOption} from "../../api/ticket";
+import {fetchTicketOptionFailure, fetchTicketOptionSuccess} from "../../actions/ticket";
 
 
 
 class TicketOption extends React.Component{
 
   render(){
-    const {classes, allDepartments, ticketOptions, fields, index, option} = this.props;
 
-    const users = [
-      {id: 1, name: 'Oliver Hansen'},
-      {id: 2, name: 'Van Henry'},
-      {id: 3, name: 'April Tucker'},
-      {id: 4, name: 'Ralph Hubbard'},
-      {id: 5, name: 'Omar Alexander'},
-      {id: 6, name: 'Carlos Abbott'},
-      {id: 7, name: 'Miriam Wagner'},
-      {id: 8, name: 'Bradley Wilkerson'},
-      {id: 9, name: 'Virginia Andrews'},
-      {id: 10, name: 'Kelly Snyder'},
-    ];
-
-    const roles = [
-      {id:1, name:'Project Manager'},
-      {id:2, name:'Software Engineer'},
-      {id:3, name:'Principal Software Engineer'},
-      {id:4, name:'Senior Resource'},
-    ];
+    const {classes, allDepartments, ticketOptions, ticketOptionsChosen, fields, index, option} = this.props;
 
     return (
       <Grid key={index} container>
@@ -53,7 +37,7 @@ class TicketOption extends React.Component{
                      labelText={"Department"}
                      inputProps={{
                        value: input.value,
-                       onChange: (event) => input.onChange(event, event.target.value),
+                       onChange: (event) => {this.props.fetchTicketOption({id: event.target.value});return input.onChange(event, event.target.value);},
                        required: "required",
                        name: input.name,
                        autoComplete: "department_id",
@@ -81,7 +65,7 @@ class TicketOption extends React.Component{
           >
           </Field>
         </ItemGrid>
-        {ticketOptions[index].department_id !== 0 && ticketOptions[index].department_id != null ?
+        {ticketOptionsChosen[index].department_id !== 0 && ticketOptionsChosen[index].department_id != null ?
           <ItemGrid xs={3} sm={3} md={3}>
             <Field name={`${option}.role_id`} component={({input}) => (
               <CustomInput
@@ -102,15 +86,16 @@ class TicketOption extends React.Component{
                   <ListItemText primary={"All Roles"}/>
                 </MenuItem>
                 {
-                  roles.map((role,index) => (
+                  ticketOptions[ticketOptionsChosen[index].department_id]
+                    ? Object.values(ticketOptions[ticketOptionsChosen[index].department_id].roles).map((role,index) => (
                       <MenuItem
                         key={index}
-                        value={role.id}
+                        value={role.role_id}
                       >
-                        <ListItemText primary={role.name}/>
+                        <ListItemText primary={role.role_name}/>
                       </MenuItem>
-                    )
-                  )
+                    ))
+                    : null
                 }
               </CustomInput>
             )
@@ -119,7 +104,7 @@ class TicketOption extends React.Component{
             </Field>
           </ItemGrid> : null
         }
-        {(ticketOptions[index].department_id !== 0 && ticketOptions[index].role_id !== 0 && ticketOptions[index].role_id != null) ?
+        {(ticketOptionsChosen[index].department_id !== 0 && ticketOptionsChosen[index].role_id !== 0 && ticketOptionsChosen[index].role_id != null) ?
           <ItemGrid xs={4} sm={4} md={4}>
             <Field name={`${option}.user_id`} component={({input}) => {
               input.value = input.value ? input.value : [];
@@ -134,7 +119,7 @@ class TicketOption extends React.Component{
                     <div className={classes.chips}>
                       {selected.indexOf(0) !== -1
                         ? <Chip key={0} label={"All Users"} className={classes.chip}/>
-                        : selected.map(value => <Chip key={value} label={ users[users.findIndex(user => user.id === value)].name } className={classes.chip}/>)}
+                        : selected.map(value => <Chip key={value} label={ ticketOptions[ticketOptionsChosen[index].department_id].roles[ticketOptionsChosen[index].role_id].users[ticketOptions[ticketOptionsChosen[index].department_id].roles[ticketOptionsChosen[index].role_id].users.findIndex(user => user.id === value)].name } className={classes.chip}/>)}
                     </div>
                   ),
                   multiple: true,
@@ -161,16 +146,17 @@ class TicketOption extends React.Component{
                   <ListItemText primary={"All Users"}/>
                 </MenuItem>
                 {
-                  users.map((user,index) => (
-                      <MenuItem
-                        key={index}
-                        value={user.id}
-                      >
-                        <Checkbox checked={input.value.indexOf(user.id) !== -1 || input.value.indexOf(0) !== -1}/>
-                        <ListItemText primary={user.name}/>
-                      </MenuItem>
-                    )
-                  )
+                  ticketOptions[ticketOptionsChosen[index].department_id].roles[ticketOptionsChosen[index].role_id] ?
+                    ticketOptions[ticketOptionsChosen[index].department_id].roles[ticketOptionsChosen[index].role_id].users.map((user,index) => (
+                        <MenuItem
+                          key={index}
+                          value={user.id}
+                        >
+                          <Checkbox checked={input.value.indexOf(user.id) !== -1 || input.value.indexOf(0) !== -1}/>
+                          <ListItemText primary={user.name}/>
+                        </MenuItem>
+                      )
+                    ) : null
                 }
               </CustomInput>
             }
@@ -192,4 +178,17 @@ class TicketOption extends React.Component{
   }
 }
 
-export default withStyles(ticketOptionStyle)(TicketOption);
+function mapDispatchToProps(dispatch){
+  return {
+    fetchTicketOption: (params) => {dispatch(fetchTicketOption(params,fetchTicketOptionSuccess,fetchTicketOptionFailure))}
+  }
+}
+
+function mapStateToProps(state){
+  return {
+    ticketOptions: state.tickets.ticketOptions
+  }
+}
+
+
+export default connect(mapStateToProps,mapDispatchToProps)(withStyles(ticketOptionStyle)(TicketOption));

@@ -20,11 +20,11 @@ class TicketOptions extends React.Component {
 
   render() {
 
-    const { allDepartments, ticketOptions, fields} = this.props;
+    const { allDepartments, ticketOptionsChosen, fields} = this.props;
 
     let allDepsChosen = false;
 
-    ticketOptions.forEach((option) => {
+    ticketOptionsChosen.forEach((option) => {
       if (option.department_id === 0) {
         allDepsChosen = true;
       }
@@ -40,11 +40,11 @@ class TicketOptions extends React.Component {
 
         {
           fields.map((option, index) => {
-              if (allDepsChosen && ticketOptions[index].department_id === 0) {
-                  return <TicketOption allDepartments={allDepartments} fields={fields} ticketOptions={ticketOptions} key={index} index={index} option={option}/>
+              if (allDepsChosen && ticketOptionsChosen[index].department_id === 0) {
+                  return <TicketOption allDepartments={allDepartments} fields={fields} ticketOptionsChosen={ticketOptionsChosen} key={index} index={index} option={option}/>
               }
               else if (!allDepsChosen){
-                return <TicketOption allDepartments={allDepartments} fields={fields} ticketOptions={ticketOptions} key={index} index={index} option={option}/>
+                return <TicketOption allDepartments={allDepartments} fields={fields} ticketOptionsChosen={ticketOptionsChosen} key={index} index={index} option={option}/>
               }
               else{
                 return null
@@ -66,7 +66,7 @@ function mapStateToProps(state){
   const ticketForm = formValueSelector('ticket_form');
   return {
     allDepartments: state.departments.departments,
-    ticketOptions: ticketForm(state,'ticket_options')
+    ticketOptionsChosen: ticketForm(state,'ticket_options')
   }
 }
 

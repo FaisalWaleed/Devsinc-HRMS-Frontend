@@ -48,3 +48,25 @@ export const updateTicketStatus = (params, successAction, failureAction) => {
     body: JSON.stringify({ticket: params})
   },successAction,failureAction);
 };
+
+export const fetchTicketOption = (params, successAction, failureAction) => {
+  return request(`tickets/ticket_option?id=${params.id}`,{
+    method: 'GET',
+    headers: {
+      'client': localStorage.getItem('client'),
+      'uid': localStorage.getItem('uid'),
+      'access-token': localStorage.getItem('access-token'),
+    }
+  },successAction,failureAction);
+};
+
+export const fetchTicketComments = (params, successAction, failureAction) => {
+  return request(`tickets/${params.ticket_id}/comments`, {
+    method: 'GET',
+    headers: {
+      'client': localStorage.getItem('client'),
+      'uid': localStorage.getItem('uid'),
+      'access-token': localStorage.getItem('access-token')
+    }
+  },successAction,failureAction);
+};

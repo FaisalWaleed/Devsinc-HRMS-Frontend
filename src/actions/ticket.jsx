@@ -52,3 +52,23 @@ export const updateTicketStatusFailure = (payload) => ({
   payload
 });
 
+export const fetchTicketOptionSuccess = (payload) => ({
+  type: types.FETCH_TICKET_OPTION_SUCCESS,
+  payload
+});
+
+export const fetchTicketOptionFailure = (payload) => ({
+  type: types.FETCH_TICKET_OPTION_FAILURE,
+  payload
+});
+
+export const fetchTicketCommentsSuccess = (payload) => ({
+  type: types.FETCH_TICKET_COMMENTS_SUCCESS,
+  payload
+});
+
+export const fetchTicketCommentsFailure = (payload) => ({
+  type: types.FETCH_TICKET_COMMENTS_FAILURE,
+  payload
+});
+

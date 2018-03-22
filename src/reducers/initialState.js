@@ -19,7 +19,9 @@ const initialState = {
     allUsers: [],
   },
   tickets: {
-  }
+    ticketOptions: {},
+    ticketComments: {}
+  },
 };
 
 export default initialState;
