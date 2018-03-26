@@ -84,3 +84,17 @@ export const createTicketComment = (params, successAction, failureAction) => {
     body: JSON.stringify({comment: params})
   },successAction,failureAction);
 };
+
+
+export const fetchTicketStatuses = (params, successAction, failureAction) => {
+  return request(`tickets/${params.ticket_id}/statuses`,{
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'client' : localStorage.getItem('client'),
+      'uid': localStorage.getItem('uid'),
+      'access-token': localStorage.getItem('access-token')
+    }
+  },successAction,failureAction);
+};

@@ -20,7 +20,8 @@ const initialState = {
   },
   tickets: {
     ticketOptions: {},
-    ticketComments: {}
+    ticketComments: {},
+    ticketStatuses: {}
   },
 };
 

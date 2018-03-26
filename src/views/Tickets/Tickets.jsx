@@ -40,6 +40,7 @@ import {
 } from "../../actions/ticket";
 import { uniqWith, isEqual } from 'lodash';
 import ShowTicket from './ShowTicket';
+import TicketStatus from "./TicketStatus";
 
 const styles = theme => ({
   rightIcon: {
@@ -286,7 +287,16 @@ class Tickets extends React.Component{
                                             <MenuItem key={3} onClick={() => {this.handleVertMenuClose(); this.props.updateTicketStatus({id: ticket.id, status: "Completed"})}}>
                                               Mark as Resolved for All
                                             </MenuItem>
-                                            <MenuItem key={4} onClick={() => {this.handleVertMenuClose(); this.props.updateTicketStatus({id: ticket.id, status: "Completed"})}}>
+                                            <MenuItem key={4} onClick={() => {this.handleVertMenuClose(); this.props.openModal(
+                                              types.CONTENT_MODAL,
+                                              {
+                                                fullscreen: false,
+                                                title: "Ticket Status",
+                                                content: <TicketStatus ticket_id={ticket.id} />
+                                              }
+                                            )
+                                            }}
+                                            >
                                               Change Status For Individual
                                             </MenuItem>
                                           </Menu>

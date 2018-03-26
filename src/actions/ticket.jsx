@@ -81,3 +81,13 @@ export const createTicketCommentFailure = (payload) => ({
   type: types.CREATE_TICKET_COMMENT_FAILURE,
   payload
 });
+
+export const fetchTicketStatusesSuccess = (payload) => ({
+  type: types.FETCH_TICKET_STATUSES_SUCCESS,
+  payload
+});
+
+export const fetchTicketStatusesFailure = (payload) => ({
+  type: types.FETCH_TICKET_STATUSES_FAILURE,
+  payload
+});
