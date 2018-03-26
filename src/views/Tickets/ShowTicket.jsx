@@ -1,6 +1,6 @@
 import React from 'react';
 import { Grid } from "material-ui";
-import { ItemGrid, Button } from "components";
+import { ItemGrid, Button, Danger } from "components";
 import List, {
   ListItem,
   ListItemAvatar,
@@ -9,11 +9,10 @@ import List, {
 } from 'material-ui/List';
 import Avatar from 'material-ui/Avatar';
 import classNames from "classnames";
-import {Field, reduxForm} from 'redux-form';
+import {Field, reduxForm, reset} from 'redux-form';
 import Paper from 'material-ui/Paper';
 import { withStyles } from 'material-ui/styles';
 import { connect } from 'react-redux';
-import CKEditor from "react-ckeditor-component";
 import {fetchTicketComments} from "../../api/ticket";
 import {fetchTicketCommentsFailure, fetchTicketCommentsSuccess} from "../../actions/ticket";
 
@@ -53,8 +52,7 @@ class ShowTicket extends React.Component{
   }
 
   render(){
-    const {classes, description, handleSubmit, comments } = this.props;
-    console.log(comments);
+    const {error, submitting, classes, description, handleSubmit, comments, ticket_id } = this.props;
 
     return(
       <div>
@@ -71,7 +69,7 @@ class ShowTicket extends React.Component{
               {comments && comments.length ?
                 comments.map((comment,index) => (
                   <ListItem
-                    key={1}
+                    key={index}
                     className={classes.border}>
                     <ListItemAvatar>
                       <Avatar
@@ -100,17 +98,13 @@ class ShowTicket extends React.Component{
             </List>
 
             <form onSubmit={handleSubmit}>
-              <Field name="reply" type="text" component={({input, label, ...custom}) =>
-                <CKEditor
-                  activeClass="p10"
-                  content={input.value}
-                  events={{
-                    "change" : (event) => (input.onChange(event.editor.getData()))
-                  }}
-                />
+              <Field style={{width: '100%'}} name="comment" type="text" component={"textarea"} rows={5} placeholder={"Reply"} />
+              <Field name="ticket_id" type="hidden" value={ticket_id} component="input" />
+              {error
+                ? <Danger>{error}</Danger>
+                : null
               }
-              />
-              <Button onClick={handleSubmit} color="primary">Reply</Button>
+              <Button disabled={submitting} onClick={() => {handleSubmit(); this.props.dispatch(reset('show_ticket'))}} color="primary">Reply</Button>
             </form>
           </ItemGrid>
 
@@ -123,6 +117,9 @@ class ShowTicket extends React.Component{
 
 function mapStateToProps(state,ownProps){
   return {
+    initialValues: {
+      ticket_id: ownProps.ticket_id
+    },
     comments: state.tickets.ticketComments[ownProps.ticket_id]
   }
 }

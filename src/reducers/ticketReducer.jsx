@@ -34,9 +34,26 @@ export const ticketReducer = (state = initialState.tickets,action) => {
       return state;
 
     case types.FETCH_TICKET_COMMENTS_SUCCESS:
-      return {...state, ticketComments: {...state.ticketComments, [action.payload.ticket_id]: action.payload.comments}};
+      if(action.payload[0]){
+        return {...state, ticketComments: {...state.ticketComments, [action.payload[0].ticket_id]: action.payload}};
+      }
+      return state;
 
     case types.FETCH_TICKET_COMMENTS_FAILURE:
+      return state;
+
+    case types.CREATE_TICKET_COMMENT_SUCCESS:
+      if(state.ticketComments[action.payload.ticket_id]){
+        return {...state, ticketComments: {
+            ...state.ticketComments, [action.payload.ticket_id]: [
+              ...state.ticketComments[action.payload.ticket_id], action.payload
+            ]
+          }};
+      }
+      return {...state, ticketComments: {...state.ticketComments, [action.payload.ticket_id]: [action.payload]}};
+
+
+    case types.CREATE_TICKET_COMMENT_FAILURE:
       return state;
 
     default:

@@ -2,6 +2,7 @@ import React from 'react';
 import { Grid } from "material-ui";
 import Switch from 'material-ui/Switch';
 import { RegularCard, Button, ItemGrid, CustomInput } from "components";
+import Tooltip from 'material-ui/Tooltip';
 import { Create } from "material-ui-icons";
 import { withStyles } from 'material-ui/styles';
 import { FormGroup, FormControlLabel } from 'material-ui/Form';
@@ -23,8 +24,13 @@ import { connect } from 'react-redux';
 import {HIDE_MODAL} from "../../actions/modal";
 import * as types from "../../actions/actionTypes";
 import TicketForm from './TicketForm';
-import {createTicket, fetchAssignedTickets, fetchTickets, updateTicketStatus} from "../../api/ticket";
 import {
+  createTicket, createTicketComment, fetchAssignedTickets, fetchTickets,
+  updateTicketStatus
+} from "../../api/ticket";
+import {
+  createTicketCommentFailure,
+  createTicketCommentSuccess,
   createTicketFailure,
   createTicketSuccess,
   fetchAssignedTicketsFailure,
@@ -34,7 +40,6 @@ import {
 } from "../../actions/ticket";
 import { uniqWith, isEqual } from 'lodash';
 import ShowTicket from './ShowTicket';
-
 
 const styles = theme => ({
   rightIcon: {
@@ -57,6 +62,9 @@ const styles = theme => ({
     width: 60,
     height: 60,
   },
+  tooltip: {
+    fontSize: '15px'
+  }
 });
 
 class Tickets extends React.Component{
@@ -123,7 +131,7 @@ class Tickets extends React.Component{
   }
 
   handleCreateCommentSubmit(values){
-    console.log(values);
+    this.props.createTicketComment(values);
   }
 
   componentDidMount(){
@@ -228,7 +236,7 @@ class Tickets extends React.Component{
                                                     {
                                                       fullscreen: true,
                                                       title: ticket.title,
-                                                      content: <ShowTicket handleSubmit={this.handleCreateCommentSubmit} ticket_id={ticket.id} description={ticket.description} />
+                                                      content: <ShowTicket onSubmit={this.handleCreateCommentSubmit} ticket_id={ticket.id} description={ticket.description} />
                                                     }
                                                   ))
                                                 }
@@ -240,10 +248,9 @@ class Tickets extends React.Component{
                                       </ItemGrid>
                                       <ItemGrid xs={3} sm={3} md={3}>
                                         <ListItemSecondaryAction>
-                                          {ticket.overall_status === "Open" && <Chip style={{backgroundColor: '#94d863'}} label="Open" className={classes.chip} />}
-                                          {ticket.overall_status === "In Progress" && <Chip style={{backgroundColor: '#efab67'}} label="In Progress" className={classes.chip} />}
-                                          {ticket.overall_status === "Closed" && <Chip style={{backgroundColor: '#ed8768'}} label="Closed" className={classes.chip} />}
-                                          {ticket.overall_status === "Completed" && <Chip style={{backgroundColor: '#e5de5b'}} label="Completed" className={classes.chip} />}
+                                          {ticket.overall_status.open.length !== 0 && <Tooltip classes={{tooltip: classes.tooltip}} title={<div> {ticket.overall_status.open.map((user,index)=> {return <div key={index}>{user}<br/></div>})}</div>} placement="bottom" ><Chip style={{backgroundColor: '#94d863'}} label="Open" className={classes.chip} /></Tooltip>}
+                                          {ticket.overall_status.closed.length !== 0 && <Tooltip classes={{tooltip: classes.tooltip}} title={<div> {ticket.overall_status.closed.map((user,index)=> {return <div key={index}>{user}<br/></div>})}</div>} placement="bottom"><Chip style={{backgroundColor: '#ed8768'}} label="Closed" className={classes.chip} /></Tooltip>}
+                                          {ticket.overall_status.completed.length !== 0 && <Tooltip classes={{tooltip: classes.tooltip}} title={<div> {ticket.overall_status.completed.map((user,index)=> {return <div key={index}>{user}<br/></div>})}</div>} placement="bottom"><Chip style={{backgroundColor: '#e5de5b'}} label="Completed" className={classes.chip} /></Tooltip>}
 
                                           <IconButton
                                             aria-label="More"
@@ -347,6 +354,16 @@ class Tickets extends React.Component{
                                         />
                                       </ListItemAvatar>
                                       <ListItemText
+                                        onClick={
+                                          () => (this.props.openModal(
+                                            types.CONTENT_MODAL,
+                                            {
+                                              fullscreen: true,
+                                              title: ticket.title,
+                                              content: <ShowTicket onSubmit={this.handleCreateCommentSubmit} ticket_id={ticket.id} description={ticket.description} />
+                                            }
+                                          ))
+                                        }
                                         primary={ticket.title}
                                         secondary={ticket.description}
                                       />
@@ -416,9 +433,10 @@ function mapDispatchToProps(dispatch){
     openModal: (modalType,modalProps = null) => { dispatch({ type: types.SHOW_MODAL, modalType: modalType, modalProps: modalProps}) },
     closeModal: () => { dispatch(HIDE_MODAL) },
     fetchTickets: () => { dispatch(fetchTickets(fetchTicketsSuccess,fetchTicketsFailure)) },
-    fetchAssignedTickets: () => { dispatch(fetchAssignedTickets(fetchAssignedTicketsSuccess,fetchAssignedTicketsFailure))},
+    fetchAssignedTickets: () => { dispatch(fetchAssignedTickets(fetchAssignedTicketsSuccess,fetchAssignedTicketsFailure)) },
     updateTicketStatus: (params) => {dispatch(updateTicketStatus(params,updateTicketStatusSuccess,updateTicketStatusFailure)) },
-    createTicket: (params) => { dispatch(createTicket(params,createTicketSuccess,createTicketFailure))}
+    createTicket: (params) => { dispatch(createTicket(params,createTicketSuccess,createTicketFailure)) },
+    createTicketComment: (params) => { dispatch(createTicketComment(params,createTicketCommentSuccess,createTicketCommentFailure)) }
   }
 }
 

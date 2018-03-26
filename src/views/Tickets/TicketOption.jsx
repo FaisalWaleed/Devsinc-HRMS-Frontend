@@ -146,17 +146,19 @@ class TicketOption extends React.Component{
                   <ListItemText primary={"All Users"}/>
                 </MenuItem>
                 {
-                  ticketOptions[ticketOptionsChosen[index].department_id].roles[ticketOptionsChosen[index].role_id] ?
-                    ticketOptions[ticketOptionsChosen[index].department_id].roles[ticketOptionsChosen[index].role_id].users.map((user,index) => (
-                        <MenuItem
-                          key={index}
-                          value={user.id}
-                        >
-                          <Checkbox checked={input.value.indexOf(user.id) !== -1 || input.value.indexOf(0) !== -1}/>
-                          <ListItemText primary={user.name}/>
-                        </MenuItem>
-                      )
-                    ) : null
+                  ticketOptions[ticketOptionsChosen[index].department_id] ?
+                    ticketOptions[ticketOptionsChosen[index].department_id].roles[ticketOptionsChosen[index].role_id] ?
+                      ticketOptions[ticketOptionsChosen[index].department_id].roles[ticketOptionsChosen[index].role_id].users.map((user,index) => (
+                          <MenuItem
+                            key={index}
+                            value={user.id}
+                          >
+                            <Checkbox checked={input.value.indexOf(user.id) !== -1 || input.value.indexOf(0) !== -1}/>
+                            <ListItemText primary={user.name}/>
+                          </MenuItem>
+                        )
+                      ) : null
+                    :null
                 }
               </CustomInput>
             }
