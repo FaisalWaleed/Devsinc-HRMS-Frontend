@@ -74,7 +74,9 @@ class Tickets extends React.Component{
     this.handleCreateTicketSubmit = this.handleCreateTicketSubmit.bind(this);
     this.handleCreateCommentSubmit = this.handleCreateCommentSubmit.bind(this);
     this.state = {
-      anchorEl: null,
+      anchorEl: {
+        id: -1
+      },
       tab: 0
     }
   }
@@ -88,7 +90,10 @@ class Tickets extends React.Component{
   };
 
   handleVertMenuClose = () => {
-    this.setState({ anchorEl: null });
+    this.setState({ anchorEl: {
+        id: -1
+      }
+    });
   };
 
   handleCreateTicketSubmit(values){
@@ -253,33 +258,36 @@ class Tickets extends React.Component{
                                           {ticket.overall_status.completed.length !== 0 && <Tooltip classes={{tooltip: classes.tooltip}} title={<div> {ticket.overall_status.completed.map((user,index)=> {return <div key={index}>{user}<br/></div>})}</div>} placement="bottom"><Chip style={{backgroundColor: '#e5de5b'}} label="Completed" className={classes.chip} /></Tooltip>}
 
                                           <IconButton
+                                            id={ticket.id}
                                             aria-label="More"
-                                            aria-owns={this.state.anchorEl ? 'long-menu' : null}
+                                            aria-owns={this.state.anchorEl ? ticket.id : null}
                                             aria-haspopup="true"
                                             onClick={this.handleVertMenuClick}
                                           >
                                             <MoreVertIcon/>
                                           </IconButton>
                                           <Menu
-                                            id="long-menu1"
                                             anchorEl={this.state.anchorEl}
-                                            open={Boolean(this.state.anchorEl)}
+                                            open={(ticket.id == this.state.anchorEl.id)}
                                             onClose={this.handleVertMenuClose}
                                             PaperProps={{
                                               style: {
                                                 maxHeight: 48 * 4.5,
-                                                width: 200,
+                                                width: 250,
                                               },
                                             }}
                                           >
                                             <MenuItem key={1} onClick={() => {this.handleVertMenuClose(); this.props.updateTicketStatus({id: ticket.id, status: "Open"})}}>
-                                              Mark as Open
+                                              Mark as Open for All
                                             </MenuItem>
                                             <MenuItem key={2} onClick={() => {this.handleVertMenuClose(); this.props.updateTicketStatus({id: ticket.id, status: "Closed"})}}>
-                                              Mark as Closed
+                                              Mark as Closed for All
                                             </MenuItem>
                                             <MenuItem key={3} onClick={() => {this.handleVertMenuClose(); this.props.updateTicketStatus({id: ticket.id, status: "Completed"})}}>
-                                              Mark as Resolved
+                                              Mark as Resolved for All
+                                            </MenuItem>
+                                            <MenuItem key={4} onClick={() => {this.handleVertMenuClose(); this.props.updateTicketStatus({id: ticket.id, status: "Completed"})}}>
+                                              Change Status For Individual
                                             </MenuItem>
                                           </Menu>
                                         </ListItemSecondaryAction>
