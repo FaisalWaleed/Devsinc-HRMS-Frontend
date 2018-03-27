@@ -38,7 +38,7 @@ import {
   fetchTicketsFailure,
   fetchTicketsSuccess, updateTicketStatusFailure, updateTicketStatusSuccess
 } from "../../actions/ticket";
-import { uniqWith, isEqual, filter, includes } from 'lodash';
+import { uniqWith, isEqual, filter } from 'lodash';
 import ShowTicket from './ShowTicket';
 import TicketStatus from "./TicketStatus";
 

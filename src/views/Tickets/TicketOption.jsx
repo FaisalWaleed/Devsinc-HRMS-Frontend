@@ -37,7 +37,7 @@ class TicketOption extends React.Component{
                      labelText={"Department"}
                      inputProps={{
                        value: input.value,
-                       onChange: (event) => {this.props.fetchTicketOption({id: event.target.value});return input.onChange(event, event.target.value);},
+                       onChange: (event) => {if(event.target.value){this.props.fetchTicketOption({id: event.target.value});}return input.onChange(event, event.target.value);},
                        required: "required",
                        name: input.name,
                        autoComplete: "department_id",
