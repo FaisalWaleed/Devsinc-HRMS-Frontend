@@ -278,13 +278,13 @@ class Tickets extends React.Component{
                                               },
                                             }}
                                           >
-                                            <MenuItem key={1} onClick={() => {this.handleVertMenuClose(); this.props.updateTicketStatus({id: ticket.id, status: "Open"})}}>
+                                            <MenuItem key={1} onClick={() => {this.handleVertMenuClose(); this.props.updateTicketStatus({ticket_id: ticket.id, status: "Open"})}}>
                                               Mark as Open for All
                                             </MenuItem>
-                                            <MenuItem key={2} onClick={() => {this.handleVertMenuClose(); this.props.updateTicketStatus({id: ticket.id, status: "Closed"})}}>
+                                            <MenuItem key={2} onClick={() => {this.handleVertMenuClose(); this.props.updateTicketStatus({ticket_id: ticket.id, status: "Closed"})}}>
                                               Mark as Closed for All
                                             </MenuItem>
-                                            <MenuItem key={3} onClick={() => {this.handleVertMenuClose(); this.props.updateTicketStatus({id: ticket.id, status: "Completed"})}}>
+                                            <MenuItem key={3} onClick={() => {this.handleVertMenuClose(); this.props.updateTicketStatus({ticket_id: ticket.id, status: "Completed"})}}>
                                               Mark as Resolved for All
                                             </MenuItem>
                                             <MenuItem key={4} onClick={() => {this.handleVertMenuClose(); this.props.openModal(
@@ -410,13 +410,13 @@ class Tickets extends React.Component{
                                             },
                                           }}
                                         >
-                                          <MenuItem key={1} onClick={() => {this.handleVertMenuClose(); this.props.updateTicketStatus({id: ticket.id, status: "Open"})}}>
+                                          <MenuItem key={1} onClick={() => {this.handleVertMenuClose(); this.props.updateTicketStatus({ticket_id: ticket.id, status: "Open"})}}>
                                             Mark as Open
                                           </MenuItem>
-                                          <MenuItem key={2} onClick={() => {this.handleVertMenuClose(); this.props.updateTicketStatus({id: ticket.id, status: "Closed"})}}>
+                                          <MenuItem key={2} onClick={() => {this.handleVertMenuClose(); this.props.updateTicketStatus({ticket_id: ticket.id, status: "Closed"})}}>
                                             Mark as Closed
                                           </MenuItem>
-                                          <MenuItem key={3} onClick={() => {this.handleVertMenuClose(); this.props.updateTicketStatus({id: ticket.id, status: "Completed"})}}>
+                                          <MenuItem key={3} onClick={() => {this.handleVertMenuClose(); this.props.updateTicketStatus({ticket_id: ticket.id, status: "Completed"})}}>
                                             Mark as Resolved
                                           </MenuItem>
                                         </Menu>

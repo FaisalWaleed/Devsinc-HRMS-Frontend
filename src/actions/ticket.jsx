@@ -1,5 +1,5 @@
 import * as types from "./actionTypes";
-import {fetchAssignedTickets, fetchTickets} from "../api/ticket";
+import {fetchAssignedTickets, fetchTickets, fetchTicketStatuses} from "../api/ticket";
 
 export const fetchTicketsSuccess = (payload) => ({
     type: types.FETCH_TICKETS_SUCCESS,
@@ -44,6 +44,7 @@ export const updateTicketStatusSuccess = (payload) => {
     });
     dispatch(fetchTickets(fetchTicketsSuccess,fetchTicketsFailure));
     dispatch(fetchAssignedTickets(fetchAssignedTicketsSuccess,fetchAssignedTicketsFailure));
+    dispatch(fetchTicketStatuses({ticket_id: payload.id},fetchTicketStatusesSuccess,fetchTicketStatusesFailure));
   }
 };
 

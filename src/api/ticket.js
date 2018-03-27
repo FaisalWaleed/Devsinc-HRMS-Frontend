@@ -36,7 +36,7 @@ export const createTicket = (params, successAction, failureAction) => {
 
 
 export const updateTicketStatus = (params, successAction, failureAction) => {
-  return request(`tickets/${params.id}`,{
+  return request(`tickets/${params.ticket_id}`,{
     method: 'PUT',
     headers: {
       'client': localStorage.getItem('client'),
@@ -50,6 +50,7 @@ export const updateTicketStatus = (params, successAction, failureAction) => {
 };
 
 export const fetchTicketOption = (params, successAction, failureAction) => {
+  //passes department id in call
   return request(`tickets/ticket_option?id=${params.id}`,{
     method: 'GET',
     headers: {
@@ -95,6 +96,6 @@ export const fetchTicketStatuses = (params, successAction, failureAction) => {
       'client' : localStorage.getItem('client'),
       'uid': localStorage.getItem('uid'),
       'access-token': localStorage.getItem('access-token')
-    }
+    },
   },successAction,failureAction);
 };
