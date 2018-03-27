@@ -38,7 +38,7 @@ import {
   fetchTicketsFailure,
   fetchTicketsSuccess, updateTicketStatusFailure, updateTicketStatusSuccess
 } from "../../actions/ticket";
-import { uniqWith, isEqual } from 'lodash';
+import { uniqWith, isEqual, filter, includes } from 'lodash';
 import ShowTicket from './ShowTicket';
 import TicketStatus from "./TicketStatus";
 
@@ -74,6 +74,8 @@ class Tickets extends React.Component{
     super(props);
     this.handleCreateTicketSubmit = this.handleCreateTicketSubmit.bind(this);
     this.handleCreateCommentSubmit = this.handleCreateCommentSubmit.bind(this);
+    this.handleMyTicketsSearchInputChange= this.handleMyTicketsSearchInputChange.bind(this);
+    this.handleAssignedTicketsSearchInputChange = this.handleAssignedTicketsSearchInputChange.bind(this);
     this.state = {
       anchorEl: {
         id: -1
@@ -83,8 +85,20 @@ class Tickets extends React.Component{
         closed: true,
         completed: true
       },
-      tab: 0
+      tab: 0,
+      currentlyDisplayedMyTickets: this.props.tickets,
+      currentlyDisplayedAssignedTickets: this.props.assignedTickets
     }
+  }
+  
+  handleMyTicketsSearchInputChange(value){
+    let newlyDisplayed = filter(this.props.tickets, ticket => (ticket.title.toLowerCase().includes(value.toLowerCase()) || (ticket.description && ticket.description.toLowerCase().includes(value.toLowerCase())) ));
+    this.setState({currentlyDisplayedMyTickets: newlyDisplayed});
+  }
+  
+  handleAssignedTicketsSearchInputChange(value){
+    let newlyDisplayed = filter(this.props.assignedTickets, ticket => (ticket.title.toLowerCase().includes(value.toLowerCase()) || (ticket.description && ticket.description.toLowerCase().includes(value.toLowerCase())) ));
+    this.setState({currentlyDisplayedAssignedTickets: newlyDisplayed});
   }
   
   handleTab = (event, tab) => {
@@ -155,9 +169,19 @@ class Tickets extends React.Component{
     this.props.fetchTickets();
   }
   
+  componentWillReceiveProps(nextProps){
+    this.setState(
+      {
+        currentlyDisplayedMyTickets: nextProps.tickets,
+        currentlyDisplayedAssignedTickets: nextProps.assignedTickets
+      });
+  }
+  
+  
   render(){
-    console.log(this.state);
-    const { classes,tickets,assignedTickets } = this.props;
+    const { classes } = this.props;
+    const tickets = this.state.currentlyDisplayedMyTickets;
+    const assignedTickets = this.state.currentlyDisplayedAssignedTickets;
     return(
       <Grid container>
         <ItemGrid xs={12} sm={12} md={12}>
@@ -197,6 +221,7 @@ class Tickets extends React.Component{
                         fullWidth: false
                       }}
                       inputProps={{
+                        onChange: (event) => this.handleMyTicketsSearchInputChange(event.target.value),
                         type: "text",
                         required: "text",
                         name: "search",
@@ -209,13 +234,12 @@ class Tickets extends React.Component{
                   <Grid container>
                     <Grid item xs={12} sm={12} md={12}>
                       <div className={classes.demo}>
-                        {
-                          tickets ?
-                            tickets.length ?
-                              tickets.map((ticket, index) => (
-                                  <List key={index}>
-                                    <ListItem
-                                      button className={classes.border}>
+                        <List>
+                          {
+                            tickets ?
+                              tickets.length ?
+                                tickets.map((ticket, index) => (
+                                    <ListItem key={index} button className={classes.border}>
                                       <ListItemAvatar>
                                         <Avatar
                                           alt="Adelle Charles"
@@ -291,11 +315,10 @@ class Tickets extends React.Component{
                                         </ListItemSecondaryAction>
                                       </ItemGrid>
                                     </ListItem>
-                                  </List>
-                                )
-                              ) : <h4>No Tickets</h4> : null
-                        }
-                      
+                                  )
+                                ) : <h4>No Tickets</h4> : null
+                          }
+                        </List>
                       </div>
                     </Grid>
                   </Grid>
@@ -310,6 +333,7 @@ class Tickets extends React.Component{
                         fullWidth: false
                       }}
                       inputProps={{
+                        onChange: (event) => this.handleAssignedTicketsSearchInputChange(event.target.value),
                         type: "text",
                         required: "text",
                         name: "search",
@@ -356,12 +380,11 @@ class Tickets extends React.Component{
                             assignedTickets ?
                               assignedTickets.length ?
                                 assignedTickets.map((ticket, index) => (
-                                    this.state.assigned_tickets_filter.open && ticket.status === "Open"
-                                    || this.state.assigned_tickets_filter.closed && ticket.status === "Closed"
-                                    || this.state.assigned_tickets_filter.completed && ticket.status === "Completed"
+                                    (this.state.assigned_tickets_filter.open && ticket.status === "Open")
+                                    || (this.state.assigned_tickets_filter.closed && ticket.status === "Closed")
+                                    || (this.state.assigned_tickets_filter.completed && ticket.status === "Completed")
                                       ?
-                                      <ListItem
-                                        button className={classes.border}>
+                                      <ListItem key={index} button className={classes.border}>
                                         <ListItemAvatar>
                                           <Avatar
                                             alt="Adelle Charles"
@@ -423,7 +446,7 @@ class Tickets extends React.Component{
                                       </ListItem>
                                       : null
                                   )
-                                ) : <h4>You currently have no tickets assigned to you &#x263a;</h4> : null
+                                ) : this.props.assignedTickets.length ? <h4>No Tickets</h4> : <h4>You currently have no tickets assigned to you &#x263a;</h4> : null
                           }
                         </List>
                       </div>
