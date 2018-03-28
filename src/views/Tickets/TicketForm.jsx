@@ -2,7 +2,7 @@ import React from 'react';
 import { Field, FieldArray, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import {
-  CustomInput,
+  CustomInputWrapper,
   ItemGrid,
   Danger,
   Button,
@@ -28,48 +28,12 @@ class TicketForm extends React.Component {
             <FieldArray name={"ticket_options"} component={TicketOptions}/>
             <Grid container>
               <ItemGrid xs={12} sm={12} md={12}>
-                <Field name="title" type="text" component={({input, label, ...custom}) =>
-                  <CustomInput
-                    labelText="Title"
-                    id="title"
-                    formControlProps={{
-                      fullWidth: true
-                    }}
-                    inputProps={{
-                      ...input,
-                      ...custom,
-                      type: "text",
-                      required: "required",
-                      name: "title",
-                      autoComplete: "title",
-                    }}
-                  />
-                }
-                />
+                <Field name="title" required="required" autoComplete="title" type="text" custominputprops={{labelText: 'Title'}} component={CustomInputWrapper} />
               </ItemGrid>
             </Grid>
             <Grid container>
               <ItemGrid xs={12} sm={12} md={12}>
-                <Field name="description" type="text" component={({input, label, ...custom}) =>
-                  <CustomInput
-                    labelText="Description"
-                    id="description"
-                    formControlProps={{
-                      fullWidth: true
-                    }}
-                    inputProps={{
-                      ...input,
-                      ...custom,
-                      multiline: true,
-                      rows: 2,
-                      type: "text",
-                      required: "text",
-                      name: "description",
-                      autoComplete: "description",
-                    }}
-                  />
-                }
-                />
+                <Field name="description" type="text" multiline={true} rows="2" required="required" autoComplete="description" custominputprops={{labelText: "Description"}} component={CustomInputWrapper} />
               </ItemGrid>
             </Grid>
             <Grid container>

@@ -5,24 +5,11 @@ import { Grid } from "material-ui";
 import {
   RegularCard,
   Button,
-  CustomInput,
+  CustomInputWrapper,
   ItemGrid,
-  Danger
+  Danger,
 } from "components";
 
-const TextInput = props =>
-  <CustomInput
-    {...props.custominputprops}
-    formControlProps={{
-      ...props.formControlProps,
-      fullWidth: true
-    }}
-    inputProps={{
-      ...props,
-      ...props.input,
-      errortext: props.touched && props.error
-    }}
-  />;
 
 let SignInForm = props => {
   const { error,handleSubmit, submitting } = props;
@@ -36,12 +23,12 @@ let SignInForm = props => {
               <div>
                 <Grid container>
                   <ItemGrid xs={12} sm={12} md={12}>
-                    <Field name="email" type="text" custominputprops={{labelText: "Email Address"}} component={TextInput} />
+                    <Field name="email" type="text" custominputprops={{labelText: "Email Address"}} autoComplete="username" component={CustomInputWrapper} />
                   </ItemGrid>
                 </Grid>
                 <Grid container>
                   <ItemGrid xs={12} sm={12} md={12}>
-                    <Field name="password" type="password" custominputprops={{labelText: "Password"}} component={TextInput} />
+                    <Field name="password" type="password" custominputprops={{labelText: "Password"}} autoComplete="current-password" component={CustomInputWrapper} />
                   </ItemGrid>
                 </Grid>
               </div>
