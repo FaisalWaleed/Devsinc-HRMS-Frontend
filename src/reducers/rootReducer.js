@@ -5,6 +5,7 @@ import { department } from './department';
 import { userReducer } from './userReducer';
 import { modalReducer } from "./modalReducer";
 import { ticketReducer } from "./ticketReducer";
+import { role } from './role';
 
 const rootReducer = combineReducers({
     departments: department,
@@ -12,7 +13,8 @@ const rootReducer = combineReducers({
     form: formReducer,
     users: userReducer,
     modals: modalReducer,
-    tickets: ticketReducer
+    tickets: ticketReducer,
+    roles: role,
 });
 
 export default rootReducer;
