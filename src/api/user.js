@@ -22,11 +22,11 @@ export const deleteUser = (userId,successAction,failureAction) => {
 }
 
 export const getProfile = (id , successAction, failureAction) => {
-  return request(`users/${id}`, {}, successAction, failureAction);
+  return request(`admin/users/${id}`, {}, successAction, failureAction);
 }
 
 export const updateProfile = (params, id, successAction, failureAction) => {
-  return request(`users/${id}`, {
+  return request(`admin/users/${id}`, {
     method: 'PUT',
     headers: {
       'Accept': 'application/json',

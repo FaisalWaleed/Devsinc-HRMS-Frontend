@@ -26,9 +26,10 @@ class ManageUsers extends React.Component{
     }
 
     userWithButtons = (user) => {
-        const { id,name,username,email,image,company_id } = user;
+        const { id, name, username, email, image, company, employment_history, reporting_to } = user;
+        const requiredFields = [ name, username, email, company ];
         return [
-            ...drop(values(user)),
+            ...requiredFields,
             <Delete style={{'marginRight': '10px'}}
                     onClick={
                         this.props.openModal.bind(this,
@@ -51,12 +52,14 @@ class ManageUsers extends React.Component{
                             form:
                                 <UserForm
                                     initialValues={{
-                                        id: id,
-                                        name: name,
-                                        username: username,
-                                        email: email,
-                                        image: image,
-                                        company_id: company_id
+                                        id,
+                                        name,
+                                        username,
+                                        email,
+                                        image,
+                                        company,
+                                        employment_history,
+                                        reporting_to
                                     }}
                                     onSubmit={this.handleEditUserSubmit}
                                     isNew={false}
@@ -78,9 +81,10 @@ class ManageUsers extends React.Component{
             username,
             company_id,
             department_id,
+            employment_history
         } = values;
         let password = "11111111";
-        return registerUser({ email, password, name, username, company_id, department_id })
+        return registerUser({ email, password, name, username, company_id, department_id, employment_history })
             .then( (response) => {
                 this.props.fetchUsers(fetchUsersSuccess,fetchUsersFailure);
                 this.props.closeModal();
@@ -118,7 +122,7 @@ class ManageUsers extends React.Component{
                                 <Button onClick={this.props.openModal.bind(this,types.FORM_MODAL,{title: 'Create New User', form: <UserForm onSubmit={this.handleCreateUserSubmit} isNew={true} />  })} color="primary">Create a New User</Button>
                                 <Table
                                     tableHeaderColor="primary"
-                                    tableHead={["Name","Username","Email","Image","Company ID","Delete","Edit"]}
+                                    tableHead={["Name","Username","Email","Company","Delete","Edit"]}
                                     tableData={users}
                                 />
                             </div>
