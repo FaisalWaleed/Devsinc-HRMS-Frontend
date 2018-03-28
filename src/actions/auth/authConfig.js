@@ -9,7 +9,8 @@ const config = {
         username: 'username',
         name: 'name',
         company_id: 'company_id',
-        department_id: 'department_id'
+        department_id: 'department_id',
+        id: 'id'
     },
     userRegistrationAttributes: {
     //    Add REQUIRED parameters here (other than email and password)

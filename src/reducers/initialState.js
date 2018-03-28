@@ -1,14 +1,18 @@
 const initialState = {
-  roles: {},
-  departments: [],
+  roles: {
+      role: {}
+  },
+  departments: {
+      departments: []
+  },
   reduxTokenAuth: {
-    currentUser: {
-      isLoading: false,
-      isSignedIn: false,
-      attributes: {
-        firstName: null,
+      currentUser: {
+          isLoading: false,
+          isSignedIn: false,
+          attributes: {
+              firstName: null,
+          },
       },
-    },
   },
   modals: {
     modalType: null,

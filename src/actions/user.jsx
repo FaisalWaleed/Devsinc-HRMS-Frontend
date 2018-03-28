@@ -29,3 +29,23 @@ export const deleteUserFailure = (payload) => ({
     type: types.DELETE_USER_FAILURE,
     payload
 });
+
+export const getProfileSuccess = (payload) => ({
+  type: "GET_PROFILE_SUCCESS",
+  payload
+});
+
+export const getProfileFailure = (payload) => ({
+  type: "GET_PROFILE_FAILURE",
+  payload
+});
+
+export const updateProfileSuccess = (payload) => ({
+  type: "UPDATE_PROFILE_SUCCESS",
+  payload
+});
+
+export const updateProfileFailure = (payload) => ({
+  type: "UPDATE_PROFILE_FAILURE",
+  payload
+});
