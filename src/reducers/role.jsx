@@ -12,9 +12,10 @@ export const role =  (state = initialState, action) => {
         roleCreated: null
       };
     case "DELETE_ROLE_SUCCESS":
+      console.log("this is my state in delete role", action.payload);
       return {
         ...state,
-        roles: state.roles.filter(role => role.id != action.payload.role.id)
+        roles: state.roles.filter(role => role.id !== action.payload.id)
       }
     case "GET_ROLE_SUCCESS":
       return {
@@ -30,6 +31,21 @@ export const role =  (state = initialState, action) => {
       return {
         ...state,
         roleCreated: true
+      }
+    case "FETCH_USERS_FOR_ROLE_SUCCESS":
+      return{
+        ...state,
+        usersForRole: action.payload
+      }
+    case "ADD_USERS_TO_ROLE_SUCCESS":
+      return {
+        ...state,
+        role: action.payload
+      }
+    case "REMOVE_USERS_FROM_ROLE_SUCCESS":
+      return {
+        ...state,
+        role: action.payload
       }
     default:
      return state

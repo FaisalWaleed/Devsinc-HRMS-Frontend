@@ -49,3 +49,33 @@ export const updateRoleFailure = (payload) => ({
   type: "UPDATE_ROLE_FAILURE",
   payload
 });
+
+export const fetchUsersForRoleSuccess = (payload) => ({
+  type: "FETCH_USERS_FOR_ROLE_SUCCESS",
+  payload
+});
+
+export const fetchUsersForRoleFailure = (payload) => ({
+  type: "FETCH_USERS_FOR_ROLE_FAILURE",
+  payload
+});
+
+export const addUsersToRoleSuccess = (payload) => ({
+  type: "ADD_USERS_TO_ROLE_SUCCESS",
+  payload
+});
+
+export const addUsersToRoleFailure = (payload) => ({
+  type: "ADD_USERS_TO_ROLE_FAILURE",
+  payload
+});
+
+export const removeUserFromRoleSuccess = (payload) => ({
+  type: "REMOVE_USERS_FROM_ROLE_SUCCESS",
+  payload
+});
+
+export const removeUserFromRoleFailure = (payload) => ({
+  type: "REMOVE_USERS_FROM_ROLE_FAILURE",
+  payload
+});

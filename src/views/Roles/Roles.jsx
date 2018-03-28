@@ -1,7 +1,8 @@
 import React from "react";
 import { Grid } from "material-ui";
 
-import { RegularCard, 
+import { 
+  RegularCard, 
   Table, 
   ItemGrid 
 } from "components";
@@ -14,7 +15,7 @@ import {
 import { values, map, drop } from 'lodash';
 import RegularButton from "components/CustomButtons/Button"
 import { Link } from "react-router-dom";
-import { Delete, Edit } from "material-ui-icons";
+import { Delete, Edit, Visibility } from "material-ui-icons";
 
 import { 
   fetchRolesSuccess, 
@@ -30,12 +31,13 @@ class Roles extends React.Component {
   }
 
   roleWithButtons = (role) => {
-    const { id } = role;
-
+    const { id, title, description, department_id } = role;
+    const requiredFields = [title, description, department_id]
     return [
-      ...drop(values(role)),
-      <Delete onClick={() => this.props.onDeleteRole(id, deleteRoleSuccess, deleteRoleFailure)}/>, 
-      <Link to={`/Roles/edit/${id}`}><Edit /></Link>
+      ...requiredFields,
+      <Link to={`/roles/${id}`}><Visibility /></Link>,
+      <Link to={`/roles/edit/${id}`}><Edit /></Link>,
+      <Delete onClick={() => this.props.onDeleteRole(id, deleteRoleSuccess, deleteRoleFailure)}/>
     ];  
   }
 
@@ -50,12 +52,12 @@ class Roles extends React.Component {
         <Grid container>
           <ItemGrid xs={12} sm={12} md={12}>
             <RegularCard
-              cardTitle="Simple Table"
-              cardSubtitle="Here is a subtitle for this table"
+              cardTitle="All Roles"
+              cardSubtitle="Here is a list of all roles for the company"
               content={
                 <Table
                   tableHeaderColor="primary"
-                  tableHead={["Title", "Description", "Actions"]}
+                  tableHead={["Title", "Description", "Department", "show", "Edit", "Delete"]}
                   tableData={roles}
                 />
               }

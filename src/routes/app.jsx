@@ -1,5 +1,5 @@
 import DashboardPage from "views/Dashboard/Dashboard.jsx";
-import UserProfile from "views/UserProfile/UserProfile.jsx";
+// import UserProfile from "views/UserProfile/UserProfile.jsx";
 import TableList from "views/TableList/TableList.jsx";
 import Typography from "views/Typography/Typography.jsx";
 import Icons from "views/Icons/Icons.jsx";
@@ -12,7 +12,9 @@ import EditDepartmentsPage from "views/Departments/EditDepartment.jsx";
 import ManageUsers from "../views/ManageUsers/ManageUsers";
 import RolesPage from "views/Roles/Roles.jsx";
 import NewRolesPage from "views/Roles/New.jsx";
-// import EditRolesPage from "views/Roles/EditRole.jsx";
+import ProfilePage from "views/Profile/Profile.jsx";
+import EditRolesPage from "views/Roles/Edit.jsx";
+import ShowRolesPage from "views/Roles/Role.jsx";
 
 import {
     Dashboard,
@@ -21,10 +23,8 @@ import {
     LibraryBooks,
     BubbleChart,
     LocationOn,
-    Notifications,
-    ErrorOutline
+    Notifications
 } from "material-ui-icons";
-import Tickets from "../views/Tickets/Tickets";
 
 const appRoutes = [
   {
@@ -35,12 +35,12 @@ const appRoutes = [
       component: DashboardPage,
   },
   {
-      path: "/user",
+      path: "/users/profile",
       sidebarName: "User Profile",
       navbarName: "Profile",
       icon: Person,
-      component: UserProfile,
-      unprotected: true
+      component: ProfilePage,
+      exact: true
   },
   {
       path: "/table",
@@ -132,14 +132,22 @@ const appRoutes = [
     component: NewRolesPage,
     notSidebar: true
   },
-  // {
-  //   path: "/roles/edit/:id",
-  //   sidebarName: "Edit Role",
-  //   navbarName: "Edit Role",
-  //   icon: Notifications,
-  //   component: EditRolesPage,
-  //   notSidebar: true
-  // },
+  {
+    path: "/roles/edit/:id",
+    sidebarName: "Edit Role",
+    navbarName: "Edit Role",
+    icon: Notifications,
+    component: EditRolesPage,
+    notSidebar: true
+  },
+  {
+    path: "/roles/:id",
+    sidebarName: "Role",
+    navbarName: "Role",
+    icon: Notifications,
+    component: ShowRolesPage,
+    notSidebar: true
+  },
   { redirect: true, path: "/", to: "/dashboard", navbarName: "Redirect" }
 ];
 
