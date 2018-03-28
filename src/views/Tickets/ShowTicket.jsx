@@ -82,7 +82,7 @@ class ShowTicket extends React.Component{
                       primary={
                         <div>
                           <b>{comment.username}</b>
-                          <p>{comment.comment}</p>
+                          <p style={{whiteSpace: 'pre-wrap'}}>{`${comment.comment}`}</p>
                           <small style={{color: '#888888'}}>{comment.role} at {comment.department}</small>
                         </div>
                       }
