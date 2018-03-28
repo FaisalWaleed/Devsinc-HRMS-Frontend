@@ -13,7 +13,7 @@ import { connect } from "react-redux";
 
 
 let DepartmentForm = props => {
-    const { error,handleSubmit, submitting, isNew } = props;
+    const { error, handleSubmit, submitting, isNew } = props;
     return (
         <form onSubmit={handleSubmit}>
             <Grid container>

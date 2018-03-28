@@ -26,6 +26,17 @@ export const userReducer = (state = initialState,action) => {
         case types.EDIT_USER_FAILURE:
             return state;
 
+        case "GET_PROFILE_SUCCESS":
+          return {
+            ...state,
+            profile: action.payload
+          }
+        case "UPDATE_PROFILE_SUCCESS":
+          return {
+            ...state,
+            profileUpdated: true
+          }
+
         default:
             return state;
     }
