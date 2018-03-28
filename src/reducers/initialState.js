@@ -1,4 +1,5 @@
 const initialState = {
+  roles: {},
   departments: [],
   reduxTokenAuth: {
     currentUser: {
