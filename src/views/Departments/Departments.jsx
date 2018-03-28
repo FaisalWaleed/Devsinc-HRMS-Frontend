@@ -10,7 +10,7 @@ import { connect } from "react-redux";
 import { 
   fetchDepartments, 
   deleteDepartment 
-} from "api/department"
+} from "../../api/department"
 import { values, map, drop } from 'lodash';
 import RegularButton from "components/CustomButtons/Button"
 import { Link } from "react-router-dom";

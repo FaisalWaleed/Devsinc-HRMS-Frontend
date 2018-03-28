@@ -3,26 +3,29 @@ import * as types from '../../actions/actionTypes';
 import DeleteModal from './DeleteModal';
 import FormModal from './FormModal';
 import { connect } from 'react-redux';
+import ContentModal from "./ContentModal";
 
 
 const MODAL_COMPONENTS = {
-    [types.DELETE_MODAL] : DeleteModal,
-    [types.FORM_MODAL] : FormModal
+  [types.DELETE_MODAL] : DeleteModal,
+  [types.FORM_MODAL] : FormModal,
+  [types.CONTENT_MODAL] : ContentModal
+
 };
 
 class ModalRoot extends React.Component{
 
-    render(){
-        if(!this.props.modalType){
-            return this.props.children
-        }
-        else{
-            const Modal = MODAL_COMPONENTS[this.props.modalType];
-            return([
-                <Modal key="1" {...this.props.modalProps}/>,this.props.children
-            ]);
-        }
+  render(){
+    if(!this.props.modalType){
+      return this.props.children
     }
+    else{
+      const Modal = MODAL_COMPONENTS[this.props.modalType];
+      return([
+        <Modal key="1" {...this.props.modalProps}/>,this.props.children
+      ]);
+    }
+  }
 }
 
 export default connect(state => state.modals)(ModalRoot);

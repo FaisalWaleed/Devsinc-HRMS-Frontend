@@ -22,6 +22,12 @@ import IconButton from "./CustomButtons/IconButton.jsx";
 import CustomInput from "./CustomInput/CustomInput.jsx";
 
 // ##############################
+// // // CustomInput
+// #############################
+
+import CustomInputWrapper from "./CustomInputWrapper/CustomInputWrapper.jsx";
+
+// ##############################
 // // // Footer
 // #############################
 
@@ -92,6 +98,7 @@ export {
   IconButton,
   // CustomInput
   CustomInput,
+  CustomInputWrapper,
   // Footer
   Footer,
   // Grid

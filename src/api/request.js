@@ -1,6 +1,6 @@
 const request = (path, opts = {}, successAction, failureAction) => (
   (dispatch) => (
-    fetch(`http://localhost:3000/api/v1/admin/${path}`, opts)
+    fetch(`http://localhost:3000/api/v1/${path}`, opts)
       .then((res) => res.json())
       .then((res) => {
         dispatch(successAction(res));
