@@ -26,6 +26,7 @@ import CustomInput from "./CustomInput/CustomInput.jsx";
 // #############################
 
 import CustomInputWrapper from "./CustomInputWrapper/CustomInputWrapper.jsx";
+import FileInput from "./FileInput/FileInput";
 
 // ##############################
 // // // Footer
@@ -99,6 +100,7 @@ export {
   // CustomInput
   CustomInput,
   CustomInputWrapper,
+  FileInput,
   // Footer
   Footer,
   // Grid

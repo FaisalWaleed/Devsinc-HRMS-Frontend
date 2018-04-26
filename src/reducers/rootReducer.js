@@ -6,15 +6,17 @@ import { userReducer } from './userReducer';
 import { modalReducer } from "./modalReducer";
 import { ticketReducer } from "./ticketReducer";
 import { role } from './role';
+import { leave } from "./leave";
 
 const rootReducer = combineReducers({
-    departments: department,
-    reduxTokenAuth:reduxTokenAuthReducer,
-    form: formReducer,
-    users: userReducer,
-    modals: modalReducer,
-    tickets: ticketReducer,
-    roles: role,
+  departments: department,
+  reduxTokenAuth:reduxTokenAuthReducer,
+  form: formReducer,
+  users: userReducer,
+  modals: modalReducer,
+  tickets: ticketReducer,
+  roles: role,
+  leaves: leave
 });
 
 export default rootReducer;

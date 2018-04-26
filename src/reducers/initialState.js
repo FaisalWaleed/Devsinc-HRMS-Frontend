@@ -28,6 +28,9 @@ const initialState = {
     ticketComments: {},
     ticketStatuses: {}
   },
+  leaves: {
+    leavesTableYear: (new Date()).getFullYear()
+  }
 };
 
 export default initialState;
