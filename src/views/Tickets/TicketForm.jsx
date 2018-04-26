@@ -16,10 +16,9 @@ import * as moment from 'moment';
 import { KeyboardArrowLeft, KeyboardArrowRight } from 'material-ui-icons';
 
 class TicketForm extends React.Component {
-
   render() {
     const {error, handleSubmit, submitting, closeModal } = this.props;
-
+    
     return (
       <form onSubmit={handleSubmit}>
         <Grid container>
@@ -77,7 +76,7 @@ class TicketForm extends React.Component {
       </form>
     );
   };
-
+  
 }
 
 function mapDispatchToProps(dispatch){
