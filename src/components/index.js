@@ -27,6 +27,7 @@ import CustomInput from "./CustomInput/CustomInput.jsx";
 
 import CustomInputWrapper from "./CustomInputWrapper/CustomInputWrapper.jsx";
 import FileInput from "./FileInput/FileInput";
+import DateRangePickerWrapper from './DateRangePickerWrapper/DateRangePickerWrapper';
 
 // ##############################
 // // // Footer
@@ -100,6 +101,7 @@ export {
   // CustomInput
   CustomInput,
   CustomInputWrapper,
+  DateRangePickerWrapper,
   FileInput,
   // Footer
   Footer,

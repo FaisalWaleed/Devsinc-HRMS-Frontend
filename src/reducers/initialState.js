@@ -29,6 +29,7 @@ const initialState = {
     ticketStatuses: {}
   },
   leaves: {
+    allLeaves: [],
     leavesTableYear: (new Date()).getFullYear()
   }
 };

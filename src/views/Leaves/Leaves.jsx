@@ -11,13 +11,18 @@ import { connect } from 'react-redux';
 import { withStyles } from "material-ui/styles/index";
 import { Calendar, CalendarControls } from 'react-yearly-calendar'
 import "assets/css/react-yearly-calendar.css";
-import { nextLeaveYear, prevLeaveYear } from "../../actions/leave";
-import ExpansionPanel, {
-  ExpansionPanelSummary,
-  ExpansionPanelDetails,
-} from 'material-ui/ExpansionPanel';
-import Typography from 'material-ui/Typography';
+import {
+  createLeaveFailure,
+  createLeaveSuccess,
+  fetchLeavesFailure,
+  fetchLeavesSuccess,
+  nextLeaveYear,
+  prevLeaveYear
+} from "../../actions/leave";
+import LeaveForm from './LeaveForm';
 import classNames from 'classnames'
+import * as types from "../../actions/actionTypes";
+import { createLeave, fetchLeaves } from '../../api/leave';
 
 const styles = theme => ({
   rightIcon: {
@@ -94,6 +99,7 @@ const calendarSelection = {
 class Leaves extends React.Component{
   constructor(props){
     super(props);
+    this.handleCreateLeaveSubmit = this.handleCreateLeaveSubmit.bind(this);
     this.state = {
       anchorEl: {
         id: -1
@@ -105,6 +111,16 @@ class Leaves extends React.Component{
       },
       tab: 0,
     }
+  }
+  
+  componentDidMount(){
+    this.props.fetchLeaves();
+  }
+  
+  handleCreateLeaveSubmit(values){
+    values.start_date = values.start_date.format("YYYY-MM-DD");
+    values.end_date = values.end_date.format("YYYY-MM-DD");
+    this.props.createLeave(values);
   }
   
   handleTab = (event, tab) => {
@@ -130,7 +146,19 @@ class Leaves extends React.Component{
                 <br />
                 {this.state.tab === 0 &&
                 <ItemGrid xs={12} sm={12} md={12}>
-                  <Button style={{float: 'right'}} color="primary">
+                  <Button
+                    style={{float: 'right'}}
+                    color="primary"
+                    onClick={
+                      this.props.openModal.bind(this, types.FORM_MODAL,
+                        {
+                          fullscreen: 'true',
+                          form: <LeaveForm onSubmit={this.handleCreateLeaveSubmit} />,
+                          title: 'Leave Application',
+                        }
+                      )
+                    }
+                  >
                     Apply For Leave
                     <Create className={classes.rightIcon}/>
                   </Button>
@@ -153,7 +181,7 @@ class Leaves extends React.Component{
                           }
                           label="Sick Leaves"
                         />
-  
+                        
                         <FormControlLabel
                           control={
                             <Switch
@@ -164,7 +192,7 @@ class Leaves extends React.Component{
                           }
                           label="Approved"
                         />
-  
+                        
                         <FormControlLabel
                           control={
                             <Switch
@@ -175,7 +203,7 @@ class Leaves extends React.Component{
                           }
                           label="Applied"
                         />
-  
+                        
                         <FormControlLabel
                           control={
                             <Switch
@@ -186,7 +214,7 @@ class Leaves extends React.Component{
                           }
                           label="Rejected"
                         />
-  
+                        
                         <CalendarControls
                           year={year}
                           onNextYear={this.props.nextLeaveYear}
@@ -252,14 +280,6 @@ class Leaves extends React.Component{
                     label="Rejected"
                   />
                   <hr/>
-                  <Grid container>
-                    <Grid item xs={12} sm={12} md={12}>
-                      <div className={classes.demo}>
-                      
-                      
-                      </div>
-                    </Grid>
-                  </Grid>
                 </ItemGrid>}
               </div>
             }
@@ -279,8 +299,11 @@ function mapStateToProps(state){
 
 function mapDispatchToProps(dispatch){
   return {
+    openModal: (modalType,modalProps = null) => { dispatch({ type: types.SHOW_MODAL, modalType: modalType, modalProps: modalProps}) },
     nextLeaveYear: () =>  { dispatch(nextLeaveYear) },
-    prevLeaveYear: () =>  { dispatch(prevLeaveYear) }
+    prevLeaveYear: () =>  { dispatch(prevLeaveYear) },
+    createLeave: (params) => {dispatch(createLeave(params,createLeaveSuccess,createLeaveFailure))},
+    fetchLeaves: () => {dispatch(fetchLeaves(fetchLeavesSuccess,fetchLeavesFailure))}
   }
 }
 
