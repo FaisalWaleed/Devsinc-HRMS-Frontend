@@ -125,10 +125,6 @@ div.calendar-controls .today {
     text-transform: uppercase;
 }
 
-table.calendar td.leave {
-    background-color: rgba(249, 24, 8, 0.32);
-}
-
 table.calendar td.applied {
     background-color: rgba(249, 249, 13, 0.32);
 }

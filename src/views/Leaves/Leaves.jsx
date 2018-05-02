@@ -23,6 +23,7 @@ import LeaveForm from './LeaveForm';
 import classNames from 'classnames'
 import * as types from "../../actions/actionTypes";
 import { createLeave, fetchLeaves } from '../../api/leave';
+import { getWeekDayDates } from "../../helpers/leavesHelper";
 
 const styles = theme => ({
   rightIcon: {
@@ -51,9 +52,6 @@ const styles = theme => ({
   legendAvatar:{
     margin: '3px',display: 'inline' ,padding: '10px', color: 'black', fontSize: '12px'
   },
-  leaveAvatar: {
-    backgroundColor: 'rgba(249, 24, 8, 0.32)'
-  },
   appliedAvatar: {
     backgroundColor: 'rgba(249, 249, 13, 0.32)'
   },
@@ -64,37 +62,6 @@ const styles = theme => ({
     backgroundColor: 'rgba(255, 10, 20, 0.64)'
   },
 });
-
-const calendarSelection = {
-  leave: [
-    '2018-04-25',
-    '2018-05-01',
-    '2018-06-02',
-    '2018-08-15',
-    '2018-11-01'
-  ],
-  approved: [
-    '2018-04-14',
-    '2018-05-12',
-    '2018-06-13',
-    '2018-08-06',
-    '2018-11-19'
-  ],
-  rejected: [
-    '2018-04-11',
-    '2018-05-29',
-    '2018-06-22',
-    '2018-08-12',
-    '2018-11-14'
-  ],
-  applied: [
-    '2018-04-17',
-    '2018-05-12',
-    '2018-06-25',
-    '2018-08-30',
-    '2018-11-01'
-  ]
-};
 
 class Leaves extends React.Component{
   constructor(props){
@@ -127,8 +94,49 @@ class Leaves extends React.Component{
     this.setState({ tab });
   };
   
+  getCalendarSelectionFromLeaves = (allLeaves) => {
+    let calendarSelection = {
+      approved: [],
+      applied: [],
+      rejected: []
+    };
+    
+    allLeaves.forEach(function (leave) {
+      let dates = [];
+      switch (leave.status){
+        //Cases should be class names that need to be applied
+        case "approved":
+          dates = getWeekDayDates(leave.start_date,leave.end_date);
+          dates.forEach(function (date) {
+            calendarSelection.approved.push(date);
+          });
+          dates = [];
+          break;
+        case "pending":
+          dates = getWeekDayDates(leave.start_date,leave.end_date);
+          dates.forEach(function (date) {
+            calendarSelection.applied.push(date);
+          });
+          dates = [];
+          break;
+        case "rejected":
+          dates = getWeekDayDates(leave.start_date,leave.end_date);
+          dates.forEach(function (date) {
+            calendarSelection.rejected.push(date);
+          });
+          dates = [];
+          break;
+        default:
+      }
+    });
+    
+    return calendarSelection;
+  };
+  
   render(){
-    const { classes, year } = this.props;
+    const { classes, year, allLeaves } = this.props;
+    const calendarSelection = this.getCalendarSelectionFromLeaves(allLeaves);
+    
     return(
       <Grid container>
         <ItemGrid xs={12} sm={12} md={12}>
@@ -163,25 +171,13 @@ class Leaves extends React.Component{
                     <Create className={classes.rightIcon}/>
                   </Button>
                   <br/>
-                  <Avatar className={classNames(classes.legendAvatar, classes.leaveAvatar)}>Leave</Avatar>
-                  <Avatar className={classNames(classes.legendAvatar, classes.appliedAvatar)}>Applied</Avatar>
                   <Avatar className={classNames(classes.legendAvatar, classes.approvedAvatar)}>Approved</Avatar>
+                  <Avatar className={classNames(classes.legendAvatar, classes.appliedAvatar)}>Applied</Avatar>
                   <Avatar className={classNames(classes.legendAvatar, classes.rejectedAvatar)}>Rejected</Avatar>
                   
                   <Grid container>
                     <Grid item xs={12} sm={12} md={12}>
                       <div className={classes.demo}>
-                        <FormControlLabel
-                          control={
-                            <Switch
-                              checked={true}
-                              onClick={null}
-                              value="Sick"
-                            />
-                          }
-                          label="Sick Leaves"
-                        />
-                        
                         <FormControlLabel
                           control={
                             <Switch
@@ -293,7 +289,8 @@ class Leaves extends React.Component{
 
 function mapStateToProps(state){
   return {
-    year: state.leaves.leavesTableYear
+    year: state.leaves.leavesTableYear,
+    allLeaves: state.leaves.allLeaves
   }
 }
 
