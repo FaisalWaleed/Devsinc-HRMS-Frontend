@@ -103,12 +103,6 @@ class LeaveForm extends React.Component{
   }
 }
 
-function mapStateToProps(state){
-  return {
-  
-  }
-}
-
 function mapDispatchToProps(dispatch){
   return {
     closeModal: () => { dispatch(HIDE_MODAL) },
@@ -119,4 +113,4 @@ LeaveForm = reduxForm({
   form: 'leave_form'
 })(LeaveForm);
 
-export default LeaveForm = connect(mapStateToProps,mapDispatchToProps)(LeaveForm);
+export default LeaveForm = connect(null,mapDispatchToProps)(LeaveForm);

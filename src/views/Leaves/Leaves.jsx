@@ -33,10 +33,11 @@ import List, {
   ListItemText,
 } from 'material-ui/List';
 import Chip from 'material-ui/Chip';
-import Tooltip from 'material-ui/Tooltip';
 import IconButton from 'material-ui/IconButton';
 import Menu, { MenuItem } from 'material-ui/Menu';
 import MoreVertIcon from 'material-ui-icons/MoreVert';
+import * as moment from 'moment';
+import LeaveStatusForm from './LeaveStatusForm';
 
 const styles = theme => ({
   rightIcon: {
@@ -128,6 +129,10 @@ class Leaves extends React.Component{
       }
     });
   };
+  
+  handleLeaveApprovalSubmit(values){
+    console.log(values);
+  }
   
   componentDidMount(){
     this.props.fetchLeaves();
@@ -303,7 +308,7 @@ class Leaves extends React.Component{
                       <div className={classes.demo}>
                         <List>
                           {allLeaveApprovals && allLeaveApprovals.length ?
-                            allLeaveApprovals.map((leave, index) => (
+                            allLeaveApprovals.map((leaveApproval, index) => (
                               <ListItem key={index} button className={classes.border}>
                                 <ListItemAvatar>
                                   <Avatar
@@ -318,21 +323,34 @@ class Leaves extends React.Component{
                                       types.CONTENT_MODAL,
                                       {
                                         fullscreen: false,
-                                        title: leave.reason,
-                                        content: leave.leave_type
+                                        title: "LEAVE LIFECYCLE HERE",
+                                        content: "WHEN LEAVE WAS APPLIED FOR, WHEN REJECTED/APPROVED"
                                       }
                                     ))
                                   }
-                                  primary={leave.reason}
-                                  secondary={leave.leave_type}
+                                  primary={
+                                    <div>
+                                      <b>{leaveApproval.username}: </b>
+                                      <span>{leaveApproval.reason}</span>
+                                    </div>
+                                  }
+                                  secondary={
+                                    <div>
+                                      <b>Type: </b>
+                                      <span>{leaveApproval.leave_type.charAt(0).toUpperCase() + leaveApproval.leave_type.slice(1)}</span>
+                                      <br />
+                                      <span>{moment(leaveApproval.end_date).diff(moment(leaveApproval.start_date),'days')} Days ({moment(leaveApproval.start_date).format("Do MMMM YYYY").toString()}  <b>-</b> {moment(leaveApproval.end_date).format("Do MMMM YYYY").toString() }) </span>
+                                    </div>
+                                  }
                                 />
                                 <ListItemSecondaryAction>
-                                  <Chip style={{backgroundColor: '#94d863'}} label="Open" className={classes.chip} />
-                                  <Chip style={{backgroundColor: '#efab67'}} label="In Progress" className={classes.chip} />
+                                  {leaveApproval.status == "pending" ? <Chip style={{backgroundColor: '#d8d739'}} label="Pending" className={classes.chip} /> : null }
+                                  {leaveApproval.status == "rejected" ? <Chip style={{backgroundColor: '#d84d30'}} label="Rejected" className={classes.chip} /> : null }
+                                  {leaveApproval.status == "approved" ? <Chip style={{backgroundColor: '#2cd81f'}} label="Approved" className={classes.chip} /> : null }
                                   <IconButton
-                                    id={leave.id}
+                                    id={leaveApproval.id}
                                     aria-label="More"
-                                    aria-owns={this.state.anchorEl ? leave.id : null}
+                                    aria-owns={this.state.anchorEl ? leaveApproval.id : null}
                                     aria-haspopup="true"
                                     onClick={this.handleVertMenuClick}
                                   >
@@ -341,7 +359,7 @@ class Leaves extends React.Component{
                                   <Menu
                                     id="long-"
                                     anchorEl={this.state.anchorEl}
-                                    open={leave.id == this.state.anchorEl.id}
+                                    open={leaveApproval.id == this.state.anchorEl.id}
                                     onClose={this.handleVertMenuClose}
                                     PaperProps={{
                                       style: {
@@ -350,21 +368,35 @@ class Leaves extends React.Component{
                                       },
                                     }}
                                   >
-                                    <MenuItem key={1} onClick={() => {this.handleVertMenuClose(); }}>
-                                      Mark as Open
+                                    <MenuItem key={1} onClick={() => {
+                                      this.handleVertMenuClose();
+                                      this.props.openModal(
+                                        types.FORM_MODAL,
+                                        {
+                                          fullscreen: false,
+                                          title: `Approve Leave for ${leaveApproval.username}`,
+                                          form: <LeaveStatusForm onSubmit={this.handleLeaveApprovalSubmit} initialValues={{status: "approved"}} submitText={"Approve"}/>
+                                        })
+                                    }}>
+                                      Approve Leave
                                     </MenuItem>
-                                    <MenuItem key={2} onClick={() => {this.handleVertMenuClose(); }}>
-                                      Mark as Closed
-                                    </MenuItem>
-                                    <MenuItem key={3} onClick={() => {this.handleVertMenuClose(); }}>
-                                      Mark as Resolved
+                                    <MenuItem key={1} onClick={() => {
+                                      this.handleVertMenuClose();
+                                      this.props.openModal(
+                                        types.FORM_MODAL,
+                                        {
+                                          fullscreen: false,
+                                          title: `Reject Leave for ${leaveApproval.username}`,
+                                          form: <LeaveStatusForm onSubmit={this.handleLeaveApprovalSubmit} initialValues={{status: "rejected"}} submitText={"Reject"}/>
+                                        })
+                                    }}>
+                                      Reject Leave :(
                                     </MenuItem>
                                   </Menu>
                                 </ListItemSecondaryAction>
                               </ListItem>
                             )) : null
                           }
-                        
                         </List>
                       </div>
                     </Grid>
