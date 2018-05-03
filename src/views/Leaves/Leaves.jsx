@@ -71,17 +71,50 @@ class Leaves extends React.Component{
       anchorEl: {
         id: -1
       },
-      leaves_filter: {
+      leavesFilter: {
         approved: true,
         rejected: true,
-        pending: true
+        pending: true,
+      },
+      allParsedLeaves: {
+        approved: [],
+        rejected: [],
+        pending: []
+      },
+      currentlyDisplayedLeaves: {
+        approved: [],
+        rejected: [],
+        pending: []
       },
       tab: 0,
     }
   }
   
+  handleLeavesFilterToggleSwitch = (toggleName) => {
+    this.setState(
+      (prevState) => ({
+        leavesFilter: { ...prevState.leavesFilter, [toggleName]: !prevState.leavesFilter[toggleName]}
+      }),
+      () => {
+        if(this.state.leavesFilter[toggleName]){
+          this.setState( prevState => ({...prevState, currentlyDisplayedLeaves: {...prevState.currentlyDisplayedLeaves, [toggleName]: this.state.allParsedLeaves[toggleName] } }));
+        }
+        else{
+          this.setState( prevState => ({ ...prevState, currentlyDisplayedLeaves: {...prevState.currentlyDisplayedLeaves, [toggleName]: []}  }));
+        }
+      });
+  };
+  
   componentDidMount(){
     this.props.fetchLeaves();
+  }
+  
+  componentWillReceiveProps(nextProps){
+    let parsedLeaves = this.getCalendarSelectionFromLeaves(nextProps.allLeaves);
+    this.setState({
+      currentlyDisplayedLeaves: parsedLeaves,
+      allParsedLeaves: parsedLeaves
+    });
   }
   
   handleCreateLeaveSubmit(values){
@@ -97,7 +130,7 @@ class Leaves extends React.Component{
   getCalendarSelectionFromLeaves = (allLeaves) => {
     let calendarSelection = {
       approved: [],
-      applied: [],
+      pending: [],
       rejected: []
     };
     
@@ -115,7 +148,7 @@ class Leaves extends React.Component{
         case "pending":
           dates = getWeekDayDates(leave.start_date,leave.end_date);
           dates.forEach(function (date) {
-            calendarSelection.applied.push(date);
+            calendarSelection.pending.push(date);
           });
           dates = [];
           break;
@@ -134,8 +167,7 @@ class Leaves extends React.Component{
   };
   
   render(){
-    const { classes, year, allLeaves } = this.props;
-    const calendarSelection = this.getCalendarSelectionFromLeaves(allLeaves);
+    const { classes, year } = this.props;
     
     return(
       <Grid container>
@@ -181,8 +213,8 @@ class Leaves extends React.Component{
                         <FormControlLabel
                           control={
                             <Switch
-                              checked={true}
-                              onClick={null}
+                              checked={this.state.leavesFilter.approved}
+                              onClick={this.handleLeavesFilterToggleSwitch.bind(this,"approved")}
                               value="Approved"
                             />
                           }
@@ -192,19 +224,19 @@ class Leaves extends React.Component{
                         <FormControlLabel
                           control={
                             <Switch
-                              checked={true}
-                              onClick={null}
-                              value="Applied"
+                              checked={this.state.leavesFilter.pending}
+                              onClick={this.handleLeavesFilterToggleSwitch.bind(this,"pending")}
+                              value="Pending"
                             />
                           }
-                          label="Applied"
+                          label="Pending"
                         />
                         
                         <FormControlLabel
                           control={
                             <Switch
-                              checked={true}
-                              onClick={null}
+                              checked={this.state.leavesFilter.rejected}
+                              onClick={this.handleLeavesFilterToggleSwitch.bind(this,"rejected")}
                               value="Rejected"
                             />
                           }
@@ -219,7 +251,7 @@ class Leaves extends React.Component{
                           showTodayButton={true}
                         />
                         <Calendar
-                          customClasses={calendarSelection}
+                          customClasses={this.state.currentlyDisplayedLeaves}
                           year={year}
                           onPickDate={(date) => alert(date)}
                         />
@@ -276,7 +308,12 @@ class Leaves extends React.Component{
                     label="Rejected"
                   />
                   <hr/>
-                </ItemGrid>}
+                </ItemGrid>
+                
+                
+                
+                
+                }
               </div>
             }
           />
