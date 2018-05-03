@@ -14,6 +14,12 @@ export const leave = (state=initialState.leaves, action) => {
       
     case types.FETCH_LEAVES_FAILURE:
       return state;
+  
+    case types.FETCH_LEAVE_APPROVALS_SUCCESS:
+      return {...state, allLeaveApprovals: action.payload};
+  
+    case types.FETCH_LEAVE_APPROVALS_FAILURE:
+      return state;
       
     case types.CREATE_LEAVE_SUCCESS:
       return {...state, allLeaves: [...state.allLeaves, action.payload ]};

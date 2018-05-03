@@ -43,3 +43,21 @@ export const fetchLeavesFailure = (payload) => {
     });
   }
 };
+
+export const fetchLeaveApprovalsSuccess = (payload) => {
+  return dispatch => {
+    dispatch({
+      type: types.FETCH_LEAVE_APPROVALS_SUCCESS,
+      payload
+    });
+  }
+};
+
+export const fetchLeaveApprovalsFailure = (payload) => {
+  return dispatch => {
+    dispatch({
+      type: types.FETCH_LEAVE_APPROVALS_FAILURE,
+      payload
+    });
+  }
+};

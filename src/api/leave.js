@@ -25,5 +25,17 @@ export const fetchLeaves = (successAction, failureAction) => {
       'Content-Type': 'application/json',
     }
   },successAction,failureAction);
-  
+};
+
+export const fetchLeaveApprovals = (successAction, failureAction) => {
+  return request('leaves/leave_approvals',{
+    method: 'GET',
+    headers: {
+      'client': localStorage.getItem('client'),
+      'uid': localStorage.getItem('uid'),
+      'access-token': localStorage.getItem('access-token'),
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    }
+  },successAction,failureAction);
 };

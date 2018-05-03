@@ -85,7 +85,6 @@ class LeaveForm extends React.Component{
                   component={renderDates}
                   format={formatDates}
                 />
-              
               </ItemGrid>
             </Grid>
           </ItemGrid>

@@ -30,6 +30,7 @@ const initialState = {
   },
   leaves: {
     allLeaves: [],
+    allLeaveApprovals: [],
     leavesTableYear: (new Date()).getFullYear()
   }
 };
