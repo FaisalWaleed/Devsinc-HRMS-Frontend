@@ -3,7 +3,7 @@ import { Grid } from "material-ui";
 import Switch from 'material-ui/Switch';
 import { RegularCard, Button, ItemGrid, CustomInput } from "components";
 import Avatar from 'material-ui/Avatar'
-import { Create, ExpandMore } from "material-ui-icons";
+import { Create, ModeEdit } from "material-ui-icons";
 import { FormGroup, FormControlLabel } from 'material-ui/Form';
 import Tabs, { Tab } from 'material-ui/Tabs';
 import AppBar from 'material-ui/AppBar';
@@ -347,69 +347,33 @@ class Leaves extends React.Component{
                                   }
                                 />
                                 <ListItemSecondaryAction>
-                                  
-                                  {leaveApproval.status === "approved by Reporting to" ? <Tooltip title={<div>{leaveApproval.comment}</div>}><Chip style={{backgroundColor: '#d8d739'}} label="Pending on HR" className={classes.chip} /></Tooltip> : null }
-                                  {leaveApproval.status === "pending" ? <Tooltip title={<div>{leaveApproval.comment}</div>}><Chip style={{backgroundColor: '#d8d739'}} label="Pending" className={classes.chip} /></Tooltip> : null }
-                                  {leaveApproval.status === "approved by HR" ? <Tooltip title={<div>{leaveApproval.comment}</div>}><Chip style={{backgroundColor: '#2cd81f'}} label="Approved" className={classes.chip} /></Tooltip> : null }
-                                  {leaveApproval.status === "rejected by Reporting to" ? <Tooltip title={<div>{leaveApproval.comment}</div>}><Chip style={{backgroundColor: '#d84d30'}} label="Rejected" className={classes.chip} /></Tooltip> : null }
-                                  {leaveApproval.status === "rejected by HR" ? <Tooltip title={<div>{leaveApproval.comment}</div>}><Chip style={{backgroundColor: '#d84d30'}} label="Rejected by HR" className={classes.chip} /></Tooltip> : null }
+                                  <span style={{marginRight: '20px'}}>
+                                  {leaveApproval.status === "approved by Reporting to" ? <Tooltip title={<div>{leaveApproval.comment}</div>}><Chip style={{backgroundColor: '#9ad891'}} label="Pending on HR" className={classes.chip} /></Tooltip> : null }
+                                    {leaveApproval.status === "pending" ? <Tooltip title={<div>{leaveApproval.comment}</div>}><Chip style={{backgroundColor: '#d8d739'}} label="Pending" className={classes.chip} /></Tooltip> : null }
+                                    {leaveApproval.status === "approved by HR" ? <Tooltip title={<div>{leaveApproval.comment}</div>}><Chip style={{backgroundColor: '#2cd81f'}} label="Approved" className={classes.chip} /></Tooltip> : null }
+                                    {leaveApproval.status === "rejected by Reporting to" ? <Tooltip title={<div>{leaveApproval.comment}</div>}><Chip style={{backgroundColor: '#d87d72'}} label="Rejected" className={classes.chip} /></Tooltip> : null }
+                                    {leaveApproval.status === "rejected by HR" ? <Tooltip title={<div>{leaveApproval.comment}</div>}><Chip style={{backgroundColor: '#d84d30'}} label="Rejected by HR" className={classes.chip} /></Tooltip> : null }
+                                  </span>
                                   
                                   {leaveApproval.status === "pending" ? <span>
-                                    <IconButton
-                                      id={leaveApproval.id}
-                                      aria-label="More"
-                                      aria-owns={this.state.anchorEl ? leaveApproval.id : null}
-                                      aria-haspopup="true"
-                                      onClick={this.handleVertMenuClick}
+                                    <IconButton variant="fab" color="primary"
+                                                onClick={ () => {
+                                                  this.props.openModal(
+                                                    types.FORM_MODAL,
+                                                    {
+                                                      fullscreen: false,
+                                                      title: `Approve Leave for ${leaveApproval.username}`,
+                                                      form: <LeaveStatusForm onSubmit={this.handleCreateLeaveStatusSubmit}
+                                                                             initialValues={{
+                                                                               leave_id: leaveApproval.id,
+                                                                               status: 'approved'
+                                                                             }}
+                                                      />
+                                                    })
+                                                }}
                                     >
-                                      <MoreVertIcon/>
+                                      <ModeEdit/>
                                     </IconButton>
-                                    <Menu
-                                      id="long-"
-                                      anchorEl={this.state.anchorEl}
-                                      open={leaveApproval.id == this.state.anchorEl.id}
-                                      onClose={this.handleVertMenuClose}
-                                      PaperProps={{
-                                        style: {
-                                          maxHeight: 48 * 4.5,
-                                          width: 200,
-                                        },
-                                      }}
-                                    >
-                                      <MenuItem key={1} onClick={() => {
-                                        this.handleVertMenuClose();
-                                        this.props.openModal(
-                                          types.FORM_MODAL,
-                                          {
-                                            fullscreen: false,
-                                            title: `Approve Leave for ${leaveApproval.username}`,
-                                            form: <LeaveStatusForm onSubmit={this.handleCreateLeaveStatusSubmit}
-                                                                   initialValues={{
-                                                                     status: "approved",
-                                                                     leave_id: leaveApproval.id
-                                                                   }} submitText={"Approve"}/>
-                                          })
-                                      }}>
-                                        Approve Leave
-                                      </MenuItem>
-                                      <MenuItem key={2} onClick={() => {
-                                        this.handleVertMenuClose();
-                                        this.props.openModal(
-                                          types.FORM_MODAL,
-                                          {
-                                            fullscreen: false,
-                                            title: `Reject Leave for ${leaveApproval.username}`,
-                                            form: <LeaveStatusForm onSubmit={this.handleCreateLeaveStatusSubmit}
-                                                                   initialValues={{
-                                                                     status: "rejected",
-                                                                     leave_id: leaveApproval.id
-                                                                   }}
-                                                                   submitText={"Reject"}/>
-                                          })
-                                      }}>
-                                        Reject Leave :(
-                                      </MenuItem>
-                                    </Menu>
                                   </span> : <span style={{marginRight: '45px'}} />
                                   }
                                 </ListItemSecondaryAction>
