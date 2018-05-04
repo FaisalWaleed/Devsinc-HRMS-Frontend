@@ -8,11 +8,12 @@ import { FormGroup, FormControlLabel } from 'material-ui/Form';
 import Tabs, { Tab } from 'material-ui/Tabs';
 import AppBar from 'material-ui/AppBar';
 import { connect } from 'react-redux';
+import Tooltip from 'material-ui/Tooltip';
 import { withStyles } from "material-ui/styles/index";
 import { Calendar, CalendarControls } from 'react-yearly-calendar'
 import "assets/css/react-yearly-calendar.css";
 import {
-  createLeaveFailure,
+  createLeaveFailure, createLeaveStatusFailure, createLeaveStatusSuccess,
   createLeaveSuccess,
   fetchLeaveApprovalsFailure,
   fetchLeaveApprovalsSuccess,
@@ -24,7 +25,7 @@ import {
 import LeaveForm from './LeaveForm';
 import classNames from 'classnames'
 import * as types from "../../actions/actionTypes";
-import { createLeave, fetchLeaves, fetchLeaveApprovals } from '../../api/leave';
+import { createLeave, fetchLeaves, fetchLeaveApprovals, createLeaveStatus } from '../../api/leave';
 import { getCalendarSelectionFromLeaves } from "../../helpers/leavesHelper";
 import List, {
   ListItem,
@@ -81,6 +82,7 @@ class Leaves extends React.Component{
   constructor(props){
     super(props);
     this.handleCreateLeaveSubmit = this.handleCreateLeaveSubmit.bind(this);
+    this.handleCreateLeaveStatusSubmit = this.handleCreateLeaveStatusSubmit.bind(this);
     this.state = {
       anchorEl: {
         id: -1
@@ -130,10 +132,6 @@ class Leaves extends React.Component{
     });
   };
   
-  handleLeaveApprovalSubmit(values){
-    console.log(values);
-  }
-  
   componentDidMount(){
     this.props.fetchLeaves();
   }
@@ -150,6 +148,11 @@ class Leaves extends React.Component{
     values.start_date = values.start_date.format("YYYY-MM-DD");
     values.end_date = values.end_date.format("YYYY-MM-DD");
     this.props.createLeave(values);
+  }
+  
+  handleCreateLeaveStatusSubmit(values){
+    this.props.createLeaveStatus(values);
+    console.log(values);
   }
   
   handleTab = (event, tab) => {
@@ -329,70 +332,86 @@ class Leaves extends React.Component{
                                     ))
                                   }
                                   primary={
-                                    <div>
+                                    <span>
                                       <b>{leaveApproval.username}: </b>
                                       <span>{leaveApproval.reason}</span>
-                                    </div>
+                                    </span>
                                   }
                                   secondary={
-                                    <div>
+                                    <span>
                                       <b>Type: </b>
                                       <span>{leaveApproval.leave_type.charAt(0).toUpperCase() + leaveApproval.leave_type.slice(1)}</span>
                                       <br />
                                       <span>{moment(leaveApproval.end_date).diff(moment(leaveApproval.start_date),'days')} Days ({moment(leaveApproval.start_date).format("Do MMMM YYYY").toString()}  <b>-</b> {moment(leaveApproval.end_date).format("Do MMMM YYYY").toString() }) </span>
-                                    </div>
+                                    </span>
                                   }
                                 />
                                 <ListItemSecondaryAction>
-                                  {leaveApproval.status == "pending" ? <Chip style={{backgroundColor: '#d8d739'}} label="Pending" className={classes.chip} /> : null }
-                                  {leaveApproval.status == "rejected" ? <Chip style={{backgroundColor: '#d84d30'}} label="Rejected" className={classes.chip} /> : null }
-                                  {leaveApproval.status == "approved" ? <Chip style={{backgroundColor: '#2cd81f'}} label="Approved" className={classes.chip} /> : null }
-                                  <IconButton
-                                    id={leaveApproval.id}
-                                    aria-label="More"
-                                    aria-owns={this.state.anchorEl ? leaveApproval.id : null}
-                                    aria-haspopup="true"
-                                    onClick={this.handleVertMenuClick}
-                                  >
-                                    <MoreVertIcon/>
-                                  </IconButton>
-                                  <Menu
-                                    id="long-"
-                                    anchorEl={this.state.anchorEl}
-                                    open={leaveApproval.id == this.state.anchorEl.id}
-                                    onClose={this.handleVertMenuClose}
-                                    PaperProps={{
-                                      style: {
-                                        maxHeight: 48 * 4.5,
-                                        width: 200,
-                                      },
-                                    }}
-                                  >
-                                    <MenuItem key={1} onClick={() => {
-                                      this.handleVertMenuClose();
-                                      this.props.openModal(
-                                        types.FORM_MODAL,
-                                        {
-                                          fullscreen: false,
-                                          title: `Approve Leave for ${leaveApproval.username}`,
-                                          form: <LeaveStatusForm onSubmit={this.handleLeaveApprovalSubmit} initialValues={{status: "approved"}} submitText={"Approve"}/>
-                                        })
-                                    }}>
-                                      Approve Leave
-                                    </MenuItem>
-                                    <MenuItem key={1} onClick={() => {
-                                      this.handleVertMenuClose();
-                                      this.props.openModal(
-                                        types.FORM_MODAL,
-                                        {
-                                          fullscreen: false,
-                                          title: `Reject Leave for ${leaveApproval.username}`,
-                                          form: <LeaveStatusForm onSubmit={this.handleLeaveApprovalSubmit} initialValues={{status: "rejected"}} submitText={"Reject"}/>
-                                        })
-                                    }}>
-                                      Reject Leave :(
-                                    </MenuItem>
-                                  </Menu>
+                                  
+                                  {leaveApproval.status === "approved by Reporting to" ? <Tooltip title={<div>{leaveApproval.comment}</div>}><Chip style={{backgroundColor: '#d8d739'}} label="Pending on HR" className={classes.chip} /></Tooltip> : null }
+                                  {leaveApproval.status === "pending" ? <Tooltip title={<div>{leaveApproval.comment}</div>}><Chip style={{backgroundColor: '#d8d739'}} label="Pending" className={classes.chip} /></Tooltip> : null }
+                                  {leaveApproval.status === "approved by HR" ? <Tooltip title={<div>{leaveApproval.comment}</div>}><Chip style={{backgroundColor: '#2cd81f'}} label="Approved" className={classes.chip} /></Tooltip> : null }
+                                  {leaveApproval.status === "rejected by Reporting to" ? <Tooltip title={<div>{leaveApproval.comment}</div>}><Chip style={{backgroundColor: '#d84d30'}} label="Rejected" className={classes.chip} /></Tooltip> : null }
+                                  {leaveApproval.status === "rejected by HR" ? <Tooltip title={<div>{leaveApproval.comment}</div>}><Chip style={{backgroundColor: '#d84d30'}} label="Rejected by HR" className={classes.chip} /></Tooltip> : null }
+                                  
+                                  {leaveApproval.status === "pending" ? <span>
+                                    <IconButton
+                                      id={leaveApproval.id}
+                                      aria-label="More"
+                                      aria-owns={this.state.anchorEl ? leaveApproval.id : null}
+                                      aria-haspopup="true"
+                                      onClick={this.handleVertMenuClick}
+                                    >
+                                      <MoreVertIcon/>
+                                    </IconButton>
+                                    <Menu
+                                      id="long-"
+                                      anchorEl={this.state.anchorEl}
+                                      open={leaveApproval.id == this.state.anchorEl.id}
+                                      onClose={this.handleVertMenuClose}
+                                      PaperProps={{
+                                        style: {
+                                          maxHeight: 48 * 4.5,
+                                          width: 200,
+                                        },
+                                      }}
+                                    >
+                                      <MenuItem key={1} onClick={() => {
+                                        this.handleVertMenuClose();
+                                        this.props.openModal(
+                                          types.FORM_MODAL,
+                                          {
+                                            fullscreen: false,
+                                            title: `Approve Leave for ${leaveApproval.username}`,
+                                            form: <LeaveStatusForm onSubmit={this.handleCreateLeaveStatusSubmit}
+                                                                   initialValues={{
+                                                                     status: "approved",
+                                                                     leave_id: leaveApproval.id
+                                                                   }} submitText={"Approve"}/>
+                                          })
+                                      }}>
+                                        Approve Leave
+                                      </MenuItem>
+                                      <MenuItem key={2} onClick={() => {
+                                        this.handleVertMenuClose();
+                                        this.props.openModal(
+                                          types.FORM_MODAL,
+                                          {
+                                            fullscreen: false,
+                                            title: `Reject Leave for ${leaveApproval.username}`,
+                                            form: <LeaveStatusForm onSubmit={this.handleCreateLeaveStatusSubmit}
+                                                                   initialValues={{
+                                                                     status: "rejected",
+                                                                     leave_id: leaveApproval.id
+                                                                   }}
+                                                                   submitText={"Reject"}/>
+                                          })
+                                      }}>
+                                        Reject Leave :(
+                                      </MenuItem>
+                                    </Menu>
+                                  </span> : <span style={{marginRight: '45px'}} />
+                                  }
                                 </ListItemSecondaryAction>
                               </ListItem>
                             )) : null
@@ -426,9 +445,10 @@ function mapDispatchToProps(dispatch){
     openModal: (modalType,modalProps = null) => { dispatch({ type: types.SHOW_MODAL, modalType: modalType, modalProps: modalProps}) },
     nextLeaveYear: () =>  { dispatch(nextLeaveYear) },
     prevLeaveYear: () =>  { dispatch(prevLeaveYear) },
-    createLeave: (params) => {dispatch(createLeave(params,createLeaveSuccess,createLeaveFailure))},
-    fetchLeaves: () => {dispatch(fetchLeaves(fetchLeavesSuccess,fetchLeavesFailure))},
-    fetchLeaveApprovals: () => {dispatch(fetchLeaveApprovals(fetchLeaveApprovalsSuccess,fetchLeaveApprovalsFailure))}
+    createLeave: (params) => { dispatch(createLeave(params,createLeaveSuccess,createLeaveFailure))},
+    fetchLeaves: () => { dispatch(fetchLeaves(fetchLeavesSuccess,fetchLeavesFailure))},
+    fetchLeaveApprovals: () => { dispatch(fetchLeaveApprovals(fetchLeaveApprovalsSuccess,fetchLeaveApprovalsFailure))},
+    createLeaveStatus: (params) => { dispatch(createLeaveStatus(params,createLeaveStatusSuccess,createLeaveStatusFailure))}
   }
 }
 

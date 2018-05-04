@@ -25,6 +25,7 @@ class LeaveStatusForm extends React.Component{
               <ItemGrid xs={12} sm={12} md={12}>
                 <Field name="comment" required="required" autoComplete="reason" type="text" custominputprops={{labelText: 'Comment (optional)'}} component={CustomInputWrapper} />
                 <Field name="status" required="required" autoComplete="status" type="hidden" component="input" />
+                <Field name="leave_id" required="required" autoComplete="leave_id" type="hidden" component="input" />
               </ItemGrid>
             </Grid>
           </ItemGrid>

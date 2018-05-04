@@ -61,3 +61,21 @@ export const fetchLeaveApprovalsFailure = (payload) => {
     });
   }
 };
+
+export const createLeaveStatusSuccess = (payload) => {
+  return dispatch => {
+    dispatch({
+      type: types.CREATE_LEAVE_STATUS_SUCCESS,
+      payload
+    });
+  }
+};
+
+export const createLeaveStatusFailure = (payload) => {
+  return dispatch => {
+    dispatch({
+      type: types.CREATE_LEAVE_STATUS_FAILURE,
+      payload
+    });
+  }
+};

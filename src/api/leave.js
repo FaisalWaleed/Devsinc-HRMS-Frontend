@@ -39,3 +39,17 @@ export const fetchLeaveApprovals = (successAction, failureAction) => {
     }
   },successAction,failureAction);
 };
+
+export const createLeaveStatus = (params,successAction,failureAction) => {
+  return request('leave_statuses',{
+    method: 'POST',
+    headers: {
+      'client': localStorage.getItem('client'),
+      'uid': localStorage.getItem('uid'),
+      'access-token': localStorage.getItem('access-token'),
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({leave_status: params})
+  },successAction,failureAction);
+};

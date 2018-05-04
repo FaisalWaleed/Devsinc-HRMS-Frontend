@@ -59,40 +59,41 @@ class App extends React.Component {
     const { classes, ...rest } = this.props;
     return (
       <MuiPickersUtilsProvider utils={MomentUtils}>
-        <ModalRoot />
-        <div className={classes.wrapper}>
-          {this.checkLoginPath() ? null :
-            <Sidebar
-              routes={appRoutes}
-              logoText={"Creative Tim"}
-              logo={logo}
-              image={image}
-              handleDrawerToggle={this.handleDrawerToggle}
-              open={this.state.mobileOpen}
-              color="blue"
-              {...rest}
-            />
-          }
-          <div className={classes.mainPanel} ref="mainPanel">
+        <div>
+          <ModalRoot />
+          <div className={classes.wrapper}>
             {this.checkLoginPath() ? null :
-              <Header
+              <Sidebar
                 routes={appRoutes}
+                logoText={"Creative Tim"}
+                logo={logo}
+                image={image}
                 handleDrawerToggle={this.handleDrawerToggle}
+                open={this.state.mobileOpen}
+                color="blue"
                 {...rest}
               />
             }
-            {/* On the /maps route we want the map to be on full screen - this is not possible if the content and conatiner classes are present because they have some paddings which would make the map smaller */}
-            {this.getRoute() ? (
-              <div className={classes.content}>
-                <div className={classes.container}>{switchRoutes}</div>
-              </div>
-            ) : (
-              <div className={classes.map}>{switchRoutes}</div>
-            )}
-            {this.checkLoginPath() ? null : <Footer />}
+            <div className={classes.mainPanel} ref="mainPanel">
+              {this.checkLoginPath() ? null :
+                <Header
+                  routes={appRoutes}
+                  handleDrawerToggle={this.handleDrawerToggle}
+                  {...rest}
+                />
+              }
+              {/* On the /maps route we want the map to be on full screen - this is not possible if the content and conatiner classes are present because they have some paddings which would make the map smaller */}
+              {this.getRoute() ? (
+                <div className={classes.content}>
+                  <div className={classes.container}>{switchRoutes}</div>
+                </div>
+              ) : (
+                <div className={classes.map}>{switchRoutes}</div>
+              )}
+              {this.checkLoginPath() ? null : <Footer />}
+            </div>
           </div>
         </div>
-      
       </MuiPickersUtilsProvider>
     );
   }
