@@ -121,17 +121,6 @@ class Leaves extends React.Component{
       });
   };
   
-  handleVertMenuClick = event => {
-    this.setState({ anchorEl: event.currentTarget });
-  };
-  
-  handleVertMenuClose = () => {
-    this.setState({ anchorEl: {
-        id: -1
-      }
-    });
-  };
-  
   componentDidMount(){
     this.props.fetchLeaves();
   }
