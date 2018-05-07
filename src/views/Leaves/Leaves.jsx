@@ -35,10 +35,9 @@ import List, {
 } from 'material-ui/List';
 import Chip from 'material-ui/Chip';
 import IconButton from 'material-ui/IconButton';
-import Menu, { MenuItem } from 'material-ui/Menu';
-import MoreVertIcon from 'material-ui-icons/MoreVert';
 import * as moment from 'moment';
 import LeaveStatusForm from './LeaveStatusForm';
+import LeavesLifeCycle from "./LeavesLifeCycle";
 
 const styles = theme => ({
   rightIcon: {
@@ -316,7 +315,7 @@ class Leaves extends React.Component{
                                       {
                                         fullscreen: false,
                                         title: "LEAVE LIFECYCLE HERE",
-                                        content: "WHEN LEAVE WAS APPLIED FOR, WHEN REJECTED/APPROVED"
+                                        content: <LeavesLifeCycle leaveId={leaveApproval.id} />
                                       }
                                     ))
                                   }
@@ -337,11 +336,11 @@ class Leaves extends React.Component{
                                 />
                                 <ListItemSecondaryAction>
                                   <span style={{marginRight: '20px'}}>
-                                  {leaveApproval.status === "approved by Reporting to" ? <Tooltip title={<div>{leaveApproval.comment}</div>}><Chip style={{backgroundColor: '#9ad891'}} label="Pending on HR" className={classes.chip} /></Tooltip> : null }
-                                    {leaveApproval.status === "pending" ? <Tooltip title={<div>{leaveApproval.comment}</div>}><Chip style={{backgroundColor: '#d8d739'}} label="Pending" className={classes.chip} /></Tooltip> : null }
-                                    {leaveApproval.status === "approved by HR" ? <Tooltip title={<div>{leaveApproval.comment}</div>}><Chip style={{backgroundColor: '#2cd81f'}} label="Approved" className={classes.chip} /></Tooltip> : null }
-                                    {leaveApproval.status === "rejected by Reporting to" ? <Tooltip title={<div>{leaveApproval.comment}</div>}><Chip style={{backgroundColor: '#d87d72'}} label="Rejected" className={classes.chip} /></Tooltip> : null }
-                                    {leaveApproval.status === "rejected by HR" ? <Tooltip title={<div>{leaveApproval.comment}</div>}><Chip style={{backgroundColor: '#d84d30'}} label="Rejected by HR" className={classes.chip} /></Tooltip> : null }
+                                  {leaveApproval.status === "approved by Reporting to" ? <Tooltip title={<div>{leaveApproval.comment ? leaveApproval.comment : "No comment" }</div>}><Chip style={{backgroundColor: '#9ad891'}} label="Pending on HR" className={classes.chip} /></Tooltip> : null }
+                                    {leaveApproval.status === "pending" ? <Tooltip title={<div>{leaveApproval.comment ? leaveApproval.comment : "No comment" }</div>}><Chip style={{backgroundColor: '#d8d739'}} label="Pending" className={classes.chip} /></Tooltip> : null }
+                                    {leaveApproval.status === "approved by HR" ? <Tooltip title={<div>{leaveApproval.comment ? leaveApproval.comment : "No comment" }</div>}><Chip style={{backgroundColor: '#2cd81f'}} label="Approved" className={classes.chip} /></Tooltip> : null }
+                                    {leaveApproval.status === "rejected by Reporting to" ? <Tooltip title={<div>{leaveApproval.comment ? leaveApproval.comment : "No comment" }</div>}><Chip style={{backgroundColor: '#d87d72'}} label="Rejected" className={classes.chip} /></Tooltip> : null }
+                                    {leaveApproval.status === "rejected by HR" ? <Tooltip title={<div>{leaveApproval.comment ? leaveApproval.comment : "No comment" }</div>}><Chip style={{backgroundColor: '#d84d30'}} label="Rejected by HR" className={classes.chip} /></Tooltip> : null }
                                   </span>
                                   
                                   {leaveApproval.status === "pending" ? <span>
@@ -353,6 +352,7 @@ class Leaves extends React.Component{
                                                       fullscreen: false,
                                                       title: `Approve Leave for ${leaveApproval.username}`,
                                                       form: <LeaveStatusForm onSubmit={this.handleCreateLeaveStatusSubmit}
+                                                                             userId={leaveApproval.user_id}
                                                                              initialValues={{
                                                                                leave_id: leaveApproval.id,
                                                                                status: 'approved'

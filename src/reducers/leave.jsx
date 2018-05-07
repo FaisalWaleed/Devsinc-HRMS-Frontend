@@ -47,6 +47,21 @@ export const leave = (state=initialState.leaves, action) => {
     case types.CREATE_LEAVE_STATUS_FAILURE:
       return state;
     
+    case types.FETCH_USER_LEAVES_HISTORY_SUCCESS:
+      return {
+        ...state,
+        allUserLeavesHistory: {...state.allUserLeavesHistory, [action.payload.user_id] : action.payload}
+      };
+    
+    case types.FETCH_USER_LEAVES_HISTORY_FAILURE:
+      return state;
+    
+    case types.FETCH_LEAVE_LIFECYCLE_SUCCESS:
+      return state;
+    
+    case types.FETCH_LEAVE_LIFECYCLE_FAILURE:
+      return state;
+    
     default:
       return state
   }

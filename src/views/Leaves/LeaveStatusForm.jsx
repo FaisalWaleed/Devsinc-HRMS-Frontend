@@ -15,6 +15,8 @@ import { Field, reduxForm } from 'redux-form';
 import {  DateRange, FlightTakeoff} from "material-ui-icons/index";
 import Radio, { RadioGroup } from 'material-ui/Radio';
 import { FormControlLabel } from 'material-ui/Form';
+import { fetchUserLeavesHistory } from "../../api/leave";
+import {fetchUserLeavesHistoryFailure, fetchUserLeavesHistorySuccess} from "../../actions/leave";
 
 class LeaveStatusForm extends React.Component{
   constructor(props){
@@ -25,6 +27,10 @@ class LeaveStatusForm extends React.Component{
     }
   }
   
+  componentDidMount(){
+    this.props.fetchUserLeavesHistory({user_id: parseInt(this.props.userId)});
+  }
+  
   handleStatusChange(event){
     this.setState({
       status: event.target.value
@@ -33,7 +39,7 @@ class LeaveStatusForm extends React.Component{
   }
   
   render(){
-    const {error, handleSubmit, submitting, closeModal } = this.props;
+    const {error, handleSubmit, submitting, closeModal, userLeaves } = this.props;
     
     return(
       <form onSubmit={handleSubmit}>
@@ -45,7 +51,7 @@ class LeaveStatusForm extends React.Component{
                   icon={FlightTakeoff}
                   iconColor="green"
                   title="This Year"
-                  description="7"
+                  description={ userLeaves ? userLeaves.year : null }
                   small="Leaves"
                   statIcon={DateRange}
                   statText="This Year"
@@ -56,7 +62,7 @@ class LeaveStatusForm extends React.Component{
                   icon={FlightTakeoff}
                   iconColor="orange"
                   title="This Month"
-                  description="1"
+                  description={ userLeaves ? userLeaves.month : null }
                   small="Leaves"
                   statIcon={DateRange}
                   statText="This Month"
@@ -67,7 +73,7 @@ class LeaveStatusForm extends React.Component{
                   icon={FlightTakeoff}
                   iconColor="red"
                   title="Quota"
-                  description="7/14"
+                  description={ userLeaves ? `${userLeaves.year}/x` : null}
                   small="Leaves"
                   statIcon={DateRange}
                   statText="This Year"
@@ -89,6 +95,7 @@ class LeaveStatusForm extends React.Component{
                 <Field name="comment" required="required" autoComplete="reason" type="text" custominputprops={{labelText: 'Comment (optional)'}} component={CustomInputWrapper} />
                 <Field name="status" required="required" autoComplete="status" type="hidden" component="input" />
                 <Field name="leave_id" required="required" autoComplete="leave_id" type="hidden" component="input" />
+                <Field name="user_id" required="required" autoComplete="user_id" type="hidden" component="input" />
               </ItemGrid>
             </Grid>
           </ItemGrid>
@@ -110,6 +117,13 @@ class LeaveStatusForm extends React.Component{
 function mapDispatchToProps(dispatch){
   return {
     closeModal: () => { dispatch(HIDE_MODAL) },
+    fetchUserLeavesHistory: (params) => {dispatch(fetchUserLeavesHistory(params,fetchUserLeavesHistorySuccess,fetchUserLeavesHistoryFailure))}
+  }
+}
+
+function mapStateToProps(state, ownProps){
+  return {
+    userLeaves: state.leaves.allUserLeavesHistory[ownProps.userId],
   }
 }
 
@@ -117,4 +131,4 @@ LeaveStatusForm = reduxForm({
   form: 'leave_status_form'
 })(LeaveStatusForm);
 
-export default connect(null,mapDispatchToProps)(LeaveStatusForm);
+export default connect(mapStateToProps,mapDispatchToProps)(LeaveStatusForm);

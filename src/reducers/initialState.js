@@ -31,6 +31,8 @@ const initialState = {
   leaves: {
     allLeaves: [],
     allLeaveApprovals: [],
+    allUserLeavesHistory: [],
+    allLeavesLifecycle: [],
     leavesTableYear: (new Date()).getFullYear()
   }
 };

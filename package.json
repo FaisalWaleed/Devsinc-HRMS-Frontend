@@ -20,6 +20,7 @@
     "react-chartist": "^0.13.1",
     "react-dates": "^16.6.1",
     "react-dom": "^16.2.0",
+    "react-event-timeline": "^1.5.1",
     "react-google-maps": "^9.4.5",
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.2.2",

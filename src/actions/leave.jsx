@@ -79,3 +79,39 @@ export const createLeaveStatusFailure = (payload) => {
     });
   }
 };
+
+export const fetchUserLeavesHistorySuccess = (payload) => {
+  return dispatch => {
+    dispatch({
+      type: types.FETCH_USER_LEAVES_HISTORY_SUCCESS,
+      payload
+    });
+  }
+};
+
+export const fetchUserLeavesHistoryFailure = (payload) => {
+  return dispatch => {
+    dispatch({
+      type: types.FETCH_USER_LEAVES_HISTORY_FAILURE,
+      payload
+    });
+  }
+};
+
+export const fetchLeaveLifeCycleSuccess = (payload) => {
+  return dispatch => {
+    dispatch({
+      type: types.FETCH_LEAVE_LIFECYCLE_SUCCESS,
+      payload
+    })
+  }
+};
+
+export const fetchLeaveLifeCycleFailure = (payload) => {
+  return dispatch => {
+    dispatch({
+      type: types.FETCH_LEAVE_LIFECYCLE_FAILURE,
+      payload
+    })
+  }
+};

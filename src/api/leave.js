@@ -53,3 +53,29 @@ export const createLeaveStatus = (params,successAction,failureAction) => {
     body: JSON.stringify({leave_status: params})
   },successAction,failureAction);
 };
+
+export const fetchUserLeavesHistory = (params,successAction,failureAction) => {
+  return request(`leaves/user_leaves_history?user_id=${params.user_id}`,{
+    method: 'GET',
+    headers: {
+      'client': localStorage.getItem('client'),
+      'uid': localStorage.getItem('uid'),
+      'access-token': localStorage.getItem('access-token'),
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    },
+  },successAction,failureAction);
+};
+
+export const fetchLeaveLifeCycle = (params,successAction,failureAction) => {
+  return request(`leave_statuses?leave_id=${params.leave_id}`, {
+    method: 'GET',
+    headers: {
+      'client': localStorage.getItem('client'),
+      'uid': localStorage.getItem('uid'),
+      'access-token': localStorage.getItem('access-token'),
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    }
+  },successAction,failureAction);
+};
