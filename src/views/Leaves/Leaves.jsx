@@ -362,7 +362,7 @@ class Leaves extends React.Component{
                                       {
                                         fullscreen: false,
                                         title: "Leave LifeCycle Timeline",
-                                        content: <LeavesLifeCycle leaveId={leaveApproval.id} />
+                                        content: <LeavesLifeCycle reason={leaveApproval.reason} leaveId={leaveApproval.id} />
                                       }
                                     ))
                                   }

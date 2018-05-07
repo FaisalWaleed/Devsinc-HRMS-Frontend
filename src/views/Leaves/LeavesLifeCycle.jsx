@@ -13,11 +13,11 @@ class LeavesLifeCycle extends React.Component{
   }
   
   render(){
-    const { leaveLifeCycle } = this.props;
+    const { leaveLifeCycle, reason } = this.props;
     return(
       <div>
         
-        { leaveLifeCycle ? <Timeline>
+        { leaveLifeCycle && <Timeline>
           {
             leaveLifeCycle.map((lifeCycleEvent, index) => {
               console.log(lifeCycleEvent);
@@ -45,11 +45,11 @@ class LeavesLifeCycle extends React.Component{
                                       lifeCycleEvent.status == "rejected by HR" && "#D84D30"
                                     }
               >
-                {lifeCycleEvent.comment}
+                {lifeCycleEvent.status == "pending" ? reason : lifeCycleEvent.comment}
               </TimelineEvent>
             })
           }
-        </Timeline> : <span>Sorry! Unable to load Timeline</span>}
+        </Timeline> }
       </div>
     )
   }
