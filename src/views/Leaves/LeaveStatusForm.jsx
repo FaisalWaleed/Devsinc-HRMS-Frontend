@@ -73,7 +73,7 @@ class LeaveStatusForm extends React.Component{
                   icon={FlightTakeoff}
                   iconColor="red"
                   title="Quota"
-                  description={ userLeaves ? `${userLeaves.year}/x` : null}
+                  description={ userLeaves ? `${userLeaves.year}/${userLeaves.quota}` : null}
                   small="Leaves"
                   statIcon={DateRange}
                   statText="This Year"

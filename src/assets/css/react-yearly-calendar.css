@@ -126,13 +126,21 @@ div.calendar-controls .today {
 }
 
 table.calendar td.pending {
-    background-color: rgba(249, 249, 13, 0.32);
+    background-color: #D8D739;
 }
 
-table.calendar td.approved {
-    background-color: rgba(23, 249, 12, 0.32);
+table.calendar td.pending_on_hr {
+    background-color: #9AD891;
 }
 
-table.calendar td.rejected {
-    background-color: rgba(255, 10, 20, 0.64);
+table.calendar td.approved_by_hr {
+    background-color: #2CD81F;
+}
+
+table.calendar td.rejected_by_reporting_to {
+    background-color: #D87D72;
+}
+
+table.calendar td.rejected_by_hr {
+    background-color: #D84D30;
 }

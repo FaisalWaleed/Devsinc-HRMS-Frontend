@@ -57,7 +57,7 @@ export const leave = (state=initialState.leaves, action) => {
       return state;
     
     case types.FETCH_LEAVE_LIFECYCLE_SUCCESS:
-      return state;
+      return {...state, allLeavesLifecycle: {...state.allLeavesLifecycle, [action.payload.leave_id] : action.payload.lifecycle } }
     
     case types.FETCH_LEAVE_LIFECYCLE_FAILURE:
       return state;

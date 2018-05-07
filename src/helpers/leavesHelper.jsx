@@ -5,7 +5,7 @@ export const getWeekDayDates = (startDate,endDate) => {
   let currentDate = new Date(startDate);
   endDate = new Date(endDate);
   while(currentDate <= endDate){
-    (currentDate.getDay() < 6 && currentDate.getDay() > 0 ) ? dates.push(moment(currentDate).format("YYYY-MM-DD")) : null ;
+    dates.push(moment(currentDate).format("YYYY-MM-DD"));
     currentDate.setDate(currentDate.getDate() + 1)
   }
   return dates;
@@ -13,19 +13,29 @@ export const getWeekDayDates = (startDate,endDate) => {
 
 export const getCalendarSelectionFromLeaves = (allLeaves) => {
   let calendarSelection = {
-    approved: [],
+    approved_by_reporting_to: [],
+    approved_by_hr: [],
     pending: [],
-    rejected: []
+    pending_on_hr: [],
+    rejected_by_reporting_to: [],
+    rejected_by_hr: []
   };
   
   allLeaves.forEach(function (leave) {
     let dates = [];
     switch (leave.status){
       //Cases should be class names that need to be applied
-      case "approved":
+      case "approved by Reporting to":
         dates = getWeekDayDates(leave.start_date,leave.end_date);
         dates.forEach(function (date) {
-          calendarSelection.approved.push(date);
+          calendarSelection.approved_by_reporting_to.push(date);
+        });
+        dates = [];
+        break;
+      case "approved by HR":
+        dates = getWeekDayDates(leave.start_date,leave.end_date);
+        dates.forEach(function (date) {
+          calendarSelection.approved_by_hr.push(date);
         });
         dates = [];
         break;
@@ -36,10 +46,24 @@ export const getCalendarSelectionFromLeaves = (allLeaves) => {
         });
         dates = [];
         break;
-      case "rejected":
+      case "pending on HR":
         dates = getWeekDayDates(leave.start_date,leave.end_date);
         dates.forEach(function (date) {
-          calendarSelection.rejected.push(date);
+          calendarSelection.pending_on_hr.push(date);
+        });
+        dates = [];
+        break;
+      case "rejected by Reporting to":
+        dates = getWeekDayDates(leave.start_date,leave.end_date);
+        dates.forEach(function (date) {
+          calendarSelection.rejected_by_reporting_to.push(date);
+        });
+        dates = [];
+        break;
+      case "rejected by HR":
+        dates = getWeekDayDates(leave.start_date,leave.end_date);
+        dates.forEach(function (date) {
+          calendarSelection.rejected_by_hr.push(date);
         });
         dates = [];
         break;

@@ -66,14 +66,20 @@ const styles = theme => ({
   legendAvatar:{
     margin: '3px',display: 'inline' ,padding: '10px', color: 'black', fontSize: '12px'
   },
-  appliedAvatar: {
-    backgroundColor: 'rgba(249, 249, 13, 0.32)'
+  pendingAvatar: {
+    backgroundColor: '#D8D739'
   },
-  approvedAvatar: {
-    backgroundColor: 'rgba(23, 249, 12, 0.32)'
+  approvedByReportingToAvatar: {
+    backgroundColor: '#9AD891'
   },
-  rejectedAvatar: {
-    backgroundColor: 'rgba(255, 10, 20, 0.64)'
+  approvedByHrAvatar: {
+    backgroundColor: '#2CD81F'
+  },
+  rejectedByReportingToAvatar: {
+    backgroundColor: '#D87D72'
+  },
+  rejectedByHrAvatar: {
+    backgroundColor: '#D84D30'
   },
 });
 
@@ -140,7 +146,6 @@ class Leaves extends React.Component{
   
   handleCreateLeaveStatusSubmit(values){
     this.props.createLeaveStatus(values);
-    console.log(values);
   }
   
   handleTab = (event, tab) => {
@@ -186,9 +191,11 @@ class Leaves extends React.Component{
                     <Create className={classes.rightIcon}/>
                   </Button>
                   <br/>
-                  <Avatar className={classNames(classes.legendAvatar, classes.approvedAvatar)}>Approved</Avatar>
-                  <Avatar className={classNames(classes.legendAvatar, classes.appliedAvatar)}>Applied</Avatar>
-                  <Avatar className={classNames(classes.legendAvatar, classes.rejectedAvatar)}>Rejected</Avatar>
+                  <Avatar className={classNames(classes.legendAvatar, classes.pendingAvatar)}>Pending</Avatar>
+                  <Avatar className={classNames(classes.legendAvatar, classes.approvedByReportingToAvatar)}>Pending on HR</Avatar>
+                  <Avatar className={classNames(classes.legendAvatar, classes.approvedByHrAvatar)}>Approved</Avatar>
+                  <Avatar className={classNames(classes.legendAvatar, classes.rejectedByReportingToAvatar)}>Rejected by Reporting to</Avatar>
+                  <Avatar className={classNames(classes.legendAvatar, classes.rejectedByHrAvatar)}>Rejected By HR</Avatar>
                   
                   <Grid container>
                     <Grid item xs={12} sm={12} md={12}>
@@ -314,7 +321,7 @@ class Leaves extends React.Component{
                                       types.CONTENT_MODAL,
                                       {
                                         fullscreen: false,
-                                        title: "LEAVE LIFECYCLE HERE",
+                                        title: "Leave LifeCycle Timeline",
                                         content: <LeavesLifeCycle leaveId={leaveApproval.id} />
                                       }
                                     ))
