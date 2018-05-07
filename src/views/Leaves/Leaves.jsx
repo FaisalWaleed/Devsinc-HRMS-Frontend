@@ -116,7 +116,7 @@ class Leaves extends React.Component{
       tab: 0,
     }
   }
-  
+
   handleLeavesFilterToggleSwitch = (toggleName) => {
     this.setState(
       (prevState) => ({
@@ -131,11 +131,11 @@ class Leaves extends React.Component{
         }
       });
   };
-  
+
   componentDidMount(){
     this.props.fetchLeaves();
   }
-  
+
   componentWillReceiveProps(nextProps){
     let parsedLeaves = getCalendarSelectionFromLeaves(nextProps.allLeaves);
     this.setState({
@@ -143,26 +143,26 @@ class Leaves extends React.Component{
       allParsedLeaves: parsedLeaves
     });
   }
-  
+
   handleCreateLeaveSubmit(values){
     values.start_date = values.start_date.format("YYYY-MM-DD");
     values.end_date = values.end_date.format("YYYY-MM-DD");
     this.props.createLeave(values);
   }
-  
+
   handleCreateLeaveStatusSubmit(values){
     this.props.createLeaveStatus(values);
   }
-  
+
   handleTab = (event, tab) => {
     this.setState({ tab });
   };
-  
-  
-  
+
+
+
   render(){
     const { classes, year, allLeaveApprovals } = this.props;
-    
+
     return(
       <Grid container>
         <ItemGrid xs={12} sm={12} md={12}>
@@ -202,7 +202,7 @@ class Leaves extends React.Component{
                   <Avatar className={classNames(classes.legendAvatar, classes.approvedByHrAvatar)}>Approved</Avatar>
                   <Avatar className={classNames(classes.legendAvatar, classes.rejectedByReportingToAvatar)}>Rejected by Reporting to</Avatar>
                   <Avatar className={classNames(classes.legendAvatar, classes.rejectedByHrAvatar)}>Rejected By HR</Avatar>
-                  
+
                   <Grid container>
                     <Grid item xs={12} sm={12} md={12}>
                       <div className={classes.demo}>
@@ -216,7 +216,7 @@ class Leaves extends React.Component{
                           }
                           label="Approved by Reporting To"
                         />
-  
+
                         <FormControlLabel
                           control={
                             <Switch
@@ -227,7 +227,7 @@ class Leaves extends React.Component{
                           }
                           label="Approved by HR"
                         />
-  
+
                         <FormControlLabel
                           control={
                             <Switch
@@ -238,7 +238,7 @@ class Leaves extends React.Component{
                           }
                           label="Pending"
                         />
-  
+
                         <FormControlLabel
                           control={
                             <Switch
@@ -249,7 +249,7 @@ class Leaves extends React.Component{
                           }
                           label="Pending On HR"
                         />
-  
+
                         <FormControlLabel
                           control={
                             <Switch
@@ -260,7 +260,7 @@ class Leaves extends React.Component{
                           }
                           label="Rejected by Reporting To"
                         />
-  
+
                         <FormControlLabel
                           control={
                             <Switch
@@ -271,8 +271,8 @@ class Leaves extends React.Component{
                           }
                           label="Rejected by HR"
                         />
-                        
-                        
+
+
                         <CalendarControls
                           year={year}
                           onNextYear={this.props.nextLeaveYear}
@@ -340,7 +340,7 @@ class Leaves extends React.Component{
                   />
                   <hr/>
                   <br/>
-                  
+
                   <Grid container>
                     <Grid item xs={12} sm={12} md={12}>
                       <div className={classes.demo}>
@@ -361,7 +361,7 @@ class Leaves extends React.Component{
                                       types.CONTENT_MODAL,
                                       {
                                         fullscreen: false,
-                                        title: "Leave LifeCycle Timeline",
+                                        title: `Leave application by ${leaveApproval.username} for ${moment(leaveApproval.end_date).diff(moment(leaveApproval.start_date),'days')} Days`,
                                         content: <LeavesLifeCycle reason={leaveApproval.reason} leaveId={leaveApproval.id} />
                                       }
                                     ))
@@ -389,8 +389,8 @@ class Leaves extends React.Component{
                                     {leaveApproval.status === "rejected by Reporting to" ? <Tooltip title={<div>{leaveApproval.comment ? leaveApproval.comment : "No comment" }</div>}><Chip style={{backgroundColor: '#d87d72'}} label="Rejected" className={classes.chip} /></Tooltip> : null }
                                     {leaveApproval.status === "rejected by HR" ? <Tooltip title={<div>{leaveApproval.comment ? leaveApproval.comment : "No comment" }</div>}><Chip style={{backgroundColor: '#d84d30'}} label="Rejected by HR" className={classes.chip} /></Tooltip> : null }
                                   </span>
-                                  
-                                  {leaveApproval.status === "pending" ? <span>
+
+                                  {leaveApproval.status === "pending" || "approved by Reporting to" ? <span>
                                     <IconButton variant="fab" color="primary"
                                                 onClick={ () => {
                                                   this.props.openModal(
@@ -426,7 +426,7 @@ class Leaves extends React.Component{
             }
           />
         </ItemGrid>
-      
+
       </Grid>
     )
   }
