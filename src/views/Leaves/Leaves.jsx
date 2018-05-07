@@ -93,9 +93,12 @@ class Leaves extends React.Component{
         id: -1
       },
       leavesFilter: {
-        approved: true,
-        rejected: true,
+        approved_by_reporting_to: true,
+        approved_by_hr: true,
         pending: true,
+        pending_on_hr: true,
+        rejected_by_reporting_to: true,
+        rejected_by_hr: true
       },
       allParsedLeaves: {
         approved: [],
@@ -103,9 +106,12 @@ class Leaves extends React.Component{
         pending: []
       },
       currentlyDisplayedLeaves: {
-        approved: [],
-        rejected: [],
-        pending: []
+        approved_by_reporting_to: [],
+        approved_by_hr: [],
+        pending: [],
+        pending_on_hr: [],
+        rejected_by_reporting_to: [],
+        rejected_by_hr: []
       },
       tab: 0,
     }
@@ -203,14 +209,25 @@ class Leaves extends React.Component{
                         <FormControlLabel
                           control={
                             <Switch
-                              checked={this.state.leavesFilter.approved}
-                              onClick={this.handleLeavesFilterToggleSwitch.bind(this,"approved")}
-                              value="Approved"
+                              checked={this.state.leavesFilter.approved_by_reporting_to}
+                              onClick={this.handleLeavesFilterToggleSwitch.bind(this,"approved_by_reporting_to")}
+                              value="Approved by Reporting To"
                             />
                           }
-                          label="Approved"
+                          label="Approved by Reporting To"
                         />
-                        
+  
+                        <FormControlLabel
+                          control={
+                            <Switch
+                              checked={this.state.leavesFilter.approved_by_hr}
+                              onClick={this.handleLeavesFilterToggleSwitch.bind(this,"approved_by_hr")}
+                              value="Approved by HR"
+                            />
+                          }
+                          label="Approved by HR"
+                        />
+  
                         <FormControlLabel
                           control={
                             <Switch
@@ -221,17 +238,40 @@ class Leaves extends React.Component{
                           }
                           label="Pending"
                         />
-                        
+  
                         <FormControlLabel
                           control={
                             <Switch
-                              checked={this.state.leavesFilter.rejected}
-                              onClick={this.handleLeavesFilterToggleSwitch.bind(this,"rejected")}
-                              value="Rejected"
+                              checked={this.state.leavesFilter.pending_on_hr}
+                              onClick={this.handleLeavesFilterToggleSwitch.bind(this,"pending_on_hr")}
+                              value="Pending On HR"
                             />
                           }
-                          label="Rejected"
+                          label="Pending On HR"
                         />
+  
+                        <FormControlLabel
+                          control={
+                            <Switch
+                              checked={this.state.leavesFilter.rejected_by_reporting_to}
+                              onClick={this.handleLeavesFilterToggleSwitch.bind(this,"rejected_by_reporting_to")}
+                              value="Rejected by Reporting To"
+                            />
+                          }
+                          label="Rejected by Reporting To"
+                        />
+  
+                        <FormControlLabel
+                          control={
+                            <Switch
+                              checked={this.state.leavesFilter.rejected_by_hr}
+                              onClick={this.handleLeavesFilterToggleSwitch.bind(this,"rejected_by_hr")}
+                              value="Rejected by HR"
+                            />
+                          }
+                          label="Rejected by HR"
+                        />
+                        
                         
                         <CalendarControls
                           year={year}
