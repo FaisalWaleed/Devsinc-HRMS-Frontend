@@ -55,6 +55,7 @@ const sidebarStyle = theme => ({
     position: "relative",
     padding: "15px 15px",
     zIndex: "4",
+    backgroundColor: "rgba(255,255,255,1)",
     "&:after": {
       content: '""',
       position: "absolute",
@@ -89,7 +90,7 @@ const sidebarStyle = theme => ({
     marginRight: "15px"
   },
   img: {
-    width: "35px",
+    width: "150px",
     top: "22px",
     position: "absolute",
     verticalAlign: "middle",
@@ -168,11 +169,11 @@ const sidebarStyle = theme => ({
     }
   },
   blue: {
-    backgroundColor: infoColor,
+    backgroundColor: primaryColor,
     boxShadow:
       "0 12px 20px -10px rgba(0,188,212,.28), 0 4px 20px 0 rgba(0,0,0,.12), 0 7px 8px -5px rgba(0,188,212,.2)",
     "&:hover": {
-      backgroundColor: infoColor,
+      backgroundColor: primaryColor,
       boxShadow:
         "0 12px 20px -10px rgba(0,188,212,.28), 0 4px 20px 0 rgba(0,0,0,.12), 0 7px 8px -5px rgba(0,188,212,.2)"
     }

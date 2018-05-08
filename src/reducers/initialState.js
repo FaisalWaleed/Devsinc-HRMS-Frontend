@@ -28,6 +28,13 @@ const initialState = {
     ticketComments: {},
     ticketStatuses: {}
   },
+  leaves: {
+    allLeaves: [],
+    allLeaveApprovals: [],
+    allUserLeavesHistory: [],
+    allLeavesLifecycle: [],
+    leavesTableYear: (new Date()).getFullYear()
+  }
 };
 
 export default initialState;

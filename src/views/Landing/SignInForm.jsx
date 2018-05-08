@@ -14,7 +14,7 @@ import {
 let SignInForm = props => {
   const { error,handleSubmit, submitting } = props;
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} onKeyUp={(event) => {(event.key === "Enter" ? handleSubmit() : null )}}>
       <Grid container>
         <ItemGrid xs={12} sm={12} md={8}>
           <RegularCard

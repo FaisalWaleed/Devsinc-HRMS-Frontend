@@ -17,104 +17,108 @@ import EditRolesPage from "views/Roles/Edit.jsx";
 import ShowRolesPage from "views/Roles/Role.jsx";
 
 import {
-    Dashboard,
-    Person,
-    ContentPaste,
-    LibraryBooks,
-    BubbleChart,
-    LocationOn,
-    Notifications
+  Dashboard,
+  Person,
+  ContentPaste,
+  LibraryBooks,
+  BubbleChart,
+  LocationOn,
+  Notifications,
+  ErrorOutline,
+  FlightTakeoff
 } from "material-ui-icons";
+import Tickets from "../views/Tickets/Tickets";
+import Leaves from "../views/Leaves/Leaves";
 
 const appRoutes = [
   {
-      path: "/dashboard",
-      sidebarName: "Dashboard",
-      navbarName: "Material Dashboard",
-      icon: Dashboard,
-      component: DashboardPage,
+    path: "/dashboard",
+    sidebarName: "Dashboard",
+    navbarName: "Material Dashboard",
+    icon: Dashboard,
+    component: DashboardPage,
   },
   {
-      path: "/users/profile",
-      sidebarName: "User Profile",
-      navbarName: "Profile",
-      icon: Person,
-      component: ProfilePage,
-      exact: true
+    path: "/users/profile",
+    sidebarName: "User Profile",
+    navbarName: "Profile",
+    icon: Person,
+    component: ProfilePage,
+    exact: true
   },
   {
-      path: "/table",
-      sidebarName: "Table List",
-      navbarName: "Table List",
-      icon: ContentPaste,
-      component: TableList
+    path: "/table",
+    sidebarName: "Table List",
+    navbarName: "Table List",
+    icon: ContentPaste,
+    component: TableList
   },
   {
-      path: "/typography",
-      sidebarName: "Typography",
-      navbarName: "Typography",
-      icon: LibraryBooks,
-      component: Typography
+    path: "/typography",
+    sidebarName: "Typography",
+    navbarName: "Typography",
+    icon: LibraryBooks,
+    component: Typography
   },
   {
-      path: "/icons",
-      sidebarName: "Icons",
-      navbarName: "Icons",
-      icon: BubbleChart,
-      component: Icons
+    path: "/icons",
+    sidebarName: "Icons",
+    navbarName: "Icons",
+    icon: BubbleChart,
+    component: Icons
   },
   {
-      path: "/maps",
-      sidebarName: "Maps",
-      navbarName: "Map",
-      icon: LocationOn,
-      component: Maps
+    path: "/maps",
+    sidebarName: "Maps",
+    navbarName: "Map",
+    icon: LocationOn,
+    component: Maps
   },
   {
-      path: "/notifications",
-      sidebarName: "Notifications",
-      navbarName: "Notifications",
-      icon: Notifications,
-      component: NotificationsPage
+    path: "/notifications",
+    sidebarName: "Notifications",
+    navbarName: "Notifications",
+    icon: Notifications,
+    component: NotificationsPage
   },
   {
-      path: "/login",
-      sidebarName: "Landing",
-      navbarName: "Landing",
-      icon: Notifications,
-      component: LandingPage,
-      unprotected: true
+    path: "/login",
+    sidebarName: "Landing",
+    navbarName: "Landing",
+    icon: Notifications,
+    component: LandingPage,
+    unprotected: true
   },
   {
-      path: "/departments",
-      sidebarName: "Departments",
-      navbarName: "Departments",
-      icon: Notifications,
-      exact: true,
-      component: DepartmentsPage
+    path: "/departments",
+    sidebarName: "Departments",
+    navbarName: "Departments",
+    icon: Notifications,
+    exact: true,
+    component: DepartmentsPage
   },
   {
-      path: "/departments/new",
-      sidebarName: "New Department",
-      navbarName: "New Department",
-      icon: Notifications,
-      component: NewDepartmentsPage,
-      notSidebar: true
+    path: "/departments/new",
+    sidebarName: "New Department",
+    navbarName: "New Department",
+    icon: Notifications,
+    component: NewDepartmentsPage,
+    notSidebar: true
   },
   {
-      path: "/departments/edit/:id",
-      sidebarName: "Edit Department",
-      navbarName: "Edit Department",
-      icon: Notifications,
-      component: EditDepartmentsPage,
-      notSidebar: true
+    path: "/departments/edit/:id",
+    sidebarName: "Edit Department",
+    navbarName: "Edit Department",
+    icon: Notifications,
+    component: EditDepartmentsPage,
+    notSidebar: true
   },
   {
-      path: "/manageusers",
-      sidebarName: "Manage Users",
-      navbarName: "Manage USers",
-      icon: Person,
-      component: ManageUsers
+    path: "/manageusers",
+    sidebarName: "Manage Users",
+    navbarName: "Manage USers",
+    icon: Person,
+    component: ManageUsers
   },
   {
     path: "/roles",
@@ -147,6 +151,20 @@ const appRoutes = [
     icon: Notifications,
     component: ShowRolesPage,
     notSidebar: true
+  },
+  {
+    path: "/tickets",
+    sidebarName: "Tickets",
+    navbarName: "Tickets",
+    icon: ErrorOutline,
+    component: Tickets
+  },
+  {
+    path: "/leaves",
+    sidebarName: "Leaves",
+    navbarName: "Leaves",
+    icon: FlightTakeoff,
+    component: Leaves
   },
   { redirect: true, path: "/", to: "/dashboard", navbarName: "Redirect" }
 ];

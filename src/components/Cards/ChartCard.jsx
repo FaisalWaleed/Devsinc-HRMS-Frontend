@@ -62,7 +62,7 @@ function ChartCard({ ...props }) {
 
 ChartCard.defaultProps = {
   statIconColor: "gray",
-  chartColor: "purple"
+  chartColor: "blue"
 };
 
 ChartCard.propTypes = {

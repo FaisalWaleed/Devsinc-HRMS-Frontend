@@ -17,13 +17,13 @@ class ModalRoot extends React.Component{
 
   render(){
     if(!this.props.modalType){
-      return this.props.children
+      return null
     }
     else{
       const Modal = MODAL_COMPONENTS[this.props.modalType];
-      return([
-        <Modal key="1" {...this.props.modalProps}/>,this.props.children
-      ]);
+      return(
+        <Modal key="1" {...this.props.modalProps}/>
+      );
     }
   }
 }

@@ -69,7 +69,7 @@ function StatsCard({ ...props }) {
 }
 
 StatsCard.defaultProps = {
-  iconColor: "purple",
+  iconColor: "blue",
   statIconColor: "gray"
 };
 

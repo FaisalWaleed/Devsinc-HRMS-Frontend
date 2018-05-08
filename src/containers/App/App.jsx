@@ -9,8 +9,8 @@ import { Header, Footer, Sidebar } from "components";
 import ModalRoot from '../../components/Modals/ModalRoot';
 import appRoutes from "routes/app.jsx";
 import appStyle from "variables/styles/appStyle.jsx";
-import image from "assets/img/sidebar-2.jpg";
-import logo from "assets/img/reactlogo.png";
+import image from "assets/img/sidebar.jpg";
+import logo from "assets/img/devsinc_logo.png";
 import { generateRequireSignInWrapper } from "redux-token-auth";
 import MomentUtils from 'material-ui-pickers/utils/moment-utils';
 import MuiPickersUtilsProvider from 'material-ui-pickers/utils/MuiPickersUtilsProvider'
@@ -41,11 +41,11 @@ class App extends React.Component {
   getRoute() {
     return this.props.location.pathname !== "/maps";
   }
-
+  
   checkLoginPath(){
     return this.props.location.pathname === "/login";
   }
-
+  
   componentDidMount() {
     if(navigator.platform.indexOf('Win') > -1){
       // eslint-disable-next-line
@@ -59,12 +59,12 @@ class App extends React.Component {
     const { classes, ...rest } = this.props;
     return (
       <MuiPickersUtilsProvider utils={MomentUtils}>
-        <ModalRoot>
+        <div>
+          <ModalRoot />
           <div className={classes.wrapper}>
             {this.checkLoginPath() ? null :
               <Sidebar
                 routes={appRoutes}
-                logoText={"Creative Tim"}
                 logo={logo}
                 image={image}
                 handleDrawerToggle={this.handleDrawerToggle}
@@ -92,7 +92,7 @@ class App extends React.Component {
               {this.checkLoginPath() ? null : <Footer />}
             </div>
           </div>
-        </ModalRoot>
+        </div>
       </MuiPickersUtilsProvider>
     );
   }
