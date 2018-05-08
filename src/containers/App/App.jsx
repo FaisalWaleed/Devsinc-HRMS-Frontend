@@ -53,6 +53,10 @@ class App extends React.Component {
     }
   }
   componentDidUpdate() {
+    if(!this.checkLoginPath() && localStorage.getItem("permissions") === null){
+      //send call here and get perms
+      console.log("No perms found")
+    }
     this.refs.mainPanel.scrollTop = 0;
   }
   render() {
