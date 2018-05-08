@@ -277,8 +277,6 @@ class Leaves extends React.Component{
                           year={year}
                           onNextYear={this.props.nextLeaveYear}
                           onPrevYear={this.props.prevLeaveYear}
-                          goToToday={() => alert(3)}
-                          showTodayButton={true}
                         />
                         <Calendar
                           customClasses={this.state.currentlyDisplayedLeaves}
