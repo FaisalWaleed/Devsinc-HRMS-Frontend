@@ -1,27 +1,27 @@
 import React from "react";
 import { Grid } from "material-ui";
 
-import { 
-  RegularCard, 
-  Table, 
-  ItemGrid 
+import {
+  RegularCard,
+  Table,
+  ItemGrid,
+  Button
 } from "components";
 
 import { connect } from "react-redux";
-import { 
-  fetchRoles, 
-  deleteRole 
+import {
+  fetchRoles,
+  deleteRole
 } from "api/role"
 import { values, map, drop } from 'lodash';
-import RegularButton from "components/CustomButtons/Button"
 import { Link } from "react-router-dom";
 import { Delete, Edit, Visibility } from "material-ui-icons";
 
-import { 
-  fetchRolesSuccess, 
-  fetchRolesFailure, 
-  deleteRoleSuccess, 
-  deleteRoleFailure 
+import {
+  fetchRolesSuccess,
+  fetchRolesFailure,
+  deleteRoleSuccess,
+  deleteRoleFailure
 } from "actions/role";
 
 class Roles extends React.Component {
@@ -29,7 +29,7 @@ class Roles extends React.Component {
     // this.props.const { dispatch } = this.props;
     this.props.fetchRoles(fetchRolesSuccess, fetchRolesFailure);
   }
-
+  
   roleWithButtons = (role) => {
     const { id, title, description, department_id } = role;
     const requiredFields = [title, description, department_id]
@@ -38,39 +38,42 @@ class Roles extends React.Component {
       <Link to={`/roles/${id}`}><Visibility /></Link>,
       <Link to={`/roles/edit/${id}`}><Edit /></Link>,
       <Delete onClick={() => this.props.onDeleteRole(id, deleteRoleSuccess, deleteRoleFailure)}/>
-    ];  
+    ];
   }
-
+  
   render() {
     const roles = map(this.props.roles, this.roleWithButtons);
-
+    
     return (
-      <div>
-        <RegularButton>
-          <Link to="/roles/new">New Role</Link>
-        </RegularButton>
-        <Grid container>
-          <ItemGrid xs={12} sm={12} md={12}>
-            <RegularCard
-              cardTitle="All Roles"
-              cardSubtitle="Here is a list of all roles for the company"
-              content={
+      <Grid container>
+        <ItemGrid xs={12} sm={12} md={12}>
+          <RegularCard
+            cardTitle="All Roles"
+            cardSubtitle="Here is a list of all roles for the company"
+            content={
+              <div>
+                <Button color="primary">
+                  <Link style={{color: 'white'}} to="/roles/new">New Role</Link>
+                </Button>
+                <Button color="primary">
+                  <Link style={{color: 'white'}} to="/roles/permissions">Modify Permissions</Link>
+                </Button>
                 <Table
                   tableHeaderColor="primary"
                   tableHead={["Title", "Description", "Department", "show", "Edit", "Delete"]}
                   tableData={roles}
                 />
-              }
-            />
-          </ItemGrid>
-        </Grid>
-      </div>
+              </div>
+            }
+          />
+        </ItemGrid>
+      </Grid>
     );
   }
 }
 function mapStateToProps({ roles }) {
-  return { 
-    roles: roles.roles 
+  return {
+    roles: roles.roles
   };
 }
 const mapDispatchToProps = {

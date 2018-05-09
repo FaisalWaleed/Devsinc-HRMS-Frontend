@@ -1,7 +1,7 @@
 import request from "./request";
 
 export const fetchUsers = (successAction, failureAction) => {
-    return request('admin/users', {}, successAction, failureAction);
+    return request('admin/users', {}, successAction, failureAction, true);
 };
 
 export const editUser = (params, successAction, failureAction) => {
@@ -12,18 +12,18 @@ export const editUser = (params, successAction, failureAction) => {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify(params)
-    },successAction,failureAction);
+    },successAction,failureAction, true);
 };
 
 export const deleteUser = (userId,successAction,failureAction) => {
     return request(`admin/users/${userId}`,{
         method: 'DELETE',
-    },successAction,failureAction);
-}
+    },successAction,failureAction, true);
+};
 
 export const getProfile = (id , successAction, failureAction) => {
-  return request(`admin/users/${id}`, {}, successAction, failureAction);
-}
+  return request(`admin/users/${id}`, {}, successAction, failureAction, true);
+};
 
 export const updateProfile = (params, id, successAction, failureAction) => {
   return request(`admin/users/${id}`, {
@@ -33,5 +33,5 @@ export const updateProfile = (params, id, successAction, failureAction) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(params)
-  }, successAction, failureAction);
-}
+  }, successAction, failureAction,true);
+};
