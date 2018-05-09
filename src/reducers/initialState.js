@@ -34,7 +34,8 @@ const initialState = {
     allUserLeavesHistory: [],
     allLeavesLifecycle: [],
     leavesTableYear: (new Date()).getFullYear()
-  }
+  },
+  permissions: []
 };
 
 export default initialState;

@@ -72,7 +72,6 @@ class Permissions extends React.Component{
                           <TableCell numeric>2</TableCell>
                           <TableCell numeric>3</TableCell>
                           <TableCell numeric>4</TableCell>
-                          <TableCell numeric>5</TableCell>
                         </TableRow>
                       </TableBody>
                     </Table>

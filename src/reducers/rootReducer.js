@@ -7,6 +7,7 @@ import { modalReducer } from "./modalReducer";
 import { ticketReducer } from "./ticketReducer";
 import { role } from './role';
 import { leave } from "./leave";
+import { permission } from "./permission";
 
 const rootReducer = combineReducers({
   departments: department,
@@ -16,7 +17,8 @@ const rootReducer = combineReducers({
   modals: modalReducer,
   tickets: ticketReducer,
   roles: role,
-  leaves: leave
+  leaves: leave,
+  permissions: permission
 });
 
 export default rootReducer;

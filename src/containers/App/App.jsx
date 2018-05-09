@@ -13,7 +13,10 @@ import image from "assets/img/sidebar.jpg";
 import logo from "assets/img/devsinc_logo.png";
 import { generateRequireSignInWrapper } from "redux-token-auth";
 import MomentUtils from 'material-ui-pickers/utils/moment-utils';
-import MuiPickersUtilsProvider from 'material-ui-pickers/utils/MuiPickersUtilsProvider'
+import MuiPickersUtilsProvider from 'material-ui-pickers/utils/MuiPickersUtilsProvider';
+import { connect } from 'react-redux';
+import { fetchPermissions } from '../../api/permission'
+import {fetchPermissionFailure, fetchPermissionSuccess} from "../../actions/permission";
 
 const requireSignIn = generateRequireSignInWrapper({
   redirectPathIfNotSignedIn: '/login',
@@ -54,8 +57,7 @@ class App extends React.Component {
   }
   componentDidUpdate() {
     if(!this.checkLoginPath() && localStorage.getItem("permissions") === null){
-      //send call here and get perms
-      console.log("No perms found")
+      this.props.fetchPermissions();
     }
     this.refs.mainPanel.scrollTop = 0;
   }
@@ -106,4 +108,16 @@ App.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(appStyle)(App);
+function mapStateToProps(state){
+  return {
+    permissions: state.permissions
+  }
+}
+
+function mapDispatchToProps(dispatch){
+  return {
+    fetchPermissions: () => {dispatch(fetchPermissions(fetchPermissionSuccess,fetchPermissionFailure))}
+  }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(withStyles(appStyle)(App));
