@@ -16,7 +16,9 @@ import {
   fetchRolesSuccess,
   fetchRolesFailure,
 } from "../../actions/role";
-import { fetchRoles } from "../../api/role"
+import { fetchRoles } from "../../api/role";
+import { fetchPermissionsObject } from "../../api/permission";
+import {fetchPermissionsObjectFailure, fetchPermissionsObjectSuccess} from "../../actions/permission";
 
 const styles = theme => ({
   root: {
@@ -36,11 +38,12 @@ class Permissions extends React.Component{
   
   componentDidMount(){
     this.props.fetchRoles();
+    this.props.fetchPermissionsObject();
   }
   
   render(){
-    const { classes, roles } = this.props;
-  
+    const { classes, roles, permissionsObject } = this.props;
+    
     return(
       <Grid container>
         <ItemGrid xs={12} sm={12} md={12}>
@@ -49,34 +52,41 @@ class Permissions extends React.Component{
             cardSubtitle="Assign or Revoke Permissions from Roles"
             content={
               <div>
-                <ExpansionPanel>
-                  <ExpansionPanelSummary expandIcon={<ExpandMore />}>
-                    <span>Tickets</span>
-                  </ExpansionPanelSummary>
-                  <ExpansionPanelDetails>
-                    <Table className={classes.table}>
-                      <TableHead>
-                        <TableRow>
-                          <TableCell>Permission Modules</TableCell>
-                          {
-                            roles && roles.map((role, index) => (
-                            <TableCell key={index}>{role.title}</TableCell>
-                          ))
-                          }
-                        </TableRow>
-                      </TableHead>
-                      <TableBody>
-                        <TableRow key={1}>
-                          <TableCell component="th" scope="row">Create Ticket</TableCell>
-                          <TableCell numeric>1</TableCell>
-                          <TableCell numeric>2</TableCell>
-                          <TableCell numeric>3</TableCell>
-                          <TableCell numeric>4</TableCell>
-                        </TableRow>
-                      </TableBody>
-                    </Table>
-                  </ExpansionPanelDetails>
-                </ExpansionPanel>
+                {
+                  Object.keys(permissionsObject).map( (group,index) => (
+                    <ExpansionPanel key={index}>
+                      <ExpansionPanelSummary expandIcon={<ExpandMore />}>
+                        <span>{group}</span>
+                      </ExpansionPanelSummary>
+                      <ExpansionPanelDetails>
+                        <Table className={classes.table}>
+                          <TableHead>
+                            <TableRow>
+                              <TableCell>Permissions</TableCell>
+                              {
+                                roles && roles.map((role, index) => (
+                                  <TableCell key={index}>{role.title}</TableCell>
+                                ))
+                              }
+                            </TableRow>
+                          </TableHead>
+                          <TableBody>
+                            { permissionsObject[group].map( (value,index) => (
+                              <TableRow key={index}>
+                                <TableCell component="th" scope="row">{value.permission_display}</TableCell>
+                                <TableCell numeric>Yes no based on value.allowed_for</TableCell>
+                                <TableCell numeric>2</TableCell>
+                                <TableCell numeric>3</TableCell>
+                                <TableCell numeric>4</TableCell>
+                              </TableRow>
+                            ) )}
+                          </TableBody>
+                        </Table>
+                      </ExpansionPanelDetails>
+                    </ExpansionPanel>
+                  ))
+                }
+                
               </div>
             }
           />
@@ -88,13 +98,15 @@ class Permissions extends React.Component{
 
 function mapStateToProps(state){
   return {
-    roles: state.roles.roles
+    roles: state.roles.roles,
+    permissionsObject: state.permissions.permissionsObj
   }
 }
 
 function mapDispatchToProps(dispatch){
     return {
-      fetchRoles: () => {dispatch(fetchRoles(fetchRolesSuccess,fetchRolesFailure))}
+      fetchRoles: () => {dispatch(fetchRoles(fetchRolesSuccess,fetchRolesFailure))},
+      fetchPermissionsObject: () => {dispatch(fetchPermissionsObject(fetchPermissionsObjectSuccess,fetchPermissionsObjectFailure))}
     }
 }
 

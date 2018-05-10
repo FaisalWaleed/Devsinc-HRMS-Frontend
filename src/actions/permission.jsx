@@ -13,3 +13,17 @@ export const fetchPermissionFailure = (payload) => {
     payload
   }
 };
+
+export const fetchPermissionsObjectSuccess = (payload) => {
+  return {
+    type: types.FETCH_PERMISSIONS_OBJECT_SUCCESS,
+    payload
+  }
+};
+
+export const fetchPermissionsObjectFailure = (payload) => {
+  return {
+    type: types.FETCH_PERMISSIONS_OBJECT_FAILURE,
+    payload
+  }
+};
