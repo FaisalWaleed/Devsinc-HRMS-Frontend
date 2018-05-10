@@ -9,19 +9,19 @@ export const createRole = (params, successAction, failureAction) => {
     },
     body: JSON.stringify(params)
   }, successAction, failureAction, true);
-}
+};
 
 export const fetchRoles = (successAction, failureAction) => {
   return request('admin/roles', {}, successAction, failureAction, true);
-}
+};
 
 export const deleteRole = (params, successAction, failureAction) => {
   return request(`admin/roles/${params}`, { method: 'DELETE' }, successAction, failureAction, true);
-}
+};
 
 export const getRole = (id , successAction, failureAction) => {
   return request(`admin/roles/${id}`, {}, successAction, failureAction, true);
-}
+};
 
 export const updateRole = (params, id, successAction, failureAction) => {
   return request(`admin/roles/${id}`, {
@@ -32,12 +32,12 @@ export const updateRole = (params, id, successAction, failureAction) => {
     },
     body: JSON.stringify(params)
   }, successAction, failureAction, true);
-}
+};
 
 export const fetchUsersForRole = (id , successAction, failureAction) => {
   console.log("about to fetch users for role");
   return request(`admin/roles/${id}/assignable_users`, {}, successAction, failureAction, true);
-}
+};
 
 export const addUsersToRole = (params, successAction, failureAction) => {
   return request(`admin/roles/${params.role_id}/add_users`, {
@@ -48,7 +48,7 @@ export const addUsersToRole = (params, successAction, failureAction) => {
     },
     body: JSON.stringify(params)
   }, successAction, failureAction);
-}
+};
 
 export const removeUserFromRole = (params, successAction, failureAction) => {
   return request(`admin/roles/${params.role_id}/remove_user`, {
@@ -59,4 +59,26 @@ export const removeUserFromRole = (params, successAction, failureAction) => {
     },
     body: JSON.stringify(params)
   }, successAction, failureAction);
-}
+};
+
+export const allowPermissionToRole = (params,successAction,failureAction) => {
+  return request(`admin/role/${params.role_id}/allow_permission`,{
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: {role: JSON.stringify(params) }
+  },successAction,failureAction);
+};
+
+export const revokePermissionFromRole = (params,successAction,failureAction) => {
+  return request(`admin/role/${params.role_id}/revoke_permission`,{
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: {role: JSON.stringify(params) }
+  },successAction,failureAction);
+};

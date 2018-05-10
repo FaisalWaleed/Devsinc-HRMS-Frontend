@@ -1,4 +1,4 @@
-// import { FETCH_ROLES } from "actions/actionTypes";
+import * as types from "./actionTypes";
 
 export const createRoleSuccess = (payload) => ({
   type: "CREATE_ROLE_SUCCESS",
@@ -77,5 +77,25 @@ export const removeUserFromRoleSuccess = (payload) => ({
 
 export const removeUserFromRoleFailure = (payload) => ({
   type: "REMOVE_USERS_FROM_ROLE_FAILURE",
+  payload
+});
+
+export const allowPermissionToRoleSuccess = (payload) => ({
+  type: types.ALLOW_PERMISSION_TO_ROLE_SUCCESS,
+  payload
+});
+
+export const allowPermissionToRoleFailure = (payload) => ({
+  type: types.ALLOW_PERMISSION_TO_ROLE_FAILURE,
+  payload
+});
+
+export const revokePermissionFromRoleSuccess = (payload) => ({
+  type: types.REVOKE_PERMISSION_FROM_ROLE_SUCCESS,
+  payload
+});
+
+export const revokePermissionFromRoleFailure = (payload) => ({
+  type: types.REVOKE_PERMISSION_FROM_ROLE_FAILURE,
   payload
 });

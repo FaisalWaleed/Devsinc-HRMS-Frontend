@@ -3,6 +3,7 @@ import {
   RegularCard,
   ItemGrid,
 } from "components";
+import Checkbox from 'material-ui/Checkbox';
 import { Grid } from "material-ui";
 import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
 import ExpansionPanel, {
@@ -15,10 +16,16 @@ import { connect } from 'react-redux';
 import {
   fetchRolesSuccess,
   fetchRolesFailure,
+  allowPermissionToRoleSuccess,
+  allowPermissionToRoleFailure,
+  revokePermissionFromRoleSuccess,
+  revokePermissionFromRoleFailure,
 } from "../../actions/role";
 import { fetchRoles } from "../../api/role";
 import { fetchPermissionsObject } from "../../api/permission";
 import {fetchPermissionsObjectFailure, fetchPermissionsObjectSuccess} from "../../actions/permission";
+import { allowPermissionToRole, revokePermissionFromRole } from "../../api/role";
+
 
 const styles = theme => ({
   root: {
@@ -71,13 +78,20 @@ class Permissions extends React.Component{
                             </TableRow>
                           </TableHead>
                           <TableBody>
-                            { permissionsObject[group].map( (value,index) => (
+                            { Object.keys(permissionsObject[group]).map( (permission_id,index) => (
                               <TableRow key={index}>
-                                <TableCell component="th" scope="row">{value.permission_display}</TableCell>
-                                <TableCell numeric>Yes no based on value.allowed_for</TableCell>
-                                <TableCell numeric>2</TableCell>
-                                <TableCell numeric>3</TableCell>
-                                <TableCell numeric>4</TableCell>
+                                <TableCell style={{minWidth: "160px"}} component="th" scope="row">{permissionsObject[group][permission_id].permission_display}</TableCell>
+                                {
+                                  roles && roles.map((role, index) => (
+                                      <TableCell key={index}>
+                                        <Checkbox
+                                          checked={permissionsObject[group][permission_id].allowed_for.includes(role.id)}
+                                          onChange={() => {alert(1)}}
+                                          value="check"
+                                        />
+                                      </TableCell>
+                                  ))
+                                }
                               </TableRow>
                             ) )}
                           </TableBody>
@@ -86,7 +100,7 @@ class Permissions extends React.Component{
                     </ExpansionPanel>
                   ))
                 }
-                
+              
               </div>
             }
           />
@@ -104,10 +118,12 @@ function mapStateToProps(state){
 }
 
 function mapDispatchToProps(dispatch){
-    return {
-      fetchRoles: () => {dispatch(fetchRoles(fetchRolesSuccess,fetchRolesFailure))},
-      fetchPermissionsObject: () => {dispatch(fetchPermissionsObject(fetchPermissionsObjectSuccess,fetchPermissionsObjectFailure))}
-    }
+  return {
+    fetchRoles: () => {dispatch(fetchRoles(fetchRolesSuccess,fetchRolesFailure))},
+    fetchPermissionsObject: () => {dispatch(fetchPermissionsObject(fetchPermissionsObjectSuccess,fetchPermissionsObjectFailure))},
+    allowPermissionToRole: () => {dispatch(allowPermissionToRole(allowPermissionToRoleSuccess,allowPermissionToRoleFailure))},
+    revokePermissionFromRole: () => {dispatch(revokePermissionFromRole(revokePermissionFromRoleSuccess,revokePermissionFromRoleFailure))}
+  }
 }
 
 export default connect(mapStateToProps,mapDispatchToProps)(withStyles(styles)(Permissions));
