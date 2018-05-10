@@ -62,23 +62,23 @@ export const removeUserFromRole = (params, successAction, failureAction) => {
 };
 
 export const allowPermissionToRole = (params,successAction,failureAction) => {
-  return request(`admin/role/${params.role_id}/allow_permission`,{
+  return request(`admin/roles/${params.role_id}/allow_permission`,{
     method: 'POST',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
     },
-    body: {role: JSON.stringify(params) }
+    body: JSON.stringify({role: params})
   },successAction,failureAction);
 };
 
 export const revokePermissionFromRole = (params,successAction,failureAction) => {
-  return request(`admin/role/${params.role_id}/revoke_permission`,{
+  return request(`admin/roles/${params.role_id}/revoke_permission`,{
     method: 'POST',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
     },
-    body: {role: JSON.stringify(params) }
+    body: JSON.stringify({role: params})
   },successAction,failureAction);
 };

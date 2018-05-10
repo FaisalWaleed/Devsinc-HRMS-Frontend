@@ -47,14 +47,6 @@ export const role =  (state = initialState, action) => {
         ...state,
         role: action.payload
       };
-    case types.ALLOW_PERMISSION_TO_ROLE_SUCCESS:
-      return state;
-    case types.ALLOW_PERMISSION_TO_ROLE_FAILURE:
-      return state;
-    case types.REVOKE_PERMISSION_FROM_ROLE_SUCCESS:
-      return state;
-    case types.REVOKE_PERMISSION_FROM_ROLE_FAILURE:
-      return state;
     default:
      return state
   }

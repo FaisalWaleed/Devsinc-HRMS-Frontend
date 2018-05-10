@@ -82,15 +82,19 @@ class Permissions extends React.Component{
                               <TableRow key={index}>
                                 <TableCell style={{minWidth: "160px"}} component="th" scope="row">{permissionsObject[group][permission_id].permission_display}</TableCell>
                                 {
-                                  roles && roles.map((role, index) => (
-                                      <TableCell key={index}>
-                                        <Checkbox
-                                          checked={permissionsObject[group][permission_id].allowed_for.includes(role.id)}
-                                          onChange={() => {alert(1)}}
-                                          value="check"
-                                        />
-                                      </TableCell>
-                                  ))
+                                  roles && roles.map((role, index) => {
+                                    let checked = permissionsObject[group][permission_id].allowed_for.includes(role.id);
+                                    let params = {role_id: role.id, permission_id: permission_id};
+                                    return <TableCell key={index}>
+                                      <Checkbox
+                                        checked={checked}
+                                        onChange={() => {
+                                          checked ? this.props.revokePermissionFromRole(params) : this.props.allowPermissionToRole(params);
+                                        }}
+                                        value="check"
+                                      />
+                                    </TableCell>
+                                  })
                                 }
                               </TableRow>
                             ) )}
@@ -121,8 +125,8 @@ function mapDispatchToProps(dispatch){
   return {
     fetchRoles: () => {dispatch(fetchRoles(fetchRolesSuccess,fetchRolesFailure))},
     fetchPermissionsObject: () => {dispatch(fetchPermissionsObject(fetchPermissionsObjectSuccess,fetchPermissionsObjectFailure))},
-    allowPermissionToRole: () => {dispatch(allowPermissionToRole(allowPermissionToRoleSuccess,allowPermissionToRoleFailure))},
-    revokePermissionFromRole: () => {dispatch(revokePermissionFromRole(revokePermissionFromRoleSuccess,revokePermissionFromRoleFailure))}
+    allowPermissionToRole: (params) => {dispatch(allowPermissionToRole(params,allowPermissionToRoleSuccess,allowPermissionToRoleFailure))},
+    revokePermissionFromRole: (params) => {dispatch(revokePermissionFromRole(params,revokePermissionFromRoleSuccess,revokePermissionFromRoleFailure))}
   }
 }
 
