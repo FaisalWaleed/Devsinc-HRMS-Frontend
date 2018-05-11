@@ -388,7 +388,7 @@ class Leaves extends React.Component{
                                     {leaveApproval.status === "rejected by HR" ? <Tooltip title={<div>{leaveApproval.comment ? leaveApproval.comment : "No comment" }</div>}><Chip style={{backgroundColor: '#d84d30'}} label="Rejected by HR" className={classes.chip} /></Tooltip> : null }
                                   </span>
 
-                                  {leaveApproval.status === "pending" || "approved by Reporting to" ? <span>
+                                  {leaveApproval.status === "pending" || (leaveApproval.status === "approved by Reporting to" && localStorage.getItem("roles").includes("Admin") ) ? <span>
                                     <IconButton variant="fab" color="primary"
                                                 onClick={ () => {
                                                   this.props.openModal(

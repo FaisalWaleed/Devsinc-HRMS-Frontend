@@ -5,8 +5,9 @@ import update from 'immutability-helper'
 export const permission = (state=initialState.permissions, action) => {
   switch(action.type){
     case types.FETCH_PERMISSION_SUCCESS:
-      localStorage.setItem("permissions",action.payload);
-      return {...state, userPermissions: action.payload};
+      localStorage.setItem("permissions",action.payload.permissions);
+      localStorage.setItem("roles",action.payload.roles);
+      return {...state, userPermissions: action.payload.permissions};
     
     case types.PREV_LEAVE_YEAR:
       return state;
