@@ -2,6 +2,7 @@ const request = (path, opts = {}, successAction, failureAction, auth = false) =>
   return (dispatch) => {
     if (auth) {
       opts.headers = {
+        ...opts.headers,
         'client': localStorage.getItem('client'),
         'uid': localStorage.getItem('uid'),
         'access-token': localStorage.getItem('access-token'),

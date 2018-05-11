@@ -69,7 +69,7 @@ export const allowPermissionToRole = (params,successAction,failureAction) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({role: params})
-  },successAction,failureAction);
+  },successAction,failureAction,true);
 };
 
 export const revokePermissionFromRole = (params,successAction,failureAction) => {
@@ -80,5 +80,5 @@ export const revokePermissionFromRole = (params,successAction,failureAction) => 
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({role: params})
-  },successAction,failureAction);
+  },successAction,failureAction,true);
 };
