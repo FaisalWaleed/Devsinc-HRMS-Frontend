@@ -36,6 +36,7 @@ const initialState = {
     leavesTableYear: (new Date()).getFullYear()
   },
   permissions: {
+    userRoles: [],
     userPermissions: [],
     permissionsObj: {}
   }
