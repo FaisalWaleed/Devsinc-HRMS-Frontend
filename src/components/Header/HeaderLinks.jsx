@@ -12,55 +12,36 @@ import {
   Hidden
 } from "material-ui";
 import { Person, Notifications, Dashboard, Search } from "material-ui-icons";
-
 import { CustomInput, IconButton as SearchButton } from "components";
-
 import headerLinksStyle from "variables/styles/headerLinksStyle";
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { signOutUser } from '../../actions/auth/authConfig';
+
 
 class HeaderLinks extends React.Component {
   state = {
     open: false
   };
+  
   handleClick = () => {
     this.setState({ open: !this.state.open });
   };
-
+  
   handleClose = () => {
     this.setState({ open: false });
   };
+  
+  signOut(){
+    this.props.signOutUser();
+  }
+  
   render() {
-    const { classes } = this.props;
+    const { classes, profile } = this.props;
     const { open } = this.state;
     return (
       <div>
-        <CustomInput
-          formControlProps={{
-            className: classes.top + " " + classes.search
-          }}
-          inputProps={{
-            placeholder: "Search",
-            inputProps: {
-              "aria-label": "Search"
-            }
-          }}
-        />
-        <SearchButton
-          color="white"
-          aria-label="edit"
-          customClass={classes.top + " " + classes.searchButton}
-        >
-          <Search className={classes.searchIcon} />
-        </SearchButton>
-        <IconButton
-          color="inherit"
-          aria-label="Dashboard"
-          className={classes.buttonLink}
-        >
-          <Dashboard className={classes.links} />
-          <Hidden mdUp>
-            <p className={classes.linkText}>Dashboard</p>
-          </Hidden>
-        </IconButton>
+        <br/>
         <Manager style={{ display: "inline-block" }}>
           <Target>
             <IconButton
@@ -71,11 +52,10 @@ class HeaderLinks extends React.Component {
               onClick={this.handleClick}
               className={classes.buttonLink}
             >
-              <Notifications className={classes.links} />
-              <span className={classes.notifications}>5</span>
+              <Person className={classes.links} />
               <Hidden mdUp>
                 <p onClick={this.handleClick} className={classes.linkText}>
-                  Notification
+                  Profile
                 </p>
               </Hidden>
             </IconButton>
@@ -101,31 +81,13 @@ class HeaderLinks extends React.Component {
                       onClick={this.handleClose}
                       className={classes.dropdownItem}
                     >
-                      Mike John responded to your email
+                      <Link to='/users/profile' >{profile.name}</Link>
                     </MenuItem>
                     <MenuItem
                       onClick={this.handleClose}
                       className={classes.dropdownItem}
                     >
-                      You have 5 new tasks
-                    </MenuItem>
-                    <MenuItem
-                      onClick={this.handleClose}
-                      className={classes.dropdownItem}
-                    >
-                      You're now friend with Andrew
-                    </MenuItem>
-                    <MenuItem
-                      onClick={this.handleClose}
-                      className={classes.dropdownItem}
-                    >
-                      Another Notification
-                    </MenuItem>
-                    <MenuItem
-                      onClick={this.handleClose}
-                      className={classes.dropdownItem}
-                    >
-                      Another One
+                      <Link onClick={this.signOut} to="/login">Logout</Link>
                     </MenuItem>
                   </MenuList>
                 </Paper>
@@ -133,19 +95,15 @@ class HeaderLinks extends React.Component {
             </ClickAwayListener>
           </Popper>
         </Manager>
-        <IconButton
-          color="inherit"
-          aria-label="Person"
-          className={classes.buttonLink}
-        >
-          <Person className={classes.links} />
-          <Hidden mdUp>
-            <p className={classes.linkText}>Profile</p>
-          </Hidden>
-        </IconButton>
       </div>
     );
   }
 }
 
-export default withStyles(headerLinksStyle)(HeaderLinks);
+function mapStateToProps(state){
+  return {
+    profile: state.reduxTokenAuth.currentUser.attributes
+  }
+}
+
+export default connect(mapStateToProps,{ signOutUser })(withStyles(headerLinksStyle)(HeaderLinks));

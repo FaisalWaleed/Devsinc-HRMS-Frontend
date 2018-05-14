@@ -47,7 +47,7 @@ export const addUsersToRole = (params, successAction, failureAction) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(params)
-  }, successAction, failureAction);
+  }, successAction, failureAction,true);
 };
 
 export const removeUserFromRole = (params, successAction, failureAction) => {
@@ -58,7 +58,7 @@ export const removeUserFromRole = (params, successAction, failureAction) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(params)
-  }, successAction, failureAction);
+  }, successAction, failureAction,true);
 };
 
 export const allowPermissionToRole = (params,successAction,failureAction) => {
