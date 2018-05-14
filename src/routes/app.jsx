@@ -15,6 +15,9 @@ import NewRolesPage from "views/Roles/New.jsx";
 import ProfilePage from "views/Profile/Profile.jsx";
 import EditRolesPage from "views/Roles/Edit.jsx";
 import ShowRolesPage from "views/Roles/Role.jsx";
+import Tickets from "../views/Tickets/Tickets";
+import Leaves from "../views/Leaves/Leaves";
+import Permissions from "../views/Permissions/Permissions";
 
 import {
   Dashboard,
@@ -27,8 +30,7 @@ import {
   ErrorOutline,
   FlightTakeoff
 } from "material-ui-icons";
-import Tickets from "../views/Tickets/Tickets";
-import Leaves from "../views/Leaves/Leaves";
+
 
 const appRoutes = [
   {
@@ -106,7 +108,7 @@ const appRoutes = [
     notSidebar: true
   },
   {
-    path: "/departments/edit/:id",
+    path: "/departments/edit/:id(\d+)",
     sidebarName: "Edit Department",
     navbarName: "Edit Department",
     icon: Notifications,
@@ -137,7 +139,7 @@ const appRoutes = [
     notSidebar: true
   },
   {
-    path: "/roles/edit/:id",
+    path: "/roles/edit/:id(\d+)",
     sidebarName: "Edit Role",
     navbarName: "Edit Role",
     icon: Notifications,
@@ -145,7 +147,7 @@ const appRoutes = [
     notSidebar: true
   },
   {
-    path: "/roles/:id",
+    path: "/roles/:id(\d+)",
     sidebarName: "Role",
     navbarName: "Role",
     icon: Notifications,
@@ -165,6 +167,15 @@ const appRoutes = [
     navbarName: "Leaves",
     icon: FlightTakeoff,
     component: Leaves
+  },
+  {
+    path: "/roles/permissions",
+    sidebarName: "Permissions",
+    navbarName: "Permissions",
+    icon: Notifications,
+    component: Permissions,
+    notSidebar: true,
+    exact: true
   },
   { redirect: true, path: "/", to: "/dashboard", navbarName: "Redirect" }
 ];

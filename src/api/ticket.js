@@ -1,37 +1,22 @@
 import request from "./request";
 
 export const fetchTickets = (successAction, failureAction) => {
-  return request('tickets', {
-    headers: {
-      'client': localStorage.getItem('client'),
-      'uid': localStorage.getItem('uid'),
-      'access-token': localStorage.getItem('access-token')
-    }
-  }, successAction, failureAction);
+  return request('tickets', {}, successAction, failureAction, true);
 };
 
 export const fetchAssignedTickets = (successAction, failureAction) => {
-  return request('tickets/assigned', {
-    headers: {
-      'client': localStorage.getItem('client'),
-      'uid': localStorage.getItem('uid'),
-      'access-token': localStorage.getItem('access-token')
-    }
-  }, successAction, failureAction);
+  return request('tickets/assigned', {}, successAction, failureAction, true);
 };
 
 export const createTicket = (params, successAction, failureAction) => {
   return request('tickets', {
     method: 'POST',
     headers: {
-      'client': localStorage.getItem('client'),
-      'uid': localStorage.getItem('uid'),
-      'access-token': localStorage.getItem('access-token'),
       'Accept': 'application/json',
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({ticket: params})
-  }, successAction, failureAction);
+  }, successAction, failureAction, true);
 };
 
 
@@ -39,37 +24,20 @@ export const updateTicketStatus = (params, successAction, failureAction) => {
   return request(`tickets/${params.ticket_id}`,{
     method: 'PUT',
     headers: {
-      'client': localStorage.getItem('client'),
-      'uid': localStorage.getItem('uid'),
-      'access-token': localStorage.getItem('access-token'),
       'Accept': 'application/json',
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({ticket: params})
-  },successAction,failureAction);
+  },successAction,failureAction, true);
 };
 
 export const fetchTicketOption = (params, successAction, failureAction) => {
   //passes department id in call
-  return request(`tickets/ticket_option?id=${params.id}`,{
-    method: 'GET',
-    headers: {
-      'client': localStorage.getItem('client'),
-      'uid': localStorage.getItem('uid'),
-      'access-token': localStorage.getItem('access-token'),
-    }
-  },successAction,failureAction);
+  return request(`tickets/ticket_option?id=${params.id}`,{},successAction,failureAction, true);
 };
 
 export const fetchTicketComments = (params, successAction, failureAction) => {
-  return request(`tickets/${params.ticket_id}/comments`, {
-    method: 'GET',
-    headers: {
-      'client': localStorage.getItem('client'),
-      'uid': localStorage.getItem('uid'),
-      'access-token': localStorage.getItem('access-token')
-    }
-  },successAction,failureAction);
+  return request(`tickets/${params.ticket_id}/comments`, {},successAction,failureAction, true);
 };
 
 export const createTicketComment = (params, successAction, failureAction) => {
@@ -78,14 +46,10 @@ export const createTicketComment = (params, successAction, failureAction) => {
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      'client' : localStorage.getItem('client'),
-      'uid': localStorage.getItem('uid'),
-      'access-token': localStorage.getItem('access-token')
     },
     body: JSON.stringify({comment: params})
-  },successAction,failureAction);
+  },successAction,failureAction, true);
 };
-
 
 export const fetchTicketStatuses = (params, successAction, failureAction) => {
   return request(`tickets/${params.ticket_id}/statuses`,{
@@ -93,9 +57,6 @@ export const fetchTicketStatuses = (params, successAction, failureAction) => {
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      'client' : localStorage.getItem('client'),
-      'uid': localStorage.getItem('uid'),
-      'access-token': localStorage.getItem('access-token')
     },
-  },successAction,failureAction);
+  },successAction,failureAction, true);
 };

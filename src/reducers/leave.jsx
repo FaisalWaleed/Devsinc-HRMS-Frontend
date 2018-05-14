@@ -1,6 +1,6 @@
 import initialState from "./initialState";
 import * as types from '../actions/actionTypes';
-import update from 'react-addons-update';
+import update from 'immutability-helper';
 
 export const leave = (state=initialState.leaves, action) => {
   switch(action.type){

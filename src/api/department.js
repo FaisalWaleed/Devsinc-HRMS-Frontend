@@ -8,19 +8,19 @@ export const createDepartment = (params, successAction, failureAction) => {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify(params)
-    }, successAction, failureAction);
+    }, successAction, failureAction, true);
 };
 
 export const fetchDepartments = (successAction, failureAction) => {
-  return request('admin/departments', {}, successAction, failureAction);
-}
+  return request('admin/departments', {}, successAction, failureAction, true);
+};
 
 export const deleteDepartment = (params, successAction, failureAction) => {
-  return request(`admin/departments/${params}`, { method: 'DELETE' }, successAction, failureAction);
+  return request(`admin/departments/${params}`, { method: 'DELETE' }, successAction, failureAction, true);
 }
 
 export const getDepartment = (id , successAction, failureAction) => {
-  return request(`admin/departments/${id}`, {}, successAction, failureAction);
+  return request(`admin/departments/${id}`, {}, successAction, failureAction, true);
 }
 
 export const updateDepartment = (params, id, successAction, failureAction) => {
@@ -31,11 +31,11 @@ export const updateDepartment = (params, id, successAction, failureAction) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(params)
-  }, successAction, failureAction);
+  }, successAction, failureAction, true);
 }
 
 export const fetchUsers = (successAction, failureAction) => {
-    return request('admin/users', {}, successAction, failureAction);
+    return request('admin/users', {}, successAction, failureAction, true);
 };
 
 export const editUser = (params, successAction, failureAction) => {
