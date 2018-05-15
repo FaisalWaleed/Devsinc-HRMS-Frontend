@@ -81,7 +81,7 @@ class HeaderLinks extends React.Component {
                       onClick={this.handleClose}
                       className={classes.dropdownItem}
                     >
-                      <Link to='/users/profile' >{profile.name}</Link>
+                      <Link to='/users/profile' >{profile.first_name} {profile.last_name}</Link>
                     </MenuItem>
                     <MenuItem
                       onClick={this.handleClose}
