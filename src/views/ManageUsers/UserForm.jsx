@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Form,
   Field,
   reduxForm,
   FieldArray
@@ -14,7 +15,6 @@ import {
 } from "components";
 import * as types from "../../actions/actionTypes";
 import { connect } from 'react-redux';
-import CustomSelect from 'components/CustomSelect';
 import {
   fetchDepartments
 } from "api/department";
@@ -29,7 +29,14 @@ import {
   fetchUsersSuccess,
   fetchUsersFailure,
 } from "actions/user";
-import { Add, Remove,KeyboardArrowLeft, KeyboardArrowRight  } from "material-ui-icons";
+import {
+  Add,
+  Remove,
+  KeyboardArrowLeft,
+  KeyboardArrowRight,
+  DateRange,
+  AccessTime
+} from "material-ui-icons";
 import {
   IconButton,
   Hidden,
@@ -40,8 +47,7 @@ import { MenuItem } from 'material-ui/Menu';
 import { ListItemText } from 'material-ui/List';
 import {fetchRoles} from "../../api/role";
 import {fetchRolesFailure, fetchRolesSuccess} from "../../actions/role";
-import { DateRange } from 'material-ui-icons';
-import { DatePicker } from 'material-ui-pickers'
+import { DatePicker, DateTimePicker } from 'material-ui-pickers'
 import * as moment from 'moment';
 import Stepper from 'material-ui/Stepper';
 import Step from 'material-ui/Stepper/Step'
@@ -52,8 +58,8 @@ import Typography from 'material-ui/Typography';
 
 const required = value => (value ? undefined : 'Required');
 const isEmail = value => value && !/^[A-Z0-9._%+-]+@devsinc.com$/i.test(value)
-    ? 'Invalid email address, domain must be devsinc.com'
-    : undefined;
+  ? 'Invalid email address, domain must be devsinc.com'
+  : undefined;
 
 
 
@@ -192,7 +198,7 @@ class UserForm extends React.Component {
     const { activeStep } = this.state;
     const { error, handleSubmit, submitting, isNew, users, roles } = this.props;
     return (
-      <form onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit}>
         <div>
           <Stepper activeStep={activeStep} orientation="vertical">
             {steps.map((label, index) => {
@@ -382,28 +388,21 @@ class UserForm extends React.Component {
                     <Grid container>
                       <ItemGrid xs={4} sm={4} md={4}>
                         <br />
-                        <Field name="schedule_email" validate={[required]}  component={(input,label,custom) => (
-                          <DatePicker
-                            label="Send Email At: (Date Time Picker here)"
+                        <Field name="schedule_date_time" validate={[required]} component={(input,label,custom) => (
+                          <DateTimePicker
+                            label="Schedule Welcome E-mail"
                             {...input}
                             {...custom}
-                            format="Do MMMM YYYY"
                             value={input.input.value ? moment(input.input.value) : null }
-                            onChange={(event) => input.input.onChange(event.format("YYYY-MM-DD"))}
                             disablePast={true}
+                            onChange={(event) => input.input.onChange(event.format("YYYY-MM-DD"))}
+                            timeIcon={<AccessTime/>}
+                            dateRangeIcon={<DateRange/>}
                             leftArrowIcon={<KeyboardArrowLeft/>}
                             rightArrowIcon={<KeyboardArrowRight/>}
-                            InputProps={{
-                              endAdornment: (
-                                <InputAdornment position="end">
-                                  <IconButton>
-                                    <DateRange />
-                                  </IconButton>
-                                </InputAdornment>
-                              ),
-                            }}
                           />
-                        )} />
+                        )}
+                        />
                       </ItemGrid>
                     </Grid>
                     }
@@ -421,13 +420,23 @@ class UserForm extends React.Component {
                           </Button>
                         }
                         
-                        <Button
-                          variant="raised"
-                          color="primary"
-                          onClick={this.handleNext}
-                        >
-                          {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-                        </Button>
+                        {
+                          activeStep !== steps.length - 1 &&
+                          <Button
+                            variant="raised"
+                            color="primary"
+                            onClick={() => {alert(1); this.handleNext()}}
+                          >
+                            {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+                          </Button>
+                        }
+                        {
+                          activeStep === steps.length - 1 &&
+                          <Button disabled={submitting} onClick={handleSubmit} color="primary">
+                            {isNew ? "Create User" : "Save Changes"}
+                          </Button>
+                          
+                        }
                       </div>
                     </div>
                   </StepContent>
@@ -435,25 +444,13 @@ class UserForm extends React.Component {
               );
             })}
           </Stepper>
-          {activeStep === steps.length && (
-            <Paper square elevation={0} >
-              <Typography>All steps completed - you&quot;re finished</Typography>
-              <Button onClick={this.handleReset} >
-                Reset
-              </Button>
-            </Paper>
-          )}
         </div>
         <br/>
         {error
           ? <Danger>{error}</Danger>
           : null
         }
-        <div>
-          <Button onClick={this.props.handleClose} disabled={submitting} color="primary">Cancel</Button>
-          <Button disabled={submitting} onClick={handleSubmit} color="primary">{isNew ? "Create User" : "Save Changes"}</Button>
-        </div>
-      </form>
+      </Form>
     );
   }
 }
