@@ -28,9 +28,9 @@ import { required, isEmail } from './validate';
 import validate from './validate';
 
 const UserFormStepOne = (props) => {
-  const { roles, users,onSubmit } = props;
+  const { roles, users, handleSubmit } = props;
   return (
-    <Form onSubmit={onSubmit}>
+    <Form onSubmit={handleSubmit}>
       <Grid container>
         <ItemGrid xs={12} sm={12} md={12}>
           <Grid container>
@@ -82,7 +82,7 @@ const UserFormStepOne = (props) => {
               />
             </ItemGrid>
             <ItemGrid xs={4} sm={4} md={4}>
-              <Field name="manager_id"
+              <Field name="reporting_to"
                      validate={[required]}
                      component={({input}) => (
                        <CustomInput
@@ -95,8 +95,8 @@ const UserFormStepOne = (props) => {
                            value: input.value,
                            onChange: (event) => {if(event.target.value) return input.onChange(event, event.target.value);},
                            required: "required",
-                           name: "manager_id",
-                           autoComplete: "manager_id",
+                           name: "reporting_to",
+                           autoComplete: "reporting_to",
                          }}
                        >
                          {
@@ -157,7 +157,7 @@ const UserFormStepOne = (props) => {
           <Grid container>
             <ItemGrid xs={4} sm={4} md={4}>
               <br />
-              <Field name="joining_date" validate={[required]}  component={(input,label,custom) => (
+              <Field name="join_date" validate={[required]}  component={(input,label,custom) => (
                 <DatePicker
                   label="Joining Date"
                   {...input}
@@ -183,6 +183,14 @@ const UserFormStepOne = (props) => {
           </Grid>
         </ItemGrid>
       </Grid>
+      <br />
+      <Button
+        type="submit"
+        variant="raised"
+        color="primary"
+      >
+        Next
+      </Button>
     </Form>
   );
 };

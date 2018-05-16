@@ -16,7 +16,7 @@ import {
   KeyboardArrowLeft,
   KeyboardArrowRight,
   DateRange,
-  AccessTime
+  AccessTime,
 } from "material-ui-icons";
 import { DateTimePicker } from 'material-ui-pickers'
 import * as moment from 'moment';
@@ -25,13 +25,13 @@ import validate from './validate';
 
 
 const UserFormStepThree = (props) => {
-  const { onSubmit } = props;
+  const { handleSubmit, previousStep, error } = props;
   return (
-    <Form onSubmit={onSubmit}>
+    <Form onSubmit={handleSubmit}>
     <Grid container>
       <ItemGrid xs={4} sm={4} md={4}>
         <br />
-        <Field name="schedule_date_time" validate={[required]} component={(input,label,custom) => (
+        <Field name="email_schedule" validate={[required]} component={(input,label,custom) => (
           <DateTimePicker
             label="Schedule Welcome E-mail"
             {...input}
@@ -48,6 +48,27 @@ const UserFormStepThree = (props) => {
         />
       </ItemGrid>
     </Grid>
+      <br/>
+      <Button
+        variant="raised"
+        color="primary"
+        onClick={previousStep}
+      >
+        Back
+      </Button>
+  
+      <Button
+        type="submit"
+        variant="raised"
+        color="primary"
+      >
+        Create User
+      </Button>
+  
+      {error
+        ? <Danger>{error}</Danger>
+        : null
+      }
     </Form>
   )
 };

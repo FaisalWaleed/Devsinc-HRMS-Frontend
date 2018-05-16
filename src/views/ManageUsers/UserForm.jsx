@@ -1,12 +1,5 @@
 import React from 'react';
 import {
-  Form,
-  Field,
-  reduxForm,
-  FieldArray, formValueSelector
-} from 'redux-form'
-import { Grid, InputAdornment } from "material-ui";
-import {
   CustomInput,
   ItemGrid,
   Danger,
@@ -29,26 +22,8 @@ import {
   fetchUsersSuccess,
   fetchUsersFailure,
 } from "actions/user";
-import {
-  Add,
-  Remove,
-  KeyboardArrowLeft,
-  KeyboardArrowRight,
-  DateRange,
-  AccessTime
-} from "material-ui-icons";
-import {
-  IconButton,
-  Hidden,
-  withStyles
-} from "material-ui";
-import headerLinksStyle from "variables/styles/headerLinksStyle";
-import { MenuItem } from 'material-ui/Menu';
-import { ListItemText } from 'material-ui/List';
 import {fetchRoles} from "../../api/role";
 import {fetchRolesFailure, fetchRolesSuccess} from "../../actions/role";
-import { DatePicker, DateTimePicker } from 'material-ui-pickers'
-import * as moment from 'moment';
 import Stepper from 'material-ui/Stepper';
 import Step from 'material-ui/Stepper/Step'
 import StepLabel from 'material-ui/Stepper/StepLabel';
@@ -95,7 +70,7 @@ class UserForm extends React.Component {
     
     const steps = getSteps();
     const { activeStep } = this.state;
-    const { error, handleSubmit, submitting, isNew, users, roles } = this.props;
+    const { onSubmit, submitting, isNew, users, roles, handleClose } = this.props;
     return (
       <div>
         <Stepper activeStep={activeStep} orientation="vertical">
@@ -104,51 +79,15 @@ class UserForm extends React.Component {
               <Step key={label}>
                 <StepLabel>{label}</StepLabel>
                 <StepContent>
-                  {index === 0 && <UserFormStepOne roles={roles} users={users} onSubmit={handleSubmit} />}
-                  {index === 1 && <UserFormStepTwo onSubmit={handleSubmit}/>}
-                  {index === 2 && <UserFormStepThree onSubmit={handleSubmit}/>}
-                  <div>
-                    <div>
-                      <br />
-                      <br />
-                      {
-                        index !== 0 && <Button
-                          disabled={activeStep === 0}
-                          onClick={this.handleBack}
-                        >
-                          Back
-                        </Button>
-                      }
-                      
-                      {
-                        activeStep !== steps.length - 1 &&
-                        <Button
-                          variant="raised"
-                          color="primary"
-                          onClick={() => {this.handleNext()}}
-                        >
-                          {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-                        </Button>
-                      }
-                      {
-                        activeStep === steps.length - 1 &&
-                        <Button disabled={submitting} onClick={handleSubmit} color="primary">
-                          {isNew ? "Create User" : "Save Changes"}
-                        </Button>
-                        
-                      }
-                    </div>
-                  </div>
+                  {index === 0 && <UserFormStepOne roles={roles} users={users} onSubmit={this.handleNext} />}
+                  {index === 1 && <UserFormStepTwo previousStep={this.handleBack} onSubmit={this.handleNext}/>}
+                  {index === 2 && <UserFormStepThree previousStep={this.handleBack} onSubmit={onSubmit}/>}
                 </StepContent>
               </Step>
             );
           })}
         </Stepper>
         <br/>
-        {error
-          ? <Danger>{error}</Danger>
-          : null
-        }
       </div>
     );
   }

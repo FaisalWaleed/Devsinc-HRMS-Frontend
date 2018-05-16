@@ -115,17 +115,17 @@ const UserFormStepTwo = (props) => {
     </div>
   );
   
-  const { isNew,onSubmit } = props;
+  const { isNew,handleSubmit, previousStep } = props;
   return (
-    <Form onSubmit={onSubmit}>
+    <Form onSubmit={handleSubmit}>
       <Grid container>
         <ItemGrid xs={12} sm={12} md={12}>
           <Grid container>
             <ItemGrid xs={4} sm={4} md={4}>
-              <Field name="address" required="required" autoComplete="address" type="text" custominputprops={{labelText: 'Address'}} component={CustomInputWrapper} />
+              <Field name="permanent_address" required="required" autoComplete="address" type="text" custominputprops={{labelText: 'Permanent Address'}} component={CustomInputWrapper} />
             </ItemGrid>
             <ItemGrid xs={4} sm={4} md={4}>
-              <Field name="emergency_contact" required="required" autoComplete="emergency_contact" type="number" custominputprops={{labelText: 'Emergency Contact'}} component={CustomInputWrapper} />
+              <Field name="emergency_contact_person_number" required="required" autoComplete="emergency_contact" type="number" custominputprops={{labelText: 'Emergency Contact'}} component={CustomInputWrapper} />
             </ItemGrid>
           </Grid>
           {
@@ -138,6 +138,23 @@ const UserFormStepTwo = (props) => {
           }
         </ItemGrid>
       </Grid>
+  
+      <br/>
+      <Button
+        variant="raised"
+        color="primary"
+        onClick={previousStep}
+      >
+        Back
+      </Button>
+  
+      <Button
+        type="submit"
+        variant="raised"
+        color="primary"
+      >
+        Next
+      </Button>
     </Form>
   )
 };
