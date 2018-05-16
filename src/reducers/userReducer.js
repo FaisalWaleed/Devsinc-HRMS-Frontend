@@ -36,6 +36,11 @@ export const userReducer = (state = initialState,action) => {
             ...state,
             profileUpdated: true
           }
+      case types.CREATE_USER_SUCCESS:
+        return state;
+        
+      case types.CREATE_USER_FAILURE:
+        return state;
 
         default:
             return state;

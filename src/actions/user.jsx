@@ -49,3 +49,13 @@ export const updateProfileFailure = (payload) => ({
   type: "UPDATE_PROFILE_FAILURE",
   payload
 });
+
+export const createUserSuccess = (payload) => ({
+  type: types.CREATE_USER_SUCCESS,
+  payload
+});
+
+export const createUserFailure = (payload) => ({
+  type: types.CREATE_USER_FAILURE,
+  payload
+});

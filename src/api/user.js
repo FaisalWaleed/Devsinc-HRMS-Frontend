@@ -35,3 +35,14 @@ export const updateProfile = (params, id, successAction, failureAction) => {
     body: JSON.stringify(params)
   }, successAction, failureAction,true);
 };
+
+export const createUser = (params, successAction, failureAction) => {
+  return request('admin/users/', {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({user: params})
+  },successAction, failureAction, true);
+};

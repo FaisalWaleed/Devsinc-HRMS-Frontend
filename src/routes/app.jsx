@@ -74,7 +74,7 @@ const appRoutes = [
   {
     path: "/manageusers",
     sidebarName: "Manage Users",
-    navbarName: "Manage USers",
+    navbarName: "Manage Users",
     icon: People,
     component: ManageUsers
   },

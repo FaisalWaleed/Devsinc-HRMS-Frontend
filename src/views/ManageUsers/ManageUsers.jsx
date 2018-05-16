@@ -3,8 +3,16 @@ import { Grid } from "material-ui";
 import { RegularCard, Button, Table, ItemGrid } from "components";
 import { connect } from 'react-redux';
 
-import { fetchUsers, deleteUser, editUser } from "../../api/user";
-import {fetchUsersSuccess, fetchUsersFailure, editUserSuccess, editUserFailure, deleteUserSuccess,deleteUserFailure } from "../../actions/user";
+import {fetchUsers, deleteUser, editUser, createUser} from "../../api/user";
+import {
+  fetchUsersSuccess,
+  fetchUsersFailure,
+  editUserSuccess,
+  editUserFailure,
+  deleteUserSuccess,
+  deleteUserFailure,
+  createUserSuccess, createUserFailure
+} from "../../actions/user";
 
 import { Delete,Edit } from "material-ui-icons";
 import * as types from '../../actions/actionTypes';
@@ -73,59 +81,25 @@ class ManageUsers extends React.Component{
   };
   
   handleCreateUserSubmit(values){
-    const { registerUser } = this.props;
-    const {
-      email,
-      first_name,
-      last_name,
-      role_id,
-      reporting_to,
-      buddy_id,
-      join_date,
-      permanent_address,
-      emergency_contact_person_number,
-      employment_history,
-      email_schedule,
-      username,
-      company_id,
-      department_id,
-    } = values;
-    let password = "pass1234";
-    return registerUser({
-      email,
-      first_name,
-      last_name,
-      role_id,
-      reporting_to,
-      buddy_id,
-      join_date,
-      permanent_address,
-      emergency_contact_person_number,
-      password,
-      username,
-      company_id,
-      department_id,
-      employment_history,
-      email_schedule
-    })
-      .then( (response) => {
-        this.props.fetchUsers(fetchUsersSuccess,fetchUsersFailure);
-        this.props.closeModal();
-      })
-      .catch( (error) =>{
-        if(!error.response){
-          throw new SubmissionError({
-            _error: "Something went wrong. Please try again later."
-          });
-        }
-        else{
-          error.response.data.errors.full_messages.forEach((error) => {
-            throw new SubmissionError({
-              _error: error
-            })
-          });
-        }
-      })
+    return this.props.createUser(values)
+      // .then( (response) => {
+      //   this.props.fetchUsers(fetchUsersSuccess,fetchUsersFailure);
+      //   this.props.closeModal();
+      // })
+      // .catch( (error) =>{
+      //   if(!error.response){
+      //     throw new SubmissionError({
+      //       _error: "Something went wrong. Please try again later."
+      //     });
+      //   }
+      //   else{
+      //     error.response.data.errors.full_messages.forEach((error) => {
+      //       throw new SubmissionError({
+      //         _error: error
+      //       })
+      //     });
+      //   }
+      // })
   }
   
   handleEditUserSubmit(values){
@@ -161,7 +135,7 @@ function mapDispatchToProps(dispatch){
   return {
     openModal: (modalType,modalProps = null) => { dispatch({ type: types.SHOW_MODAL, modalType: modalType, modalProps: modalProps}) },
     closeModal: () => { dispatch(HIDE_MODAL) },
-    registerUser: (...params) => dispatch(registerUser(...params)),
+    createUser: (params) => dispatch(createUser(params,createUserSuccess,createUserFailure)),
     fetchUsers: () => { dispatch(fetchUsers(fetchUsersSuccess,fetchUsersFailure)) },
     editUser: (params) => { dispatch(editUser(params,editUserSuccess,editUserFailure))}
     
