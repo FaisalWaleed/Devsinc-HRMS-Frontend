@@ -6,6 +6,7 @@ const config = {
   userAttributes: {
     //    Add additional parameters here other than email and password
     //    FrontendName: BackendAttributeName
+    id: 'id',
     email: 'email',
     first_name: 'first_name',
     last_name: 'last_name',

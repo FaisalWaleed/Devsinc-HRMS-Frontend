@@ -24,54 +24,58 @@ import { required } from './validate';
 import validate from './validate';
 
 
-const UserFormStepThree = (props) => {
-  const { handleSubmit, previousStep, error } = props;
-  return (
-    <Form onSubmit={handleSubmit}>
-    <Grid container>
-      <ItemGrid xs={4} sm={4} md={4}>
-        <br />
-        <Field name="email_schedule" validate={[required]} component={(input,label,custom) => (
-          <DateTimePicker
-            label="Schedule Welcome E-mail"
-            {...input}
-            {...custom}
-            value={input.input.value ? moment(input.input.value) : null }
-            disablePast={true}
-            onChange={(event) => input.input.onChange(event.format("YYYY-MM-DD"))}
-            timeIcon={<AccessTime/>}
-            dateRangeIcon={<DateRange/>}
-            leftArrowIcon={<KeyboardArrowLeft/>}
-            rightArrowIcon={<KeyboardArrowRight/>}
-          />
-        )}
-        />
-      </ItemGrid>
-    </Grid>
-      <br/>
-      <Button
-        variant="raised"
-        color="primary"
-        onClick={previousStep}
-      >
-        Back
-      </Button>
+
+class UserFormStepThree extends React.Component {
   
-      <Button
-        type="submit"
-        variant="raised"
-        color="primary"
-      >
-        Create User
-      </Button>
-  
-      {error
-        ? <Danger>{error}</Danger>
-        : null
-      }
-    </Form>
-  )
-};
+  render() {
+    const { handleSubmit, previousStep, error } = this.props;
+    return (
+      <Form onSubmit={handleSubmit}>
+        <Grid container>
+          <ItemGrid xs={4} sm={4} md={4}>
+            <br/>
+            <Field name="email_schedule" validate={[required]} component={(input, label, custom) => (
+              <DateTimePicker
+                label="Schedule Welcome E-mail"
+                {...input}
+                {...custom}
+                value={input.input.value ? moment(input.input.value) : null}
+                disablePast={true}
+                onChange={(event) => input.input.onChange(event.format("YYYY-MM-DD"))}
+                timeIcon={<AccessTime/>}
+                dateRangeIcon={<DateRange/>}
+                leftArrowIcon={<KeyboardArrowLeft/>}
+                rightArrowIcon={<KeyboardArrowRight/>}
+              />
+            )}
+            />
+          </ItemGrid>
+        </Grid>
+        <br/>
+        <Button
+          variant="raised"
+          color="primary"
+          onClick={previousStep}
+        >
+          Back
+        </Button>
+        
+        <Button
+          type="submit"
+          variant="raised"
+          color="primary"
+        >
+          Create User
+        </Button>
+        
+        {error
+          ? <Danger>{error}</Danger>
+          : null
+        }
+      </Form>
+    )
+  };
+}
 
 export default reduxForm({
   form: 'user_form',

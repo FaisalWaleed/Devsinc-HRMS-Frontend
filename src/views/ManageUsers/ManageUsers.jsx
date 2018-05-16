@@ -74,7 +74,6 @@ class ManageUsers extends React.Component{
   
   handleCreateUserSubmit(values){
     const { registerUser } = this.props;
-    console.log(values);
     const {
       email,
       first_name,
