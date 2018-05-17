@@ -5,23 +5,29 @@ import {
   reduxForm,
   FieldArray
 } from 'redux-form'
-import { Grid} from "material-ui";
+import { Grid, InputAdornment } from "material-ui";
 import {
   CustomInput,
   ItemGrid,
   Danger,
   Button,
-  CustomInputWrapper
+  CustomInputWrapper,
+  Muted
 } from "components";
 import {
   Add,
-  Remove
+  Remove,
+  KeyboardArrowLeft,
+  KeyboardArrowRight,
+  DateRange
 } from "material-ui-icons";
 import {
   IconButton,
   Hidden,
 } from "material-ui";
-import validate from './validate';
+import validate, {required} from './validate';
+import { DatePicker } from 'material-ui-pickers'
+import * as moment from 'moment';
 
 const UserFormStepTwo = (props) => {
   const renderFields = ({fields, meta: {error, submitFailed}}) => (
@@ -121,11 +127,42 @@ const UserFormStepTwo = (props) => {
       <Grid container>
         <ItemGrid xs={12} sm={12} md={12}>
           <Grid container>
+            <ItemGrid xs={12} sm={12} md={12}>
+              <Field name="dob" validate={[required]}  component={(input,label,custom) => (
+                <DatePicker
+                  label="Date of Birth"
+                  {...input}
+                  {...custom}
+                  format="Do MMMM YYYY"
+                  value={input.input.value ? moment(input.input.value) : null }
+                  onChange={(event) => input.input.onChange(event.format("YYYY-MM-DD"))}
+                  disablePast={true}
+                  leftArrowIcon={<KeyboardArrowLeft/>}
+                  rightArrowIcon={<KeyboardArrowRight/>}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton>
+                          <DateRange />
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              )} />
+            </ItemGrid>
+          </Grid>
+          <Grid container>
             <ItemGrid xs={4} sm={4} md={4}>
-              <Field name="permanent_address" required="required" autoComplete="address" type="text" custominputprops={{labelText: 'Permanent Address'}} component={CustomInputWrapper} />
+              <Field validate={[required]} name="emergency_contact_person_relation" required="required" autoComplete="emergency_contact_person_relation" type="text" custominputprops={{labelText: 'Emergency Contact Person Relation'}} component={CustomInputWrapper} />
             </ItemGrid>
             <ItemGrid xs={4} sm={4} md={4}>
-              <Field name="emergency_contact_person_number" required="required" autoComplete="emergency_contact" type="number" custominputprops={{labelText: 'Emergency Contact'}} component={CustomInputWrapper} />
+              <Field validate={[required]} name="emergency_contact_person_number" required="required" autoComplete="emergency_contact_person_number" type="number" custominputprops={{labelText: 'Emergency Contact Number'}} component={CustomInputWrapper} />
+            </ItemGrid>
+          </Grid>
+          <Grid container>
+            <ItemGrid xs={12} sm={12} md={12}>
+              <Field name="permanent_address" required="required" autoComplete="address" type="text" custominputprops={{labelText: 'Permanent Address'}} component={CustomInputWrapper} />
             </ItemGrid>
           </Grid>
           {

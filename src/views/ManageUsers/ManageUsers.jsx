@@ -11,7 +11,7 @@ import {
   editUserFailure,
   deleteUserSuccess,
   deleteUserFailure,
-  createUserSuccess, createUserFailure
+  createUserSuccess, createUserFailure, clearUserCreateForm
 } from "../../actions/user";
 
 import { Delete,Edit } from "material-ui-icons";
@@ -81,7 +81,8 @@ class ManageUsers extends React.Component{
   };
   
   handleCreateUserSubmit(values){
-    return this.props.createUser(values)
+    this.props.clearFormErrors();
+    this.props.createUser(values)
       // .then( (response) => {
       //   this.props.fetchUsers(fetchUsersSuccess,fetchUsersFailure);
       //   this.props.closeModal();
@@ -116,7 +117,7 @@ class ManageUsers extends React.Component{
             cardSubtitle="Click on operations to perform actions"
             content={
               <div>
-                <Button onClick={this.props.openModal.bind(this,types.FORM_MODAL,{title: 'Create New User', form: <UserForm onSubmit={this.handleCreateUserSubmit} isNew={true} />  })} color="primary">Create a New User</Button>
+                <Button onClick={this.props.openModal.bind(this,types.FORM_MODAL,{title: 'Create New User', form: <UserForm onSubmit={this.handleCreateUserSubmit} isNew={true} />, fullscreen: true  })} color="primary">Create a New User</Button>
                 <Table
                   tableHeaderColor="primary"
                   tableHead={["Name","Username","Email","Company","Delete","Edit"]}
@@ -137,8 +138,8 @@ function mapDispatchToProps(dispatch){
     closeModal: () => { dispatch(HIDE_MODAL) },
     createUser: (params) => dispatch(createUser(params,createUserSuccess,createUserFailure)),
     fetchUsers: () => { dispatch(fetchUsers(fetchUsersSuccess,fetchUsersFailure)) },
-    editUser: (params) => { dispatch(editUser(params,editUserSuccess,editUserFailure))}
-    
+    editUser: (params) => { dispatch(editUser(params,editUserSuccess,editUserFailure))},
+    clearFormErrors: () => { dispatch(clearUserCreateForm)}
   }
 }
 

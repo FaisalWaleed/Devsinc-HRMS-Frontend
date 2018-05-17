@@ -4,7 +4,7 @@ import {
   Field,
   reduxForm,
 } from 'redux-form'
-import { Grid } from "material-ui";
+import { Grid, InputAdornment  } from "material-ui";
 import {
   CustomInput,
   ItemGrid,
@@ -16,39 +16,49 @@ import {
   KeyboardArrowLeft,
   KeyboardArrowRight,
   DateRange,
-  AccessTime,
 } from "material-ui-icons";
-import { DateTimePicker } from 'material-ui-pickers'
+import {
+  IconButton,
+} from "material-ui";
+import { DatePicker } from 'material-ui-pickers';
 import * as moment from 'moment';
 import { required } from './validate';
 import validate from './validate';
+import { connect } from 'react-redux';
 
 
 
 class UserFormStepThree extends React.Component {
   
   render() {
-    const { handleSubmit, previousStep, error } = this.props;
+    const { handleSubmit, previousStep, errors } = this.props;
     return (
       <Form onSubmit={handleSubmit}>
         <Grid container>
           <ItemGrid xs={4} sm={4} md={4}>
             <br/>
-            <Field name="email_schedule" validate={[required]} component={(input, label, custom) => (
-              <DateTimePicker
-                label="Schedule Welcome E-mail"
+            <Field name="join_date" validate={[required]}  component={(input,label,custom) => (
+              <DatePicker
+                label="Joining Date"
                 {...input}
                 {...custom}
-                value={input.input.value ? moment(input.input.value) : null}
-                disablePast={true}
+                format="Do MMMM YYYY"
+                value={input.input.value ? moment(input.input.value) : null }
                 onChange={(event) => input.input.onChange(event.format("YYYY-MM-DD"))}
-                timeIcon={<AccessTime/>}
-                dateRangeIcon={<DateRange/>}
+                disablePast={true}
                 leftArrowIcon={<KeyboardArrowLeft/>}
                 rightArrowIcon={<KeyboardArrowRight/>}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton>
+                        <DateRange />
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
               />
-            )}
-            />
+            )} />
           </ItemGrid>
         </Grid>
         <br/>
@@ -68,8 +78,8 @@ class UserFormStepThree extends React.Component {
           Create User
         </Button>
         
-        {error
-          ? <Danger>{error}</Danger>
+        {errors
+          ? <Danger>{errors}</Danger>
           : null
         }
       </Form>
@@ -77,8 +87,16 @@ class UserFormStepThree extends React.Component {
   };
 }
 
-export default reduxForm({
+function mapStateToProps(state){
+  return {
+    errors: state.users.userCreateFormErrors
+  }
+}
+
+UserFormStepThree = reduxForm({
   form: 'user_form',
   validate,
   destroyOnUnmount: false,
 })(UserFormStepThree);
+
+export default connect(mapStateToProps,null)(UserFormStepThree);

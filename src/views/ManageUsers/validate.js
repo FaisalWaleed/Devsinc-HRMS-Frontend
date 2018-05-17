@@ -8,6 +8,11 @@ const validate = values => {
   if (!values.first_name) {
     errors.firstName = 'Required'
   }
+  if(Object.keys(errors) > 0) {
+    for (var key in errors) {
+      errors._error += key + ': ' + errors[key]
+    }
+  }
   return errors
 };
 

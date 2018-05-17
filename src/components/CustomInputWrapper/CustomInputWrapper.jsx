@@ -18,7 +18,7 @@ const CustomInputWrapper = (props) =>
         errortext: props.touched && props.error
       }}
     />
-    { (props.meta.touched && props.meta.touched) ? <small style={{color: 'red'}}>{props.meta.error}</small> : null}
+    { (props.meta.touched && props.meta.error) ? <small style={{color: 'red'}}>{props.meta.error}</small> : null}
   </div>;
 
 

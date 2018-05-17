@@ -4,7 +4,7 @@ import {
   Field,
   reduxForm,
 } from 'redux-form'
-import { Grid, InputAdornment } from "material-ui";
+import { Grid } from "material-ui";
 import {
   CustomInput,
   ItemGrid,
@@ -12,23 +12,13 @@ import {
   Button,
   CustomInputWrapper
 } from "components";
-import {
-  KeyboardArrowLeft,
-  KeyboardArrowRight,
-  DateRange
-} from "material-ui-icons";
-import {
-  IconButton,
-} from "material-ui";
 import { MenuItem } from 'material-ui/Menu';
 import { ListItemText } from 'material-ui/List';
-import { DatePicker } from 'material-ui-pickers'
-import * as moment from 'moment';
 import { required, isEmail } from './validate';
 import validate from './validate';
 
 const UserFormStepOne = (props) => {
-  const { roles, users, handleSubmit } = props;
+  const { users, handleSubmit } = props;
   return (
     <Form onSubmit={handleSubmit}>
       <Grid container>
@@ -46,40 +36,7 @@ const UserFormStepOne = (props) => {
           </Grid>
           <Grid container>
             <ItemGrid xs={4} sm={4} md={4}>
-              <Field name="role_id"
-                     validate={[required]}
-                     component={({input}) => (
-                       <CustomInput
-                         isSelect={true}
-                         formControlProps={{
-                           fullWidth: true
-                         }}
-                         labelText={"Role *"}
-                         inputProps={{
-                           value: input.value,
-                           onChange: (event) => {if(event.target.value) return input.onChange(event, event.target.value);},
-                           required: "required",
-                           name: "role_id",
-                           autoComplete: "role_id",
-                         }}
-                       >
-                         {
-                           roles ?
-                             roles.map((role, index) => (
-                                 <MenuItem
-                                   key={index}
-                                   value={role.id}
-                                 >
-                                   <ListItemText primary={role.title}/>
-                                 </MenuItem>
-                               )
-                             )
-                             : null
-                         }
-                       </CustomInput>
-                     )
-                     }
-              />
+              <Field validate={[required]} name="title" required="required" autoComplete="title" type="text" custominputprops={{labelText: 'Title'}} component={CustomInputWrapper} />
             </ItemGrid>
             <ItemGrid xs={4} sm={4} md={4}>
               <Field name="reporting_to"
@@ -152,33 +109,6 @@ const UserFormStepOne = (props) => {
                      )
                      }
               />
-            </ItemGrid>
-          </Grid>
-          <Grid container>
-            <ItemGrid xs={4} sm={4} md={4}>
-              <br />
-              <Field name="join_date" validate={[required]}  component={(input,label,custom) => (
-                <DatePicker
-                  label="Joining Date"
-                  {...input}
-                  {...custom}
-                  format="Do MMMM YYYY"
-                  value={input.input.value ? moment(input.input.value) : null }
-                  onChange={(event) => input.input.onChange(event.format("YYYY-MM-DD"))}
-                  disablePast={true}
-                  leftArrowIcon={<KeyboardArrowLeft/>}
-                  rightArrowIcon={<KeyboardArrowRight/>}
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <IconButton>
-                          <DateRange />
-                        </IconButton>
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-              )} />
             </ItemGrid>
           </Grid>
         </ItemGrid>

@@ -22,6 +22,7 @@ const initialState = {
   },
   users: {
     allUsers: [],
+    userCreateFormErrors: null
   },
   tickets: {
     ticketOptions: {},

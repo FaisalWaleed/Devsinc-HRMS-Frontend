@@ -30,17 +30,20 @@ export const userReducer = (state = initialState,action) => {
           return {
             ...state,
             profile: action.payload
-          }
+          };
         case "UPDATE_PROFILE_SUCCESS":
           return {
             ...state,
             profileUpdated: true
-          }
+          };
       case types.CREATE_USER_SUCCESS:
         return state;
         
       case types.CREATE_USER_FAILURE:
-        return state;
+        return {...state, userCreateFormErrors: action.payload.errors };
+        
+      case types.CLEAR_CREATE_USER_FORM_ERRORS:
+        return {...state, userCreateFormErrors: null};
 
         default:
             return state;
