@@ -70,7 +70,7 @@ class UserForm extends React.Component {
     
     const steps = getSteps();
     const { activeStep } = this.state;
-    const { onSubmit, submitting, isNew, users, roles, handleClose, errors } = this.props;
+    const { onSubmit, initialValues, users, isNew } = this.props;
     return (
       <div>
         <Stepper activeStep={activeStep} orientation="vertical">
@@ -79,9 +79,9 @@ class UserForm extends React.Component {
               <Step key={label}>
                 <StepLabel>{label}</StepLabel>
                 <StepContent>
-                  {index === 0 && <UserFormStepOne users={users} onSubmit={this.handleNext} />}
-                  {index === 1 && <UserFormStepTwo isNew={true} previousStep={this.handleBack} onSubmit={this.handleNext}/>}
-                  {index === 2 && <UserFormStepThree previousStep={this.handleBack} onSubmit={onSubmit}/>}
+                  {index === 0 && <UserFormStepOne initialValues={initialValues} users={users} onSubmit={this.handleNext} />}
+                  {index === 1 && <UserFormStepTwo initialValues={initialValues} isNew={isNew} previousStep={this.handleBack} onSubmit={this.handleNext}/>}
+                  {index === 2 && <UserFormStepThree initialValues={initialValues} previousStep={this.handleBack} onSubmit={onSubmit}/>}
                 </StepContent>
               </Step>
             );
