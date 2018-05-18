@@ -21,6 +21,7 @@ import {
   FlightTakeoff,
   People
 } from "material-ui-icons";
+import ResetPasswordPage from "../views/Landing/ResetPasswordPage";
 
 
 const appRoutes = [
@@ -132,6 +133,14 @@ const appRoutes = [
     component: Permissions,
     notSidebar: true,
     exact: true
+  },
+  {
+    path: "/welcome",
+    sidebarName: "",
+    navbarName: "",
+    component: ResetPasswordPage,
+    notSidebar: true,
+    unprotected: true
   },
   { redirect: true, path: "/", to: "/dashboard", navbarName: "Redirect" }
 ];

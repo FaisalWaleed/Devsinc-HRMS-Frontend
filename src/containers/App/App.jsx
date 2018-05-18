@@ -17,6 +17,8 @@ import MuiPickersUtilsProvider from 'material-ui-pickers/utils/MuiPickersUtilsPr
 import { connect } from 'react-redux';
 import { fetchPermissions } from '../../api/permission'
 import {fetchPermissionFailure, fetchPermissionSuccess} from "../../actions/permission";
+import { unprotectedPages } from '../../config/unprotectedPagesConfig';
+
 
 const requireSignIn = generateRequireSignInWrapper({
   redirectPathIfNotSignedIn: '/login',
@@ -49,6 +51,10 @@ class App extends React.Component {
     return this.props.location.pathname === "/login";
   }
   
+  checkUnprotectedPages(){
+    return unprotectedPages.includes(this.props.location.pathname)
+  }
+  
   componentDidMount() {
     if(navigator.platform.indexOf('Win') > -1){
       // eslint-disable-next-line
@@ -68,7 +74,7 @@ class App extends React.Component {
         <div>
           <ModalRoot />
           <div className={classes.wrapper}>
-            {this.checkLoginPath() ? null :
+            {this.checkUnprotectedPages() ? null :
               <Sidebar
                 routes={appRoutes}
                 logo={logo}
