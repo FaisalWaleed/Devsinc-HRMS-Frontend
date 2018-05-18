@@ -44,6 +44,14 @@ export const userReducer = (state = initialState,action) => {
         
       case types.CLEAR_CREATE_USER_FORM_ERRORS:
         return {...state, userCreateFormErrors: null};
+        
+      case types.RESET_PASSWORD_SUCCESS:
+        alert("success reset password")
+        return state;
+        
+      case types.RESET_PASSWORD_FAILURE:
+        alert("failed reset password")
+        return state;
 
         default:
             return state;

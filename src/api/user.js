@@ -46,3 +46,14 @@ export const createUser = (params, successAction, failureAction) => {
     body: JSON.stringify({user: params})
   },successAction, failureAction, true);
 };
+
+export const resetPassword = (params, successAction, failureAction) => {
+  return request('/auth/password',{
+    method: 'PUT',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(params)
+  },successAction,failureAction);
+};

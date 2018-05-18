@@ -3,11 +3,20 @@ import { Grid } from 'material-ui';
 import logo from "assets/img/devsinc_logo.png";
 import { Button,Muted, RegularCard, ItemGrid, CustomInputWrapper } from 'components';
 import ResetPasswordForm from './ResetPasswordForm';
+import { connect } from 'react-redux';
+import {resetPassword} from "../../api/user";
+import {resetPasswordFailure, resetPasswordSuccess} from "../../actions/user";
 
 class ResetPasswordPage extends React.Component{
   
+  constructor(props){
+    super(props);
+    this.handleResetPasswordSubmit = this.handleResetPasswordSubmit.bind(this);
+  }
+  
   handleResetPasswordSubmit(values){
     console.log(values);
+    this.props.resetPassword(values);
   }
   
   render(){
@@ -33,11 +42,15 @@ class ResetPasswordPage extends React.Component{
             />
           </ItemGrid>
         </Grid>
-      
-      
       </Grid>
     )
   }
 }
 
-export default ResetPasswordPage;
+function mapDispatchToProps(dispatch){
+  return {
+    resetPassword: (params) => {dispatch(resetPassword(params,resetPasswordSuccess,resetPasswordFailure))}
+  }
+}
+
+export default connect(null,mapDispatchToProps)(ResetPasswordPage);

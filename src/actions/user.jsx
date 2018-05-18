@@ -78,3 +78,17 @@ export const clearUserCreateForm = () => {
     type: types.CLEAR_CREATE_USER_FORM_ERRORS
   }
 };
+
+export const resetPasswordSuccess = (payload) => {
+  return {
+    type: types.RESET_PASSWORD_SUCCESS,
+    payload
+  }
+};
+
+export const resetPasswordFailure = (payload) => {
+  return {
+    type: types.RESET_PASSWORD_FAILURE,
+    payload
+  }
+};
