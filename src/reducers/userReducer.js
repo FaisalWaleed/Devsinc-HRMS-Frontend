@@ -1,5 +1,7 @@
 import initialState from "./initialState";
 import * as types from '../actions/actionTypes';
+import { browserHistory } from 'react-router'
+
 
 export const userReducer = (state = initialState,action) => {
     switch(action.type) {
@@ -46,11 +48,9 @@ export const userReducer = (state = initialState,action) => {
         return {...state, userCreateFormErrors: null};
         
       case types.RESET_PASSWORD_SUCCESS:
-        alert("success reset password")
-        return state;
-        
+        window.location = "/dashboard";
+        return {...state, resetPasswordSuccess: true };
       case types.RESET_PASSWORD_FAILURE:
-        alert("failed reset password")
         return state;
 
         default:

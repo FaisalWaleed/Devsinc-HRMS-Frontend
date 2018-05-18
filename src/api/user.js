@@ -55,5 +55,5 @@ export const resetPassword = (params, successAction, failureAction) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(params)
-  },successAction,failureAction);
+  },successAction,failureAction,true);
 };
