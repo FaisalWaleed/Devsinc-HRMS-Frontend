@@ -136,7 +136,7 @@ const UserFormStepTwo = (props) => {
                   format="Do MMMM YYYY"
                   value={input.input.value ? moment(input.input.value) : null }
                   onChange={(event) => input.input.onChange(event.format("YYYY-MM-DD"))}
-                  disablePast={true}
+                  disablePast={false}
                   leftArrowIcon={<KeyboardArrowLeft/>}
                   rightArrowIcon={<KeyboardArrowRight/>}
                   InputProps={{
@@ -157,10 +157,10 @@ const UserFormStepTwo = (props) => {
               <Field validate={[required]} name="contact_number" required="required" autoComplete="contact_number" type="tel" custominputprops={{labelText: 'Contact Number'}} component={CustomInputWrapper} />
             </ItemGrid>
             <ItemGrid xs={4} sm={4} md={4}>
-              <Field validate={[required]} name="emergency_contact_person_relation" required="required" autoComplete="emergency_contact_person_relation" type="text" custominputprops={{labelText: 'Emergency Contact Person Relation'}} component={CustomInputWrapper} />
+              <Field validate={[required]} name="emergency_contact_person_number" required="required" autoComplete="emergency_contact_person_number" type="tel" custominputprops={{labelText: 'Emergency Contact Number'}} component={CustomInputWrapper} />
             </ItemGrid>
             <ItemGrid xs={4} sm={4} md={4}>
-              <Field validate={[required]} name="emergency_contact_person_number" required="required" autoComplete="emergency_contact_person_number" type="tel" custominputprops={{labelText: 'Emergency Contact Number'}} component={CustomInputWrapper} />
+              <Field validate={[required]} name="emergency_contact_person_relation" required="required" autoComplete="emergency_contact_person_relation" type="text" custominputprops={{labelText: 'Emergency Contact Person Relation'}} component={CustomInputWrapper} />
             </ItemGrid>
           </Grid>
           <Grid container>
