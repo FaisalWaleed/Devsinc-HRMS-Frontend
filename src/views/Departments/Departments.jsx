@@ -49,8 +49,8 @@ class Departments extends React.Component {
         <Grid container>
           <ItemGrid xs={12} sm={12} md={12}>
             <RegularCard
-              cardTitle="Simple Table"
-              cardSubtitle="Here is a subtitle for this table"
+              cardTitle="Departments"
+              cardSubtitle="Make changes to Departments"
               content={
                 <div>
                   <Button color="primary">

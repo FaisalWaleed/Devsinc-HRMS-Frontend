@@ -15,7 +15,7 @@ import {
 } from "api/role"
 import { values, map, drop } from 'lodash';
 import { Link } from "react-router-dom";
-import { Delete, Edit, Visibility } from "material-ui-icons";
+import { Delete, Edit, People } from "material-ui-icons";
 
 import {
   fetchRolesSuccess,
@@ -35,7 +35,7 @@ class Roles extends React.Component {
     const requiredFields = [title, description, department_id]
     return [
       ...requiredFields,
-      <Link to={`/roles/${id}`}><Visibility /></Link>,
+      <Link to={`/roles/${id}`}><People /></Link>,
       <Link to={`/roles/edit/${id}`}><Edit /></Link>,
       <Delete onClick={() => this.props.onDeleteRole(id, deleteRoleSuccess, deleteRoleFailure)}/>
     ];
@@ -60,7 +60,7 @@ class Roles extends React.Component {
                 </Button>
                 <Table
                   tableHeaderColor="primary"
-                  tableHead={["Title", "Description", "Department", "show", "Edit", "Delete"]}
+                  tableHead={["Title", "Description", "Department", "Users", "Edit", "Delete"]}
                   tableData={roles}
                 />
               </div>

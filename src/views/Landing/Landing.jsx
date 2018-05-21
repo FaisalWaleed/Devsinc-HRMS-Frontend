@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 import { signInUser } from "../../actions/auth/authConfig";
 import SignInForm from './SignInForm';
 import { SubmissionError } from 'redux-form';
+import {fetchPermissions} from "../../api/permission";
+import {fetchPermissionFailure, fetchPermissionSuccess} from "../../actions/permission";
 
 class Landing extends React.Component{
   constructor(props){
@@ -19,6 +21,7 @@ class Landing extends React.Component{
     
     return signInUser({email, password})
       .then((data) => {
+        this.props.fetchPermissions();
         this.props.history.push('/dashboard');
       })
       .catch((error) => {
@@ -45,4 +48,4 @@ class Landing extends React.Component{
   
 }
 
-export default connect(null,{signInUser})(Landing);
+export default connect(null,{signInUser,fetchPermissions: () => fetchPermissions(fetchPermissionSuccess,fetchPermissionFailure)})(Landing);
