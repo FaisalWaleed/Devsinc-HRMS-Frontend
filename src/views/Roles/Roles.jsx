@@ -31,8 +31,8 @@ class Roles extends React.Component {
   }
   
   roleWithButtons = (role) => {
-    const { id, title, description, department_id } = role;
-    const requiredFields = [title, description, department_id]
+    const { id, title, description, department } = role;
+    const requiredFields = [title, description, department]
     return [
       ...requiredFields,
       <Link to={`/roles/${id}`}><People /></Link>,
