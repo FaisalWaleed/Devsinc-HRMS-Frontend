@@ -11,10 +11,10 @@ import {
   ListItemIcon,
   ListItemText
 } from "material-ui";
-
 import { HeaderLinks } from "components";
-
 import sidebarStyle from "variables/styles/sidebarStyle.jsx";
+import { PermissibleRender } from '@brainhubeu/react-permissible';
+import { connect } from 'react-redux';
 
 const Sidebar = ({ ...props }) => {
   // verifies if routeName is the one active (in browser input)
@@ -33,30 +33,37 @@ const Sidebar = ({ ...props }) => {
           [" " + classes.whiteFont]: activeRoute(prop.path)
         });
         return (
-          <NavLink
-            to={prop.path}
-            className={classes.item}
-            activeClassName="active"
+          <PermissibleRender
             key={key}
+            userPermissions={props.permissions}
+            requiredPermissions={prop.requiredPermissions}
+            oneperm={prop.atleastOnePerm}
           >
-            <ListItem button className={classes.itemLink + listItemClasses}>
-              <ListItemIcon className={classes.itemIcon + whiteFontClasses}>
-                <prop.icon />
-              </ListItemIcon>
-              <ListItemText
-                primary={prop.sidebarName}
-                className={classes.itemText + whiteFontClasses}
-                disableTypography={true}
-              />
-            </ListItem>
-          </NavLink>
+            <NavLink
+              to={prop.path}
+              className={classes.item}
+              activeClassName="active"
+              key={key}
+            >
+              <ListItem button className={classes.itemLink + listItemClasses}>
+                <ListItemIcon className={classes.itemIcon + whiteFontClasses}>
+                  <prop.icon />
+                </ListItemIcon>
+                <ListItemText
+                  primary={prop.sidebarName}
+                  className={classes.itemText + whiteFontClasses}
+                  disableTypography={true}
+                />
+              </ListItem>
+            </NavLink>
+          </PermissibleRender>
         );
       })}
     </List>
   );
   var brand = (
     <div className={classes.logo}>
-      <a href="https://www.creative-tim.com" className={classes.logoLink}>
+      <a href="http://devsinc.com" className={classes.logoLink}>
         <div className={classes.logoImage}>
           <img src={logo} alt="logo" className={classes.img} />
         </div>
@@ -119,4 +126,10 @@ Sidebar.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(sidebarStyle)(Sidebar);
+function mapStateToProps(state){
+  return {
+    permissions: state.permissions.userPermissions
+  }
+}
+
+export default connect(mapStateToProps,null)(withStyles(sidebarStyle)(Sidebar));

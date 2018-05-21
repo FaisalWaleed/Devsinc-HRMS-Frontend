@@ -1,5 +1,6 @@
 import * as types from "./actionTypes";
 import {fetchAssignedTickets, fetchTickets, fetchTicketStatuses} from "../api/ticket";
+import {HIDE_MODAL} from "./modal";
 
 export const fetchTicketsSuccess = (payload) => ({
     type: types.FETCH_TICKETS_SUCCESS,
@@ -28,6 +29,7 @@ export const createTicketSuccess = (payload) => {
       payload
     });
     dispatch(fetchTickets(fetchTicketsSuccess,fetchTicketsFailure));
+    dispatch(HIDE_MODAL);
   }
 };
 

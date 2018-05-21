@@ -22,6 +22,8 @@ const initialState = {
   },
   users: {
     allUsers: [],
+    userCreateFormErrors: null,
+    resetPasswordSuccess: false
   },
   tickets: {
     ticketOptions: {},

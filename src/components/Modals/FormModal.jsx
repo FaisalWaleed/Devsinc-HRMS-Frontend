@@ -6,6 +6,7 @@ import Dialog, {
 } from 'material-ui/Dialog';
 import { connect } from 'react-redux';
 import * as types from '../../actions/actionTypes';
+import { Close } from 'material-ui-icons';
 
 class FormModal extends React.Component {
   render() {
@@ -23,7 +24,7 @@ class FormModal extends React.Component {
           fullScreen={this.props.fullscreen ? true : false}
           {...this.props}
         >
-          <DialogTitle id="alert-dialog-title">{this.props.title ? this.props.title : "Title"}</DialogTitle>
+          <DialogTitle id="alert-dialog-title">{this.props.title ? this.props.title : "Title"}<Close onClick={this.props.handleClose} style={{float: 'right', cursor: 'pointer'}} /></DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
               {this.props.subtitle}

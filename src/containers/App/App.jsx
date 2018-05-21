@@ -17,22 +17,14 @@ import MuiPickersUtilsProvider from 'material-ui-pickers/utils/MuiPickersUtilsPr
 import { connect } from 'react-redux';
 import { fetchPermissions } from '../../api/permission'
 import {fetchPermissionFailure, fetchPermissionSuccess} from "../../actions/permission";
+import { unprotectedPages } from '../../config/unprotectedPagesConfig';
+import { intersection,difference } from 'lodash';
 
 const requireSignIn = generateRequireSignInWrapper({
   redirectPathIfNotSignedIn: '/login',
 });
 
-const switchRoutes = (
-  <Switch>
-    {appRoutes.map((prop, key) => {
-      if (prop.redirect)
-        return <Redirect from={prop.path} to={prop.to} key={key} />;
-      return prop.unprotected
-        ? <Route path={prop.path} component={prop.component} key={key} exact={prop.exact} />
-        : <Route path={prop.path} component={requireSignIn(prop.component)} key={key} exact={prop.exact} />;
-    })}
-  </Switch>
-);
+
 
 class App extends React.Component {
   state = {
@@ -49,26 +41,55 @@ class App extends React.Component {
     return this.props.location.pathname === "/login";
   }
   
+  checkUnprotectedPages(){
+    return unprotectedPages.includes(this.props.location.pathname)
+  }
+  
   componentDidMount() {
+    if(!this.checkUnprotectedPages()){
+      this.props.fetchPermissions();
+    }
     if(navigator.platform.indexOf('Win') > -1){
       // eslint-disable-next-line
       const ps = new PerfectScrollbar(this.refs.mainPanel);
     }
   }
   componentDidUpdate() {
-    if(!this.checkLoginPath() && localStorage.getItem("permissions") === null){
-      this.props.fetchPermissions();
-    }
-    this.refs.mainPanel.scrollTop = 0;
+    // this.refs.mainPanel.scrollTop = 0;
   }
+  
+  hasPermission(userPermissions, requiredPermissions, hasAnyOnePermission = false){
+    if (!userPermissions || !requiredPermissions){
+      return false
+    }
+    if(hasAnyOnePermission){
+      return intersection(userPermissions, requiredPermissions).length;
+    }
+    return difference(requiredPermissions, userPermissions).length === 0;
+  }
+  
   render() {
+    const switchRoutes = (
+      <Switch>
+        {
+          appRoutes.map((prop, key) => {
+            if (prop.redirect)
+              return <Redirect from={prop.path} to={prop.to} key={key} />;
+            else if(prop.unprotected)
+              return <Route path={prop.path} component={prop.component} key={key} exact={prop.exact} />;
+            else if (this.hasPermission(this.props.permissions, prop.requiredPermissions, prop.atleastOnePerm))
+              return <Route key={key} path={prop.path} component={requireSignIn(prop.component)} exact={prop.exact} />
+          })
+        }
+      </Switch>
+    );
     const { classes, ...rest } = this.props;
     return (
       <MuiPickersUtilsProvider utils={MomentUtils}>
         <div>
           <ModalRoot />
           <div className={classes.wrapper}>
-            {this.checkLoginPath() ? null :
+            {this.checkUnprotectedPages() ? null :
               <Sidebar
                 routes={appRoutes}
                 logo={logo}
@@ -110,7 +131,7 @@ App.propTypes = {
 
 function mapStateToProps(state){
   return {
-    permissions: state.permissions
+    permissions: state.permissions.userPermissions
   }
 }
 

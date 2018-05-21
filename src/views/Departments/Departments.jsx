@@ -1,26 +1,26 @@
 import React from "react";
 import { Grid } from "material-ui";
 
-import { RegularCard, 
-  Table, 
-  ItemGrid 
+import { RegularCard,
+  Table,
+  ItemGrid,
+  Button
 } from "components";
 
 import { connect } from "react-redux";
-import { 
-  fetchDepartments, 
-  deleteDepartment 
+import {
+  fetchDepartments,
+  deleteDepartment
 } from "../../api/department"
 import { values, map, drop } from 'lodash';
-import RegularButton from "components/CustomButtons/Button"
 import { Link } from "react-router-dom";
 import { Delete, Edit } from "material-ui-icons";
 
-import { 
-  fetchDepartmentsSuccess, 
-  fetchDepartmentsFailure, 
-  deleteDepartmentSuccess, 
-  deleteDepartmentFailure 
+import {
+  fetchDepartmentsSuccess,
+  fetchDepartmentsFailure,
+  deleteDepartmentSuccess,
+  deleteDepartmentFailure
 } from "actions/department";
 
 class Departments extends React.Component {
@@ -28,36 +28,40 @@ class Departments extends React.Component {
     // this.props.const { dispatch } = this.props;
     this.props.fetchDepartments(fetchDepartmentsSuccess, fetchDepartmentsFailure);
   }
-
+  
   departmentWithButtons = (department) => {
     const { id } = department;
-
+    
     return [
       ...drop(values(department)),
-      <Delete onClick={() => this.props.onDeleteDepartment(id, deleteDepartmentSuccess, deleteDepartmentFailure)}/>, 
-      <Link to={`/departments/edit/${id}`}><Edit /></Link>
-    ];  
-  }
-
+      <div>
+        <Delete onClick={() => this.props.onDeleteDepartment(id, deleteDepartmentSuccess, deleteDepartmentFailure)}/>
+        <Link style={{paddingLeft: '5px'}} to={`/departments/edit/${id}`}><Edit /></Link>
+      </div>
+    ];
+  };
+  
   render() {
     const departments = map(this.props.departments, this.departmentWithButtons);
-
+    
     return (
       <div>
-        <RegularButton>
-          <Link to="/departments/new">New Department</Link>
-        </RegularButton>
         <Grid container>
           <ItemGrid xs={12} sm={12} md={12}>
             <RegularCard
               cardTitle="Simple Table"
               cardSubtitle="Here is a subtitle for this table"
               content={
-                <Table
-                  tableHeaderColor="primary"
-                  tableHead={["Name", "Description", "Actions"]}
-                  tableData={departments}
-                />
+                <div>
+                  <Button color="primary">
+                    <Link style={{color: 'white'}} to="/departments/new">New Department</Link>
+                  </Button>
+                  <Table
+                    tableHeaderColor="primary"
+                    tableHead={["Name", "Description", "Actions"]}
+                    tableData={departments}
+                  />
+                </div>
               }
             />
           </ItemGrid>
@@ -67,8 +71,8 @@ class Departments extends React.Component {
   }
 }
 function mapStateToProps({ departments }) {
-  return { 
-    departments: departments.departments 
+  return {
+    departments: departments.departments
   };
 }
 const mapDispatchToProps = {
