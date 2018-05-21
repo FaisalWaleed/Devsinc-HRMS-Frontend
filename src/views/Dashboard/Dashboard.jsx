@@ -1,7 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-// react plugin for creating charts
-import ChartistGraph from "react-chartist";
 import {
   ContentCopy,
   Store,
@@ -10,12 +8,9 @@ import {
   DateRange,
   LocalOffer,
   Update,
-  ArrowUpward,
-  AccessTime,
   Accessibility
 } from "material-ui-icons";
 import { withStyles, Grid } from "material-ui";
-
 import {
   StatsCard,
   ChartCard,
@@ -30,7 +25,6 @@ import {
   emailsSubscriptionChart,
   completedTasksChart
 } from "variables/charts";
-
 import dashboardStyle from "variables/styles/dashboardStyle";
 
 class Dashboard extends React.Component {

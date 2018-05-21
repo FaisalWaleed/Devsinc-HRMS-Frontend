@@ -7,7 +7,7 @@ export const permission = (state=initialState.permissions, action) => {
     case types.FETCH_PERMISSION_SUCCESS:
       localStorage.setItem("permissions",action.payload.permissions);
       localStorage.setItem("roles",action.payload.roles);
-      return {...state, userPermissions: action.payload.permissions};
+      return {...state, userPermissions: action.payload.permissions, userRoles: action.payload.roles };
     
     case types.PREV_LEAVE_YEAR:
       return state;
