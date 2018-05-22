@@ -155,9 +155,7 @@ const appRoutes = [
     navbarName: "",
     component: ResetPasswordPage,
     notSidebar: true,
-    unprotected: true,
-    requiredPermissions: ["users_index"],
-    atleastOnePerm: false
+    unprotected: true
   },
   { redirect: true, path: "/", to: "/dashboard", navbarName: "Redirect" }
 ];

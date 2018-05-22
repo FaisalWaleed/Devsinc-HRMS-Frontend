@@ -1,8 +1,7 @@
 import React from 'react';
 import { Grid } from "material-ui";
-import { RegularCard, Button, Table, ItemGrid } from "components";
+import { RegularCard, Button, Table, ItemGrid, Permissible } from "components";
 import { connect } from 'react-redux';
-
 import {fetchUsers, deleteUser, editUser, createUser} from "../../api/user";
 import {
   fetchUsersSuccess,
@@ -13,13 +12,12 @@ import {
   deleteUserFailure,
   createUserSuccess, createUserFailure, clearUserCreateForm
 } from "../../actions/user";
-
 import { Delete,Edit } from "material-ui-icons";
 import * as types from '../../actions/actionTypes';
 import UserForm from './UserForm';
 import {HIDE_MODAL} from "../../actions/modal";
 import { drop,map,values } from 'lodash';
-import * as moment from 'moment';
+import { hasPermission } from "../../helpers/permissionsHelper";
 
 class ManageUsers extends React.Component{
   constructor(props){
@@ -27,75 +25,84 @@ class ManageUsers extends React.Component{
     this.handleCreateUserSubmit = this.handleCreateUserSubmit.bind(this);
     this.handleEditUserSubmit = this.handleEditUserSubmit.bind(this);
   }
-  
+
   componentDidMount() {
     this.props.fetchUsers();
   }
-  
+
   userWithButtons = (user) => {
     const { id, name, email,dob, emergency_contact_person_number, emergency_contact_person_relation, permanent_address, join_date, buddy_id, first_name, last_name, image, title, contact_number, employment_history, reporting_to, manager } = user;
     const requiredFields = [ <img width="80" src={image["url"]} />, name, title,email,contact_number, manager ];
     return [
       ...requiredFields,
-      <Delete style={{'marginRight': '10px'}}
-              onClick={
-                this.props.openModal.bind(this,
-                  types.DELETE_MODAL,
-                  {
-                    deleteAction: deleteUser(
+      <Permissible
+        requiredPermissions={["users_destroy"]}
+      >
+        <Delete style={{'marginRight': '10px'}}
+                onClick={
+                  this.props.openModal.bind(this,
+                    types.DELETE_MODAL,
+                    {
+                      deleteAction: deleteUser(
+                        id,
+                        deleteUserSuccess,
+                        deleteUserFailure
+                      ),
+                      resourceType: 'user'
+                    }
+                  )
+                }
+        />
+      </Permissible>,
+      <Permissible
+        requiredPermissions={["users_update"]}
+      >
+        <Edit
+          onClick={
+            this.props.openModal.bind(this, types.FORM_MODAL,
+              {
+                form:
+                  <UserForm
+                    initialValues={{
                       id,
-                      deleteUserSuccess,
-                      deleteUserFailure
-                    ),
-                    resourceType: 'user'
-                  }
-                )
+                      email,
+                      first_name,
+                      last_name,
+                      title,
+                      reporting_to,
+                      buddy_id,
+                      dob,
+                      contact_number,
+                      emergency_contact_person_number,
+                      emergency_contact_person_relation,
+                      permanent_address,
+                      join_date,
+                      employment_history,
+                    }}
+                    onSubmit={this.handleEditUserSubmit}
+                    isNew={false}
+                  />,
+                title: `Edit ${email}`,
               }
-      />,
-      <Edit
-        onClick={
-          this.props.openModal.bind(this, types.FORM_MODAL,
-            {
-              form:
-                <UserForm
-                  initialValues={{
-                    id,
-                    email,
-                    first_name,
-                    last_name,
-                    title,
-                    reporting_to,
-                    buddy_id,
-                    dob,
-                    contact_number,
-                    emergency_contact_person_number,
-                    emergency_contact_person_relation,
-                    permanent_address,
-                    join_date,
-                    employment_history,
-                  }}
-                  onSubmit={this.handleEditUserSubmit}
-                  isNew={false}
-                />,
-              title: `Edit ${email}`,
-            }
-          )
-        }
-      />
+            )
+          }
+        />
+      </Permissible>
     ];
   };
-  
+
   handleCreateUserSubmit(values){
     this.props.clearFormErrors();
     this.props.createUser(values)
   }
-  
+
   handleEditUserSubmit(values){
     this.props.editUser(values);
   };
-  
+
   render(){
     const users = map(this.props.users, this.userWithButtons);
+    const { userPermissions } = this.props;
     return(
       <Grid container>
         <ItemGrid xs={12} sm={12} md={12}>
@@ -104,10 +111,23 @@ class ManageUsers extends React.Component{
             cardSubtitle="Click on operations to perform actions"
             content={
               <div>
-                <Button onClick={this.props.openModal.bind(this,types.FORM_MODAL,{title: 'Create New User', form: <UserForm onSubmit={this.handleCreateUserSubmit} isNew={true} />, fullscreen: true  })} color="primary">Create a New User</Button>
+                <Permissible
+                  requiredPermissions={["users_create"]}
+                >
+                  <Button onClick={this.props.openModal.bind(this,types.FORM_MODAL,{title: 'Create New User', form: <UserForm onSubmit={this.handleCreateUserSubmit} isNew={true} />, fullscreen: true  })} color="primary">Create a New User</Button>
+                </Permissible>
                 <Table
                   tableHeaderColor="primary"
-                  tableHead={["Image","Name","Title","Email","Contact","Manager","Delete","Edit"]}
+                  tableHead={[
+                    "Image",
+                    "Name",
+                    "Title",
+                    "Email",
+                    "Contact",
+                    "Manager",
+                    `${hasPermission(userPermissions,["users_destroy"],true) ? "Delete" : ''}`,
+                    `${hasPermission(userPermissions,["users_update"],true) ? "Edit" : ''}`
+                  ]}
                   tableData={users}
                 />
               </div>
@@ -132,7 +152,8 @@ function mapDispatchToProps(dispatch){
 
 function mapStateToProps(state){
   return {
-    users: state.users.allUsers
+    users: state.users.allUsers,
+    userPermissions: state.permissions.userPermissions
   }
 }
 
