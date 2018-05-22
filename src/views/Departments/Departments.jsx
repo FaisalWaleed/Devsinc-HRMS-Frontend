@@ -1,30 +1,23 @@
 import React from "react";
 import { Grid } from "material-ui";
-
 import { RegularCard,
   Table,
   ItemGrid,
   Button
 } from "components";
-
 import { connect } from "react-redux";
-import {
-  fetchDepartments,
-  deleteDepartment
-} from "../../api/department"
+import { fetchDepartments, deleteDepartment } from "../../api/department"
 import { values, map, drop } from 'lodash';
 import { Link } from "react-router-dom";
 import { Delete, Edit } from "material-ui-icons";
-
 import {
   fetchDepartmentsSuccess,
   fetchDepartmentsFailure,
   deleteDepartmentSuccess,
   deleteDepartmentFailure
 } from "actions/department";
-import {deleteUserFailure, deleteUserSuccess} from "../../actions/user";
-import {deleteUser} from "../../api/user";
 import * as types from "../../actions/actionTypes";
+import { PermissibleRender } from '@brainhubeu/react-permissible';
 
 class Departments extends React.Component {
   constructor(props){

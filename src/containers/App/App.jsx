@@ -18,8 +18,8 @@ import { connect } from 'react-redux';
 import { fetchPermissions } from '../../api/permission'
 import {fetchPermissionFailure, fetchPermissionSuccess} from "../../actions/permission";
 import { unprotectedPages } from '../../config/unprotectedPagesConfig';
-import { intersection,difference } from 'lodash';
 import Unauthorized from "../../views/Errors/Unauthorized";
+import { hasPermission } from "../../helpers/permissionsHelper";
 
 const requireSignIn = generateRequireSignInWrapper({
   redirectPathIfNotSignedIn: '/login',
@@ -56,17 +56,11 @@ class App extends React.Component {
     }
   }
   componentDidUpdate() {
-    // this.refs.mainPanel.scrollTop = 0;
-  }
+    if(this.props.permissions === null){
+      this.props.fetchPermissions();
+    }
 
-  hasPermission(userPermissions, requiredPermissions, hasAnyOnePermission = false){
-    if (!userPermissions || !requiredPermissions){
-      return false
-    }
-    if(hasAnyOnePermission){
-      return intersection(userPermissions, requiredPermissions).length;
-    }
-    return difference(requiredPermissions, userPermissions).length === 0;
+    // this.refs.mainPanel.scrollTop = 0;
   }
 
   render() {
@@ -79,7 +73,7 @@ class App extends React.Component {
             else if(prop.unprotected)
               return <Route path={prop.path} component={prop.component} key={key} exact={prop.exact} />;
             else
-              return <Route key={key} path={prop.path} component={this.hasPermission(this.props.permissions, prop.requiredPermissions, prop.atleastOnePerm) ? requireSignIn(prop.component) : requireSignIn(Unauthorized)} exact={prop.exact} />
+              return <Route key={key} path={prop.path} component={hasPermission(this.props.permissions, prop.requiredPermissions, prop.atleastOnePerm) ? requireSignIn(prop.component) : requireSignIn(Unauthorized)} exact={prop.exact} />
           })
         }
       </Switch>
@@ -91,7 +85,8 @@ class App extends React.Component {
           <div>
             <ModalRoot />
             <div className={classes.wrapper}>
-              {this.checkUnprotectedPages() ? null :
+              {
+                this.checkUnprotectedPages() ? null :
                 <Sidebar
                   routes={appRoutes}
                   logo={logo}
