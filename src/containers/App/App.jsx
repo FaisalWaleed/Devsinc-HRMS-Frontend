@@ -19,6 +19,7 @@ import { fetchPermissions } from '../../api/permission'
 import {fetchPermissionFailure, fetchPermissionSuccess} from "../../actions/permission";
 import { unprotectedPages } from '../../config/unprotectedPagesConfig';
 import { intersection,difference } from 'lodash';
+import Unauthorized from "../../views/Unauthorized/Unauthorized";
 
 const requireSignIn = generateRequireSignInWrapper({
   redirectPathIfNotSignedIn: '/login',
@@ -77,8 +78,8 @@ class App extends React.Component {
               return <Redirect from={prop.path} to={prop.to} key={key} />;
             else if(prop.unprotected)
               return <Route path={prop.path} component={prop.component} key={key} exact={prop.exact} />;
-            else if (this.hasPermission(this.props.permissions, prop.requiredPermissions, prop.atleastOnePerm))
-              return <Route key={key} path={prop.path} component={requireSignIn(prop.component)} exact={prop.exact} />
+            else
+                return <Route key={key} path={prop.path} component={this.hasPermission(this.props.permissions, prop.requiredPermissions, prop.atleastOnePerm) ? requireSignIn(prop.component) : requireSignIn(Unauthorized)} exact={prop.exact} />
           })
         }
       </Switch>

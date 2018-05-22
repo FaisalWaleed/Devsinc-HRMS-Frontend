@@ -22,28 +22,48 @@ import {
   deleteDepartmentSuccess,
   deleteDepartmentFailure
 } from "actions/department";
+import {deleteUserFailure, deleteUserSuccess} from "../../actions/user";
+import {deleteUser} from "../../api/user";
+import * as types from "../../actions/actionTypes";
 
 class Departments extends React.Component {
-  componentDidMount() {
-    // this.props.const { dispatch } = this.props;
-    this.props.fetchDepartments(fetchDepartmentsSuccess, fetchDepartmentsFailure);
+  constructor(props){
+    super(props);
   }
-  
+
+  componentDidMount() {
+    this.props.fetchDepartments();
+  }
+
   departmentWithButtons = (department) => {
     const { id } = department;
-    
+
     return [
       ...drop(values(department)),
       <div>
-        <Delete onClick={() => this.props.onDeleteDepartment(id, deleteDepartmentSuccess, deleteDepartmentFailure)}/>
+        <Delete
+          onClick={
+            this.props.openModal.bind(this,
+              types.DELETE_MODAL,
+              {
+                deleteAction: this.props.onDeleteDepartment(
+                  id,
+                  deleteDepartmentSuccess,
+                  deleteDepartmentFailure
+                ),
+                resourceType: 'department'
+              }
+            )
+          }
+        />,
         <Link style={{paddingLeft: '5px'}} to={`/departments/edit/${id}`}><Edit /></Link>
       </div>
     ];
   };
-  
+
   render() {
     const departments = map(this.props.departments, this.departmentWithButtons);
-    
+
     return (
       <div>
         <Grid container>
@@ -75,10 +95,13 @@ function mapStateToProps({ departments }) {
     departments: departments.departments
   };
 }
-const mapDispatchToProps = {
-  fetchDepartments,
-  onDeleteDepartment: deleteDepartment
-};
+function mapDispatchToProps (dispatch){
+  return {
+    openModal: (modalType, modalProps = null) => { dispatch({type: types.SHOW_MODAL, modalType: modalType, modalProps: modalProps}) },
+    fetchDepartments: () => { dispatch(fetchDepartments(fetchDepartmentsSuccess,fetchDepartmentsFailure)) },
+    onDeleteDepartment: deleteDepartment
+  }
+}
 const withConnect = connect(mapStateToProps, mapDispatchToProps)(Departments);
 
 export default withConnect;

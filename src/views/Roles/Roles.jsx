@@ -23,11 +23,11 @@ import {
   deleteRoleSuccess,
   deleteRoleFailure
 } from "actions/role";
+import * as types from "../../actions/actionTypes";
 
 class Roles extends React.Component {
   componentDidMount() {
-    // this.props.const { dispatch } = this.props;
-    this.props.fetchRoles(fetchRolesSuccess, fetchRolesFailure);
+    this.props.fetchRoles();
   }
   
   roleWithButtons = (role) => {
@@ -37,7 +37,21 @@ class Roles extends React.Component {
       ...requiredFields,
       <Link to={`/roles/${id}`}><People /></Link>,
       <Link to={`/roles/edit/${id}`}><Edit /></Link>,
-      <Delete onClick={() => this.props.onDeleteRole(id, deleteRoleSuccess, deleteRoleFailure)}/>
+      <Delete
+        onClick={
+          this.props.openModal.bind(this,
+            types.DELETE_MODAL,
+            {
+              deleteAction: this.props.onDeleteRole(
+                id,
+                deleteRoleSuccess,
+                deleteRoleSuccess
+              ),
+              resourceType: 'role'
+            }
+          )
+        }
+      />,
     ];
   }
   
@@ -76,10 +90,13 @@ function mapStateToProps({ roles }) {
     roles: roles.roles
   };
 }
-const mapDispatchToProps = {
-  fetchRoles,
-  onDeleteRole: deleteRole
-};
-const withConnect = connect(mapStateToProps, mapDispatchToProps)(Roles);
 
-export default withConnect;
+function mapDispatchToProps(dispatch){
+  return {
+    openModal: (modalType, modalProps = null) => { dispatch({type: types.SHOW_MODAL, modalType: modalType, modalProps: modalProps}) },
+    fetchRoles: () => {dispatch(fetchRoles(fetchRolesSuccess,fetchRolesFailure))},
+    onDeleteRole: deleteRole
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Roles);
