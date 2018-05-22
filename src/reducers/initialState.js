@@ -41,6 +41,9 @@ const initialState = {
     userRoles: [],
     userPermissions: [],
     permissionsObj: {}
+  },
+  errors:{
+    appError: false
   }
 };
 

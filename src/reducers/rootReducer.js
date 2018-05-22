@@ -8,6 +8,7 @@ import { ticketReducer } from "./ticketReducer";
 import { role } from './role';
 import { leave } from "./leave";
 import { permission } from "./permission";
+import { error } from "./error";
 
 const rootReducer = combineReducers({
   departments: department,
@@ -18,7 +19,8 @@ const rootReducer = combineReducers({
   tickets: ticketReducer,
   roles: role,
   leaves: leave,
-  permissions: permission
+  permissions: permission,
+  errors: error
 });
 
 export default rootReducer;

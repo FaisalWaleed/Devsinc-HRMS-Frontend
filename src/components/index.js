@@ -24,8 +24,8 @@ import CustomInput from "./CustomInput/CustomInput.jsx";
 // ##############################
 // // // CustomInput
 // #############################
-
-import CustomInputWrapper from "./CustomInputWrapper/CustomInputWrapper.jsx";
+import ErrorBoundary from "./ErrorBoundary/ErrorBoundary";
+import CustomInputWrapper from "./CustomInputWrapper/CustomInputWrapper";
 import FileInput from "./FileInput/FileInput";
 import DateRangePickerWrapper from './DateRangePickerWrapper/DateRangePickerWrapper';
 
@@ -129,5 +129,6 @@ export {
   Warning,
   Danger,
   Small,
-  A
+  A,
+  ErrorBoundary
 };
