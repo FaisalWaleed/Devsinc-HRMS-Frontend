@@ -1,6 +1,6 @@
 import React from 'react';
 import { Grid } from "material-ui";
-import { ItemGrid, Button, Danger } from "components";
+import { ItemGrid, Button, Danger, Muted } from "components";
 import List, {
   ListItem,
   ListItemAvatar,
@@ -59,12 +59,11 @@ class ShowTicket extends React.Component{
         <br />
         <Grid container>
           <ItemGrid xs={1} sm={1} md={1}></ItemGrid>
-
           <ItemGrid xs={10} sm={10} md={10}>
             <Paper style={{padding: '10px'}} elevation={5}>
-              <p>{description} </p>
+              <p>{description}</p>
             </Paper>
-            <h4>Discussion</h4>
+            <h5>Discussion</h5>
             <List>
               {comments && comments.length ?
                 comments.map((comment,index) => (
@@ -92,7 +91,7 @@ class ShowTicket extends React.Component{
                     </ListItemSecondaryAction>
                   </ListItem>
                 ))
-                : <h3>Nothing to show</h3>
+                : <Muted>Nothing to show</Muted>
               }
 
             </List>
