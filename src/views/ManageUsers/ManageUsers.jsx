@@ -55,7 +55,7 @@ class ManageUsers extends React.Component{
         />
       </Permissible>,
       <Permissible
-        requiredPermissions={["users_update"]}
+        requiredPermissions={["users_update_all"]}
       >
         <Edit
           onClick={
@@ -126,7 +126,7 @@ class ManageUsers extends React.Component{
                     "Contact",
                     "Manager",
                     `${hasPermission(userPermissions,["users_destroy"],true) ? "Delete" : ''}`,
-                    `${hasPermission(userPermissions,["users_update"],true) ? "Edit" : ''}`
+                    `${hasPermission(userPermissions,["users_update_all"],true) ? "Edit" : ''}`
                   ]}
                   tableData={users}
                 />
