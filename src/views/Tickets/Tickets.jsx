@@ -261,7 +261,7 @@ class Tickets extends React.Component{
                                       >
                                         <ListItemText
                                           primary={ticket.title}
-                                          secondary={ticket.description}
+                                          secondary={<div><span>{ticket.description}</span><br/>By {ticket.created_by}</div>}
                                         />
                                       </ItemGrid>
                                       <ItemGrid xs={3} sm={3} md={3}>
@@ -404,7 +404,7 @@ class Tickets extends React.Component{
                                             ))
                                           }
                                           primary={ticket.title}
-                                          secondary={ticket.description}
+                                          secondary={<div><span>{ticket.description}</span><br/>By {ticket.created_by} </div> }
                                         />
                                         <ListItemSecondaryAction>
                                           {ticket.status === "Open" && <Chip style={{backgroundColor: '#94d863'}} label="Open" className={classes.chip} />}

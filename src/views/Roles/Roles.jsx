@@ -15,7 +15,7 @@ import {
 } from "api/role"
 import { values, map, drop } from 'lodash';
 import { Link } from "react-router-dom";
-import { Delete, Edit, Visibility } from "material-ui-icons";
+import { Delete, Edit, People } from "material-ui-icons";
 
 import {
   fetchRolesSuccess,
@@ -23,21 +23,35 @@ import {
   deleteRoleSuccess,
   deleteRoleFailure
 } from "actions/role";
+import * as types from "../../actions/actionTypes";
 
 class Roles extends React.Component {
   componentDidMount() {
-    // this.props.const { dispatch } = this.props;
-    this.props.fetchRoles(fetchRolesSuccess, fetchRolesFailure);
+    this.props.fetchRoles();
   }
   
   roleWithButtons = (role) => {
-    const { id, title, description, department_id } = role;
-    const requiredFields = [title, description, department_id]
+    const { id, title, description, department } = role;
+    const requiredFields = [title, description, department]
     return [
       ...requiredFields,
-      <Link to={`/roles/${id}`}><Visibility /></Link>,
+      <Link to={`/roles/${id}`}><People /></Link>,
       <Link to={`/roles/edit/${id}`}><Edit /></Link>,
-      <Delete onClick={() => this.props.onDeleteRole(id, deleteRoleSuccess, deleteRoleFailure)}/>
+      <Delete
+        onClick={
+          this.props.openModal.bind(this,
+            types.DELETE_MODAL,
+            {
+              deleteAction: this.props.onDeleteRole(
+                id,
+                deleteRoleSuccess,
+                deleteRoleSuccess
+              ),
+              resourceType: 'role'
+            }
+          )
+        }
+      />,
     ];
   }
   
@@ -60,7 +74,7 @@ class Roles extends React.Component {
                 </Button>
                 <Table
                   tableHeaderColor="primary"
-                  tableHead={["Title", "Description", "Department", "show", "Edit", "Delete"]}
+                  tableHead={["Title", "Description", "Department", "Users", "Edit", "Delete"]}
                   tableData={roles}
                 />
               </div>
@@ -76,10 +90,13 @@ function mapStateToProps({ roles }) {
     roles: roles.roles
   };
 }
-const mapDispatchToProps = {
-  fetchRoles,
-  onDeleteRole: deleteRole
-};
-const withConnect = connect(mapStateToProps, mapDispatchToProps)(Roles);
 
-export default withConnect;
+function mapDispatchToProps(dispatch){
+  return {
+    openModal: (modalType, modalProps = null) => { dispatch({type: types.SHOW_MODAL, modalType: modalType, modalProps: modalProps}) },
+    fetchRoles: () => {dispatch(fetchRoles(fetchRolesSuccess,fetchRolesFailure))},
+    onDeleteRole: deleteRole
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Roles);

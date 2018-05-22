@@ -5,7 +5,7 @@ import {
   reduxForm,
   FieldArray
 } from 'redux-form'
-import { Grid, InputAdornment } from "material-ui";
+import { Grid, InputAdornment,  IconButton, Hidden, } from "material-ui";
 import {
   CustomInput,
   ItemGrid,
@@ -21,10 +21,6 @@ import {
   KeyboardArrowRight,
   DateRange
 } from "material-ui-icons";
-import {
-  IconButton,
-  Hidden,
-} from "material-ui";
 import validate, {required} from './validate';
 import { DatePicker } from 'material-ui-pickers'
 import * as moment from 'moment';

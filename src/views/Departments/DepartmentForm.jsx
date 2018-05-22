@@ -5,7 +5,7 @@ import { Grid } from "material-ui";
 import {
     RegularCard,
     Button,
-    CustomInput,
+    CustomInputWrapper,
     ItemGrid,
     Danger
 } from "components";
@@ -24,46 +24,12 @@ let DepartmentForm = props => {
                             <div>
                                 <Grid container>
                                     <ItemGrid xs={12} sm={12} md={12}>
-                                        <Field name="name" type="text" component={({input,label,...custom}) =>
-                                            <CustomInput
-                                                labelText="Department Name"
-                                                id="name"
-                                                formControlProps={{
-                                                    fullWidth: true
-                                                }}
-                                                inputProps={{
-                                                    ...input,
-                                                    ...custom,
-                                                    type: "text",
-                                                    required: "required",
-                                                    name: "name",
-                                                    autoComplete: "on",
-                                                }}
-                                            />
-                                        }
-                                        />
+                                        <Field name="name" type="text" component={CustomInputWrapper} custominputprops={{labelText: "Department Name"}} />
                                     </ItemGrid>
                                 </Grid>
                                 <Grid container>
                                     <ItemGrid xs={12} sm={12} md={12}>
-                                        <Field name="description" type="text" component={({input,label,...custom}) =>
-                                            <CustomInput
-                                                labelText="Description"
-                                                id="description"
-                                                formControlProps={{
-                                                    fullWidth: true
-                                                }}
-                                                inputProps={{
-                                                    ...input,
-                                                    ...custom,
-                                                    type: "text",
-                                                    required: "required",
-                                                    name: "description",
-                                                    autoComplete: "on",
-                                                }}
-                                            />
-                                        }
-                                        />
+                                      <Field name="description" type="text" component={CustomInputWrapper} custominputprops={{labelText: "Description"}} />
                                     </ItemGrid>
                                 </Grid>
                             </div>
@@ -74,7 +40,7 @@ let DepartmentForm = props => {
                                     ? <Danger>{error}</Danger>
                                     : null
                                 }
-                                <Button disabled={submitting} onClick={handleSubmit} style={{float: "right"}} color="primary">Create</Button>
+                                <Button disabled={submitting} onClick={handleSubmit} style={{float: "right"}} color="primary">{isNew ? "Create" : "Save Changes"}</Button>
                             </div>
                         }
                     />
