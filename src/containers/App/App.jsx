@@ -49,7 +49,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    if((!this.checkUnprotectedPages() && isSignedin())){
+    if((!this.checkUnprotectedPages() && isSignedin() && this.props.permissions === null )){
       this.props.fetchPermissions();
     }
     if(navigator.platform.indexOf('Win') > -1){
@@ -57,11 +57,11 @@ class App extends React.Component {
       const ps = new PerfectScrollbar(this.refs.mainPanel);
     }
   }
+  
   componentDidUpdate() {
     if(this.props.permissions === null && isSignedin()){
       this.props.fetchPermissions();
     }
-
     // this.refs.mainPanel.scrollTop = 0;
   }
 
@@ -76,7 +76,7 @@ class App extends React.Component {
             else if(prop.unprotected)
               return <Route path={prop.path} component={prop.component} key={key} exact={prop.exact} />;
             else
-              return <Route key={key} path={prop.path} component={hasPermission(permissions, prop.requiredPermissions, prop.atleastOnePerm) ? requireSignIn(prop.component) : requireSignIn(Unauthorized)} exact={prop.exact} />
+              return <Route key={key} path={prop.path} component={hasPermission(permissions, prop.requiredPermissions, prop.atleastOnePerm) ? requireSignIn(prop.component) : Unauthorized} exact={prop.exact} />
           })
         }
       </Switch>

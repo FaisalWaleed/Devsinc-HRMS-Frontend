@@ -1,10 +1,15 @@
 import * as types from './actionTypes';
 
 export const showNotification = (payload) => {
-  //dispatch close after 5 seconds here
-  return {
-    type: types.SHOW_NOTIFICATION,
-    payload
+  return dispatch => {
+    dispatch({
+      type: types.SHOW_NOTIFICATION,
+      payload
+    });
+    
+    setTimeout(() => {
+      dispatch({ type: types.CLOSE_NOTIFICATION })
+    }, 5000)
   }
 };
 

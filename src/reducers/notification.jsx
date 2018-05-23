@@ -14,13 +14,7 @@ export const notification = (state=initialState.notification, action) => {
       };
       
     case types.CLOSE_NOTIFICATION:
-      return {
-        place: 'tc',
-        color: 'info',
-        icon: AddAlert,
-        message: '',
-        open: false,
-      };
+      return {...state, open: false, message: '' };
       
     default:
       return state
