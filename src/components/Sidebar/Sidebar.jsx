@@ -22,7 +22,6 @@ const Sidebar = ({ ...props }) => {
     return props.location.pathname.indexOf(routeName) > -1 ? true : false;
   }
   const { classes, color, logo, image, logoText, routes } = props;
-  console.log(routes);
   var links = (
     <List className={classes.list}>
       {routes.map((prop, key) => {

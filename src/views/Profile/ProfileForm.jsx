@@ -1,5 +1,5 @@
 import React from 'react';
-import { Field,reduxForm } from 'redux-form'
+import { Field,reduxForm, Form } from 'redux-form'
 import { Grid, InputAdornment, IconButton } from "material-ui";
 import {
   RegularCard,
@@ -24,7 +24,7 @@ class ProfileForm extends React.Component {
     const { handleSubmit } = this.props;
     
     return (
-      <form onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit}>
         <Grid container>
           <ItemGrid xs={12} sm={12} md={8}>
             <RegularCard
@@ -115,7 +115,7 @@ class ProfileForm extends React.Component {
             />
           </ItemGrid>
         </Grid>
-      </form>
+      </Form>
     );
   }
 }
@@ -127,7 +127,8 @@ function mapStateToProps({ users }) {
 }
 
 ProfileForm =  reduxForm({
-  form: 'profile'
+  form: 'profile',
+  destroyOnUnmount: false
 })(ProfileForm);
 
 ProfileForm = connect(mapStateToProps, null)(ProfileForm)

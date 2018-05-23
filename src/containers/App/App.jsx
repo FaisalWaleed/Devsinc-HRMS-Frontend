@@ -5,7 +5,7 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import PerfectScrollbar from "perfect-scrollbar";
 import "perfect-scrollbar/css/perfect-scrollbar.css";
 import { withStyles } from "material-ui";
-import { Header, Footer, Sidebar, ErrorBoundary } from "components";
+import { Header, Footer, Sidebar, ErrorBoundary, Snackbar } from "components";
 import ModalRoot from '../../components/Modals/ModalRoot';
 import appRoutes from "routes/app.jsx";
 import appStyle from "variables/styles/appStyle.jsx";
@@ -21,6 +21,7 @@ import { unprotectedPages } from '../../config/unprotectedPagesConfig';
 import Unauthorized from "../../views/Errors/Unauthorized";
 import { hasPermission } from "../../helpers/permissionsHelper";
 import { isSignedin } from "../../helpers/permissionsHelper";
+import { closeNotification } from "../../actions/notification";
 
 const requireSignIn = generateRequireSignInWrapper({
   redirectPathIfNotSignedIn: '/login',
@@ -49,9 +50,6 @@ class App extends React.Component {
 
   componentDidMount() {
     if((!this.checkUnprotectedPages() && isSignedin())){
-      console.log(!this.checkUnprotectedPages());
-      console.log("signed in",isSignedin());
-      console.log("i ran");
       this.props.fetchPermissions();
     }
     if(navigator.platform.indexOf('Win') > -1){
@@ -68,6 +66,7 @@ class App extends React.Component {
   }
 
   render() {
+    const { classes, notification, closeNotification, permissions, ...rest } = this.props;
     const switchRoutes = (
       <Switch>
         {
@@ -77,12 +76,11 @@ class App extends React.Component {
             else if(prop.unprotected)
               return <Route path={prop.path} component={prop.component} key={key} exact={prop.exact} />;
             else
-              return <Route key={key} path={prop.path} component={hasPermission(this.props.permissions, prop.requiredPermissions, prop.atleastOnePerm) ? requireSignIn(prop.component) : requireSignIn(Unauthorized)} exact={prop.exact} />
+              return <Route key={key} path={prop.path} component={hasPermission(permissions, prop.requiredPermissions, prop.atleastOnePerm) ? requireSignIn(prop.component) : requireSignIn(Unauthorized)} exact={prop.exact} />
           })
         }
       </Switch>
     );
-    const { classes, ...rest } = this.props;
     return (
       <ErrorBoundary>
         <MuiPickersUtilsProvider utils={MomentUtils}>
@@ -113,6 +111,15 @@ class App extends React.Component {
                 {this.getRoute() ? (
                   <div className={classes.content}>
                     <div className={classes.container}>{switchRoutes}</div>
+                    <Snackbar
+                      place={notification.place}
+                      color={notification.color}
+                      icon={notification.icon}
+                      message={notification.message}
+                      open={notification.open}
+                      closeNotification={closeNotification}
+                      close
+                    />
                   </div>
                 ) : (
                   <div className={classes.map}>{switchRoutes}</div>
@@ -133,12 +140,14 @@ App.propTypes = {
 
 function mapStateToProps(state){
   return {
-    permissions: state.permissions.userPermissions
+    permissions: state.permissions.userPermissions,
+    notification: state.notification
   }
 }
 
 function mapDispatchToProps(dispatch){
   return {
+    closeNotification: () => { dispatch(closeNotification()) },
     fetchPermissions: () => {dispatch(fetchPermissions(fetchPermissionSuccess,fetchPermissionFailure))}
   }
 }

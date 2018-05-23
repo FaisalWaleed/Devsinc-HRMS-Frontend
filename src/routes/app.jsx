@@ -12,6 +12,7 @@ import ShowRolesPage from "views/Roles/Role.jsx";
 import Tickets from "../views/Tickets/Tickets";
 import Leaves from "../views/Leaves/Leaves";
 import Permissions from "../views/Permissions/Permissions";
+import Test from "../views/Notifications/Notifications"
 
 import {
   Home,

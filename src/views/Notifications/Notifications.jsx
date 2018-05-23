@@ -13,7 +13,7 @@ import {
   ItemGrid
 } from "components";
 
-class Notifications extends React.Component {
+class Test extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -266,4 +266,4 @@ class Notifications extends React.Component {
   }
 }
 
-export default Notifications;
+export default Test;

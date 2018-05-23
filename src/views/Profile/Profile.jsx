@@ -39,10 +39,6 @@ class Profile extends React.Component{
   }
 }
 
-// const mapStateToProps = ({ user: { profileUpdated } }, { match: { params: { id } } }) => ({
-//   userId: id,
-//   profileUpdated
-// });
 const mapStateToProps = ({ reduxTokenAuth: { currentUser: { attributes: { id }} }, users: { profileUpdated }  }) => ({
   userId: id,
   profileUpdated
