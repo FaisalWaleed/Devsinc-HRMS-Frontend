@@ -20,6 +20,7 @@ import {fetchPermissionFailure, fetchPermissionSuccess} from "../../actions/perm
 import { unprotectedPages } from '../../config/unprotectedPagesConfig';
 import Unauthorized from "../../views/Errors/Unauthorized";
 import { hasPermission } from "../../helpers/permissionsHelper";
+import { isSignedin } from "../../helpers/permissionsHelper";
 
 const requireSignIn = generateRequireSignInWrapper({
   redirectPathIfNotSignedIn: '/login',
@@ -47,7 +48,10 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    if(!this.checkUnprotectedPages()){
+    if((!this.checkUnprotectedPages() && isSignedin())){
+      console.log(!this.checkUnprotectedPages());
+      console.log("signed in",isSignedin());
+      console.log("i ran");
       this.props.fetchPermissions();
     }
     if(navigator.platform.indexOf('Win') > -1){
@@ -56,7 +60,7 @@ class App extends React.Component {
     }
   }
   componentDidUpdate() {
-    if(this.props.permissions === null){
+    if(this.props.permissions === null && isSignedin()){
       this.props.fetchPermissions();
     }
 

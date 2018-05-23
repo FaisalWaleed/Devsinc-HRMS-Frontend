@@ -20,6 +20,11 @@ import { signOutUser } from '../../actions/auth/authConfig';
 
 
 class HeaderLinks extends React.Component {
+  constructor(props){
+    super(props);
+    this.signOut = this.signOut.bind(this);
+  }
+  
   state = {
     open: false
   };
@@ -33,7 +38,9 @@ class HeaderLinks extends React.Component {
   };
   
   signOut(){
-    this.props.signOutUser();
+    return this.props.signOutUser().then( () => {
+      window.location = '/login';
+    });
   }
   
   render() {
@@ -87,7 +94,7 @@ class HeaderLinks extends React.Component {
                       onClick={this.handleClose}
                       className={classes.dropdownItem}
                     >
-                      <Link onClick={this.signOut} to="/login">Logout</Link>
+                      <span onClick={this.signOut} >Logout</span>
                     </MenuItem>
                   </MenuList>
                 </Paper>

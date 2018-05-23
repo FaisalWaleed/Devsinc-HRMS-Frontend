@@ -11,5 +11,5 @@ export const hasPermission = (userPermissions = [], requiredPermissions = [], ha
 };
 
 export const isSignedin = () => {
-  return ((localStorage.getItem('access-token') === null) || (localStorage.getItem('uid') === null) || (localStorage.getItem('client') === null) )
+  return ((localStorage.getItem('access-token') !== null) || (localStorage.getItem('uid') !== null) || (localStorage.getItem('client') !== null) )
 };

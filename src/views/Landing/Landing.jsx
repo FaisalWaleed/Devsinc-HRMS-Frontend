@@ -44,7 +44,7 @@ class Landing extends React.Component{
 
   render(){
     return (
-      isSignedin() ? <SignInForm onSubmit={this.handleSubmit}  /> : window.location = "/"
+      isSignedin() ? window.location = "/"  : <SignInForm onSubmit={this.handleSubmit}  />
     );
   }
 

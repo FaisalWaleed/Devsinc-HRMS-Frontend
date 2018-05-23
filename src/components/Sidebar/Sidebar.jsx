@@ -13,7 +13,6 @@ import {
 } from "material-ui";
 import { HeaderLinks } from "components";
 import sidebarStyle from "variables/styles/sidebarStyle.jsx";
-import { PermissibleRender } from '@brainhubeu/react-permissible';
 import { connect } from 'react-redux';
 import {hasPermission} from "../../helpers/permissionsHelper";
 
