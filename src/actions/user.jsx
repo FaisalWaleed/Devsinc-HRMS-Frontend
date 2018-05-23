@@ -47,17 +47,16 @@ export const getProfileFailure = (payload) => ({
 });
 
 export const updateProfileSuccess = (payload) => {
-  console.log("updatesuccess", payload);
   return dispatch => {
     dispatch({
       type: "UPDATE_PROFILE_SUCCESS",
       payload
-    })
+    });
     dispatch(showNotification({
       place: 'tc',
       color: 'success',
       icon: AddAlert,
-      message: 'Updated Profile',
+      message: 'Successfully Updated Profile!',
     }));
   }
 };

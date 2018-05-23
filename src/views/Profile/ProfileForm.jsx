@@ -9,7 +9,6 @@ import {
   FileInput
 } from "components";
 import { connect } from "react-redux";
-import {required} from "../ManageUsers/validate";
 import { DatePicker } from 'material-ui-pickers';
 import {
   KeyboardArrowLeft,
@@ -59,7 +58,7 @@ class ProfileForm extends React.Component {
                   <br/><br/>
                   <Grid container>
                     <ItemGrid xs={12} sm={12} md={12}>
-                      <Field name="dob" validate={[required]}  component={(input,label,custom) => (
+                      <Field name="dob"  component={(input,label,custom) => (
                         <DatePicker
                           label="Date of Birth"
                           {...input}

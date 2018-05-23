@@ -49,7 +49,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    if((!this.checkUnprotectedPages() && isSignedin() && this.props.permissions === null )){
+    if((!this.checkUnprotectedPages())){
       this.props.fetchPermissions();
     }
     if(navigator.platform.indexOf('Win') > -1){
@@ -59,7 +59,7 @@ class App extends React.Component {
   }
   
   componentDidUpdate() {
-    if(this.props.permissions === null && isSignedin()){
+    if(this.props.permissions === null){
       this.props.fetchPermissions();
     }
     // this.refs.mainPanel.scrollTop = 0;

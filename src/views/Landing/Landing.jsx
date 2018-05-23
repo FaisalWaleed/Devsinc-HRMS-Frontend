@@ -5,8 +5,6 @@ import SignInForm from './SignInForm';
 import { SubmissionError } from 'redux-form';
 import { fetchPermissions } from "../../api/permission";
 import { fetchPermissionFailure, fetchPermissionSuccess} from "../../actions/permission";
-import { isSignedin } from "../../helpers/permissionsHelper";
-import { Redirect } from 'react-router-dom'
 
 class Landing extends React.Component{
   constructor(props){
@@ -45,7 +43,7 @@ class Landing extends React.Component{
 
   render(){
     return (
-      isSignedin() ? <small>Already Signed In.. !</small> : <SignInForm onSubmit={this.handleSubmit}  />
+      <SignInForm onSubmit={this.handleSubmit}  />
     );
   }
 
