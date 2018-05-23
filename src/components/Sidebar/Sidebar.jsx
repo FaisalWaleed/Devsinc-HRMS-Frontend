@@ -15,6 +15,7 @@ import { HeaderLinks } from "components";
 import sidebarStyle from "variables/styles/sidebarStyle.jsx";
 import { PermissibleRender } from '@brainhubeu/react-permissible';
 import { connect } from 'react-redux';
+import {hasPermission} from "../../helpers/permissionsHelper";
 
 const Sidebar = ({ ...props }) => {
   // verifies if routeName is the one active (in browser input)
@@ -22,6 +23,7 @@ const Sidebar = ({ ...props }) => {
     return props.location.pathname.indexOf(routeName) > -1 ? true : false;
   }
   const { classes, color, logo, image, logoText, routes } = props;
+  console.log(routes);
   var links = (
     <List className={classes.list}>
       {routes.map((prop, key) => {
@@ -33,12 +35,7 @@ const Sidebar = ({ ...props }) => {
           [" " + classes.whiteFont]: activeRoute(prop.path)
         });
         return (
-          <PermissibleRender
-            key={key}
-            userPermissions={props.permissions}
-            requiredPermissions={prop.requiredPermissions}
-            oneperm={prop.atleastOnePerm}
-          >
+          hasPermission(props.permissions,prop.requiredPermissions,prop.atleastOnePerm) ?
             <NavLink
               to={prop.path}
               className={classes.item}
@@ -56,7 +53,7 @@ const Sidebar = ({ ...props }) => {
                 />
               </ListItem>
             </NavLink>
-          </PermissibleRender>
+            : null
         );
       })}
     </List>

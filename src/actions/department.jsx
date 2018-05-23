@@ -1,4 +1,5 @@
-// import { FETCH_DEPARTMENTS } from "actions/actionTypes";
+import * as types from './actionTypes';
+import {APP_ERROR_OCCURED} from "./error";
 
 export const createDepartmentSuccess = (payload) => ({
   type: "CREATE_DEPARTMENT_SUCCESS",
@@ -25,10 +26,16 @@ export const deleteDepartmentSuccess = (payload) => ({
   payload
 });
 
-export const deleteDepartmentFailure = (payload) => ({
-  type: "DELETE_DEPARTMENT_FAILURE",
-  payload
-});
+export const deleteDepartmentFailure = (payload) => {
+  return dispatch => {
+    dispatch(APP_ERROR_OCCURED);
+    dispatch({
+      type: "DELETE_DEPARTMENT_FAILURE",
+      payload
+    })
+  };
+
+};
 
 export const getDepartmentSuccess = (payload) => ({
   type: "GET_DEPARTMENT_SUCCESS",

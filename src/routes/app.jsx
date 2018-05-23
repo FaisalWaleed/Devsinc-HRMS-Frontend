@@ -30,9 +30,7 @@ const appRoutes = [
     sidebarName: "Dashboard",
     navbarName: "Dashboard",
     icon: Home,
-    component: DashboardPage,
-    requiredPermissions: ["users_index"],
-    atleastOnePerm: true
+    component: DashboardPage
   },
   {
     path: "/users/profile",
@@ -41,8 +39,7 @@ const appRoutes = [
     icon: Person,
     component: ProfilePage,
     exact: true,
-    requiredPermissions: ["users_index"],
-    atleastOnePerm: false
+    requiredPermissions: ["users_show"]
   },
   {
     path: "/login",
@@ -50,9 +47,7 @@ const appRoutes = [
     navbarName: "Landing",
     icon: Notifications,
     component: LandingPage,
-    unprotected: true,
-    requiredPermissions: ["users_index"],
-    atleastOnePerm: false
+    unprotected: true
   },
   {
     path: "/departments",
@@ -61,8 +56,7 @@ const appRoutes = [
     icon: Notifications,
     exact: true,
     component: DepartmentsPage,
-    requiredPermissions: ["users_index"],
-    atleastOnePerm: false
+    requiredPermissions: ["departments_index"]
   },
   {
     path: "/departments/new",
@@ -71,8 +65,7 @@ const appRoutes = [
     icon: Notifications,
     component: NewDepartmentsPage,
     notSidebar: true,
-    requiredPermissions: ["users_index"],
-    atleastOnePerm: false
+    requiredPermissions: ["departments_create"]
   },
   {
     path: "/departments/edit/:id(\\d+)",
@@ -81,17 +74,15 @@ const appRoutes = [
     icon: Notifications,
     component: EditDepartmentsPage,
     notSidebar: true,
-    requiredPermissions: ["users_index"],
-    atleastOnePerm: false
+    requiredPermissions: ["departments_update"]
   },
   {
     path: "/manageusers",
-    sidebarName: "Manage Users",
-    navbarName: "Manage Users",
+    sidebarName: "People",
+    navbarName: "People",
     icon: People,
     component: ManageUsers,
-    requiredPermissions: ["users_index"],
-    atleastOnePerm: false
+    requiredPermissions: ["users_index"]
   },
   {
     path: "/roles",
@@ -100,8 +91,7 @@ const appRoutes = [
     icon: Notifications,
     component: RolesPage,
     exact: true,
-    requiredPermissions: ["users_index"],
-    atleastOnePerm: false
+    requiredPermissions: ["roles_index"]
   },
   {
     path: "/roles/new",
@@ -110,8 +100,7 @@ const appRoutes = [
     icon: Notifications,
     component: NewRolesPage,
     notSidebar: true,
-    requiredPermissions: ["users_index"],
-    atleastOnePerm: false
+    requiredPermissions: ["roles_create"]
   },
   {
     path: "/roles/edit/:id(\\d+)",
@@ -120,8 +109,7 @@ const appRoutes = [
     icon: Notifications,
     component: EditRolesPage,
     notSidebar: true,
-    requiredPermissions: ["users_index"],
-    atleastOnePerm: false
+    requiredPermissions: ["roles_update"]
   },
   {
     path: "/roles/:id(\\d+)",
@@ -130,8 +118,7 @@ const appRoutes = [
     icon: Notifications,
     component: ShowRolesPage,
     notSidebar: true,
-    requiredPermissions: ["users_index"],
-    atleastOnePerm: false
+    requiredPermissions: ["roles_show"]
   },
   {
     path: "/tickets",
@@ -168,9 +155,7 @@ const appRoutes = [
     navbarName: "",
     component: ResetPasswordPage,
     notSidebar: true,
-    unprotected: true,
-    requiredPermissions: ["users_index"],
-    atleastOnePerm: false
+    unprotected: true
   },
   { redirect: true, path: "/", to: "/dashboard", navbarName: "Redirect" }
 ];

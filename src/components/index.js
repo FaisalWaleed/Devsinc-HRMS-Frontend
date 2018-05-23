@@ -24,10 +24,11 @@ import CustomInput from "./CustomInput/CustomInput.jsx";
 // ##############################
 // // // CustomInput
 // #############################
-
-import CustomInputWrapper from "./CustomInputWrapper/CustomInputWrapper.jsx";
+import ErrorBoundary from "./ErrorBoundary/ErrorBoundary";
+import CustomInputWrapper from "./CustomInputWrapper/CustomInputWrapper";
 import FileInput from "./FileInput/FileInput";
 import DateRangePickerWrapper from './DateRangePickerWrapper/DateRangePickerWrapper';
+import Permissible from './Permissible/Permissible';
 
 // ##############################
 // // // Footer
@@ -129,5 +130,7 @@ export {
   Warning,
   Danger,
   Small,
-  A
+  A,
+  ErrorBoundary,
+  Permissible
 };

@@ -1,5 +1,5 @@
 import initialState from "reducers/initialState";
-// import { FETCH_DEPARTMENTS } from "actions/actionTypes";
+import * as types from '../actions/actionTypes';
 
 export const department =  (state = initialState, action) => {
   switch(action.type){
@@ -14,22 +14,24 @@ export const department =  (state = initialState, action) => {
       return {
         ...state,
         departments: state.departments.filter(dep => dep.id != action.payload.department.id)
-      }
+      };
     case "GET_DEPARTMENT_SUCCESS":
       return {
         ...state,
         department: action.payload
-      }
+      };
     case "UPDATE_DEPARTMENT_SUCCESS":
       return {
         ...state,
         departmentUpdated: true
-      }
+      };
     case "CREATE_DEPARTMENT_SUCCESS":
       return {
         ...state,
         departmentCreated: true
-      }
+      };
+    case "DELETE_DEPARTMENT_FAILURE":
+      return state;
     default:
      return state
   }

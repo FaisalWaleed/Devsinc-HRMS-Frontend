@@ -5,7 +5,7 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import PerfectScrollbar from "perfect-scrollbar";
 import "perfect-scrollbar/css/perfect-scrollbar.css";
 import { withStyles } from "material-ui";
-import { Header, Footer, Sidebar } from "components";
+import { Header, Footer, Sidebar, ErrorBoundary } from "components";
 import ModalRoot from '../../components/Modals/ModalRoot';
 import appRoutes from "routes/app.jsx";
 import appStyle from "variables/styles/appStyle.jsx";
@@ -18,8 +18,8 @@ import { connect } from 'react-redux';
 import { fetchPermissions } from '../../api/permission'
 import {fetchPermissionFailure, fetchPermissionSuccess} from "../../actions/permission";
 import { unprotectedPages } from '../../config/unprotectedPagesConfig';
-import { intersection,difference } from 'lodash';
-import Unauthorized from "../../views/Unauthorized/Unauthorized";
+import Unauthorized from "../../views/Errors/Unauthorized";
+import { hasPermission } from "../../helpers/permissionsHelper";
 
 const requireSignIn = generateRequireSignInWrapper({
   redirectPathIfNotSignedIn: '/login',
@@ -37,15 +37,15 @@ class App extends React.Component {
   getRoute() {
     return this.props.location.pathname !== "/maps";
   }
-  
+
   checkLoginPath(){
     return this.props.location.pathname === "/login";
   }
-  
+
   checkUnprotectedPages(){
     return unprotectedPages.includes(this.props.location.pathname)
   }
-  
+
   componentDidMount() {
     if(!this.checkUnprotectedPages()){
       this.props.fetchPermissions();
@@ -56,19 +56,13 @@ class App extends React.Component {
     }
   }
   componentDidUpdate() {
+    if(this.props.permissions === null){
+      this.props.fetchPermissions();
+    }
+
     // this.refs.mainPanel.scrollTop = 0;
   }
-  
-  hasPermission(userPermissions, requiredPermissions, hasAnyOnePermission = false){
-    if (!userPermissions || !requiredPermissions){
-      return false
-    }
-    if(hasAnyOnePermission){
-      return intersection(userPermissions, requiredPermissions).length;
-    }
-    return difference(requiredPermissions, userPermissions).length === 0;
-  }
-  
+
   render() {
     const switchRoutes = (
       <Switch>
@@ -79,49 +73,52 @@ class App extends React.Component {
             else if(prop.unprotected)
               return <Route path={prop.path} component={prop.component} key={key} exact={prop.exact} />;
             else
-                return <Route key={key} path={prop.path} component={this.hasPermission(this.props.permissions, prop.requiredPermissions, prop.atleastOnePerm) ? requireSignIn(prop.component) : requireSignIn(Unauthorized)} exact={prop.exact} />
+              return <Route key={key} path={prop.path} component={hasPermission(this.props.permissions, prop.requiredPermissions, prop.atleastOnePerm) ? requireSignIn(prop.component) : requireSignIn(Unauthorized)} exact={prop.exact} />
           })
         }
       </Switch>
     );
     const { classes, ...rest } = this.props;
     return (
-      <MuiPickersUtilsProvider utils={MomentUtils}>
-        <div>
-          <ModalRoot />
-          <div className={classes.wrapper}>
-            {this.checkUnprotectedPages() ? null :
-              <Sidebar
-                routes={appRoutes}
-                logo={logo}
-                image={image}
-                handleDrawerToggle={this.handleDrawerToggle}
-                open={this.state.mobileOpen}
-                color="blue"
-                {...rest}
-              />
-            }
-            <div className={classes.mainPanel} ref="mainPanel">
-              {this.checkLoginPath() ? null :
-                <Header
+      <ErrorBoundary>
+        <MuiPickersUtilsProvider utils={MomentUtils}>
+          <div>
+            <ModalRoot />
+            <div className={classes.wrapper}>
+              {
+                this.checkUnprotectedPages() ? null :
+                <Sidebar
                   routes={appRoutes}
+                  logo={logo}
+                  image={image}
                   handleDrawerToggle={this.handleDrawerToggle}
+                  open={this.state.mobileOpen}
+                  color="blue"
                   {...rest}
                 />
               }
-              {/* On the /maps route we want the map to be on full screen - this is not possible if the content and conatiner classes are present because they have some paddings which would make the map smaller */}
-              {this.getRoute() ? (
-                <div className={classes.content}>
-                  <div className={classes.container}>{switchRoutes}</div>
-                </div>
-              ) : (
-                <div className={classes.map}>{switchRoutes}</div>
-              )}
-              {this.checkLoginPath() ? null : <Footer />}
+              <div className={classes.mainPanel} ref="mainPanel">
+                {this.checkLoginPath() ? null :
+                  <Header
+                    routes={appRoutes}
+                    handleDrawerToggle={this.handleDrawerToggle}
+                    {...rest}
+                  />
+                }
+                {/* On the /maps route we want the map to be on full screen - this is not possible if the content and conatiner classes are present because they have some paddings which would make the map smaller */}
+                {this.getRoute() ? (
+                  <div className={classes.content}>
+                    <div className={classes.container}>{switchRoutes}</div>
+                  </div>
+                ) : (
+                  <div className={classes.map}>{switchRoutes}</div>
+                )}
+                {this.checkLoginPath() ? null : <Footer />}
+              </div>
             </div>
           </div>
-        </div>
-      </MuiPickersUtilsProvider>
+        </MuiPickersUtilsProvider>
+      </ErrorBoundary>
     );
   }
 }

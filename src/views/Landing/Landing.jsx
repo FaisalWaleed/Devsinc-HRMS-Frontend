@@ -5,20 +5,22 @@ import SignInForm from './SignInForm';
 import { SubmissionError } from 'redux-form';
 import {fetchPermissions} from "../../api/permission";
 import {fetchPermissionFailure, fetchPermissionSuccess} from "../../actions/permission";
+import { isSignedin } from "../../helpers/permissionsHelper";
+import { Redirect } from 'react-router-dom';
 
 class Landing extends React.Component{
   constructor(props){
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
-  
+
   handleSubmit(values){
     const {signInUser} = this.props;
     const {
       email,
       password,
     } = values;
-    
+
     return signInUser({email, password})
       .then((data) => {
         this.props.fetchPermissions();
@@ -39,13 +41,13 @@ class Landing extends React.Component{
         }
       })
   }
-  
+
   render(){
     return (
-      <SignInForm onSubmit={this.handleSubmit}  />
+      isSignedin() ? <SignInForm onSubmit={this.handleSubmit}  /> : window.location = "/"
     );
   }
-  
+
 }
 
 export default connect(null,{signInUser,fetchPermissions: () => fetchPermissions(fetchPermissionSuccess,fetchPermissionFailure)})(Landing);

@@ -1,3 +1,5 @@
+import {APP_ERROR_OCCURED} from "../actions/error";
+
 const request = (path, opts = {}, successAction, failureAction, auth = false) => {
   return (dispatch) => {
     if (auth) {
@@ -11,7 +13,11 @@ const request = (path, opts = {}, successAction, failureAction, auth = false) =>
     fetch(`http://localhost:3000/api/v1/${path}`, opts)
       .then((res) => {
         if(!res.ok){
-          res.json().then((errorResponse) => dispatch(failureAction(errorResponse)));
+          res.json().then((errorResponse) => {
+            dispatch(APP_ERROR_OCCURED);
+            dispatch(failureAction(errorResponse));
+
+          } ) ;
         }
         else{
           res.json().then((res) => {
@@ -22,10 +28,11 @@ const request = (path, opts = {}, successAction, failureAction, auth = false) =>
       })
       .catch(error => {
         console.log("in catch:",error);
-        dispatch(failureAction(error))}
-      )
+        dispatch(APP_ERROR_OCCURED);
+        dispatch(failureAction(error))
+      })
   }
-  
+
 };
 
 export default request;
