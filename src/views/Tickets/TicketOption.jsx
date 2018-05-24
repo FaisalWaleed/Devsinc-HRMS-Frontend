@@ -154,7 +154,7 @@ class TicketOption extends React.Component{
                             value={user.id}
                           >
                             <Checkbox checked={input.value.indexOf(user.id) !== -1 || input.value.indexOf(0) !== -1}/>
-                            <ListItemText primary={user.name}/>
+                            <ListItemText primary={`${user.first_name} ${user.last_name}`}/>
                           </MenuItem>
                         )
                       ) : null

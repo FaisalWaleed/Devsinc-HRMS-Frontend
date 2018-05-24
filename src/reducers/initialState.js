@@ -1,3 +1,5 @@
+import { AddAlert } from "material-ui-icons";
+
 const initialState = {
   roles: {
       role: {}
@@ -41,6 +43,13 @@ const initialState = {
     userRoles: [],
     userPermissions: [],
     permissionsObj: {}
+  },
+  notification: {
+    place: 'tc',
+    color: 'info',
+    icon: AddAlert,
+    message: '',
+    open: false,
   },
   errors:{
     appError: false

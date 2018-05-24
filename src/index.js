@@ -18,9 +18,9 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-async function demo() {
+async function renderApp() {
     verifyCredentials(store);
-    await sleep(400);
+    await sleep(1000);
     ReactDOM.render(
         <Provider store={store}>
                 <Router history={hist}>
@@ -35,6 +35,6 @@ async function demo() {
     );
 }
 
-demo();
+renderApp();
 
 

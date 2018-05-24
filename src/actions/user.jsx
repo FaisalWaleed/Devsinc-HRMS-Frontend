@@ -2,6 +2,8 @@ import * as types from "./actionTypes";
 import {HIDE_MODAL} from "./modal";
 import { fetchUsers } from "../api/user";
 import {reset} from 'redux-form';
+import {showNotification} from "./notification";
+import {AddAlert} from "material-ui-icons/index";
 
 
 export const fetchUsersSuccess = (payload) => ({
@@ -44,10 +46,20 @@ export const getProfileFailure = (payload) => ({
   payload
 });
 
-export const updateProfileSuccess = (payload) => ({
-  type: "UPDATE_PROFILE_SUCCESS",
-  payload
-});
+export const updateProfileSuccess = (payload) => {
+  return dispatch => {
+    dispatch({
+      type: "UPDATE_PROFILE_SUCCESS",
+      payload
+    });
+    dispatch(showNotification({
+      place: 'tc',
+      color: 'success',
+      icon: AddAlert,
+      message: 'Successfully Updated Profile!',
+    }));
+  }
+};
 
 export const updateProfileFailure = (payload) => ({
   type: "UPDATE_PROFILE_FAILURE",

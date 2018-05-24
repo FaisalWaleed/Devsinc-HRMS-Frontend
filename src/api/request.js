@@ -14,9 +14,7 @@ const request = (path, opts = {}, successAction, failureAction, auth = false) =>
       .then((res) => {
         if(!res.ok){
           res.json().then((errorResponse) => {
-            dispatch(APP_ERROR_OCCURED);
             dispatch(failureAction(errorResponse));
-
           } ) ;
         }
         else{
@@ -28,7 +26,6 @@ const request = (path, opts = {}, successAction, failureAction, auth = false) =>
       })
       .catch(error => {
         console.log("in catch:",error);
-        dispatch(APP_ERROR_OCCURED);
         dispatch(failureAction(error))
       })
   }

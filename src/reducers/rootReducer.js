@@ -9,6 +9,7 @@ import { role } from './role';
 import { leave } from "./leave";
 import { permission } from "./permission";
 import { error } from "./error";
+import { notification } from "./notification";
 
 const rootReducer = combineReducers({
   departments: department,
@@ -20,7 +21,8 @@ const rootReducer = combineReducers({
   roles: role,
   leaves: leave,
   permissions: permission,
-  errors: error
+  errors: error,
+  notification: notification
 });
 
 export default rootReducer;

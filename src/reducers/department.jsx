@@ -3,34 +3,34 @@ import * as types from '../actions/actionTypes';
 
 export const department =  (state = initialState, action) => {
   switch(action.type){
-    case "FETCH_DEPARTMENTS_SUCCESS":
+    case types.FETCH_DEPARTMENT_SUCCESS:
       return {
         ...state, 
         departments: action.payload,
         department: null,
         departmentCreated: null
       };
-    case "DELETE_DEPARTMENT_SUCCESS":
+    case types.DELETE_DEPARTMENT_SUCCESS:
       return {
         ...state,
         departments: state.departments.filter(dep => dep.id != action.payload.department.id)
       };
-    case "GET_DEPARTMENT_SUCCESS":
+    case types.GET_DEPARTMENT_SUCCESS:
       return {
         ...state,
         department: action.payload
       };
-    case "UPDATE_DEPARTMENT_SUCCESS":
+    case types.UPDATE_DEPARTMENT_SUCCESS:
       return {
         ...state,
         departmentUpdated: true
       };
-    case "CREATE_DEPARTMENT_SUCCESS":
+    case types.CREATE_DEPARTMENT_SUCCESS:
       return {
         ...state,
         departmentCreated: true
       };
-    case "DELETE_DEPARTMENT_FAILURE":
+    case types.DELETE_DEPARTMENT_FAILURE:
       return state;
     default:
      return state

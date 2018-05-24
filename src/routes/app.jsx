@@ -126,7 +126,7 @@ const appRoutes = [
     navbarName: "Tickets",
     icon: ErrorOutline,
     component: Tickets,
-    requiredPermissions: ["users_index"],
+    requiredPermissions: ["tickets_index", "tickets_assigned", "tickets_create", "tickets_update", "tickets_ticket_option", "tickets_statuses"],
     atleastOnePerm: false
   },
   {
@@ -135,7 +135,7 @@ const appRoutes = [
     navbarName: "Leaves",
     icon: FlightTakeoff,
     component: Leaves,
-    requiredPermissions: ["users_index"],
+    requiredPermissions: ["leaves_index", "leaves_leave_approvals","leaves_create", "leaves_user_leaves_history"],
     atleastOnePerm: false
   },
   {
@@ -146,7 +146,7 @@ const appRoutes = [
     component: Permissions,
     notSidebar: true,
     exact: true,
-    requiredPermissions: ["users_index"],
+    requiredPermissions: ["roles_allow_permission", "roles_revoke_permission"],
     atleastOnePerm: false
   },
   {
