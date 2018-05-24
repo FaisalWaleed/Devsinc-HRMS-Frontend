@@ -57,7 +57,7 @@ class App extends React.Component {
       const ps = new PerfectScrollbar(this.refs.mainPanel);
     }
   }
-  
+
   componentDidUpdate() {
     if(this.props.permissions === null){
       this.props.fetchPermissions();
@@ -66,7 +66,7 @@ class App extends React.Component {
   }
 
   render() {
-    const { classes, notification, closeNotification, permissions, ...rest } = this.props;
+    const { classes, notification, closeNotification, permissions, isSignedIn, isLoading, ...rest } = this.props;
     const switchRoutes = (
       <Switch>
         {
@@ -86,47 +86,52 @@ class App extends React.Component {
         <MuiPickersUtilsProvider utils={MomentUtils}>
           <div>
             <ModalRoot />
-            <div className={classes.wrapper}>
-              {
-                this.checkUnprotectedPages() ? null :
-                <Sidebar
-                  routes={appRoutes}
-                  logo={logo}
-                  image={image}
-                  handleDrawerToggle={this.handleDrawerToggle}
-                  open={this.state.mobileOpen}
-                  color="blue"
-                  {...rest}
-                />
-              }
-              <div className={classes.mainPanel} ref="mainPanel">
-                {this.checkLoginPath() ? null :
-                  <Header
-                    routes={appRoutes}
-                    handleDrawerToggle={this.handleDrawerToggle}
-                    {...rest}
-                  />
-                }
-                {/* On the /maps route we want the map to be on full screen - this is not possible if the content and conatiner classes are present because they have some paddings which would make the map smaller */}
-                {this.getRoute() ? (
-                  <div className={classes.content}>
-                    <div className={classes.container}>{switchRoutes}</div>
-                    <Snackbar
-                      place={notification.place}
-                      color={notification.color}
-                      icon={notification.icon}
-                      message={notification.message}
-                      open={notification.open}
-                      closeNotification={closeNotification}
-                      close
+            { isLoading
+              ?
+              <h1>Loading</h1>
+              :
+              <div className={classes.wrapper}>
+                {
+                  this.checkUnprotectedPages() ? null :
+                    <Sidebar
+                      routes={appRoutes}
+                      logo={logo}
+                      image={image}
+                      handleDrawerToggle={this.handleDrawerToggle}
+                      open={this.state.mobileOpen}
+                      color="blue"
+                      {...rest}
                     />
-                  </div>
-                ) : (
-                  <div className={classes.map}>{switchRoutes}</div>
-                )}
-                {this.checkLoginPath() ? null : <Footer />}
+                }
+                <div className={classes.mainPanel} ref="mainPanel">
+                  {this.checkLoginPath() ? null :
+                    <Header
+                      routes={appRoutes}
+                      handleDrawerToggle={this.handleDrawerToggle}
+                      {...rest}
+                    />
+                  }
+                  {/* On the /maps route we want the map to be on full screen - this is not possible if the content and conatiner classes are present because they have some paddings which would make the map smaller */}
+                  {this.getRoute() ? (
+                    <div className={classes.content}>
+                      <div className={classes.container}>{switchRoutes}</div>
+                      <Snackbar
+                        place={notification.place}
+                        color={notification.color}
+                        icon={notification.icon}
+                        message={notification.message}
+                        open={notification.open}
+                        closeNotification={closeNotification}
+                        close
+                      />
+                    </div>
+                  ) : (
+                    <div className={classes.map}>{switchRoutes}</div>
+                  )}
+                  {this.checkLoginPath() ? null : <Footer />}
+                </div>
               </div>
-            </div>
+            }
           </div>
         </MuiPickersUtilsProvider>
       </ErrorBoundary>
@@ -141,7 +146,9 @@ App.propTypes = {
 function mapStateToProps(state){
   return {
     permissions: state.permissions.userPermissions,
-    notification: state.notification
+    notification: state.notification,
+    isSignedIn: state.reduxTokenAuth.currentUser.isSignedIn,
+    isLoading: state.reduxTokenAuth.currentUser.isLoading,
   }
 }
 

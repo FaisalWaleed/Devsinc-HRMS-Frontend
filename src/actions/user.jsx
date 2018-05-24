@@ -102,6 +102,12 @@ export const createUserSuccess = (payload) => {
       type: types.CREATE_USER_SUCCESS,
       payload
     });
+    dispatch(showNotification({
+      place: 'tc',
+      color: 'success',
+      icon: AddAlert,
+      message: 'User has been invited!',
+    }));
     dispatch(fetchUsers(fetchUsersSuccess, fetchUsersFailure));
     dispatch(reset('user_form'));
     dispatch(HIDE_MODAL);

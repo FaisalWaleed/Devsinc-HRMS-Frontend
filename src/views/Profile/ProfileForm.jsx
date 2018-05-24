@@ -6,7 +6,8 @@ import {
   Button,
   CustomInputWrapper,
   ItemGrid,
-  FileInput
+  FileInput,
+  Permissible
 } from "components";
 import { connect } from "react-redux";
 import { DatePicker } from 'material-ui-pickers';
@@ -16,7 +17,6 @@ import {
   DateRange
 } from "material-ui-icons";
 import * as moment from 'moment';
-import Avatar from 'material-ui/Avatar';
 
 class ProfileForm extends React.Component {
   
@@ -96,7 +96,13 @@ class ProfileForm extends React.Component {
                   </Grid>
                 </div>
               }
-              footer={<Button color="primary" type="submit">Update Profile</Button>}
+              footer={
+                <Permissible
+                  requiredPermissions={["users_update"]}
+                >
+                  <Button color="primary" type="submit">Update Profile</Button>
+                </Permissible>
+              }
             />
           </ItemGrid>
         
