@@ -1,5 +1,4 @@
 import * as types from './actionTypes';
-import {APP_ERROR_OCCURED} from "./error";
 import {showNotification} from "./notification";
 
 export const createDepartmentSuccess = (payload) => {

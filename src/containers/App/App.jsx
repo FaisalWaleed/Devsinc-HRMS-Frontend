@@ -49,7 +49,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    if((!this.checkUnprotectedPages())){
+    if((!this.checkUnprotectedPages() )){
       this.props.fetchPermissions();
     }
     if(navigator.platform.indexOf('Win') > -1){
