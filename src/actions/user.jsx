@@ -16,13 +16,29 @@ export const fetchUsersFailure = (payload) => ({
   payload
 });
 
-export const editUserSuccess = (payload) => ({
-  type: types.EDIT_USER_SUCCESS,
-  payload
-});
+export const editUserSuccess = (payload) => {
+  return dispatch => {
+    dispatch(showNotification({
+      place: 'tc',
+      color: 'success',
+      icon: AddAlert,
+      message: 'Successfully saved changes to User!',
+    }));
+    dispatch({
+      type: types.EDIT_USER_SUCCESS,
+      payload
+    })
+  }
+};
 
 export const editUserFailure = (payload) => {
   return dispatch => {
+    dispatch(showNotification({
+      place: 'tc',
+      color: 'danger',
+      icon: AddAlert,
+      message: 'Failed to save changes to User!',
+    }));
     dispatch({
       type: types.EDIT_USER_FAILURE,
       payload
@@ -39,31 +55,31 @@ export const deleteUserSuccess = (payload) => {
       message: 'User has been deactivated!',
     }));
     dispatch({
-      type: types.DELETE_USER_SUCCESS,
+      type: types.DEACTIVATE_USER_SUCCESS,
       payload
     })
   }
 };
 
 export const deleteUserFailure = (payload) => ({
-  type: types.DELETE_USER_FAILURE,
+  type: types.DEACTIVATE_USER_FAILURE,
   payload
 });
 
 export const getProfileSuccess = (payload) => ({
-  type: "GET_PROFILE_SUCCESS",
+  type: types.GET_PROFILE_SUCCESS,
   payload
 });
 
 export const getProfileFailure = (payload) => ({
-  type: "GET_PROFILE_FAILURE",
+  type: types.GET_PROFILE_FAILURE,
   payload
 });
 
 export const updateProfileSuccess = (payload) => {
   return dispatch => {
     dispatch({
-      type: "UPDATE_PROFILE_SUCCESS",
+      type: types.UPDATE_PROFILE_SUCCESS,
       payload
     });
     dispatch(showNotification({
@@ -76,7 +92,7 @@ export const updateProfileSuccess = (payload) => {
 };
 
 export const updateProfileFailure = (payload) => ({
-  type: "UPDATE_PROFILE_FAILURE",
+  type: types.UPDATE_PROFILE_FAILURE,
   payload
 });
 
@@ -119,10 +135,10 @@ export const resetPasswordFailure = (payload) => {
   }
 };
 
-export const deactivateUserSuccess = (payload) => {
+export const activateUserSuccess = (payload) => {
   return dispatch => {
     dispatch({
-      type: types.DEACTIVATE_USER_SUCCESS,
+      type: types.ACTIVATE_USER_SUCCESS,
       payload
     });
     dispatch(showNotification({
@@ -134,9 +150,9 @@ export const deactivateUserSuccess = (payload) => {
   }
 };
 
-export const deactivateUserFailure = (payload) => {
+export const activateUserFailure = (payload) => {
   return {
-    type: types.DEACTIVATE_USER_FAILURE,
+    type: types.ACTIVATE_USER_FAILURE,
     payload
   }
 };

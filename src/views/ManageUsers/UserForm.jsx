@@ -81,7 +81,7 @@ class UserForm extends React.Component {
                 <StepContent>
                   {index === 0 && <UserFormStepOne initialValues={initialValues} users={users} onSubmit={this.handleNext} />}
                   {index === 1 && <UserFormStepTwo initialValues={initialValues} isNew={isNew} previousStep={this.handleBack} onSubmit={this.handleNext}/>}
-                  {index === 2 && <UserFormStepThree initialValues={initialValues} previousStep={this.handleBack} onSubmit={onSubmit}/>}
+                  {index === 2 && <UserFormStepThree initialValues={initialValues} isNew={isNew} previousStep={this.handleBack} onSubmit={onSubmit}/>}
                 </StepContent>
               </Step>
             );
