@@ -21,15 +21,29 @@ export const editUserSuccess = (payload) => ({
   payload
 });
 
-export const editUserFailure = (payload) => ({
-  type: types.EDIT_USER_FAILURE,
-  payload
-});
+export const editUserFailure = (payload) => {
+  return dispatch => {
+    dispatch({
+      type: types.EDIT_USER_FAILURE,
+      payload
+    });
+  };
+};
 
-export const deleteUserSuccess = (payload) => ({
-  type: types.DELETE_USER_SUCCESS,
-  payload
-});
+export const deleteUserSuccess = (payload) => {
+  return dispatch => {
+    dispatch(showNotification({
+      place: 'tc',
+      color: 'success',
+      icon: AddAlert,
+      message: 'User has been deactivated!',
+    }));
+    dispatch({
+      type: types.DELETE_USER_SUCCESS,
+      payload
+    })
+  }
+};
 
 export const deleteUserFailure = (payload) => ({
   type: types.DELETE_USER_FAILURE,
@@ -101,6 +115,28 @@ export const resetPasswordSuccess = (payload) => {
 export const resetPasswordFailure = (payload) => {
   return {
     type: types.RESET_PASSWORD_FAILURE,
+    payload
+  }
+};
+
+export const deactivateUserSuccess = (payload) => {
+  return dispatch => {
+    dispatch({
+      type: types.DEACTIVATE_USER_SUCCESS,
+      payload
+    });
+    dispatch(showNotification({
+      place: 'tc',
+      color: 'success',
+      icon: AddAlert,
+      message: 'User has been activated!',
+    }));
+  }
+};
+
+export const deactivateUserFailure = (payload) => {
+  return {
+    type: types.DEACTIVATE_USER_FAILURE,
     payload
   }
 };
