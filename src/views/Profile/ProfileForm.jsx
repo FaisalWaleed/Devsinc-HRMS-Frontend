@@ -16,6 +16,7 @@ import {
   DateRange
 } from "material-ui-icons";
 import * as moment from 'moment';
+import Avatar from 'material-ui/Avatar';
 
 class ProfileForm extends React.Component {
   
@@ -25,39 +26,22 @@ class ProfileForm extends React.Component {
     return (
       <Form onSubmit={handleSubmit}>
         <Grid container>
-          <ItemGrid xs={12} sm={12} md={8}>
+          <ItemGrid xs={12} sm={12} md={12}>
             <RegularCard
               cardTitle="Edit Profile"
               cardSubtitle="Complete your profile"
               content={
                 <div>
                   <Grid container>
-                    <ItemGrid xs={3} sm={3} md={3}>
+                    <ItemGrid xs={4} sm={4} md={4}>
                       <Field name="first_name" type="text" custominputprops={{labelText: "First Name"}} component={CustomInputWrapper} />
-                    </ItemGrid>
-                    <ItemGrid xs={3} sm={3} md={3}>
-                      <Field name="last_name" type="text" component={CustomInputWrapper} custominputprops={{labelText: "Last Name"}} />
-                    </ItemGrid>
-                    <ItemGrid xs={5} sm={5} md={5}>
                       <Field name="email" type="text" disabled component={CustomInputWrapper} custominputprops={{labelText: "E-mail Address"}} />
-                    </ItemGrid>
-                  </Grid>
-                  <Grid container>
-                    <ItemGrid xs={4} sm={4} md={4}>
-                      <Field name="contact_number" type="tel" component={CustomInputWrapper} custominputprops={{labelText: "Contact Number"}} />
-                    </ItemGrid>
-                    <ItemGrid xs={4} sm={4} md={4}>
                       <Field name="secondary_contact_number" type="tel" component={CustomInputWrapper} custominputprops={{labelText: "Secondary Contact Number"}} />
                     </ItemGrid>
-                  </Grid>
-                  <Grid container>
-                    <ItemGrid xs={12} sm={12} md={12}>
-                      <Field name="permanent_address" type="text" component={CustomInputWrapper} custominputprops={{labelText: "Address"}} />
-                    </ItemGrid>
-                  </Grid>
-                  <br/><br/>
-                  <Grid container>
-                    <ItemGrid xs={12} sm={12} md={12}>
+                    <ItemGrid xs={4} sm={4} md={4}>
+                      <Field name="last_name" type="text" component={CustomInputWrapper} custominputprops={{labelText: "Last Name"}} />
+                      <Field name="contact_number" type="tel" component={CustomInputWrapper} custominputprops={{labelText: "Contact Number"}} />
+                      <br/>
                       <Field name="dob"  component={(input,label,custom) => (
                         <DatePicker
                           label="Date of Birth"
@@ -81,12 +65,33 @@ class ProfileForm extends React.Component {
                         />
                       )} />
                     </ItemGrid>
+                    <ItemGrid xs={3} sm={3} md={3}>
+                      <br />
+                      <Field type="input" name="image" url={this.props.initialValues ? this.props.initialValues.image.url ? this.props.initialValues.image.url : null : null } component={FileInput}/>
+                    </ItemGrid>
                   </Grid>
-                  <br /><br />
                   <Grid container>
-                    <ItemGrid xs={4} sm={4} md={4}>
-                      <img width="300" src={this.props.initialValues ? this.props.initialValues.image.url : null } />
-                      <Field type="input" name="image" component={FileInput}/>
+                  </Grid>
+                  <Grid container>
+                    <ItemGrid xs={12} sm={12} md={12}>
+                      <Field name="permanent_address" type="text" component={CustomInputWrapper} custominputprops={{labelText: "Address"}} />
+                    </ItemGrid>
+                  </Grid>
+                  <br/><br/>
+                  <Grid container>
+                    <ItemGrid xs={12} sm={12} md={12}>
+                      <h4>Emergency Contact Details</h4>
+                      <Grid container>
+                        <ItemGrid xs={12} sm={12} md={12}>
+                          <Field name="emergency_contact_person_name" type="text" component={CustomInputWrapper} custominputprops={{labelText: "Contact Name"}} />
+                        </ItemGrid>
+                        <ItemGrid xs={12} sm={12} md={12}>
+                          <Field name="emergency_contact_person_relation" type="text" component={CustomInputWrapper} custominputprops={{labelText: "Relation with Contact"}} />
+                        </ItemGrid>
+                        <ItemGrid xs={12} sm={12} md={12}>
+                          <Field name="emergency_contact_person_number" type="text" component={CustomInputWrapper} custominputprops={{labelText: "Contact Number"}} />
+                        </ItemGrid>
+                      </Grid>
                     </ItemGrid>
                   </Grid>
                 </div>
@@ -94,25 +99,7 @@ class ProfileForm extends React.Component {
               footer={<Button color="primary" type="submit">Update Profile</Button>}
             />
           </ItemGrid>
-          <ItemGrid xs={12} sm={12} md={4}>
-            <RegularCard
-              cardTitle="Emergency Contact Information"
-              cardSubtitle="Fill in contact information"
-              content={
-                <Grid container>
-                  <ItemGrid xs={12} sm={12} md={12}>
-                    <Field name="emergency_contact_person_name" type="text" component={CustomInputWrapper} custominputprops={{labelText: "Contact Name"}} />
-                  </ItemGrid>
-                  <ItemGrid xs={12} sm={12} md={12}>
-                    <Field name="emergency_contact_person_relation" type="text" component={CustomInputWrapper} custominputprops={{labelText: "Relation with Contact"}} />
-                  </ItemGrid>
-                  <ItemGrid xs={12} sm={12} md={12}>
-                    <Field name="emergency_contact_person_number" type="text" component={CustomInputWrapper} custominputprops={{labelText: "Contact Number"}} />
-                  </ItemGrid>
-                </Grid>
-              }
-            />
-          </ItemGrid>
+        
         </Grid>
       </Form>
     );
