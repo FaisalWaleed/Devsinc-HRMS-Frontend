@@ -2,7 +2,7 @@ import React from 'react';
 import { Grid } from "material-ui";
 import { RegularCard, Button, Table, ItemGrid, Permissible } from "components";
 import { connect } from 'react-redux';
-import {fetchUsers, deleteUser, editUser, createUser, deactivateUser} from "../../api/user";
+import {fetchUsers, deleteUser, editUser, createUser, activateUser} from "../../api/user";
 import {
   fetchUsersSuccess,
   fetchUsersFailure,
@@ -10,7 +10,7 @@ import {
   editUserFailure,
   deleteUserSuccess,
   deleteUserFailure,
-  createUserSuccess, createUserFailure, clearUserCreateForm, deactivateUserSuccess, deactivateUserFailure
+  createUserSuccess, createUserFailure, clearUserCreateForm, activateUserSuccess, activateUserFailure
 } from "../../actions/user";
 import { Lock, LockOpen,Edit } from "material-ui-icons";
 import * as types from '../../actions/actionTypes';
@@ -48,7 +48,7 @@ class ManageUsers extends React.Component{
                 this.props.openModal.bind(this,
                   types.DELETE_MODAL,
                   {
-                    deleteAction: deactivateUser(id,deactivateUserSuccess,deactivateUserFailure),
+                    deleteAction: activateUser(id,activateUserSuccess,activateUserFailure),
                     resourceType: 'user',
                     title: 'Are you sure you want to Activate this user?',
                     message: ' '

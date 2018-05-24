@@ -1,4 +1,5 @@
 import * as types from './actionTypes'
+import {showNotification} from "./notification";
 
 export const nextLeaveYear = {
   type: types.NEXT_LEAVE_YEAR
@@ -10,6 +11,11 @@ export const prevLeaveYear = {
 
 export const createLeaveSuccess = (payload) => {
   return dispatch => {
+    dispatch(showNotification({
+      place:'tc',
+      color: 'success',
+      message: "Applied for leave successfully!"
+    }));
     dispatch({
       type: types.CREATE_LEAVE_SUCCESS,
       payload
@@ -19,6 +25,11 @@ export const createLeaveSuccess = (payload) => {
 
 export const createLeaveFailure = (payload) => {
   return dispatch => {
+    dispatch(showNotification({
+      place:'tc',
+      color: 'danger',
+      message: "Failed to apply for leave!"
+    }));
     dispatch({
       type: types.CREATE_LEAVE_FAILURE,
       payload
@@ -64,6 +75,11 @@ export const fetchLeaveApprovalsFailure = (payload) => {
 
 export const createLeaveStatusSuccess = (payload) => {
   return dispatch => {
+    dispatch(showNotification({
+      place:'tc',
+      color: 'success',
+      message: "Successfully changed Leave Status!"
+    }));
     dispatch({
       type: types.CREATE_LEAVE_STATUS_SUCCESS,
       payload
@@ -73,6 +89,11 @@ export const createLeaveStatusSuccess = (payload) => {
 
 export const createLeaveStatusFailure = (payload) => {
   return dispatch => {
+    dispatch(showNotification({
+      place:'tc',
+      color: 'danger',
+      message: "Failed to update Leave Status!"
+    }));
     dispatch({
       type: types.CREATE_LEAVE_STATUS_FAILURE,
       payload

@@ -62,7 +62,7 @@ export const resetPassword = (params, successAction, failureAction) => {
   },successAction,failureAction,true);
 };
 
-export const deactivateUser = (userId, successAction, failureAction) => {
+export const activateUser = (userId, successAction, failureAction) => {
   return request(`admin/users/${userId}/restore_user`,{
     method: 'POST',
     headers: {
