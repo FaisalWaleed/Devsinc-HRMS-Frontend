@@ -14,27 +14,19 @@ const hist = createBrowserHistory();
 
 const store = configureStore();
 
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
+verifyCredentials(store);
+ReactDOM.render(
+  <Provider store={store}>
+    <Router history={hist}>
+      <Switch>
+        {indexRoutes.map((prop, key) => {
+          return <Route path={prop.path} component={prop.component} key={key} />;
+        })}
+      </Switch>
+    </Router>
+  </Provider>,
+  document.getElementById("root")
+);
 
-async function renderApp() {
-    verifyCredentials(store);
-    await sleep(1000);
-    ReactDOM.render(
-        <Provider store={store}>
-                <Router history={hist}>
-                    <Switch>
-                        {indexRoutes.map((prop, key) => {
-                            return <Route path={prop.path} component={prop.component} key={key} />;
-                        })}
-                    </Switch>
-                </Router>
-        </Provider>,
-        document.getElementById("root")
-    );
-}
-
-renderApp();
 
 
