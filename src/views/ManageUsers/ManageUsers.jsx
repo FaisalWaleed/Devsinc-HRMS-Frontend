@@ -18,6 +18,7 @@ import UserForm from './UserForm';
 import {HIDE_MODAL} from "../../actions/modal";
 import { drop,map,values } from 'lodash';
 import { hasPermission } from "../../helpers/permissionsHelper";
+import Avatar from 'material-ui/Avatar';
 
 class ManageUsers extends React.Component{
   constructor(props){
@@ -32,7 +33,7 @@ class ManageUsers extends React.Component{
 
   userWithButtons = (user) => {
     const { id, name, email,dob, emergency_contact_person_number, emergency_contact_person_relation, permanent_address, join_date, buddy_id, first_name, last_name, image, title, contact_number, employment_history, reporting_to, manager } = user;
-    const requiredFields = [ <img width="80" src={image["url"]} />, name, title,email,contact_number, manager ];
+    const requiredFields = [ <Avatar src={image} />, name, title,email,contact_number, manager ];
     return [
       ...requiredFields,
       <Permissible
