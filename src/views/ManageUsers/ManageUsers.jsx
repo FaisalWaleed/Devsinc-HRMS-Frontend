@@ -2,7 +2,7 @@ import React from 'react';
 import { Grid } from "material-ui";
 import { RegularCard, Button, Table, ItemGrid, Permissible } from "components";
 import { connect } from 'react-redux';
-import {fetchUsers, deleteUser, editUser, createUser} from "../../api/user";
+import {fetchUsers, deleteUser, editUser, createUser, deactivateUser} from "../../api/user";
 import {
   fetchUsersSuccess,
   fetchUsersFailure,
@@ -10,15 +10,16 @@ import {
   editUserFailure,
   deleteUserSuccess,
   deleteUserFailure,
-  createUserSuccess, createUserFailure, clearUserCreateForm
+  createUserSuccess, createUserFailure, clearUserCreateForm, deactivateUserSuccess, deactivateUserFailure
 } from "../../actions/user";
-import { Delete,Edit } from "material-ui-icons";
+import { Lock, LockOpen,Edit } from "material-ui-icons";
 import * as types from '../../actions/actionTypes';
 import UserForm from './UserForm';
 import {HIDE_MODAL} from "../../actions/modal";
 import { drop,map,values } from 'lodash';
 import { hasPermission } from "../../helpers/permissionsHelper";
 import Avatar from 'material-ui/Avatar';
+import Tooltip from 'material-ui/Tooltip';
 
 class ManageUsers extends React.Component{
   constructor(props){
@@ -26,35 +27,63 @@ class ManageUsers extends React.Component{
     this.handleCreateUserSubmit = this.handleCreateUserSubmit.bind(this);
     this.handleEditUserSubmit = this.handleEditUserSubmit.bind(this);
   }
-
+  
   componentDidMount() {
     this.props.fetchUsers();
   }
-
+  
   userWithButtons = (user) => {
-    const { id, name, email,dob, emergency_contact_person_number, emergency_contact_person_relation, permanent_address, join_date, buddy_id, first_name, last_name, image, title, contact_number, employment_history, reporting_to, manager } = user;
+    const { id, name, email,dob, emergency_contact_person_number, emergency_contact_person_relation, permanent_address, join_date, buddy_id, first_name, last_name, image, title, contact_number, employment_history, reporting_to, manager, deleted_at } = user;
     const requiredFields = [ <Avatar src={image} />, name, title,email,contact_number, manager ];
     return [
       ...requiredFields,
-      <Permissible
-        requiredPermissions={["users_destroy"]}
-      >
-        <Delete style={{'marginRight': '10px'}}
-                onClick={
-                  this.props.openModal.bind(this,
-                    types.DELETE_MODAL,
-                    {
-                      deleteAction: deleteUser(
-                        id,
-                        deleteUserSuccess,
-                        deleteUserFailure
-                      ),
-                      resourceType: 'user'
+      deleted_at
+        ?
+        <Permissible
+          requiredPermissions={["users_restore_user"]}
+        >
+          <Tooltip title={`Unblock ${name}`}>
+            <Lock
+              onClick={
+                this.props.openModal.bind(this,
+                  types.DELETE_MODAL,
+                  {
+                    deleteAction: deactivateUser(id,deactivateUserSuccess,deactivateUserFailure),
+                    resourceType: 'user',
+                    title: 'Are you sure you want to Activate this user?',
+                    message: ' '
+                  }
+                )
+              }
+            
+            
+            />
+          </Tooltip>
+        </Permissible>
+        :
+        <Permissible
+          requiredPermissions={["users_destroy"]}
+        >
+          <Tooltip title={`Block ${name}`}>
+          <LockOpen style={{'marginRight': '10px'}}
+                    onClick={
+                      this.props.openModal.bind(this,
+                        types.DELETE_MODAL,
+                        {
+                          deleteAction: deleteUser(
+                            id,
+                            deleteUserSuccess,
+                            deleteUserFailure
+                          ),
+                          resourceType: 'user',
+                          title: 'Are you sure you want to Deactivate this user?',
+                          message: ' '
+                        }
+                      )
                     }
-                  )
-                }
-        />
-      </Permissible>,
+          />
+          </Tooltip>
+        </Permissible>,
       <Permissible
         requiredPermissions={["users_update_all"]}
       >
@@ -91,16 +120,16 @@ class ManageUsers extends React.Component{
       </Permissible>
     ];
   };
-
+  
   handleCreateUserSubmit(values){
     this.props.clearFormErrors();
     this.props.createUser(values)
   }
-
+  
   handleEditUserSubmit(values){
     this.props.editUser(values);
   };
-
+  
   render(){
     const users = map(this.props.users, this.userWithButtons);
     const { userPermissions } = this.props;

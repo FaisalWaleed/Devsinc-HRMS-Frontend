@@ -61,3 +61,14 @@ export const resetPassword = (params, successAction, failureAction) => {
     body: JSON.stringify(params)
   },successAction,failureAction,true);
 };
+
+export const deactivateUser = (userId, successAction, failureAction) => {
+  return request(`admin/users/${userId}/restore_user`,{
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ id: userId })
+  },successAction,failureAction, true)
+};
