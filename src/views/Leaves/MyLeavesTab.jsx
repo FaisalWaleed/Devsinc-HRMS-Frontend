@@ -25,6 +25,7 @@ import TableBody from 'material-ui/Table/TableBody';
 import TableCell from 'material-ui/Table/TableCell';
 import TableHead from 'material-ui/Table/TableHead';
 import TableRow from 'material-ui/Table/TableRow';
+import * as moment from 'moment';
 
 const styles = theme => ({
   rightIcon: {
@@ -62,7 +63,6 @@ class MyLeavesTab extends React.Component{
   
   render(){
     const { classes, allLeaves } = this.props;
-    console.log("leaves", allLeaves);
     return(
       <Grid container>
         <Grid container>
@@ -74,7 +74,7 @@ class MyLeavesTab extends React.Component{
                 this.props.openModal.bind(this, types.FORM_MODAL,
                   {
                     fullscreen: false,
-                      form: <LeaveForm onSubmit={this.handleCreateLeaveSubmit} />,
+                    form: <LeaveForm onSubmit={this.handleCreateLeaveSubmit} />,
                     title: 'Leave Application',
                   }
                 )
@@ -89,7 +89,7 @@ class MyLeavesTab extends React.Component{
           <ItemGrid xs={6} sm={6} md={6}>
             <Card className={classes.root}>
               <CardContent>
-                <Muted>In March</Muted>
+                <Muted>In {moment().format('MMM')}</Muted>
                 <Table className={classes.table}>
                   <TableHead>
                     <TableRow>
@@ -101,15 +101,21 @@ class MyLeavesTab extends React.Component{
                   <TableBody>
                     { allLeaves.length
                       ?
-                      allLeaves.map((leave) => (
-                        <TableRow>
-                          <TableCell>{leave.start_date}</TableCell>
-                          <TableCell>{leave.leave_type}</TableCell>
-                          <TableCell>{leave.reason}</TableCell>
-                        </TableRow>
-                      ))
+                      allLeaves
+                        .filter(
+                          leave => leave.start_date >= `${moment().format("YYYY")}-${moment().format("MM")}-01`
+                        )
+                        .map((leave,index) => (
+                            <TableRow key={index}>
+                              <TableCell component="th">{leave.start_date}</TableCell>
+                              <TableCell>{leave.leave_type}</TableCell>
+                              <TableCell>{leave.reason}</TableCell>
+                            </TableRow>
+                          )
+                        )
                       :
-                      "Nothing to Show"}
+                      "Nothing to Show"
+                    }
                   </TableBody>
                 </Table>
               </CardContent>
@@ -128,11 +134,22 @@ class MyLeavesTab extends React.Component{
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    <TableRow key={1}>
-                      <TableCell component="th" scope="row">25th March</TableCell>
-                      <TableCell>Sick</TableCell>
-                      <TableCell>Had high fever</TableCell>
-                    </TableRow>
+                    { allLeaves.length
+                      ?
+                      allLeaves
+                        .filter(
+                          leave => leave.start_date >= `${moment().format("YYYY")}-01-01`
+                        )
+                        .map((leave,index) => (
+                          <TableRow key={index}>
+                            <TableCell component="th">{leave.start_date}</TableCell>
+                            <TableCell>{leave.leave_type}</TableCell>
+                            <TableCell>{leave.reason}</TableCell>
+                          </TableRow>
+                        ))
+                      :
+                      "Nothing to Show"
+                    }
                   </TableBody>
                 </Table>
               </CardContent>
