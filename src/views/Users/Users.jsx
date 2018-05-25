@@ -21,7 +21,7 @@ import { hasPermission } from "../../helpers/permissionsHelper";
 import Avatar from 'material-ui/Avatar';
 import Tooltip from 'material-ui/Tooltip';
 
-class ManageUsers extends React.Component{
+class Users extends React.Component{
   constructor(props){
     super(props);
     this.handleCreateUserSubmit = this.handleCreateUserSubmit.bind(this);
@@ -137,8 +137,8 @@ class ManageUsers extends React.Component{
       <Grid container>
         <ItemGrid xs={12} sm={12} md={12}>
           <RegularCard
-            cardTitle="Manage Users"
-            cardSubtitle="Click on operations to perform actions"
+            cardTitle="People"
+            cardSubtitle="Every one from your organization"
             content={
               <div>
                 <Permissible
@@ -187,4 +187,4 @@ function mapStateToProps(state){
   }
 }
 
-export default ManageUsers = connect(mapStateToProps,mapDispatchToProps)(ManageUsers);
+export default Users = connect(mapStateToProps,mapDispatchToProps)(Users);
