@@ -3,7 +3,7 @@ import LandingPage from "views/Landing/Landing.jsx";
 import DepartmentsPage from "views/Departments/Departments.jsx";
 import NewDepartmentsPage from "views/Departments/NewDepartment.jsx";
 import EditDepartmentsPage from "views/Departments/EditDepartment.jsx";
-import ManageUsers from "../views/ManageUsers/ManageUsers";
+import Users from "../views/Users/Users";
 import RolesPage from "views/Roles/Roles.jsx";
 import NewRolesPage from "views/Roles/New.jsx";
 import ProfilePage from "views/Profile/Profile.jsx";
@@ -77,11 +77,11 @@ const appRoutes = [
     requiredPermissions: ["departments_update"]
   },
   {
-    path: "/manageusers",
+    path: "/people",
     sidebarName: "People",
     navbarName: "People",
     icon: People,
-    component: ManageUsers,
+    component: Users,
     requiredPermissions: ["users_index"]
   },
   {

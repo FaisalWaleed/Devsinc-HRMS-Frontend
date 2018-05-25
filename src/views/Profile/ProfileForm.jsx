@@ -28,8 +28,8 @@ class ProfileForm extends React.Component {
         <Grid container>
           <ItemGrid xs={12} sm={12} md={12}>
             <RegularCard
-              cardTitle="Edit Profile"
-              cardSubtitle="Complete your profile"
+              cardTitle="Your Profile"
+              cardSubtitle="Keep your profile updated"
               content={
                 <div>
                   <Grid container>
