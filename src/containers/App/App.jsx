@@ -22,6 +22,8 @@ import Unauthorized from "../../views/Errors/Unauthorized";
 import { hasPermission } from "../../helpers/permissionsHelper";
 import { isSignedin } from "../../helpers/permissionsHelper";
 import { closeNotification } from "../../actions/notification";
+import OverlayLoader from 'react-overlay-loading/lib/OverlayLoader'
+
 
 const requireSignIn = generateRequireSignInWrapper({
   redirectPathIfNotSignedIn: '/login',
@@ -88,7 +90,16 @@ class App extends React.Component {
             <ModalRoot />
             { isLoading
               ?
-              <h1>Loading</h1>
+              <OverlayLoader
+                color={'#16bbb2'} // default is white
+                loader="PacmanLoader" // check below for more loaders
+                text="Please wait . . ."
+                active={true}
+                backgroundColor={'black'} // default is black
+                opacity=".9" // default is .9
+              >
+                <div style={{height: '100vh'}} />
+              </OverlayLoader>
               :
               <div className={classes.wrapper}>
                 {

@@ -67,7 +67,7 @@ class ProfileForm extends React.Component {
                     </ItemGrid>
                     <ItemGrid xs={12} sm={12} md={3}>
                       <br />
-                      <Field type="input" name="image" url={this.props.initialValues ? this.props.initialValues.image.url ? this.props.initialValues.image.url : null : null } component={FileInput}/>
+                      <Field type="input" name="image" url={this.props.initialValues ? this.props.initialValues.image ? this.props.initialValues.image : null : null } component={FileInput}/>
                     </ItemGrid>
                   </Grid>
                   <Grid container>
