@@ -1,7 +1,5 @@
 import initialState from "./initialState";
 import * as types from '../actions/actionTypes';
-import { browserHistory } from 'react-router'
-
 
 export const userReducer = (state = initialState,action) => {
     switch(action.type) {
@@ -11,10 +9,10 @@ export const userReducer = (state = initialState,action) => {
         case types.FETCH_USERS_FAILURE:
             return state;
 
-        case types.DELETE_USER_SUCCESS:
+        case types.DEACTIVATE_USER_SUCCESS:
             return {allUsers: state.allUsers.slice().filter( user => (parseInt(user.id,10) !== parseInt(action.payload.userId,10)))};
 
-        case types.DELETE_USER_FAILURE:
+        case types.DEACTIVATE_USER_FAILURE:
             return state;
 
         case types.EDIT_USER_SUCCESS:
@@ -28,12 +26,12 @@ export const userReducer = (state = initialState,action) => {
         case types.EDIT_USER_FAILURE:
             return state;
 
-        case "GET_PROFILE_SUCCESS":
+        case types.GET_PROFILE_SUCCESS:
           return {
             ...state,
             profile: action.payload
           };
-        case "UPDATE_PROFILE_SUCCESS":
+        case types.UPDATE_PROFILE_SUCCESS:
           return {
             ...state,
             profileUpdated: true

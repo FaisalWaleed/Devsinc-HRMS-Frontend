@@ -6,7 +6,8 @@ import {
   Button,
   CustomInputWrapper,
   ItemGrid,
-  FileInput
+  FileInput,
+  Permissible
 } from "components";
 import { connect } from "react-redux";
 import { DatePicker } from 'material-ui-pickers';
@@ -16,7 +17,6 @@ import {
   DateRange
 } from "material-ui-icons";
 import * as moment from 'moment';
-import Avatar from 'material-ui/Avatar';
 
 class ProfileForm extends React.Component {
   
@@ -28,17 +28,17 @@ class ProfileForm extends React.Component {
         <Grid container>
           <ItemGrid xs={12} sm={12} md={12}>
             <RegularCard
-              cardTitle="Edit Profile"
-              cardSubtitle="Complete your profile"
+              cardTitle="Your Profile"
+              cardSubtitle="Keep your profile updated"
               content={
                 <div>
                   <Grid container>
-                    <ItemGrid xs={4} sm={4} md={4}>
+                    <ItemGrid xs={12} sm={12} md={4}>
                       <Field name="first_name" type="text" custominputprops={{labelText: "First Name"}} component={CustomInputWrapper} />
                       <Field name="email" type="text" disabled component={CustomInputWrapper} custominputprops={{labelText: "E-mail Address"}} />
                       <Field name="secondary_contact_number" type="tel" component={CustomInputWrapper} custominputprops={{labelText: "Secondary Contact Number"}} />
                     </ItemGrid>
-                    <ItemGrid xs={4} sm={4} md={4}>
+                    <ItemGrid xs={12} sm={12} md={4}>
                       <Field name="last_name" type="text" component={CustomInputWrapper} custominputprops={{labelText: "Last Name"}} />
                       <Field name="contact_number" type="tel" component={CustomInputWrapper} custominputprops={{labelText: "Contact Number"}} />
                       <br/>
@@ -65,9 +65,9 @@ class ProfileForm extends React.Component {
                         />
                       )} />
                     </ItemGrid>
-                    <ItemGrid xs={3} sm={3} md={3}>
+                    <ItemGrid xs={12} sm={12} md={3}>
                       <br />
-                      <Field type="input" name="image" url={this.props.initialValues ? this.props.initialValues.image.url ? this.props.initialValues.image.url : null : null } component={FileInput}/>
+                      <Field type="input" name="image" url={this.props.initialValues ? this.props.initialValues.image ? this.props.initialValues.image : null : null } component={FileInput}/>
                     </ItemGrid>
                   </Grid>
                   <Grid container>
@@ -96,7 +96,13 @@ class ProfileForm extends React.Component {
                   </Grid>
                 </div>
               }
-              footer={<Button color="primary" type="submit">Update Profile</Button>}
+              footer={
+                <Permissible
+                  requiredPermissions={["users_update"]}
+                >
+                  <Button color="primary" type="submit">Update Profile</Button>
+                </Permissible>
+              }
             />
           </ItemGrid>
         

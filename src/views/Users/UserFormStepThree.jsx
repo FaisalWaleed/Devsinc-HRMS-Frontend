@@ -31,7 +31,7 @@ import { connect } from 'react-redux';
 class UserFormStepThree extends React.Component {
   
   render() {
-    const { handleSubmit, previousStep, errors } = this.props;
+    const { handleSubmit, previousStep, errors, isNew } = this.props;
     return (
       <Form onSubmit={handleSubmit}>
         <Grid container>
@@ -75,7 +75,7 @@ class UserFormStepThree extends React.Component {
           variant="raised"
           color="primary"
         >
-          Create User
+          {isNew ? "Create User" : "Save Changes"}
         </Button>
         
         {errors

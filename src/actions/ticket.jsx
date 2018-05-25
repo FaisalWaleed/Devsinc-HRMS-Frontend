@@ -1,6 +1,7 @@
 import * as types from "./actionTypes";
 import {fetchAssignedTickets, fetchTickets, fetchTicketStatuses} from "../api/ticket";
 import {HIDE_MODAL} from "./modal";
+import {showNotification} from "./notification";
 
 export const fetchTicketsSuccess = (payload) => ({
     type: types.FETCH_TICKETS_SUCCESS,
@@ -28,15 +29,29 @@ export const createTicketSuccess = (payload) => {
       type: types.CREATE_TICKET_SUCCESS,
       payload
     });
+    dispatch(showNotification({
+      place:'tc',
+      color: 'success',
+      message: "Successfully created new Ticket!"
+    }));
     dispatch(fetchTickets(fetchTicketsSuccess,fetchTicketsFailure));
     dispatch(HIDE_MODAL);
   }
 };
 
-export const createTicketFailure = (payload) => ({
-  type: types.CREATE_TICKET_FAILURE,
-  payload
-});
+export const createTicketFailure = (payload) => {
+  return dispatch => {
+    dispatch({
+      type: types.CREATE_TICKET_FAILURE,
+      payload
+    });
+    dispatch(showNotification({
+      place:'tc',
+      color: 'danger',
+      message: "Failed to create Ticket!"
+    }));
+  }
+};
 
 export const updateTicketStatusSuccess = (payload) => {
   return dispatch => {
