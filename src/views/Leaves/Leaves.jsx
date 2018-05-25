@@ -10,44 +10,17 @@ import {
 import Tabs, { Tab } from 'material-ui/Tabs';
 import AppBar from 'material-ui/AppBar';
 import { connect } from 'react-redux';
-import { withStyles } from "material-ui/styles/index";
 import "assets/css/react-yearly-calendar.css";
 import {
-  createLeaveFailure,
-  createLeaveStatusFailure, createLeaveStatusSuccess, createLeaveSuccess,
+  createLeaveStatusFailure,
+  createLeaveStatusSuccess,
   fetchLeaveApprovalsFailure,
   fetchLeaveApprovalsSuccess,
 } from "../../actions/leave";
 import * as types from "../../actions/actionTypes";
-import { createLeave, fetchLeaveApprovals, createLeaveStatus } from '../../api/leave';
+import { fetchLeaveApprovals, createLeaveStatus } from '../../api/leave';
 import MyLeavesTab from './MyLeavesTab';
 import LeaveApprovalsTab from "./LeaveApprovalsTab";
-
-const styles = theme => ({
-  rightIcon: {
-    marginLeft: theme.spacing.unit,
-  },
-  demo: {
-    backgroundColor: theme.palette.background.paper,
-  },
-  title: {
-    margin: `${theme.spacing.unit * 4}px 0 ${theme.spacing.unit * 2}px`,
-  },
-  border: {
-    borderBottom: '2px solid #eee',
-    backgroundColor: theme.palette.background.paper,
-  },
-  avatar: {
-    margin: 10,
-  },
-  bigAvatar: {
-    width: 60,
-    height: 60,
-  },
-  tooltip: {
-    fontSize: '15px'
-  }
-});
 
 class Leaves extends React.Component{
   constructor(props){
@@ -108,4 +81,4 @@ function mapDispatchToProps(dispatch){
   }
 }
 
-export default Leaves = connect(mapStateToProps,mapDispatchToProps)(withStyles(styles)(Leaves));
+export default Leaves = connect(mapStateToProps,mapDispatchToProps)(Leaves);

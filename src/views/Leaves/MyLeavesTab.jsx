@@ -5,9 +5,15 @@ import {
   Button,
   ItemGrid,
   CustomInput,
-  Muted
+  Muted,
+  StatsCard
 } from "components";
-import { Create } from "material-ui-icons";
+import {
+  Create,
+  FlightTakeoff,
+  Battery60,
+  Today
+} from "material-ui-icons";
 import LeaveForm from './LeaveForm';
 import Card from 'material-ui/Card';
 import CardContent from 'material-ui/Card/CardContent';
@@ -26,18 +32,19 @@ import TableCell from 'material-ui/Table/TableCell';
 import TableHead from 'material-ui/Table/TableHead';
 import TableRow from 'material-ui/Table/TableRow';
 import * as moment from 'moment';
+import { DateRange } from "material-ui-icons/index";
+import Chip from 'material-ui/Chip';
+
 
 const styles = theme => ({
   rightIcon: {
     marginLeft: theme.spacing.unit,
   },
-  tooltip: {
-    fontSize: '15px'
-  },
   root: {
     width: '100%',
     marginTop: theme.spacing.unit * 3,
     overflowX: 'auto',
+    marginBottom: '30px'
   },
   table: {
     minWidth: '400px'
@@ -45,24 +52,37 @@ const styles = theme => ({
 });
 
 class MyLeavesTab extends React.Component{
-  
+
   constructor(props){
     super(props);
     this.handleCreateLeaveSubmit = this.handleCreateLeaveSubmit.bind(this);
   }
-  
+
   componentDidMount(){
     this.props.fetchLeaves();
   }
-  
+
   handleCreateLeaveSubmit(values){
     values.start_date = values.start_date.format("YYYY-MM-DD");
     values.end_date = values.end_date.format("YYYY-MM-DD");
     this.props.createLeave(values);
   }
-  
+
   render(){
     const { classes, allLeaves } = this.props;
+
+    const approvedLeavesThisMonth = allLeaves.filter(leave => (
+      leave.start_date >= `${moment().format('YYYY')}-${moment().format('MM')}-01` &&
+      leave.status === "approved by HR"
+    ));
+
+    const approvedLeavesThisYear = allLeaves.filter(leave => (
+      leave.start_date >= `${moment().format('YYYY')}-01-01` &&
+      leave.status === "approved by HR"
+    ));
+
+
+
     return(
       <Grid container>
         <Grid container>
@@ -86,7 +106,49 @@ class MyLeavesTab extends React.Component{
           </ItemGrid>
         </Grid>
         <Grid container>
-          <ItemGrid xs={6} sm={6} md={6}>
+          <ItemGrid xs={12} sm={12} md={3}>
+            <StatsCard
+              icon={FlightTakeoff}
+              iconColor="green"
+              title="Leaves This Month"
+              description="3"
+              statIcon={DateRange}
+              statText="This month"
+            />
+          </ItemGrid>
+          <ItemGrid xs={12} sm={12} md={3}>
+            <StatsCard
+              icon={Today}
+              iconColor="orange"
+              title="Leaves This Year"
+              description="3"
+              statIcon={DateRange}
+              statText="This year"
+            />
+          </ItemGrid>
+          <ItemGrid xs={12} sm={12} md={3}>
+            <StatsCard
+              icon={Battery60}
+              iconColor="red"
+              title="Leaves Remaining"
+              description="3"
+              statIcon={DateRange}
+              statText="This year"
+            />
+          </ItemGrid>
+          <ItemGrid xs={12} sm={12} md={3}>
+            <StatsCard
+              icon={FlightTakeoff}
+              iconColor="purple"
+              title="Your Leaves Quota"
+              description="14"
+              statIcon={DateRange}
+              statText="Leaves quota"
+            />
+          </ItemGrid>
+        </Grid>
+        <Grid container>
+          <ItemGrid xs={12} sm={12} md={6}>
             <Card className={classes.root}>
               <CardContent>
                 <Muted>In {moment().format('MMM')}</Muted>
@@ -96,6 +158,76 @@ class MyLeavesTab extends React.Component{
                       <TableCell>Date</TableCell>
                       <TableCell>Type</TableCell>
                       <TableCell>Reason</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    { approvedLeavesThisMonth.length
+                      ?
+                      approvedLeavesThisMonth
+                        .map((leave,index) => (
+                            <TableRow key={index}>
+                              <TableCell component="th">{leave.start_date}</TableCell>
+                              <TableCell>{leave.leave_type}</TableCell>
+                              <TableCell>{leave.reason}</TableCell>
+                            </TableRow>
+                          )
+                        )
+                      :
+                      <TableRow>
+                        <TableCell><Muted>Nothing to show</Muted></TableCell>
+                      </TableRow>
+                    }
+                  </TableBody>
+                </Table>
+              </CardContent>
+            </Card>
+          </ItemGrid>
+          <ItemGrid xs={12} sm={12} md={6}>
+            <Card className={classes.root}>
+              <CardContent>
+                <Muted>In 2018</Muted>
+                <Table className={classes.table}>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Date</TableCell>
+                      <TableCell>Type</TableCell>
+                      <TableCell>Reason</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    { approvedLeavesThisYear.length
+                      ?
+                      approvedLeavesThisYear
+                        .map((leave,index) => (
+                          <TableRow key={index}>
+                            <TableCell component="th">{leave.start_date}</TableCell>
+                            <TableCell>{leave.leave_type}</TableCell>
+                            <TableCell>{leave.reason}</TableCell>
+                          </TableRow>
+                        ))
+                      :
+                      <TableRow>
+                        <TableCell><Muted style={{display: 'block'}}>Nothing to show</Muted></TableCell>
+                      </TableRow>
+                    }
+                  </TableBody>
+                </Table>
+              </CardContent>
+            </Card>
+          </ItemGrid>
+        </Grid>
+        <Grid container>
+          <ItemGrid xs={12} sm={12} md={12}>
+            <Card className={classes.root}>
+              <CardContent>
+                <Muted>Your Leaves</Muted>
+                <Table className={classes.table}>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Date</TableCell>
+                      <TableCell>Type</TableCell>
+                      <TableCell>Reason</TableCell>
+                      <TableCell>Current Status</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -110,55 +242,19 @@ class MyLeavesTab extends React.Component{
                               <TableCell component="th">{leave.start_date}</TableCell>
                               <TableCell>{leave.leave_type}</TableCell>
                               <TableCell>{leave.reason}</TableCell>
+                              <TableCell><Chip style={{backgroundColor: 'yellow'}} label={leave.status} /></TableCell>
                             </TableRow>
                           )
                         )
                       :
-                      "Nothing to Show"
+                      <TableRow>
+                        <TableCell><Muted>Nothing to show</Muted></TableCell>
+                      </TableRow>
                     }
                   </TableBody>
                 </Table>
               </CardContent>
             </Card>
-          </ItemGrid>
-          <ItemGrid xs={6} sm={6} md={6}>
-            <Card className={classes.root}>
-              <CardContent>
-                <Muted>In 2018</Muted>
-                <Table className={classes.table}>
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>Date</TableCell>
-                      <TableCell>Type</TableCell>
-                      <TableCell>Reason</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    { allLeaves.length
-                      ?
-                      allLeaves
-                        .filter(
-                          leave => leave.start_date >= `${moment().format("YYYY")}-01-01`
-                        )
-                        .map((leave,index) => (
-                          <TableRow key={index}>
-                            <TableCell component="th">{leave.start_date}</TableCell>
-                            <TableCell>{leave.leave_type}</TableCell>
-                            <TableCell>{leave.reason}</TableCell>
-                          </TableRow>
-                        ))
-                      :
-                      "Nothing to Show"
-                    }
-                  </TableBody>
-                </Table>
-              </CardContent>
-            </Card>
-          </ItemGrid>
-        </Grid>
-        <Grid container>
-          <ItemGrid xs={6} sm={6} md={6}>
-          
           </ItemGrid>
         </Grid>
       </Grid>
