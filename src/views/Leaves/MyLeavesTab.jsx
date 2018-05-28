@@ -34,6 +34,8 @@ import TableRow from 'material-ui/Table/TableRow';
 import * as moment from 'moment';
 import { DateRange } from "material-ui-icons/index";
 import Chip from 'material-ui/Chip';
+import LeavesLifeCycle from './LeavesLifeCycle';
+import {LEAVES_QUOTA} from "../../config/apiConfig";
 
 
 const styles = theme => ({
@@ -52,37 +54,37 @@ const styles = theme => ({
 });
 
 class MyLeavesTab extends React.Component{
-
+  
   constructor(props){
     super(props);
     this.handleCreateLeaveSubmit = this.handleCreateLeaveSubmit.bind(this);
   }
-
+  
   componentDidMount(){
     this.props.fetchLeaves();
   }
-
+  
   handleCreateLeaveSubmit(values){
     values.start_date = values.start_date.format("YYYY-MM-DD");
     values.end_date = values.end_date.format("YYYY-MM-DD");
     this.props.createLeave(values);
   }
-
+  
   render(){
     const { classes, allLeaves } = this.props;
-
+    
     const approvedLeavesThisMonth = allLeaves.filter(leave => (
       leave.start_date >= `${moment().format('YYYY')}-${moment().format('MM')}-01` &&
       leave.status === "approved by HR"
     ));
-
+    
     const approvedLeavesThisYear = allLeaves.filter(leave => (
       leave.start_date >= `${moment().format('YYYY')}-01-01` &&
       leave.status === "approved by HR"
     ));
-
-
-
+    
+    
+    
     return(
       <Grid container>
         <Grid container>
@@ -111,7 +113,7 @@ class MyLeavesTab extends React.Component{
               icon={FlightTakeoff}
               iconColor="green"
               title="Leaves This Month"
-              description="3"
+              description={approvedLeavesThisMonth.length}
               statIcon={DateRange}
               statText="This month"
             />
@@ -121,7 +123,7 @@ class MyLeavesTab extends React.Component{
               icon={Today}
               iconColor="orange"
               title="Leaves This Year"
-              description="3"
+              description={approvedLeavesThisYear.length}
               statIcon={DateRange}
               statText="This year"
             />
@@ -131,7 +133,7 @@ class MyLeavesTab extends React.Component{
               icon={Battery60}
               iconColor="red"
               title="Leaves Remaining"
-              description="3"
+              description={14 - approvedLeavesThisYear.length}
               statIcon={DateRange}
               statText="This year"
             />
@@ -141,7 +143,7 @@ class MyLeavesTab extends React.Component{
               icon={FlightTakeoff}
               iconColor="purple"
               title="Your Leaves Quota"
-              description="14"
+              description={LEAVES_QUOTA}
               statIcon={DateRange}
               statText="Leaves quota"
             />
@@ -166,7 +168,7 @@ class MyLeavesTab extends React.Component{
                       approvedLeavesThisMonth
                         .map((leave,index) => (
                             <TableRow key={index}>
-                              <TableCell component="th">{leave.start_date}</TableCell>
+                              <TableCell component="th">{moment(leave.start_date).format("Do MMM")}</TableCell>
                               <TableCell>{leave.leave_type}</TableCell>
                               <TableCell>{leave.reason}</TableCell>
                             </TableRow>
@@ -200,7 +202,7 @@ class MyLeavesTab extends React.Component{
                       approvedLeavesThisYear
                         .map((leave,index) => (
                           <TableRow key={index}>
-                            <TableCell component="th">{leave.start_date}</TableCell>
+                            <TableCell component="th">{moment(leave.start_date).format("Do MMM")}</TableCell>
                             <TableCell>{leave.leave_type}</TableCell>
                             <TableCell>{leave.reason}</TableCell>
                           </TableRow>
@@ -238,11 +240,31 @@ class MyLeavesTab extends React.Component{
                           leave => leave.start_date >= `${moment().format("YYYY")}-${moment().format("MM")}-01`
                         )
                         .map((leave,index) => (
-                            <TableRow key={index}>
-                              <TableCell component="th">{leave.start_date}</TableCell>
+                            <TableRow
+                              key={index}
+                              hover={true}
+                              onClick={
+                                () => (this.props.openModal(
+                                  types.CONTENT_MODAL,
+                                  {
+                                    fullscreen: false,
+                                    title: `Leave Details`,
+                                    content: <LeavesLifeCycle reason={leave.reason} leaveId={leave.id} />
+                                  }
+                                ))
+                                }
+                            >
+                              <TableCell component="th">{moment(leave.start_date).format("Do MMM YYYY")}</TableCell>
                               <TableCell>{leave.leave_type}</TableCell>
                               <TableCell>{leave.reason}</TableCell>
-                              <TableCell><Chip style={{backgroundColor: 'yellow'}} label={leave.status} /></TableCell>
+                              <TableCell>
+                                {leave.status === "approved by Reporting to" ? <Chip style={{backgroundColor: '#9ad891'}} label="Pending on HR" className={classes.chip} /> : null }
+                                {leave.status === "pending" ? <Chip style={{backgroundColor: '#d8d739'}} label="Pending" className={classes.chip} /> : null }
+                                {leave.status === "approved by HR" ? <Chip style={{backgroundColor: '#2cd81f'}} label="Approved" className={classes.chip} /> : null }
+                                {leave.status === "rejected by Reporting to" ? <Chip style={{backgroundColor: '#d87d72'}} label="Rejected" className={classes.chip} /> : null }
+                                {leave.status === "rejected by HR" ? <Chip style={{backgroundColor: '#d84d30'}} label="Rejected by HR" className={classes.chip} /> : null }
+                              
+                              </TableCell>
                             </TableRow>
                           )
                         )

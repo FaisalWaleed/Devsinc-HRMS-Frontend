@@ -28,6 +28,14 @@ import LeavesLifeCycle from "./LeavesLifeCycle";
 import { withStyles } from "material-ui/styles/index";
 import { connect } from 'react-redux';
 import {getCalendarSelectionFromLeaves} from "../../helpers/leavesHelper";
+import {
+  createLeaveStatusFailure,
+  createLeaveStatusSuccess,
+  fetchLeaveApprovalsFailure,
+  fetchLeaveApprovalsSuccess
+} from "../../actions/leave";
+import {createLeaveStatus, fetchLeaveApprovals} from "../../api/leave";
+import {hasPermission} from "../../helpers/permissionsHelper";
 
 const styles = theme => ({
   rightIcon: {
@@ -71,16 +79,12 @@ class LeaveApprovalsTab extends React.Component{
     }
   }
   
-  handleCreateLeaveStatusSubmit(values){
-    this.props.createLeaveStatus(values);
+  componentDidMount(){
+    this.props.fetchLeaveApprovals();
   }
   
-  componentWillReceiveProps(nextProps){
-    let parsedLeaves = getCalendarSelectionFromLeaves(nextProps.allLeaves);
-    this.setState({
-      currentlyDisplayedLeaves: parsedLeaves,
-      allParsedLeaves: parsedLeaves
-    });
+  handleCreateLeaveStatusSubmit(values){
+    this.props.createLeaveStatus(values);
   }
   
   render(){
@@ -137,7 +141,7 @@ class LeaveApprovalsTab extends React.Component{
         />
         <hr/>
         <br/>
-    
+        
         <Grid container>
           <Grid item xs={12} sm={12} md={12}>
             <div className={classes.demo}>
@@ -186,8 +190,8 @@ class LeaveApprovalsTab extends React.Component{
                                     {leaveApproval.status === "rejected by Reporting to" ? <Tooltip title={<div>{leaveApproval.comment ? leaveApproval.comment : "No comment" }</div>}><Chip style={{backgroundColor: '#d87d72'}} label="Rejected" className={classes.chip} /></Tooltip> : null }
                                     {leaveApproval.status === "rejected by HR" ? <Tooltip title={<div>{leaveApproval.comment ? leaveApproval.comment : "No comment" }</div>}><Chip style={{backgroundColor: '#d84d30'}} label="Rejected by HR" className={classes.chip} /></Tooltip> : null }
                                   </span>
-                    
-                        {leaveApproval.status === "pending" || (leaveApproval.status === "approved by Reporting to" && localStorage.getItem("roles").includes("Admin") ) ? <span>
+                        
+                        {leaveApproval.status === "pending" || (leaveApproval.status === "approved by Reporting to" && hasPermission([""],[""]) ) ? <span>
                                     <IconButton variant="fab" color="primary"
                                                 onClick={ () => {
                                                   this.props.openModal(
@@ -222,4 +226,19 @@ class LeaveApprovalsTab extends React.Component{
   }
 }
 
-export default connect(null,null)(withStyles(styles)(LeaveApprovalsTab));
+function mapStateToProps(state){
+  return {
+    allLeaveApprovals: state.leaves.allLeaveApprovals
+  }
+}
+
+
+function mapDispatchToProps(dispatch){
+  return {
+    openModal: (modalType,modalProps = null) => { dispatch({ type: types.SHOW_MODAL, modalType: modalType, modalProps: modalProps}) },
+    fetchLeaveApprovals: () => { dispatch(fetchLeaveApprovals(fetchLeaveApprovalsSuccess,fetchLeaveApprovalsFailure))},
+    createLeaveStatus: (params) => { dispatch(createLeaveStatus(params,createLeaveStatusSuccess,createLeaveStatusFailure))},
+  }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(withStyles(styles)(LeaveApprovalsTab));

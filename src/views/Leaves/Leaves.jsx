@@ -46,7 +46,7 @@ class Leaves extends React.Component{
                 <AppBar position="static" color={"inherit"}>
                   <Tabs centered={true} fullWidth={true} value={this.state.tab} onChange={this.handleTab}>
                     <Tab label="My Leaves" />
-                    <Tab label="Leave Approvals" onClick={() => {this.props.fetchLeaveApprovals()}} />
+                    <Tab label="Leave Approvals" />
                   </Tabs>
                 </AppBar>
                 <br />
@@ -67,18 +67,4 @@ class Leaves extends React.Component{
   }
 }
 
-function mapStateToProps(state){
-  return {
-    allLeaveApprovals: state.leaves.allLeaveApprovals
-  }
-}
-
-function mapDispatchToProps(dispatch){
-  return {
-    openModal: (modalType,modalProps = null) => { dispatch({ type: types.SHOW_MODAL, modalType: modalType, modalProps: modalProps}) },
-    fetchLeaveApprovals: () => { dispatch(fetchLeaveApprovals(fetchLeaveApprovalsSuccess,fetchLeaveApprovalsFailure))},
-    createLeaveStatus: (params) => { dispatch(createLeaveStatus(params,createLeaveStatusSuccess,createLeaveStatusFailure))},
-  }
-}
-
-export default Leaves = connect(mapStateToProps,mapDispatchToProps)(Leaves);
+export default Leaves = connect(null,null)(Leaves);
