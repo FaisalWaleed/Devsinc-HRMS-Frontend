@@ -4,7 +4,6 @@ import { Grid } from "material-ui";
 import {
   Button,
   ItemGrid,
-  CustomInput,
   Muted,
   StatsCard
 } from "components";

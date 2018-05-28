@@ -13,18 +13,12 @@ import {
 import { withStyles, Grid } from "material-ui";
 import {
   StatsCard,
-  ChartCard,
   TasksCard,
   RegularCard,
   Table,
   ItemGrid
 } from "components";
 
-import {
-  dailySalesChart,
-  emailsSubscriptionChart,
-  completedTasksChart
-} from "variables/charts";
 import dashboardStyle from "variables/styles/dashboardStyle";
 
 class Dashboard extends React.Component {

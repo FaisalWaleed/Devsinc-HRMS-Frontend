@@ -9,10 +9,8 @@ import { Grid, InputAdornment,  IconButton, Hidden, } from "material-ui";
 import {
   CustomInput,
   ItemGrid,
-  Danger,
   Button,
-  CustomInputWrapper,
-  Muted
+  CustomInputWrapper
 } from "components";
 import {
   Add,

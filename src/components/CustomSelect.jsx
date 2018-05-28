@@ -39,8 +39,6 @@ class CustomSelect extends React.Component {
   render() {
     const {classes, input, data, componentName, onValueChange, title} = this.props;
     input.value = input.value ? input.value : [];
-    // departments? departments : "sdfsd";
-    console.log("these are the props", this.props);
     return (
       <CustomInput
         isSelect={true}

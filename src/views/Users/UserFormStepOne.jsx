@@ -8,7 +8,6 @@ import { Grid } from "material-ui";
 import {
   CustomInput,
   ItemGrid,
-  Danger,
   Button,
   CustomInputWrapper
 } from "components";

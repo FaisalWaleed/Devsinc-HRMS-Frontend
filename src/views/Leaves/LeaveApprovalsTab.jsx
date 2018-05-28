@@ -3,11 +3,8 @@ import { Grid } from "material-ui";
 import * as types from "../../actions/actionTypes";
 import Switch from 'material-ui/Switch';
 import {
-  RegularCard,
-  Button,
   ItemGrid,
-  CustomInput,
-  StatsCard
+  CustomInput
 } from "components";
 import Avatar from 'material-ui/Avatar'
 import { ModeEdit } from "material-ui-icons";
@@ -27,7 +24,6 @@ import LeaveStatusForm from './LeaveStatusForm';
 import LeavesLifeCycle from "./LeavesLifeCycle";
 import { withStyles } from "material-ui/styles/index";
 import { connect } from 'react-redux';
-import {getCalendarSelectionFromLeaves} from "../../helpers/leavesHelper";
 import {
   createLeaveStatusFailure,
   createLeaveStatusSuccess,

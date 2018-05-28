@@ -20,7 +20,6 @@ class LeavesLifeCycle extends React.Component{
         { leaveLifeCycle && <Timeline>
           {
             leaveLifeCycle.map((lifeCycleEvent, index) => {
-              console.log(lifeCycleEvent);
               return <TimelineEvent key={index}
                                     title={
                                       lifeCycleEvent.status == "pending" && <b>PENDING</b> ||

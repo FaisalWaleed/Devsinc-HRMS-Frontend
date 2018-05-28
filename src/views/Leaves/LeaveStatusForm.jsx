@@ -2,9 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux';
 import {HIDE_MODAL} from "../../actions/modal";
 import {
-  CustomInput,
   CustomInputWrapper,
-  DateRangePickerWrapper,
   ItemGrid,
   Danger,
   Button,

@@ -5,14 +5,8 @@ import { fetchAllLeavesFailure, fetchAllLeavesSuccess } from "../../actions/leav
 import Table from 'material-ui/Table'
 import { TableCell, TableRow, TableHead, TableBody, TableSortLabel } from 'material-ui/Table'
 import ToolTip from 'material-ui/Tooltip'
+import { CustomInput } from 'components'
 
-
-const tableHead = [
-  { id: 'name', numeric: false, disablePadding: false, label: 'Name' },
-  { id: 'start_date', numeric: false, disablePadding: false, label: 'Start' },
-  { id: 'end_date', numeric: false, disablePadding: false, label: 'End' },
-  { id: 'status', numeric: false, disablePadding: false, label: 'Status' }
-];
 
 class LeaveAdminTab extends React.Component{
   constructor(props){
@@ -52,37 +46,62 @@ class LeaveAdminTab extends React.Component{
   render(){
     const { allLeaves } = this.props;
     const { order, orderBy } = this.state;
+
+    const tableHead = [
+      { id: 'name', numeric: false, disablePadding: false, label: 'Name' },
+      { id: 'start_date', numeric: false, disablePadding: false, label: 'Start' },
+      { id: 'end_date', numeric: false, disablePadding: false, label: 'End' },
+      { id: 'status', numeric: false, disablePadding: false, label: 'Status' }
+    ];
+
     return(
-      <Table>
-        <TableHead>
-          <TableRow>
-            {
-              tableHead.map((column) => (
-                <TableCell
-                  key={column.id}
-                  numeric={column.numeric}
-                  padding={column.disablePadding ? 'none' : 'default'}
-                  sortDirection={orderBy === column.id ? order : false}
-                >
-                  <ToolTip
-                    title={"Sort"}
-                    placement={column.numeric ? 'bottom-end' : 'bottom-start' }
-                    enterDelay={300}
+      <div>
+          <CustomInput
+            labelText="Search For a Leave"
+            id="search"
+            formControlProps={{
+              style: {margin: "0px 0 0 0"},
+              fullWidth: false
+            }}
+            inputProps={{
+              onChange: null,
+              // onChange: (event) => this.handleMyTicketsSearchInputChange(event.target.value),
+              type: "text",
+              required: "text",
+              name: "search",
+              autoComplete: "search",
+            }}
+          />
+        <Table>
+          <TableHead>
+            <TableRow>
+              {
+                tableHead.map((column) => (
+                  <TableCell
+                    key={column.id}
+                    numeric={column.numeric}
+                    padding={column.disablePadding ? 'none' : 'default'}
+                    sortDirection={orderBy === column.id ? order : false}
                   >
-                    <TableSortLabel
-                      active={orderBy === column.id}
-                      direction={order}
-                      onClick={this.handleSort.bind(this,column.id)}
+                    <ToolTip
+                      title={"Sort"}
+                      placement={column.numeric ? 'bottom-end' : 'bottom-start' }
+                      enterDelay={300}
                     >
-                      {column.label}
-                    </TableSortLabel>
-                  </ToolTip>
-                </TableCell>
-              ), this)
-            }
-          </TableRow>
-        </TableHead>
-        <TableBody>
+                      <TableSortLabel
+                        active={orderBy === column.id}
+                        direction={order}
+                        onClick={this.handleSort.bind(this,column.id)}
+                      >
+                        {column.label}
+                      </TableSortLabel>
+                    </ToolTip>
+                  </TableCell>
+                ), this)
+              }
+            </TableRow>
+          </TableHead>
+          <TableBody>
             {
               allLeaves.map((leave,index) => (
                 <TableRow
@@ -96,8 +115,9 @@ class LeaveAdminTab extends React.Component{
                 </TableRow>
               ))
             }
-        </TableBody>
-      </Table>
+          </TableBody>
+        </Table>
+      </div>
     )
   }
 }
