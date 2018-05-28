@@ -136,3 +136,17 @@ export const fetchLeaveLifeCycleFailure = (payload) => {
     })
   }
 };
+
+export const fetchAllLeavesSuccess = (payload) => {
+  return {
+    type: types.FETCH_ALL_LEAVES_SUCCESS,
+    payload
+  }
+};
+
+export const fetchAllLeavesFailure = (payload) => {
+  return {
+    type: types.FETCH_ALL_LEAVES_FAILURE,
+    payload
+  }
+};

@@ -2,19 +2,17 @@ import { AddAlert } from "material-ui-icons";
 
 const initialState = {
   roles: {
-      role: {}
+    role: {}
   },
   departments: {
-      departments: []
+    departments: []
   },
   reduxTokenAuth: {
-      currentUser: {
-          isLoading: false,
-          isSignedIn: false,
-          attributes: {
-              firstName: null,
-          },
-      },
+    currentUser: {
+      isLoading: false,
+      isSignedIn: false,
+      attributes: {},
+    },
   },
   modals: {
     modalType: null,
@@ -34,10 +32,10 @@ const initialState = {
   },
   leaves: {
     allLeaves: [],
-    allLeaveApprovals: [],
-    allUserLeavesHistory: [],
-    allLeavesLifecycle: [],
-    leavesTableYear: (new Date()).getFullYear()
+    currentUserLeaves: [], // current user's leaves
+    currentUserLeaveApprovals: [], // leaves current user can approve
+    allUserLeavesHistory: [], // number of leaves by user for leave approval
+    allLeavesLifecycle: [], // lifecycle of leaves
   },
   permissions: {
     userRoles: [],

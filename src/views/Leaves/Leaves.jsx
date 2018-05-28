@@ -9,18 +9,9 @@ import {
 } from "components";
 import Tabs, { Tab } from 'material-ui/Tabs';
 import AppBar from 'material-ui/AppBar';
-import { connect } from 'react-redux';
-import "assets/css/react-yearly-calendar.css";
-import {
-  createLeaveStatusFailure,
-  createLeaveStatusSuccess,
-  fetchLeaveApprovalsFailure,
-  fetchLeaveApprovalsSuccess,
-} from "../../actions/leave";
-import * as types from "../../actions/actionTypes";
-import { fetchLeaveApprovals, createLeaveStatus } from '../../api/leave';
 import MyLeavesTab from './MyLeavesTab';
 import LeaveApprovalsTab from "./LeaveApprovalsTab";
+import LeaveAdminTab from './LeaveAdminTab';
 
 class Leaves extends React.Component{
   constructor(props){
@@ -47,6 +38,7 @@ class Leaves extends React.Component{
                   <Tabs centered={true} fullWidth={true} value={this.state.tab} onChange={this.handleTab}>
                     <Tab label="My Leaves" />
                     <Tab label="Leave Approvals" />
+                    <Tab label="Leave Summary" />
                   </Tabs>
                 </AppBar>
                 <br />
@@ -56,7 +48,9 @@ class Leaves extends React.Component{
                 {this.state.tab === 1 &&
                   <LeaveApprovalsTab/>
                 }
-                {/*Third component here to show leave summary of all Users */}
+                {this.state.tab === 2 &&
+                  <LeaveAdminTab />
+                  }
               </div>
             }
           />
@@ -67,4 +61,4 @@ class Leaves extends React.Component{
   }
 }
 
-export default Leaves = connect(null,null)(Leaves);
+export default Leaves;

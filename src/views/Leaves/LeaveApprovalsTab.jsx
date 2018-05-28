@@ -88,7 +88,7 @@ class LeaveApprovalsTab extends React.Component{
   }
   
   render(){
-    const { classes, allLeaveApprovals } = this.props;
+    const { classes, currentUserLeaveApprovals } = this.props;
     
     return(
       <ItemGrid xs={12} sm={12} md={12}>
@@ -146,8 +146,8 @@ class LeaveApprovalsTab extends React.Component{
           <Grid item xs={12} sm={12} md={12}>
             <div className={classes.demo}>
               <List>
-                {allLeaveApprovals && allLeaveApprovals.length ?
-                  allLeaveApprovals.map((leaveApproval, index) => (
+                {currentUserLeaveApprovals && currentUserLeaveApprovals.length ?
+                  currentUserLeaveApprovals.map((leaveApproval, index) => (
                     <ListItem key={index} button className={classes.border}>
                       <ListItemAvatar>
                         <Avatar
@@ -228,7 +228,7 @@ class LeaveApprovalsTab extends React.Component{
 
 function mapStateToProps(state){
   return {
-    allLeaveApprovals: state.leaves.allLeaveApprovals
+    currentUserLeaveApprovals: state.leaves.currentUserLeaveApprovals
   }
 }
 

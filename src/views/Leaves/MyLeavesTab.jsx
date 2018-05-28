@@ -71,14 +71,14 @@ class MyLeavesTab extends React.Component{
   }
   
   render(){
-    const { classes, allLeaves } = this.props;
+    const { classes, currentUserLeaves } = this.props;
     
-    const approvedLeavesThisMonth = allLeaves.filter(leave => (
+    const approvedLeavesThisMonth = currentUserLeaves.filter(leave => (
       leave.start_date >= `${moment().format('YYYY')}-${moment().format('MM')}-01` &&
       leave.status === "approved by HR"
     ));
     
-    const approvedLeavesThisYear = allLeaves.filter(leave => (
+    const approvedLeavesThisYear = currentUserLeaves.filter(leave => (
       leave.start_date >= `${moment().format('YYYY')}-01-01` &&
       leave.status === "approved by HR"
     ));
@@ -233,9 +233,9 @@ class MyLeavesTab extends React.Component{
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    { allLeaves.length
+                    { currentUserLeaves.length
                       ?
-                      allLeaves
+                      currentUserLeaves
                         .filter(
                           leave => leave.start_date >= `${moment().format("YYYY")}-${moment().format("MM")}-01`
                         )
@@ -286,7 +286,7 @@ class MyLeavesTab extends React.Component{
 
 function mapStateToProps(state){
   return {
-    allLeaves: state.leaves.allLeaves,
+    currentUserLeaves: state.leaves.currentUserLeaves,
   }
 }
 
