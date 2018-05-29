@@ -41,7 +41,7 @@ class Leaves extends React.Component{
                     <Tab label="Leave Approvals" />
                     {
                       hasPermission(userPermissions,["leaves_all_leaves"]) ? <Tab label="Leave Summary" /> : null
-                    } 
+                    }
                     
                   </Tabs>
                 </AppBar>

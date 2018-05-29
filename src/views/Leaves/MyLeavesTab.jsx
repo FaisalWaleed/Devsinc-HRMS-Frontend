@@ -74,12 +74,12 @@ class MyLeavesTab extends React.Component{
     
     const approvedLeavesThisMonth = currentUserLeaves.filter(leave => (
       leave.start_date >= `${moment().format('YYYY')}-${moment().format('MM')}-01` &&
-      leave.status === "approved by HR"
+      leave.status === "approved"
     ));
     
     const approvedLeavesThisYear = currentUserLeaves.filter(leave => (
       leave.start_date >= `${moment().format('YYYY')}-01-01` &&
-      leave.status === "approved by HR"
+      leave.status === "approved"
     ));
     
     
