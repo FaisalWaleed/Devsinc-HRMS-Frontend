@@ -263,11 +263,9 @@ class MyLeavesTab extends React.Component{
                               <TableCell>{leave.leave_type}</TableCell>
                               <TableCell>{leave.reason}</TableCell>
                               <TableCell>
-                                {leave.status === "approved by Reporting to" ? <Chip style={{backgroundColor: '#9ad891'}} label="Pending on HR" className={classes.chip} /> : null }
                                 {leave.status === "pending" ? <Chip style={{backgroundColor: '#d8d739'}} label="Pending" className={classes.chip} /> : null }
-                                {leave.status === "approved by HR" ? <Chip style={{backgroundColor: '#2cd81f'}} label="Approved" className={classes.chip} /> : null }
-                                {leave.status === "rejected by Reporting to" ? <Chip style={{backgroundColor: '#d87d72'}} label="Rejected" className={classes.chip} /> : null }
-                                {leave.status === "rejected by HR" ? <Chip style={{backgroundColor: '#d84d30'}} label="Rejected by HR" className={classes.chip} /> : null }
+                                {leave.status === "approved" ? <Chip style={{backgroundColor: '#2cd81f'}} label="Approved" className={classes.chip} /> : null }
+                                {leave.status === "rejected" ? <Chip style={{backgroundColor: '#d84d30'}} label="Rejected" className={classes.chip} /> : null }
                               
                               </TableCell>
                             </TableRow>

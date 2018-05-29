@@ -116,21 +116,15 @@ class LeaveApprovalsTab extends React.Component{
   }
   
   handleLeaveApprovalsToggleSwitch = (toggleName) => {
-    let approved = this.state.leave_approvals_filter.approved;
-    let rejected = this.state.leave_approvals_filter.rejected;
-    let pending = this.state.leave_approvals_filter.pending;
+    let approved = toggleName === "approved" ? !this.state.leave_approvals_filter.approved : this.state.leave_approvals_filter.approved;
+    let pending = toggleName === "pending" ? !this.state.leave_approvals_filter.pending : this.state.leave_approvals_filter.pending;
+    let rejected = toggleName === "rejected" ? !this.state.leave_approvals_filter.rejected : this.state.leave_approvals_filter.rejected;
     let data = this.state.allCurrentUserLeaveApprovals;
     
     data = data.filter((leaveApproval) => {
-      if(toggleName === "approved" ? !approved : approved){
-        return ["approved by hr"].includes(leaveApproval.status.toLowerCase())
-      }
-      if(toggleName === "rejected" ? !rejected : rejected ){
-        return ["rejected by hr"].includes(leaveApproval.status.toLowerCase())
-      }
-      if(toggleName === "pending" ? !pending : pending ){
-        return ["pending"].includes(leaveApproval.status.toLowerCase())
-      }
+      return (approved ? leaveApproval.status === "approved" : false) ||
+        (pending ? leaveApproval.status === "pending" : false) ||
+        (rejected ? leaveApproval.status === "rejected" : false)
     });
     
     this.setState(prevState => ({
@@ -235,11 +229,9 @@ class LeaveApprovalsTab extends React.Component{
                       />
                       <ListItemSecondaryAction>
                                   <span style={{marginRight: '20px'}}>
-                                  {leaveApproval.status === "approved by Reporting to" ? <Tooltip title={<div>{leaveApproval.comment ? leaveApproval.comment : "No comment" }</div>}><Chip style={{backgroundColor: '#9ad891'}} label="Pending on HR" className={classes.chip} /></Tooltip> : null }
                                     {leaveApproval.status === "pending" ? <Tooltip title={<div>{leaveApproval.comment ? leaveApproval.comment : "No comment" }</div>}><Chip style={{backgroundColor: '#d8d739'}} label="Pending" className={classes.chip} /></Tooltip> : null }
-                                    {leaveApproval.status === "approved by HR" ? <Tooltip title={<div>{leaveApproval.comment ? leaveApproval.comment : "No comment" }</div>}><Chip style={{backgroundColor: '#2cd81f'}} label="Approved" className={classes.chip} /></Tooltip> : null }
-                                    {leaveApproval.status === "rejected by Reporting to" ? <Tooltip title={<div>{leaveApproval.comment ? leaveApproval.comment : "No comment" }</div>}><Chip style={{backgroundColor: '#d87d72'}} label="Rejected" className={classes.chip} /></Tooltip> : null }
-                                    {leaveApproval.status === "rejected by HR" ? <Tooltip title={<div>{leaveApproval.comment ? leaveApproval.comment : "No comment" }</div>}><Chip style={{backgroundColor: '#d84d30'}} label="Rejected by HR" className={classes.chip} /></Tooltip> : null }
+                                    {leaveApproval.status === "approved" ? <Tooltip title={<div>{leaveApproval.comment ? leaveApproval.comment : "No comment" }</div>}><Chip style={{backgroundColor: '#2cd81f'}} label="Approved" className={classes.chip} /></Tooltip> : null }
+                                    {leaveApproval.status === "rejected" ? <Tooltip title={<div>{leaveApproval.comment ? leaveApproval.comment : "No comment" }</div>}><Chip style={{backgroundColor: '#d84d30'}} label="Rejected" className={classes.chip} /></Tooltip> : null }
                                   </span>
                         
                         {leaveApproval.status === "pending" || (leaveApproval.status === "approved by Reporting to" && hasPermission([""],[""]) ) ? <span>

@@ -2,13 +2,16 @@ import React from 'react';
 import { Grid } from "material-ui";
 import {
   RegularCard,
-  ItemGrid
+  ItemGrid,
+  Permissible
 } from "components";
 import Tabs, { Tab } from 'material-ui/Tabs';
 import AppBar from 'material-ui/AppBar';
 import MyLeavesTab from './MyLeavesTab';
 import LeaveApprovalsTab from "./LeaveApprovalsTab";
 import LeaveAdminTab from './LeaveAdminTab';
+import { connect } from 'react-redux';
+import {hasPermission} from "../../helpers/permissionsHelper";
 
 class Leaves extends React.Component{
   constructor(props){
@@ -23,6 +26,7 @@ class Leaves extends React.Component{
   };
   
   render(){
+    const { userPermissions} = this.props;
     return(
       <Grid container>
         <ItemGrid xs={12} sm={12} md={12}>
@@ -35,7 +39,10 @@ class Leaves extends React.Component{
                   <Tabs centered={true} fullWidth={true} value={this.state.tab} onChange={this.handleTab}>
                     <Tab label="My Leaves" />
                     <Tab label="Leave Approvals" />
-                    <Tab label="Leave Summary" />
+                    {
+                      hasPermission(userPermissions,["leaves_all_leaves"]) ? <Tab label="Leave Summary" /> : null
+                    } 
+                    
                   </Tabs>
                 </AppBar>
                 <br />
@@ -43,11 +50,12 @@ class Leaves extends React.Component{
                 <MyLeavesTab/>
                 }
                 {this.state.tab === 1 &&
-                  <LeaveApprovalsTab/>
+                <LeaveApprovalsTab/>
                 }
                 {this.state.tab === 2 &&
-                  <LeaveAdminTab />
-                  }
+                
+                <LeaveAdminTab />
+                }
               </div>
             }
           />
@@ -58,4 +66,10 @@ class Leaves extends React.Component{
   }
 }
 
-export default Leaves;
+function mapStateToProps(state){
+  return{
+    userPermissions: state.permissions.userPermissions
+  }
+}
+
+export default connect(mapStateToProps,null)(Leaves);
