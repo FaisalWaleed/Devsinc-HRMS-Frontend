@@ -175,6 +175,17 @@ const appRoutes = [
     atleastOnePerm: false
   },
   {
+    path: "/calendar",
+    sidebarName: "Calendar",
+    navbarName: "Calendar",
+    icon: Notifications,
+    component: Calendar,
+    notSidebar: false,
+    exact: true,
+    // requiredPermissions: ["roles_allow_permission", "roles_revoke_permission"],
+    // atleastOnePerm: false
+  },
+  {
     path: "/welcome",
     sidebarName: "",
     navbarName: "",
