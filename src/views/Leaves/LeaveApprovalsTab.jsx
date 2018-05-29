@@ -67,10 +67,13 @@ class LeaveApprovalsTab extends React.Component{
       anchorEl: {
         id: -1
       },
-      allParsedLeaves: {
-        approved: [],
-        rejected: [],
-        pending: []
+      search: '',
+      allCurrentUserLeaveApprovals: this.props.currentUserLeaveApprovals,
+      displayedCurrentUserLeaveApprovals: this.props.currentUserLeaveApprovals,
+      leave_approvals_filter: {
+        pending: true,
+        approved: true,
+        rejected: true
       },
     }
   }
@@ -79,12 +82,66 @@ class LeaveApprovalsTab extends React.Component{
     this.props.fetchLeaveApprovals();
   }
   
+  componentWillReceiveProps(nextProps){
+    this.setState({
+      allCurrentUserLeaveApprovals: nextProps.currentUserLeaveApprovals,
+      displayedCurrentUserLeaveApprovals: nextProps.currentUserLeaveApprovals
+    })
+  }
+  
   handleCreateLeaveStatusSubmit(values){
     this.props.createLeaveStatus(values);
   }
   
+  handleLeaveApprovalsSearchInputChange(searchTerm){
+    if(searchTerm.length > 2) {
+      let data = this.state.allCurrentUserLeaveApprovals;
+      data = data.filter((leaveApproval) => (
+        leaveApproval.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        leaveApproval.reason.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        leaveApproval.status.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        leaveApproval.leave_type.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        leaveApproval.start_date.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        leaveApproval.end_date.toLowerCase().includes(searchTerm.toLowerCase())
+      ));
+      
+      this.setState({
+        search: searchTerm,
+        displayedCurrentUserLeaveApprovals: data
+      })
+    }
+    else{
+      this.setState({ displayedCurrentUserLeaveApprovals: this.state.allCurrentUserLeaveApprovals })
+    }
+  }
+  
+  handleLeaveApprovalsToggleSwitch = (toggleName) => {
+    let approved = this.state.leave_approvals_filter.approved;
+    let rejected = this.state.leave_approvals_filter.rejected;
+    let pending = this.state.leave_approvals_filter.pending;
+    let data = this.state.allCurrentUserLeaveApprovals;
+    
+    data = data.filter((leaveApproval) => {
+      if(toggleName === "approved" ? !approved : approved){
+        return ["approved by hr"].includes(leaveApproval.status.toLowerCase())
+      }
+      if(toggleName === "rejected" ? !rejected : rejected ){
+        return ["rejected by hr"].includes(leaveApproval.status.toLowerCase())
+      }
+      if(toggleName === "pending" ? !pending : pending ){
+        return ["pending"].includes(leaveApproval.status.toLowerCase())
+      }
+    });
+    
+    this.setState(prevState => ({
+      leave_approvals_filter: { ...prevState.leave_approvals_filter, [toggleName]: !prevState.leave_approvals_filter[toggleName]},
+      displayedCurrentUserLeaveApprovals: data
+    }));
+  };
+  
   render(){
-    const { classes, currentUserLeaveApprovals } = this.props;
+    const { classes } = this.props;
+    const { displayedCurrentUserLeaveApprovals } = this.state;
     
     return(
       <ItemGrid xs={12} sm={12} md={12}>
@@ -97,7 +154,7 @@ class LeaveApprovalsTab extends React.Component{
               fullWidth: false
             }}
             inputProps={{
-              onChange: null,
+              onChange: (event) => this.handleLeaveApprovalsSearchInputChange(event.target.value),
               type: "text",
               required: "text",
               name: "search",
@@ -108,8 +165,8 @@ class LeaveApprovalsTab extends React.Component{
         <FormControlLabel
           control={
             <Switch
-              checked={true}
-              onClick={() => null }
+              checked={this.state.leave_approvals_filter.approved}
+              onClick={ () => this.handleLeaveApprovalsToggleSwitch("approved") }
               value="approved"
             />
           }
@@ -118,8 +175,8 @@ class LeaveApprovalsTab extends React.Component{
         <FormControlLabel
           control={
             <Switch
-              checked={true}
-              onClick={() => null}
+              checked={this.state.leave_approvals_filter.pending}
+              onClick={() => this.handleLeaveApprovalsToggleSwitch("pending")}
               value="pending"
             />
           }
@@ -128,8 +185,8 @@ class LeaveApprovalsTab extends React.Component{
         <FormControlLabel
           control={
             <Switch
-              checked={true}
-              onClick={() => null}
+              checked={this.state.leave_approvals_filter.rejected}
+              onClick={() => this.handleLeaveApprovalsToggleSwitch("rejected")}
               value="rejected"
             />
           }
@@ -142,8 +199,8 @@ class LeaveApprovalsTab extends React.Component{
           <Grid item xs={12} sm={12} md={12}>
             <div className={classes.demo}>
               <List>
-                {currentUserLeaveApprovals && currentUserLeaveApprovals.length ?
-                  currentUserLeaveApprovals.map((leaveApproval, index) => (
+                {displayedCurrentUserLeaveApprovals && displayedCurrentUserLeaveApprovals.length ?
+                  displayedCurrentUserLeaveApprovals.map((leaveApproval, index) => (
                     <ListItem key={index} button className={classes.border}>
                       <ListItemAvatar>
                         <Avatar
@@ -163,14 +220,12 @@ class LeaveApprovalsTab extends React.Component{
                             }
                           ))
                         }
-                        primary={
-                          <span>
+                        primary={   <span>
                                       <b>{leaveApproval.username}: </b>
                                       <span>{leaveApproval.reason}</span>
                                     </span>
                         }
-                        secondary={
-                          <span>
+                        secondary={ <span>
                                       <b>Type: </b>
                                       <span>{leaveApproval.leave_type.charAt(0).toUpperCase() + leaveApproval.leave_type.slice(1)}</span>
                                       <br />
