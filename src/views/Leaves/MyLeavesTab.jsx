@@ -156,7 +156,8 @@ class MyLeavesTab extends React.Component{
                 <Table className={classes.table}>
                   <TableHead>
                     <TableRow>
-                      <TableCell>Date</TableCell>
+                      <TableCell>To</TableCell>
+                      <TableCell>From</TableCell>
                       <TableCell>Type</TableCell>
                       <TableCell>Reason</TableCell>
                     </TableRow>
@@ -168,6 +169,7 @@ class MyLeavesTab extends React.Component{
                         .map((leave,index) => (
                             <TableRow key={index}>
                               <TableCell component="th">{moment(leave.start_date).format("Do MMM")}</TableCell>
+                              <TableCell component="th">{moment(leave.end_date).format("Do MMM")}</TableCell>
                               <TableCell>{leave.leave_type}</TableCell>
                               <TableCell>{leave.reason}</TableCell>
                             </TableRow>
@@ -190,7 +192,8 @@ class MyLeavesTab extends React.Component{
                 <Table className={classes.table}>
                   <TableHead>
                     <TableRow>
-                      <TableCell>Date</TableCell>
+                      <TableCell>To</TableCell>
+                      <TableCell>From</TableCell>
                       <TableCell>Type</TableCell>
                       <TableCell>Reason</TableCell>
                     </TableRow>
@@ -202,6 +205,7 @@ class MyLeavesTab extends React.Component{
                         .map((leave,index) => (
                           <TableRow key={index}>
                             <TableCell component="th">{moment(leave.start_date).format("Do MMM")}</TableCell>
+                            <TableCell component="th">{moment(leave.end_date).format("Do MMM")}</TableCell>
                             <TableCell>{leave.leave_type}</TableCell>
                             <TableCell>{leave.reason}</TableCell>
                           </TableRow>
@@ -225,7 +229,8 @@ class MyLeavesTab extends React.Component{
                 <Table className={classes.table}>
                   <TableHead>
                     <TableRow>
-                      <TableCell>Date</TableCell>
+                      <TableCell>To</TableCell>
+                      <TableCell>From</TableCell>
                       <TableCell>Type</TableCell>
                       <TableCell>Reason</TableCell>
                       <TableCell>Current Status</TableCell>
@@ -254,6 +259,7 @@ class MyLeavesTab extends React.Component{
                                 }
                             >
                               <TableCell component="th">{moment(leave.start_date).format("Do MMM YYYY")}</TableCell>
+                              <TableCell component="th">{moment(leave.end_date).format("Do MMM YYYY")}</TableCell>
                               <TableCell>{leave.leave_type}</TableCell>
                               <TableCell>{leave.reason}</TableCell>
                               <TableCell>
