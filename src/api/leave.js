@@ -61,3 +61,13 @@ export const fetchLeaveLifeCycle = (params,successAction,failureAction) => {
     }
   },successAction,failureAction, true);
 };
+
+export const fetchAllLeaves = (successAction, failureAction) => {
+  return request('leaves/all_leaves',{
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    }
+  },successAction,failureAction,true)
+};

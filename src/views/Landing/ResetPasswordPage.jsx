@@ -1,7 +1,7 @@
 import React from 'react';
 import { Grid } from 'material-ui';
 import logo from "assets/img/devsinc_logo.png";
-import { Button,Muted, RegularCard, ItemGrid, CustomInputWrapper } from 'components';
+import { Muted, RegularCard, ItemGrid } from 'components';
 import ResetPasswordForm from './ResetPasswordForm';
 import { connect } from 'react-redux';
 import {resetPassword} from "../../api/user";

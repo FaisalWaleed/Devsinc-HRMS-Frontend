@@ -26,7 +26,6 @@ class Profile extends React.Component{
   }
 
   handleSubmit(values){
-    console.log("im in the submit,and the values are ", values);
     const { dispatch, userId } = this.props;
 
     dispatch(updateProfile(values, userId, updateProfileSuccess, updateProfileFailure));

@@ -11,8 +11,7 @@ import {
   ClickAwayListener,
   Hidden
 } from "material-ui";
-import { Person, Notifications, Dashboard, Search } from "material-ui-icons";
-import { CustomInput, IconButton as SearchButton } from "components";
+import { Person } from "material-ui-icons";
 import headerLinksStyle from "variables/styles/headerLinksStyle";
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';

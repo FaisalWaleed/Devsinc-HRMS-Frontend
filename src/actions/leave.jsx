@@ -1,12 +1,11 @@
 import * as types from './actionTypes'
 import {showNotification} from "./notification";
 
-export const nextLeaveYear = {
-  type: types.NEXT_LEAVE_YEAR
-};
-
-export const prevLeaveYear = {
-  type: types.PREV_LEAVE_YEAR
+export const setTab = (payload) => {
+  return {
+    type: types.SET_LEAVES_TAB,
+    payload
+  }
 };
 
 export const createLeaveSuccess = (payload) => {
@@ -134,5 +133,19 @@ export const fetchLeaveLifeCycleFailure = (payload) => {
       type: types.FETCH_LEAVE_LIFECYCLE_FAILURE,
       payload
     })
+  }
+};
+
+export const fetchAllLeavesSuccess = (payload) => {
+  return {
+    type: types.FETCH_ALL_LEAVES_SUCCESS,
+    payload
+  }
+};
+
+export const fetchAllLeavesFailure = (payload) => {
+  return {
+    type: types.FETCH_ALL_LEAVES_FAILURE,
+    payload
   }
 };

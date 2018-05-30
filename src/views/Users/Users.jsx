@@ -16,7 +16,7 @@ import { Lock, LockOpen,Edit } from "material-ui-icons";
 import * as types from '../../actions/actionTypes';
 import UserForm from './UserForm';
 import {HIDE_MODAL} from "../../actions/modal";
-import { drop,map,values } from 'lodash';
+import { map } from 'lodash';
 import { hasPermission } from "../../helpers/permissionsHelper";
 import Avatar from 'material-ui/Avatar';
 import Tooltip from 'material-ui/Tooltip';

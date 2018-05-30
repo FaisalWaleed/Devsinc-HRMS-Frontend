@@ -6,11 +6,9 @@ import {
 } from 'redux-form'
 import { Grid, InputAdornment  } from "material-ui";
 import {
-  CustomInput,
   ItemGrid,
   Danger,
-  Button,
-  CustomInputWrapper
+  Button
 } from "components";
 import {
   KeyboardArrowLeft,

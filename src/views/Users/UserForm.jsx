@@ -1,11 +1,4 @@
 import React from 'react';
-import {
-  CustomInput,
-  ItemGrid,
-  Danger,
-  Button,
-  CustomInputWrapper
-} from "components";
 import * as types from "../../actions/actionTypes";
 import { connect } from 'react-redux';
 import {

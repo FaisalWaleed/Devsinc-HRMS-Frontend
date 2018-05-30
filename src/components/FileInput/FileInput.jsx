@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-import Avatar from 'material-ui/Avatar';
 
 export default class FileInput  extends Component{
   constructor(props) {
@@ -31,7 +30,6 @@ export default class FileInput  extends Component{
   }
   
   render(){
-    console.log("avatar url",this.state.imagePreviewUrl);
     const { input: { value } } = this.props;
     const {input,label, required, meta, url } = this.props;
     return(

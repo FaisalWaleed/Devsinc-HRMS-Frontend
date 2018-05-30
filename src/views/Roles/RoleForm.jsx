@@ -11,7 +11,6 @@ import {
   Danger
 } from "components";
 import { connect } from "react-redux";
-import CustomSelect from 'components/CustomSelect';
 import {
   fetchDepartments
 } from "api/department";

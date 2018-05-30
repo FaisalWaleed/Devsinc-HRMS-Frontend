@@ -28,7 +28,6 @@
     "react-scripts": "1.0.17",
     "react-select": "^1.2.1",
     "react-swipeable-views": "^0.12.12",
-    "react-yearly-calendar": "^1.2.1",
     "redux": "^3.7.2",
     "redux-form": "^7.3.0",
     "redux-thunk": "^2.2.0",

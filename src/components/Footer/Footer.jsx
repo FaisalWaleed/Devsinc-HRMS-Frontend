@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { List, ListItem, withStyles } from "material-ui";
+import { withStyles } from "material-ui";
 
 import footerStyle from "variables/styles/footerStyle";
 

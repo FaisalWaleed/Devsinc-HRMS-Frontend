@@ -11,7 +11,6 @@ export const role =  (state = initialState, action) => {
         roleCreated: null
       };
     case types.DELETE_ROLE_SUCCESS:
-      console.log("this is my state in delete role", action.payload);
       return {
         ...state,
         roles: state.roles.filter(role => role.id !== action.payload.id)

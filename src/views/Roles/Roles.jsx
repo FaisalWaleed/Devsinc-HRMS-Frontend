@@ -13,7 +13,7 @@ import {
   fetchRoles,
   deleteRole
 } from "api/role"
-import { values, map, drop } from 'lodash';
+import { map } from 'lodash';
 import { Link } from "react-router-dom";
 import { Delete, Edit, People } from "material-ui-icons";
 
@@ -45,7 +45,7 @@ class Roles extends React.Component {
               deleteAction: this.props.onDeleteRole(
                 id,
                 deleteRoleSuccess,
-                deleteRoleSuccess
+                deleteRoleFailure
               ),
               resourceType: 'role'
             }
