@@ -269,9 +269,9 @@ class LeaveApprovalsTab extends React.Component{
   }
 }
 
-function mapStateToProps(state){
+function mapStateToProps({leaves}){
   return {
-    currentUserLeaveApprovals: state.leaves.currentUserLeaveApprovals
+    currentUserLeaveApprovals: leaves.currentUserLeaveApprovals
   }
 }
 

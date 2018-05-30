@@ -54,9 +54,9 @@ function mapDispatchToProps(dispatch){
   }
 }
 
-function mapStateToProps(state, ownProps){
+function mapStateToProps({leaves}, ownProps){
   return {
-    leaveLifeCycle: state.leaves.allLeavesLifecycle[ownProps.leaveId]
+    leaveLifeCycle: leaves.allLeavesLifecycle[ownProps.leaveId]
   }
 }
 

@@ -287,9 +287,9 @@ class MyLeavesTab extends React.Component{
   }
 }
 
-function mapStateToProps(state){
+function mapStateToProps({leaves}){
   return {
-    currentUserLeaves: state.leaves.currentUserLeaves,
+    currentUserLeaves: leaves.currentUserLeaves,
   }
 }
 

@@ -119,9 +119,9 @@ function mapDispatchToProps(dispatch){
   }
 }
 
-function mapStateToProps(state, ownProps){
+function mapStateToProps({leaves}, ownProps){
   return {
-    userLeaves: state.leaves.allUserLeavesHistory[ownProps.userId],
+    userLeaves: leaves.allUserLeavesHistory[ownProps.userId],
   }
 }
 

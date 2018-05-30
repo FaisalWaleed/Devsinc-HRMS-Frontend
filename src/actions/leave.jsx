@@ -1,12 +1,11 @@
 import * as types from './actionTypes'
 import {showNotification} from "./notification";
 
-export const nextLeaveYear = {
-  type: types.NEXT_LEAVE_YEAR
-};
-
-export const prevLeaveYear = {
-  type: types.PREV_LEAVE_YEAR
+export const setTab = (payload) => {
+  return {
+    type: types.SET_LEAVES_TAB,
+    payload
+  }
 };
 
 export const createLeaveSuccess = (payload) => {

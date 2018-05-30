@@ -12,21 +12,19 @@ import LeaveApprovalsTab from "./LeaveApprovalsTab";
 import LeaveAdminTab from './LeaveAdminTab';
 import { connect } from 'react-redux';
 import {hasPermission} from "../../helpers/permissionsHelper";
+import { setTab } from "../../actions/leave";
 
 class Leaves extends React.Component{
   constructor(props){
     super(props);
-    this.state = {
-      tab: 0,
-    }
   }
-  
+
   handleTab = (event, tab) => {
-    this.setState({ tab });
+    this.props.setTab({tab: tab})
   };
-  
+
   render(){
-    const { userPermissions} = this.props;
+    const { userPermissions, tab } = this.props;
     return(
       <Grid container>
         <ItemGrid xs={12} sm={12} md={12}>
@@ -36,40 +34,46 @@ class Leaves extends React.Component{
             content={
               <div>
                 <AppBar position="static" color={"inherit"}>
-                  <Tabs centered={true} fullWidth={true} value={this.state.tab} onChange={this.handleTab}>
+                  <Tabs centered={true} fullWidth={true} value={tab} onChange={this.handleTab}>
                     <Tab label="My Leaves" />
                     <Tab label="Leave Approvals" />
                     {
                       hasPermission(userPermissions,["leaves_all_leaves"]) ? <Tab label="Leave Summary" /> : null
                     }
-                    
+
                   </Tabs>
                 </AppBar>
                 <br />
-                {this.state.tab === 0 &&
+                {tab === 0 &&
                 <MyLeavesTab/>
                 }
-                {this.state.tab === 1 &&
+                {tab === 1 &&
                 <LeaveApprovalsTab/>
                 }
-                {this.state.tab === 2 &&
-                
+                {tab === 2 &&
                 <LeaveAdminTab />
                 }
               </div>
             }
           />
         </ItemGrid>
-      
+
       </Grid>
     )
   }
 }
 
+function mapDispatchToProps(dispatch){
+  return {
+    setTab: (params) => { dispatch(setTab(params)) }
+  }
+}
+
 function mapStateToProps(state){
   return{
+    tab: state.leaves.tab,
     userPermissions: state.permissions.userPermissions
   }
 }
 
-export default connect(mapStateToProps,null)(Leaves);
+export default connect(mapStateToProps,mapDispatchToProps)(Leaves);

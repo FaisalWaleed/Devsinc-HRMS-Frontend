@@ -61,6 +61,9 @@ export const leave = (state=initialState.leaves, action) => {
       
     case types.FETCH_ALL_LEAVES_FAILURE:
       return state;
+
+    case types.SET_LEAVES_TAB:
+      return {...state, tab: action.payload.tab};
     
     default:
       return state

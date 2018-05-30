@@ -31,6 +31,7 @@ const initialState = {
     ticketStatuses: {}
   },
   leaves: {
+    tab: 0,
     allLeaves: [],
     currentUserLeaves: [], // current user's leaves
     currentUserLeaveApprovals: [], // leaves current user can approve

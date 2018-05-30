@@ -147,9 +147,9 @@ function mapDispatchToProps(dispatch){
   }
 }
 
-function mapStateToProps(state){
+function mapStateToProps({leaves}){
   return {
-    allLeaves: state.leaves.allLeaves
+    allLeaves: leaves.allLeaves
   }
 }
 
