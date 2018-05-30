@@ -21,10 +21,11 @@ const Sidebar = ({ ...props }) => {
   function activeRoute(routeName) {
     return props.location.pathname.indexOf(routeName) > -1 ? true : false;
   }
-  const { classes, color, logo, image, logoText, routes } = props;
+  const { classes, color, logo, image, logoText, routes, open, min } = props;
   var links = (
     <List className={classes.list}>
-      {routes.map((prop, key) => {
+      {
+        routes.map((prop, key) => {
         if (prop.redirect || prop.unprotected || prop.notSidebar) return null;
         const listItemClasses = cx({
           [" " + classes[color]]: activeRoute(prop.path)
@@ -41,14 +42,28 @@ const Sidebar = ({ ...props }) => {
               key={key}
             >
               <ListItem button className={classes.itemLink + listItemClasses}>
-                <ListItemIcon className={classes.itemIcon + whiteFontClasses}>
-                  <prop.icon />
-                </ListItemIcon>
-                <ListItemText
-                  primary={prop.sidebarName}
-                  className={classes.itemText + whiteFontClasses}
-                  disableTypography={true}
-                />
+                {
+                  open
+                    ?
+                    <ListItemIcon className={classes.itemIcon + whiteFontClasses}>
+                      <prop.icon />
+                    </ListItemIcon>
+                    : null
+                }
+
+                {
+                  open ?
+                  <ListItemText
+                    primary={prop.sidebarName}
+                    className={classes.itemText + whiteFontClasses}
+                    disableTypography={true}
+                  />
+                  : <ListItemText
+                      primary={<prop.icon />}
+                      className={classes.itemText + whiteFontClasses}
+                      disableTypography={true}
+                    />
+                }
               </ListItem>
             </NavLink>
             : null
@@ -57,14 +72,24 @@ const Sidebar = ({ ...props }) => {
     </List>
   );
   var brand = (
+    open ?
     <div className={classes.logo}>
-      <a href="http://devsinc.com" className={classes.logoLink}>
+      <a onClick={props.handleDrawerToggle} className={classes.logoLink}>
         <div className={classes.logoImage}>
           <img src={logo} alt="logo" className={classes.img} />
         </div>
         {logoText}
       </a>
     </div>
+      :
+      <div className={classes.logo}>
+        <a onClick={props.handleDrawerToggle} className={classes.logoLink}>
+          <div className={classes.logoImage}>
+            <img src={logo} alt="logo" className={classes.img} />
+          </div>
+          {logoText}
+        </a>
+      </div>
   );
   return (
     <div>
@@ -72,7 +97,7 @@ const Sidebar = ({ ...props }) => {
         <Drawer
           variant="temporary"
           anchor="right"
-          open={props.open}
+          open={open}
           classes={{
             paper: classes.drawerPaper
           }}
@@ -95,23 +120,45 @@ const Sidebar = ({ ...props }) => {
         </Drawer>
       </Hidden>
       <Hidden smDown>
-        <Drawer
-          anchor="left"
-          variant="permanent"
-          open
-          classes={{
-            paper: classes.drawerPaper
-          }}
-        >
-          {brand}
-          <div className={classes.sidebarWrapper}>{links}</div>
-          {image !== undefined ? (
-            <div
-              className={classes.background}
-              style={{ backgroundImage: "url(" + image + ")" }}
-            />
-          ) : null}
-        </Drawer>
+        {open ?
+          <Drawer
+            anchor="left"
+            variant="persistent"
+            open={open}
+            onClose={props.handleDrawerToggle}
+            classes={{
+              paper: classes.drawerPaper
+            }}
+          >
+            {brand}
+            <div className={classes.sidebarWrapper}>{links}</div>
+            {image !== undefined ? (
+              <div
+                className={classes.background}
+                style={{backgroundImage: "url(" + image + ")"}}
+              />
+            ) : null}
+          </Drawer>
+          :
+          <Drawer
+            anchor="left"
+            variant="persistent"
+            open={min}
+            onClose={props.handleDrawerToggle}
+            classes={{
+              paper: classes.drawerPaper
+            }}
+          >
+            {brand}
+            <div className={classes.sidebarWrapper}>{links}</div>
+            {image !== undefined ? (
+              <div
+                className={classes.background}
+                style={{backgroundImage: "url(" + image + ")"}}
+              />
+            ) : null}
+          </Drawer>
+        }
       </Hidden>
     </div>
   );
