@@ -24,7 +24,7 @@ class LeavesLifeCycle extends React.Component{
                                     title={
                                       lifeCycleEvent.status == "pending" && <b>PENDING</b> ||
                                       lifeCycleEvent.status == "approved" && <b>APPROVED</b> ||
-                                      lifeCycleEvent.status == "rejected" && <b>REJECTED BY HR</b>
+                                      lifeCycleEvent.status == "rejected" && <b>REJECTED</b>
                                     }
                                     createdAt={moment(lifeCycleEvent.created_at).format("Do MMMM YYYY, h:mm a")}
                                     icon={
