@@ -6,6 +6,7 @@ import Table from 'material-ui/Table'
 import { TableCell, TableRow, TableHead, TableBody, TableSortLabel } from 'material-ui/Table'
 import ToolTip from 'material-ui/Tooltip'
 import { CustomInput } from 'components'
+import { LEAVES_QUOTA } from "../../config/apiConfig";
 
 
 class LeaveAdminTab extends React.Component{
@@ -31,32 +32,25 @@ class LeaveAdminTab extends React.Component{
   handleSort = (property) => {
     const orderBy = property;
     let order = 'desc';
-    
     if (this.state.orderBy === property && this.state.order === 'desc') {
       order = 'asc';
     }
-    
     let data = this.state.search ? this.state.displayedLeaves : this.state.allLeaves;
-    
     const allLeaves =
       order === 'desc'
         ? data.sort((a, b) => (b[orderBy] < a[orderBy] ? -1 : 1))
         : data.sort((a, b) => (a[orderBy] < b[orderBy] ? -1 : 1));
-    
     this.setState({ allLeaves, order, orderBy });
   };
   
   handleLeavesSearchInputChange(searchTerm){
-    if(searchTerm.length > 2) {
+    if(searchTerm.length > 1) {
       let data = this.state.orderBy ? this.state.displayedLeaves : this.state.allLeaves;
       data = data.filter((leave) => (
-        leave.status.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        leave.start_date.toLowerCase().includes(searchTerm.toLowerCase())
-        //Add for other columns here
+        leave.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        leave.month_leaves == (searchTerm.toLowerCase()) ||
+        leave.year_leaves == (searchTerm.toLowerCase())
       ));
-      
-      console.log(data);
-      
       this.setState({
         search: searchTerm,
         displayedLeaves: data
@@ -73,13 +67,11 @@ class LeaveAdminTab extends React.Component{
   
   render(){
     const { order, orderBy, displayedLeaves } = this.state;
-    console.log(displayedLeaves);
-    
     const tableHead = [
-      { id: 'name', numeric: false, disablePadding: false, label: 'Name' },
-      { id: 'start_date', numeric: false, disablePadding: false, label: 'Start' },
-      { id: 'end_date', numeric: false, disablePadding: false, label: 'End' },
-      { id: 'status', numeric: false, disablePadding: false, label: 'Status' }
+      { id: 'employee', numeric: false, disablePadding: false, label: 'Employee Name' },
+      { id: 'month_leaves', numeric: false, disablePadding: false, label: 'Leaves this Month'},
+      { id: 'year_leaves', numeric: false, disablePadding: false, label: 'Leaves this Year' },
+      { id: 'remaining_leaves', numeric: false, disablePadding: false, label: 'Remaining Leaves' }
     ];
     
     return(
@@ -135,10 +127,10 @@ class LeaveAdminTab extends React.Component{
                   hover
                   key={index}
                 >
-                  <TableCell>{leave.id}</TableCell>
-                  <TableCell>{leave.start_date}</TableCell>
-                  <TableCell>{leave.end_date}</TableCell>
-                  <TableCell>{leave.status}</TableCell>
+                  <TableCell>{leave.name}</TableCell>
+                  <TableCell>{leave.month_leaves}</TableCell>
+                  <TableCell>{leave.year_leaves}</TableCell>
+                  <TableCell>{leave.remaining_leaves}</TableCell>
                 </TableRow>
               ))
             }
