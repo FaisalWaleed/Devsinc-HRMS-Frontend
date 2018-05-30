@@ -35,6 +35,7 @@ import { DateRange } from "material-ui-icons/index";
 import Chip from 'material-ui/Chip';
 import LeavesLifeCycle from './LeavesLifeCycle';
 import {LEAVES_QUOTA} from "../../config/apiConfig";
+import {getTotalLeaves} from "../../helpers/leavesHelper";
 
 
 const styles = theme => ({
@@ -112,7 +113,7 @@ class MyLeavesTab extends React.Component{
               icon={FlightTakeoff}
               iconColor="green"
               title="Leaves This Month"
-              description={approvedLeavesThisMonth.length}
+              description={getTotalLeaves(approvedLeavesThisMonth)}
               statIcon={DateRange}
               statText="This month"
             />
@@ -122,7 +123,7 @@ class MyLeavesTab extends React.Component{
               icon={Today}
               iconColor="orange"
               title="Leaves This Year"
-              description={approvedLeavesThisYear.length}
+              description={getTotalLeaves(approvedLeavesThisYear)}
               statIcon={DateRange}
               statText="This year"
             />
@@ -132,7 +133,7 @@ class MyLeavesTab extends React.Component{
               icon={Battery60}
               iconColor="red"
               title="Leaves Remaining"
-              description={14 - approvedLeavesThisYear.length}
+              description={14 - getTotalLeaves(approvedLeavesThisYear)}
               statIcon={DateRange}
               statText="This year"
             />

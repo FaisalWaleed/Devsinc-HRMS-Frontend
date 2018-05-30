@@ -34,6 +34,7 @@ class ProfileForm extends React.Component {
                 <div>
                   <Grid container>
                     <ItemGrid xs={12} sm={12} md={4}>
+                      <Field name="title" type="text" disabled component={CustomInputWrapper} custominputprops={{labelText: "Title"}} />
                       <Field name="first_name" type="text" custominputprops={{labelText: "First Name"}} component={CustomInputWrapper} />
                       <Field name="email" type="text" disabled component={CustomInputWrapper} custominputprops={{labelText: "E-mail Address"}} />
                       <Field name="secondary_contact_number" type="tel" component={CustomInputWrapper} custominputprops={{labelText: "Secondary Contact Number"}} />
