@@ -12,7 +12,8 @@ export default class FileInput  extends Component{
   
   setUrl(imageUrl){
     this.setState({
-      imagePreviewUrl: imageUrl
+      imagePreviewUrl: imageUrl,
+      newChosen: false
     })
   }
   
@@ -22,7 +23,8 @@ export default class FileInput  extends Component{
     let file = e.target.files[0];
     reader.onloadend = () => {
       this.setState({
-        imagePreviewUrl: reader.result
+        imagePreviewUrl: reader.result,
+        newChosen: true
       })
     };
     reader.readAsDataURL(file);
@@ -36,7 +38,7 @@ export default class FileInput  extends Component{
       <div>
         <img
           style={{width: '100%', display: 'block', height: 'auto', borderRadius: '30%'}}
-          src={url ? url : this.state.imagePreviewUrl }  />
+          src={this.state.newChosen ? this.state.imagePreviewUrl : url ? url : this.state.imagePreviewUrl}  />
         <label>{label}</label>
         <div>
           <input
