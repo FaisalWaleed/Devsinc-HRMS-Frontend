@@ -113,4 +113,3 @@ export const UPDATE_DEPARTMENT_FAILURE = 'UPDATE_DEPARTMENT_FAILURE';
 
 //Sidebar Actions
 export const TOGGLE_SIDEBAR = 'TOGGLE_SIDEBAR';
-export const TOGGLE_MIN = 'TOGGLE_MIN';

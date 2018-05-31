@@ -5,6 +5,7 @@ import PerfectScrollbar from "perfect-scrollbar";
 import "perfect-scrollbar/css/perfect-scrollbar.css";
 import { withStyles } from "material-ui";
 import { Header, Footer, Sidebar, ErrorBoundary, Snackbar } from "components";
+import TestSidebar from '../../components/Sidebar/TestSidebar';
 import ModalRoot from '../../components/Modals/ModalRoot';
 import appRoutes from "routes/app.jsx";
 import appStyle from "variables/styles/appStyle.jsx";
@@ -32,22 +33,22 @@ const requireSignIn = generateRequireSignInWrapper({
 
 
 class App extends React.Component {
-
+  
   handleDrawerToggle = () => {
     this.props.toggleSidebar();
   };
   getRoute() {
     return this.props.location.pathname !== "/maps";
   }
-
+  
   checkLoginPath(){
     return this.props.location.pathname === "/login";
   }
-
+  
   checkUnprotectedPages(){
     return unprotectedPages.includes(this.props.location.pathname)
   }
-
+  
   componentDidMount() {
     if((!this.checkUnprotectedPages() )){
       this.props.fetchPermissions();
@@ -57,14 +58,14 @@ class App extends React.Component {
       const ps = new PerfectScrollbar(this.refs.mainPanel);
     }
   }
-
+  
   componentDidUpdate() {
     if(this.props.permissions === null){
       this.props.fetchPermissions();
     }
     // this.refs.mainPanel.scrollTop = 0;
   }
-
+  
   render() {
     const { classes, notification, closeNotification, permissions, sidebarOpen, sidebarMin, isLoading, ...rest } = this.props;
     const switchRoutes = (
@@ -113,6 +114,7 @@ class App extends React.Component {
                       {...rest}
                     />
                 }
+                
                 <div className={classes.mainPanel} ref="mainPanel">
                   {this.checkLoginPath() ? null :
                     <Header

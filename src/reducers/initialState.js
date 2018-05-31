@@ -54,8 +54,7 @@ const initialState = {
     appError: false
   },
   sidebar: {
-    open: true,
-    min: false
+    open: true
   }
 };
 
