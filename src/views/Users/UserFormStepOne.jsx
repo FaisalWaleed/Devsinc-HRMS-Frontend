@@ -40,42 +40,44 @@ const UserFormStepOne = (props) => {
             <ItemGrid xs={4} sm={4} md={4}>
               <Field name="reporting_to"
                      validate={[required]}
-                     component={({input}) => (
-                       <CustomInput
-                         isSelect={true}
-                         formControlProps={{
-                           fullWidth: true
-                         }}
-                         labelText={"Manager *"}
-                         inputProps={{
-                           value: input.value,
-                           onChange: (event) => {if(event.target.value) return input.onChange(event, event.target.value);},
-                           required: "required",
-                           name: "reporting_to",
-                           autoComplete: "reporting_to",
-                         }}
-                       >
-                         {
-                           users ?
-                             users.map((user, index) => (
-                                 <MenuItem
-                                   key={index}
-                                   value={user.id}
-                                 >
-                                   <ListItemText primary={`${user.first_name} ${user.last_name}`} />
-                                 </MenuItem>
+                     component={({input}, meta) => (
+                       <div>
+                         <CustomInput
+                           isSelect={true}
+                           formControlProps={{
+                             fullWidth: true
+                           }}
+                           labelText={"Manager *"}
+                           inputProps={{
+                             value: input.value,
+                             onChange: (event) => {if(event.target.value) return input.onChange(event, event.target.value);},
+                             required: "required",
+                             name: "reporting_to",
+                             autoComplete: "reporting_to",
+                           }}
+                         >
+                           {
+                             users ?
+                               users.map((user, index) => (
+                                   <MenuItem
+                                     key={index}
+                                     value={user.id}
+                                   >
+                                     <ListItemText primary={`${user.first_name} ${user.last_name}`} />
+                                   </MenuItem>
+                                 )
                                )
-                             )
-                             : null
-                         }
-                       </CustomInput>
+                               : null
+                           }
+                         </CustomInput>
+                         { (meta.touched && meta.error) ? <small style={{color: 'red'}}>{meta.error}</small> : null}
+                       </div>
                      )
                      }
               />
             </ItemGrid>
             <ItemGrid xs={4} sm={4} md={4}>
               <Field name="buddy_id"
-                     validate={[required]}
                      component={({input}) => (
                        <CustomInput
                          isSelect={true}
