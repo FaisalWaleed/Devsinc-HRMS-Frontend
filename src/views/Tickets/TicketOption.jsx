@@ -19,11 +19,11 @@ import {fetchTicketOptionFailure, fetchTicketOptionSuccess} from "../../actions/
 
 
 class TicketOption extends React.Component{
-
+  
   render(){
-
+    
     const {classes, allDepartments, ticketOptions, ticketOptionsChosen, fields, index, option} = this.props;
-
+    
     return (
       <Grid key={index} container>
         <ItemGrid xs={4} sm={4} md={4}>
@@ -119,7 +119,9 @@ class TicketOption extends React.Component{
                     <div className={classes.chips}>
                       {selected.indexOf(0) !== -1
                         ? <Chip key={0} label={"All Users"} className={classes.chip}/>
-                        : selected.map(value => <Chip key={value} label={ ticketOptions[ticketOptionsChosen[index].department_id].roles[ticketOptionsChosen[index].role_id].users[ticketOptions[ticketOptionsChosen[index].department_id].roles[ticketOptionsChosen[index].role_id].users.findIndex(user => user.id === value)].name } className={classes.chip}/>)}
+                        : selected.map(value => <Chip key={value} label={
+                          ticketOptions[ticketOptionsChosen[index].department_id].roles[ticketOptionsChosen[index].role_id].users[ticketOptions[ticketOptionsChosen[index].department_id].roles[ticketOptionsChosen[index].role_id].users.findIndex(user => user.id === value)].first_name + " " +
+                          ticketOptions[ticketOptionsChosen[index].department_id].roles[ticketOptionsChosen[index].role_id].users[ticketOptions[ticketOptionsChosen[index].department_id].roles[ticketOptionsChosen[index].role_id].users.findIndex(user => user.id === value)].last_name } className={classes.chip}/>)}
                     </div>
                   ),
                   multiple: true,
