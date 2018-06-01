@@ -122,8 +122,9 @@ const UserFormStepTwo = (props) => {
         <ItemGrid xs={12} sm={12} md={12}>
           <Grid container>
             <ItemGrid xs={12} sm={12} md={12}>
-              <Field name="dob" validate={[required]}  component={(input,label,custom) => (
+              <Field name="dob" validate={[required]}  component={(input,label,meta,custom) => (
                 <DatePicker
+                  error={input.meta.error}
                   label="Date of Birth"
                   {...input}
                   {...custom}
@@ -172,7 +173,7 @@ const UserFormStepTwo = (props) => {
           }
         </ItemGrid>
       </Grid>
-  
+      
       <br/>
       <Button
         variant="raised"
@@ -181,7 +182,7 @@ const UserFormStepTwo = (props) => {
       >
         Back
       </Button>
-  
+      
       <Button
         type="submit"
         variant="raised"
