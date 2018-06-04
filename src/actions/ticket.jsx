@@ -12,13 +12,13 @@ export const setTab = (payload) => {
 };
 
 export const fetchTicketsSuccess = (payload) => ({
-    type: types.FETCH_TICKETS_SUCCESS,
-    payload: payload
+  type: types.FETCH_TICKETS_SUCCESS,
+  payload: payload
 });
 
 export const fetchTicketsFailure = (payload) => ({
-    type: types.FETCH_TICKETS_FAILURE,
-    payload
+  type: types.FETCH_TICKETS_FAILURE,
+  payload
 });
 
 export const fetchAssignedTicketsSuccess = (payload) => ({
@@ -115,5 +115,15 @@ export const fetchTicketStatusesSuccess = (payload) => ({
 
 export const fetchTicketStatusesFailure = (payload) => ({
   type: types.FETCH_TICKET_STATUSES_FAILURE,
+  payload
+});
+
+export const fetchAllTicketsSuccess = (payload) => ({
+  type: types.FETCH_ALL_TICKETS_SUCCESS,
+  payload
+});
+
+export const fetchAllTicketsFailure = (payload) => ({
+  type: types.FETCH_ALL_TICKETS_FAILURE,
   payload
 });

@@ -60,3 +60,13 @@ export const fetchTicketStatuses = (params, successAction, failureAction) => {
     },
   },successAction,failureAction, true);
 };
+
+export const fetchAllTickets = (successAction, failureAction) => {
+  return request('tickets/all_tickets',{
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    },
+  },successAction, failureAction, true);
+};

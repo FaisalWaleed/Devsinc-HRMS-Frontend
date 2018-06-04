@@ -2,11 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { fetchAllLeaves } from "../../api/leave";
 import { fetchAllLeavesFailure, fetchAllLeavesSuccess } from "../../actions/leave";
-import Table from 'material-ui/Table'
-import { TableCell, TableRow, TableHead, TableBody, TableSortLabel } from 'material-ui/Table'
+import Table, { TableCell, TableRow, TableHead, TableBody, TableSortLabel } from 'material-ui/Table'
 import ToolTip from 'material-ui/Tooltip'
 import { CustomInput } from 'components'
-import { LEAVES_QUOTA } from "../../config/apiConfig";
 
 
 class LeaveAdminTab extends React.Component{

@@ -63,7 +63,13 @@ export const ticket = (state = initialState.tickets,action) => {
   
     case types.SET_TICKETS_TAB:
       return {...state, tab: action.payload.tab};
-
+      
+    case types.FETCH_ALL_TICKETS_SUCCESS:
+      return {...state , allTickets: action.payload };
+    
+    case types.FETCH_ALL_TICKETS_FAILURE:
+      return state;
+      
     default:
       return state;
   }

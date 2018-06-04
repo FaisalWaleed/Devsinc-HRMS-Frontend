@@ -27,6 +27,9 @@ const initialState = {
   },
   tickets: {
     tab: 0,
+    createdTickets: [],
+    assignedTickets: [],
+    allTickets: [],
     ticketOptions: {},
     ticketComments: {},
     ticketStatuses: {}

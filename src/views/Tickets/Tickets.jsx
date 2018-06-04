@@ -7,6 +7,7 @@ import MyTicketsTab from "./MyTicketsTab";
 import AssignedTicketsTab from "./AssignedTicketsTab";
 import { connect } from 'react-redux';
 import { setTab } from "../../actions/ticket";
+import TicketAdminTab from "./TicketAdminTab";
 
 class Tickets extends React.Component{
   
@@ -40,6 +41,7 @@ class Tickets extends React.Component{
                 <br />
                 {tab === 0 && <MyTicketsTab/>}
                 {tab === 1 && <AssignedTicketsTab/> }
+                {tab === 2 && <TicketAdminTab/>}
               </div>
             }
           />
