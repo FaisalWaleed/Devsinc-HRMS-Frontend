@@ -1,7 +1,7 @@
 import React from 'react';
 import Table, { TableCell, TableRow, TableHead, TableBody, TableSortLabel } from 'material-ui/Table'
 import { Grid } from "material-ui";
-import { ItemGrid } from 'components';
+import { ItemGrid, CustomInput } from 'components';
 import Tooltip from 'material-ui/Tooltip';
 import { connect } from 'react-redux';
 import {fetchAllTicketsFailure, fetchAllTicketsSuccess} from "../../actions/ticket";
@@ -9,6 +9,7 @@ import {fetchAllTickets} from "../../api/ticket";
 import moment from 'moment';
 import { withStyles } from 'material-ui/styles';
 import Chip from 'material-ui/Chip';
+import {filter} from "lodash";
 
 const styles = theme => ({
   tooltip: {
@@ -18,7 +19,7 @@ const styles = theme => ({
 });
 
 class TicketAdminTab extends React.Component{
-  
+
   constructor(props){
     super(props);
     this.state = {
@@ -29,18 +30,18 @@ class TicketAdminTab extends React.Component{
       search: null
     }
   }
-  
+
   componentDidMount(){
     this.props.fetchAllTickets();
   }
-  
+
   componentWillReceiveProps(nextProps){
     this.setState({
       displayedTickets: nextProps.allTickets,
       allTickets: nextProps.allTickets
     })
   }
-  
+
   handleSort = (property) => {
     const orderBy = property;
     let order = 'desc';
@@ -54,19 +55,30 @@ class TicketAdminTab extends React.Component{
         : data.sort((a, b) => (a[orderBy] < b[orderBy] ? -1 : 1));
     this.setState({ displayedTickets, order, orderBy });
   };
-  
+
+  handleTableColumnSearch(property,value){
+    let newlyDisplayed = filter(
+      this.props.allTickets, ticket => (
+        isNaN(ticket[property])
+          ? ticket[property].toLowerCase().includes(value.toLowerCase())
+          : value.toLowerCase().includes(ticket[property])
+      )
+    );
+    this.setState({ displayedTickets: newlyDisplayed});
+  }
+
   render(){
     const tableHead = [
-      { id: 'by', numeric: false, disablePadding: false, label: 'By' },
-      { id: 'date', numeric: false, disablePadding: false, label: 'Date Started' },
-      { id: 'statement', numeric: false, disablePadding: false, label: 'Title' },
-      { id: 'department', numeric: false, disablePadding: false, label: 'Department' },
-      { id: 'status', numeric: false, disablePadding: false, label: 'Status' }
+      { id: 'created_by', numeric: false, disablePadding: false, label: 'By', searchColumn: true },
+      { id: 'created_at', numeric: false, disablePadding: false, label: 'Date Started', searchColumn: true },
+      { id: 'title', numeric: false, disablePadding: false, label: 'Title', searchColumn: true },
+      { id: 'id', numeric: false, disablePadding: false, label: 'Department', searchColumn: true },
+      { id: 'overall_status', numeric: false, disablePadding: false, label: 'Status', searchColumn: false }
     ];
-    
+
     const { displayedTickets, order, orderBy } = this.state;
     const { classes } = this.props;
-    
+
     return(
       <Grid container>
         <ItemGrid xs={12} sm={12} md={12}>
@@ -86,13 +98,31 @@ class TicketAdminTab extends React.Component{
                         placement={column.numeric ? 'bottom-end' : 'bottom-start' }
                         enterDelay={300}
                       >
-                        <TableSortLabel
-                          active={orderBy === column.id}
-                          direction={order}
-                          onClick={this.handleSort.bind(this,column.id)}
-                        >
-                          {column.label}
-                        </TableSortLabel>
+                        <div>
+                          <TableSortLabel
+                            active={orderBy === column.id}
+                            direction={order}
+                            onClick={this.handleSort.bind(this,column.id)}
+                          >
+                            {column.searchColumn ?
+                              <CustomInput
+                                labelText={column.label}
+                                id="search"
+                                formControlProps={{
+                                  style: {margin: "0px 0 0 0"},
+                                  fullWidth: false
+                                }}
+                                inputProps={{
+                                  onChange: (event) => this.handleTableColumnSearch(column.id, event.target.value),
+                                  type: "text",
+                                  required: "text",
+                                  name: "search",
+                                  autoComplete: "search",
+                                }}
+                              /> : column.label
+                            }
+                          </TableSortLabel>
+                        </div>
                       </Tooltip>
                     </TableCell>
                   ), this)
