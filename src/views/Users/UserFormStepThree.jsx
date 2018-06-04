@@ -43,7 +43,6 @@ class UserFormStepThree extends React.Component {
                 format="Do MMMM YYYY"
                 value={input.input.value ? moment(input.input.value) : null }
                 onChange={(event) => input.input.onChange(event.format("YYYY-MM-DD"))}
-                disablePast={true}
                 leftArrowIcon={<KeyboardArrowLeft/>}
                 rightArrowIcon={<KeyboardArrowRight/>}
                 InputProps={{

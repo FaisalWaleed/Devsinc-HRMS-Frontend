@@ -21,28 +21,24 @@ import * as moment from 'moment';
 class ProfileForm extends React.Component {
   
   render() {
-    const { handleSubmit } = this.props;
-    
+    const { handleSubmit, initialValues } = this.props;
     return (
       <Form onSubmit={handleSubmit}>
         <Grid container>
           <ItemGrid xs={12} sm={12} md={12}>
             <RegularCard
-              cardTitle="Your Profile"
+              cardTitle={initialValues ? `${initialValues.first_name} ${initialValues.last_name}` : "Your Profile"}
               cardSubtitle="Keep your profile updated"
               content={
                 <div>
                   <Grid container>
                     <ItemGrid xs={12} sm={12} md={4}>
                       <Field name="title" type="text" disabled component={CustomInputWrapper} custominputprops={{labelText: "Title"}} />
-                      <Field name="first_name" type="text" custominputprops={{labelText: "First Name"}} component={CustomInputWrapper} />
                       <Field name="email" type="text" disabled component={CustomInputWrapper} custominputprops={{labelText: "E-mail Address"}} />
                       <Field name="secondary_contact_number" type="tel" component={CustomInputWrapper} custominputprops={{labelText: "Secondary Contact Number"}} />
                     </ItemGrid>
                     <ItemGrid xs={12} sm={12} md={4}>
-                      <Field name="last_name" type="text" component={CustomInputWrapper} custominputprops={{labelText: "Last Name"}} />
-                      <Field name="contact_number" type="tel" component={CustomInputWrapper} custominputprops={{labelText: "Contact Number"}} />
-                      <br/>
+                      <br />
                       <Field name="dob"  component={(input,label,custom) => (
                         <DatePicker
                           label="Date of Birth"
@@ -65,6 +61,7 @@ class ProfileForm extends React.Component {
                           }}
                         />
                       )} />
+                      <Field name="contact_number" type="tel" component={CustomInputWrapper} custominputprops={{labelText: "Contact Number"}} />
                     </ItemGrid>
                     <ItemGrid xs={12} sm={12} md={3}>
                       <br />

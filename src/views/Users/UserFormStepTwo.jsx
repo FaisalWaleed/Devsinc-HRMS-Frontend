@@ -122,8 +122,9 @@ const UserFormStepTwo = (props) => {
         <ItemGrid xs={12} sm={12} md={12}>
           <Grid container>
             <ItemGrid xs={12} sm={12} md={12}>
-              <Field name="dob" validate={[required]}  component={(input,label,custom) => (
+              <Field name="dob" validate={[required]}  component={(input,label,meta,custom) => (
                 <DatePicker
+                  error={input.meta.error}
                   label="Date of Birth"
                   {...input}
                   {...custom}
@@ -151,10 +152,10 @@ const UserFormStepTwo = (props) => {
               <Field validate={[required]} name="contact_number" required="required" autoComplete="contact_number" type="tel" custominputprops={{labelText: 'Contact Number'}} component={CustomInputWrapper} />
             </ItemGrid>
             <ItemGrid xs={4} sm={4} md={4}>
-              <Field validate={[required]} name="emergency_contact_person_number" required="required" autoComplete="emergency_contact_person_number" type="tel" custominputprops={{labelText: 'Emergency Contact Number'}} component={CustomInputWrapper} />
+              <Field name="emergency_contact_person_number" required="required" autoComplete="emergency_contact_person_number" type="tel" custominputprops={{labelText: 'Emergency Contact Number'}} component={CustomInputWrapper} />
             </ItemGrid>
             <ItemGrid xs={4} sm={4} md={4}>
-              <Field validate={[required]} name="emergency_contact_person_relation" required="required" autoComplete="emergency_contact_person_relation" type="text" custominputprops={{labelText: 'Emergency Contact Person Relation'}} component={CustomInputWrapper} />
+              <Field name="emergency_contact_person_relation" required="required" autoComplete="emergency_contact_person_relation" type="text" custominputprops={{labelText: 'Emergency Contact Person Relation'}} component={CustomInputWrapper} />
             </ItemGrid>
           </Grid>
           <Grid container>
@@ -172,7 +173,7 @@ const UserFormStepTwo = (props) => {
           }
         </ItemGrid>
       </Grid>
-  
+      
       <br/>
       <Button
         variant="raised"
@@ -181,7 +182,7 @@ const UserFormStepTwo = (props) => {
       >
         Back
       </Button>
-  
+      
       <Button
         type="submit"
         variant="raised"

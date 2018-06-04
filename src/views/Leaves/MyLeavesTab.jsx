@@ -70,6 +70,28 @@ class MyLeavesTab extends React.Component{
     this.props.createLeave(values);
   }
   
+  handleLeaveLifeCycleClick(leave){
+    this.props.openModal(
+      types.CONTENT_MODAL,
+      {
+        fullscreen: false,
+        title: `Leave Details`,
+        content: <LeavesLifeCycle reason={leave.reason} leaveId={leave.id} />
+      }
+    )
+  }
+  
+  handleCreateLeaveClick(){
+    this.props.openModal(
+      types.FORM_MODAL,
+      {
+        fullscreen: false,
+        form: <LeaveForm onSubmit={this.handleCreateLeaveSubmit} />,
+        title: 'Leave Application',
+      }
+    )
+  }
+  
   render(){
     const { classes, currentUserLeaves } = this.props;
     
@@ -78,12 +100,14 @@ class MyLeavesTab extends React.Component{
       leave.status === "approved"
     ));
     
+    const currentUserPendingRejectedLeaves = currentUserLeaves.filter(leave => (
+      leave.status !== "approved"
+    ));
+    
     const approvedLeavesThisYear = currentUserLeaves.filter(leave => (
       leave.start_date >= `${moment().format('YYYY')}-01-01` &&
       leave.status === "approved"
     ));
-    
-    
     
     return(
       <Grid container>
@@ -92,15 +116,7 @@ class MyLeavesTab extends React.Component{
             <Button
               style={{ marginBottom: '40px'}}
               color="primary"
-              onClick={
-                this.props.openModal.bind(this, types.FORM_MODAL,
-                  {
-                    fullscreen: false,
-                    form: <LeaveForm onSubmit={this.handleCreateLeaveSubmit} />,
-                    title: 'Leave Application',
-                  }
-                )
-              }
+              onClick={this.handleCreateLeaveClick.bind(this)}
             >
               Apply For Leave
               <Create className={classes.rightIcon}/>
@@ -149,30 +165,38 @@ class MyLeavesTab extends React.Component{
             />
           </ItemGrid>
         </Grid>
+        
+        
         <Grid container>
           <ItemGrid xs={12} sm={12} md={6}>
             <Card className={classes.root}>
               <CardContent>
-                <Muted>In {moment().format('MMM')}</Muted>
+                <Muted>Leaves Pending/Rejected</Muted>
                 <Table className={classes.table}>
                   <TableHead>
                     <TableRow>
-                      <TableCell>To</TableCell>
                       <TableCell>From</TableCell>
+                      <TableCell>To</TableCell>
                       <TableCell>Type</TableCell>
-                      <TableCell>Reason</TableCell>
+                      <TableCell>Current Status</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    { approvedLeavesThisMonth.length
+                    { currentUserPendingRejectedLeaves.length
                       ?
-                      approvedLeavesThisMonth
+                      currentUserPendingRejectedLeaves
                         .map((leave,index) => (
-                            <TableRow key={index}>
+                            <TableRow key={index}
+                                      onClick={this.handleLeaveLifeCycleClick.bind(this,leave)}
+                                      hover
+                            >
                               <TableCell component="th">{moment(leave.start_date).format("Do MMM")}</TableCell>
                               <TableCell component="th">{moment(leave.end_date).format("Do MMM")}</TableCell>
                               <TableCell>{leave.leave_type}</TableCell>
-                              <TableCell>{leave.reason}</TableCell>
+                              <TableCell>
+                                {leave.status === "pending" ? <Chip style={{backgroundColor: '#d8d739'}} label="Pending" className={classes.chip} /> : null }
+                                {leave.status === "rejected" ? <Chip style={{backgroundColor: '#d84d30'}} label="Rejected" className={classes.chip} /> : null }
+                              </TableCell>
                             </TableRow>
                           )
                         )
@@ -189,12 +213,12 @@ class MyLeavesTab extends React.Component{
           <ItemGrid xs={12} sm={12} md={6}>
             <Card className={classes.root}>
               <CardContent>
-                <Muted>In 2018</Muted>
+                <Muted>Approved Leaves In {moment().format("YYYY")}</Muted>
                 <Table className={classes.table}>
                   <TableHead>
                     <TableRow>
-                      <TableCell>To</TableCell>
                       <TableCell>From</TableCell>
+                      <TableCell>To</TableCell>
                       <TableCell>Type</TableCell>
                       <TableCell>Reason</TableCell>
                     </TableRow>
@@ -204,7 +228,10 @@ class MyLeavesTab extends React.Component{
                       ?
                       approvedLeavesThisYear
                         .map((leave,index) => (
-                          <TableRow key={index}>
+                          <TableRow key={index}
+                                    onClick={this.handleLeaveLifeCycleClick.bind(this,leave)}
+                                    hover
+                          >
                             <TableCell component="th">{moment(leave.start_date).format("Do MMM")}</TableCell>
                             <TableCell component="th">{moment(leave.end_date).format("Do MMM")}</TableCell>
                             <TableCell>{leave.leave_type}</TableCell>
@@ -214,67 +241,6 @@ class MyLeavesTab extends React.Component{
                       :
                       <TableRow>
                         <TableCell><Muted style={{display: 'block'}}>Nothing to show</Muted></TableCell>
-                      </TableRow>
-                    }
-                  </TableBody>
-                </Table>
-              </CardContent>
-            </Card>
-          </ItemGrid>
-        </Grid>
-        <Grid container>
-          <ItemGrid xs={12} sm={12} md={12}>
-            <Card className={classes.root}>
-              <CardContent>
-                <Muted>Your Leaves</Muted>
-                <Table className={classes.table}>
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>To</TableCell>
-                      <TableCell>From</TableCell>
-                      <TableCell>Type</TableCell>
-                      <TableCell>Reason</TableCell>
-                      <TableCell>Current Status</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    { currentUserLeaves.length
-                      ?
-                      currentUserLeaves
-                        .filter(
-                          leave => leave.start_date >= `${moment().format("YYYY")}-${moment().format("MM")}-01`
-                        )
-                        .map((leave,index) => (
-                            <TableRow
-                              key={index}
-                              hover={true}
-                              onClick={
-                                () => (this.props.openModal(
-                                  types.CONTENT_MODAL,
-                                  {
-                                    fullscreen: false,
-                                    title: `Leave Details`,
-                                    content: <LeavesLifeCycle reason={leave.reason} leaveId={leave.id} />
-                                  }
-                                ))
-                                }
-                            >
-                              <TableCell component="th">{moment(leave.start_date).format("Do MMM YYYY")}</TableCell>
-                              <TableCell component="th">{moment(leave.end_date).format("Do MMM YYYY")}</TableCell>
-                              <TableCell>{leave.leave_type}</TableCell>
-                              <TableCell>{leave.reason}</TableCell>
-                              <TableCell>
-                                {leave.status === "pending" ? <Chip style={{backgroundColor: '#d8d739'}} label="Pending" className={classes.chip} /> : null }
-                                {leave.status === "approved" ? <Chip style={{backgroundColor: '#2cd81f'}} label="Approved" className={classes.chip} /> : null }
-                                {leave.status === "rejected" ? <Chip style={{backgroundColor: '#d84d30'}} label="Rejected" className={classes.chip} /> : null }
-                              
-                              </TableCell>
-                            </TableRow>
-                          )
-                        )
-                      :
-                      <TableRow>
-                        <TableCell><Muted>Nothing to show</Muted></TableCell>
                       </TableRow>
                     }
                   </TableBody>
