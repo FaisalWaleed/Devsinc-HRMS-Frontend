@@ -20,7 +20,6 @@ import {fetchPermissionFailure, fetchPermissionSuccess} from "../../actions/perm
 import { unprotectedPages } from '../../config/unprotectedPagesConfig';
 import Unauthorized from "../../views/Errors/Unauthorized";
 import { hasPermission } from "../../helpers/permissionsHelper";
-import { isSignedin } from "../../helpers/permissionsHelper";
 import { closeNotification } from "../../actions/notification";
 import OverlayLoader from 'react-overlay-loading/lib/OverlayLoader'
 
@@ -78,7 +77,15 @@ class App extends React.Component {
             else if(prop.unprotected)
               return <Route path={prop.path} component={prop.component} key={key} exact={prop.exact} />;
             else
-              return <Route key={key} path={prop.path} component={hasPermission(permissions, prop.requiredPermissions, prop.atleastOnePerm) ? requireSignIn(prop.component) : Unauthorized} exact={prop.exact} />
+              return <Route
+                key={key}
+                path={prop.path}
+                component={
+                  hasPermission(permissions, prop.requiredPermissions, prop.atleastOnePerm)
+                    ? requireSignIn(prop.component)
+                    : requireSignIn(Unauthorized)
+                }
+                exact={prop.exact} />
           })
         }
       </Switch>
