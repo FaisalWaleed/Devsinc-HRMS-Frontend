@@ -3,6 +3,14 @@ import {fetchAssignedTickets, fetchTickets, fetchTicketStatuses} from "../api/ti
 import {HIDE_MODAL} from "./modal";
 import {showNotification} from "./notification";
 
+
+export const setTab = (payload) => {
+  return {
+    type: types.SET_TICKETS_TAB,
+    payload
+  }
+};
+
 export const fetchTicketsSuccess = (payload) => ({
     type: types.FETCH_TICKETS_SUCCESS,
     payload: payload

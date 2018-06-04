@@ -26,6 +26,7 @@ const initialState = {
     resetPasswordSuccess: false
   },
   tickets: {
+    tab: 0,
     ticketOptions: {},
     ticketComments: {},
     ticketStatuses: {}
