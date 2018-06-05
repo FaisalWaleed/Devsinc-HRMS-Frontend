@@ -5,7 +5,6 @@ import PerfectScrollbar from "perfect-scrollbar";
 import "perfect-scrollbar/css/perfect-scrollbar.css";
 import { withStyles } from "material-ui";
 import { Header, Footer, Sidebar, ErrorBoundary, Snackbar } from "components";
-import TestSidebar from '../../components/Sidebar/TestSidebar';
 import ModalRoot from '../../components/Modals/ModalRoot';
 import appRoutes from "routes/app.jsx";
 import appStyle from "variables/styles/appStyle.jsx";
@@ -115,7 +114,7 @@ class App extends React.Component {
                     />
                 }
                 
-                <div className={classes.mainPanel} ref="mainPanel">
+                <div className={sidebarOpen ? classes.mainPanel : classes.mainPanelExpanded } ref="mainPanel">
                   {this.checkLoginPath() ? null :
                     <Header
                       routes={appRoutes}

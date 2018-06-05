@@ -43,12 +43,9 @@ const Sidebar = ({ ...props }) => {
               >
                 <ListItem button className={classes.itemLink + listItemClasses}>
                   {
-                    open
-                      ?
                       <ListItemIcon className={classes.itemIcon + whiteFontClasses}>
                         <prop.icon />
                       </ListItemIcon>
-                      : null
                   }
                   
                   {
@@ -59,7 +56,7 @@ const Sidebar = ({ ...props }) => {
                         disableTypography={true}
                       />
                       : <ListItemText
-                        primary={<prop.icon />}
+                        primary={<div>&nbsp;</div>}
                         className={classes.itemText + whiteFontClasses}
                         disableTypography={true}
                       />

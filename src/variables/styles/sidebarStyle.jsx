@@ -4,6 +4,7 @@
 
 import {
   drawerWidth,
+  drawerWidthClosed,
   transition,
   boxShadow,
   defaultFont,
@@ -17,6 +18,7 @@ import {
 
 const sidebarStyle = theme => ({
   drawerPaper: {
+    overflowX: 'hidden',
     border: "none",
     position: "relative",
     top: "0",
@@ -62,9 +64,9 @@ const sidebarStyle = theme => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
-    width: theme.spacing.unit * 7,
+    width: drawerWidthClosed,
     [theme.breakpoints.up('sm')]: {
-      width: theme.spacing.unit * 9,
+      width: drawerWidthClosed,
     },
   },
   logo: {
