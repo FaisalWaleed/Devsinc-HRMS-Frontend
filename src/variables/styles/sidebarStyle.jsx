@@ -4,6 +4,7 @@
 
 import {
   drawerWidth,
+  drawerWidthClosed,
   transition,
   boxShadow,
   defaultFont,
@@ -17,15 +18,21 @@ import {
 
 const sidebarStyle = theme => ({
   drawerPaper: {
+    overflowX: 'hidden',
     border: "none",
-    position: "fixed",
+    position: "relative",
     top: "0",
     bottom: "0",
     left: "0",
     zIndex: "1",
+    whiteSpace: 'nowrap',
     // overflow: 'auto',
     ...boxShadow,
     width: drawerWidth,
+    transition: theme.transitions.create('width', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
     [theme.breakpoints.up("md")]: {
       width: drawerWidth,
       position: "fixed",
@@ -50,6 +57,17 @@ const sidebarStyle = theme => ({
       transform: `translate3d(${drawerWidth}px, 0, 0)`,
       ...transition
     }
+  },
+  drawerPaperClose: {
+    overflowX: 'hidden',
+    transition: theme.transitions.create('width', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    width: drawerWidthClosed,
+    [theme.breakpoints.up('sm')]: {
+      width: drawerWidthClosed,
+    },
   },
   logo: {
     position: "relative",

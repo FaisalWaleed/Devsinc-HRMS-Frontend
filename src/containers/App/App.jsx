@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Switch, Route, Redirect } from "react-router-dom";
-// creates a beautiful scrollbar
 import PerfectScrollbar from "perfect-scrollbar";
 import "perfect-scrollbar/css/perfect-scrollbar.css";
 import { withStyles } from "material-ui";
@@ -22,6 +21,7 @@ import Unauthorized from "../../views/Errors/Unauthorized";
 import { hasPermission } from "../../helpers/permissionsHelper";
 import { closeNotification } from "../../actions/notification";
 import OverlayLoader from 'react-overlay-loading/lib/OverlayLoader'
+import {toggleSidebar} from "../../actions/sidebar";
 
 
 const requireSignIn = generateRequireSignInWrapper({
@@ -31,24 +31,22 @@ const requireSignIn = generateRequireSignInWrapper({
 
 
 class App extends React.Component {
-  state = {
-    mobileOpen: false
-  };
+  
   handleDrawerToggle = () => {
-    this.setState({ mobileOpen: !this.state.mobileOpen });
+    this.props.toggleSidebar();
   };
   getRoute() {
     return this.props.location.pathname !== "/maps";
   }
-
+  
   checkLoginPath(){
     return this.props.location.pathname === "/login";
   }
-
+  
   checkUnprotectedPages(){
     return unprotectedPages.includes(this.props.location.pathname)
   }
-
+  
   componentDidMount() {
     if((!this.checkUnprotectedPages() )){
       this.props.fetchPermissions();
@@ -58,16 +56,16 @@ class App extends React.Component {
       const ps = new PerfectScrollbar(this.refs.mainPanel);
     }
   }
-
+  
   componentDidUpdate() {
     if(this.props.permissions === null){
       this.props.fetchPermissions();
     }
     // this.refs.mainPanel.scrollTop = 0;
   }
-
+  
   render() {
-    const { classes, notification, closeNotification, permissions, isSignedIn, isLoading, ...rest } = this.props;
+    const { classes, notification, closeNotification, permissions, sidebarOpen, sidebarMin, isLoading, ...rest } = this.props;
     const switchRoutes = (
       <Switch>
         {
@@ -116,12 +114,14 @@ class App extends React.Component {
                       logo={logo}
                       image={image}
                       handleDrawerToggle={this.handleDrawerToggle}
-                      open={this.state.mobileOpen}
+                      open={sidebarOpen}
                       color="blue"
+                      min={sidebarMin}
                       {...rest}
                     />
                 }
-                <div className={classes.mainPanel} ref="mainPanel">
+                
+                <div className={sidebarOpen ? classes.mainPanel : classes.mainPanelExpanded } ref="mainPanel">
                   {this.checkLoginPath() ? null :
                     <Header
                       routes={appRoutes}
@@ -163,6 +163,8 @@ App.propTypes = {
 
 function mapStateToProps(state){
   return {
+    sidebarMin: state.sidebar.min,
+    sidebarOpen: state.sidebar.open,
     permissions: state.permissions.userPermissions,
     notification: state.notification,
     isSignedIn: state.reduxTokenAuth.currentUser.isSignedIn,
@@ -173,7 +175,8 @@ function mapStateToProps(state){
 function mapDispatchToProps(dispatch){
   return {
     closeNotification: () => { dispatch(closeNotification()) },
-    fetchPermissions: () => {dispatch(fetchPermissions(fetchPermissionSuccess,fetchPermissionFailure))}
+    fetchPermissions: () => {dispatch(fetchPermissions(fetchPermissionSuccess,fetchPermissionFailure)) },
+    toggleSidebar: () => { dispatch(toggleSidebar()) }
   }
 }
 

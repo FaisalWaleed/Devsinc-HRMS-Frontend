@@ -10,6 +10,7 @@ import { leave } from "./leave";
 import { permission } from "./permission";
 import { error } from "./error";
 import { notification } from "./notification";
+import { sidebar } from "./sidebar";
 
 const rootReducer = combineReducers({
   departments: department,
@@ -22,7 +23,8 @@ const rootReducer = combineReducers({
   leaves: leave,
   permissions: permission,
   errors: error,
-  notification: notification
+  notification: notification,
+  sidebar: sidebar
 });
 
 export default rootReducer;

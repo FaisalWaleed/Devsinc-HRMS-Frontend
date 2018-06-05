@@ -56,6 +56,9 @@ const initialState = {
   },
   errors:{
     appError: false
+  },
+  sidebar: {
+    open: true
   }
 };
 

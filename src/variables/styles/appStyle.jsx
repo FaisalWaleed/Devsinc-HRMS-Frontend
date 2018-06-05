@@ -2,7 +2,7 @@
 // // // App styles
 // #############################
 
-import { drawerWidth, transition, container } from "variables/styles.jsx";
+import { drawerWidth, drawerWidthClosed, transition, container } from "variables/styles.jsx";
 
 const appStyle = theme => ({
   wrapper: {
@@ -13,6 +13,18 @@ const appStyle = theme => ({
   mainPanel: {
     [theme.breakpoints.up("md")]: {
       width: `calc(100% - ${drawerWidth}px)`
+    },
+    overflow: "auto",
+    position: "relative",
+    float: "right",
+    ...transition,
+    maxHeight: "100%",
+    width: "100%",
+    overflowScrolling: 'touch'
+  },
+  mainPanelExpanded: {
+    [theme.breakpoints.up("md")]: {
+      width: `calc(100% - ${drawerWidthClosed}px)`
     },
     overflow: "auto",
     position: "relative",
