@@ -15,13 +15,14 @@ import { HeaderLinks } from "components";
 import sidebarStyle from "variables/styles/sidebarStyle.jsx";
 import { connect } from 'react-redux';
 import {hasPermission} from "../../helpers/permissionsHelper";
+import {Menu} from 'material-ui-icons'
 
 const Sidebar = ({ ...props }) => {
   // verifies if routeName is the one active (in browser input)
   function activeRoute(routeName) {
     return props.location.pathname.indexOf(routeName) > -1 ? true : false;
   }
-  const { classes, color, logo, image, logoText, routes, open, min } = props;
+  const { classes, color, logo, logoLetter, image, logoText, routes, open, min } = props;
   var links = (
     <List className={classes.list}>
       {
@@ -43,9 +44,9 @@ const Sidebar = ({ ...props }) => {
               >
                 <ListItem button className={classes.itemLink + listItemClasses}>
                   {
-                      <ListItemIcon className={classes.itemIcon + whiteFontClasses}>
-                        <prop.icon />
-                      </ListItemIcon>
+                    <ListItemIcon className={classes.itemIcon + whiteFontClasses}>
+                      <prop.icon />
+                    </ListItemIcon>
                   }
                   
                   {
