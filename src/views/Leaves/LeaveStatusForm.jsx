@@ -10,7 +10,12 @@ import {
 } from "components";
 import { Grid } from 'material-ui';
 import { Field, reduxForm } from 'redux-form';
-import {  DateRange, FlightTakeoff} from "material-ui-icons/index";
+import {
+  FlightTakeoff,
+  LocalHotel,
+  SentimentDissatisfied,
+  DateRange
+} from "material-ui-icons";
 import Radio, { RadioGroup } from 'material-ui/Radio';
 import { FormControlLabel } from 'material-ui/Form';
 import { fetchUserLeavesHistory } from "../../api/leave";
@@ -48,31 +53,30 @@ class LeaveStatusForm extends React.Component{
                 <StatsCard
                   icon={FlightTakeoff}
                   iconColor="green"
-                  title="This Year"
-                  description={ userLeaves ? userLeaves.year : null }
-                  small="Leaves"
+                  title={<div>Annual<br/>Leaves</div>}
+                  description={ userLeaves ? `${userLeaves.annual}/14` : null }
+                  small="used"
                   statIcon={DateRange}
                   statText="This Year"
                 />
               </ItemGrid>
               <ItemGrid xs={4} sm={4} md={4}>
                 <StatsCard
-                  icon={FlightTakeoff}
-                  iconColor="orange"
-                  title="This Month"
-                  description={ userLeaves ? userLeaves.month : null }
-                  small="Leaves"
+                  icon={LocalHotel}
+                  iconColor="red"
+                  title={<div>Sick<br/>Leaves</div>}
+                  description={ userLeaves ? `${userLeaves.sick}/60` : null }
+                  small="used"
                   statIcon={DateRange}
-                  statText="This Month"
+                  statText="This Year"
                 />
               </ItemGrid>
               <ItemGrid xs={4} sm={4} md={4}>
                 <StatsCard
-                  icon={FlightTakeoff}
-                  iconColor="red"
-                  title="Quota"
-                  description={ userLeaves ? `${userLeaves.year}/${userLeaves.quota}` : null}
-                  small="Leaves"
+                  icon={SentimentDissatisfied}
+                  iconColor="purple"
+                  title="Compensation Leaves"
+                  description={ userLeaves ? userLeaves.compensation : null}
                   statIcon={DateRange}
                   statText="This Year"
                 />

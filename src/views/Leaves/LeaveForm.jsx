@@ -10,15 +10,19 @@ import {
   Button,
 } from "components";
 import { Grid } from 'material-ui';
-import { Field, Fields, reduxForm } from 'redux-form';
+import { Field, Fields, reduxForm, getFormValues } from 'redux-form';
 import { MenuItem } from 'material-ui/Menu';
 import { ListItemText } from 'material-ui/List';
 import * as moment from 'moment';
+import { validateLeaveForm as validate, required } from './validateLeaveForm';
 
 class LeaveForm extends React.Component{
+  componentWillReceiveProps(nextProps){
+    console.log(nextProps.values);
+  }
+  
   render(){
-    const {error, handleSubmit, submitting, closeModal } = this.props;
-    
+    const {error, handleSubmit, submitting, closeModal, formValues } = this.props;
     const renderDates = fields => (
       <DateRangePickerWrapper
         startDateFieldName="start_date"
@@ -32,18 +36,25 @@ class LeaveForm extends React.Component{
       return moment(value);
     };
     
+    const renderError = ({input, meta, ...props}) => (
+      meta.touched ?
+        <Danger {...props} className='error'>{meta.error}</Danger>
+        :null
+    );
+    
     return(
       <form onSubmit={handleSubmit}>
         <Grid container>
           <ItemGrid xs={12} sm={12} md={12}>
             <Grid container>
               <ItemGrid xs={12} sm={12} md={12}>
-                <Field name="reason" required="required" autoComplete="reason" type="text" custominputprops={{labelText: 'Reason'}} component={CustomInputWrapper} />
+                <Field validate={[required]} name="reason" required="required" autoComplete="reason" type="text" custominputprops={{labelText: 'Reason'}} component={CustomInputWrapper} />
               </ItemGrid>
             </Grid>
             <Grid container>
               <ItemGrid xs={12} sm={12} md={12}>
                 <Field name="leave_type"
+                       validate={[required]}
                        component={({input}) => (
                          <CustomInput
                            isSelect={true}
@@ -59,22 +70,30 @@ class LeaveForm extends React.Component{
                              autoComplete: "leave_type",
                            }}
                          >
-                           <MenuItem value={"sick"} key={0}>
-                             <ListItemText primary={"Sick"} />
+                           <MenuItem value={"annual"} key={0}>
+                             <ListItemText primary={"Annual"} />
                            </MenuItem>
-                           <MenuItem value={"emergency"} key={1}>
-                             <ListItemText primary={"Emergency"}/>
+                           <MenuItem value={"sick"} key={1}>
+                             <ListItemText primary={"Sick"}/>
                            </MenuItem>
-                           <MenuItem value={"quota"} key={2}>
-                             <ListItemText primary={"Quota"}/>
-                           </MenuItem>
-                           <MenuItem value={"personal"} key={3}>
-                             <ListItemText primary={"Personal"}/>
+                           <MenuItem value={"compensation"} key={2}>
+                             <ListItemText primary={"Compensation"}/>
                            </MenuItem>
                          </CustomInput>
                        )}
                 >
                 </Field>
+                {
+                  formValues ? formValues.leave_type === "sick"
+                    ? <Danger>* you are required to provide medical certificate/prescription within 14 days</Danger>
+                    : null : null
+                }
+                {
+                  formValues ? formValues.leave_type === "compensation"
+                    ? <Danger>* you are required to provide death certificate within 30 days</Danger>
+                    : null : null
+                }
+                <Field name='leave_type' component={renderError} />
               </ItemGrid>
             </Grid>
             <Grid container>
@@ -85,17 +104,14 @@ class LeaveForm extends React.Component{
                   component={renderDates}
                   format={formatDates}
                 />
+                <Field name='start_date' component={renderError} />
               </ItemGrid>
             </Grid>
           </ItemGrid>
         </Grid>
         <br/>
-        {error
-          ? <Danger>{error}</Danger>
-          : null
-        }
         <div>
-          <Button style={{float: 'right'}} disabled={submitting} onClick={() => {handleSubmit();closeModal()}} color="primary">Apply For Leave</Button>
+          <Button style={{float: 'right'}} disabled={submitting} onClick={() => {handleSubmit();}} color="primary">Apply For Leave</Button>
           <Button style={{float: 'right'}} onClick={closeModal} disabled={submitting} color="primary">Cancel</Button>
         </div>
       </form>
@@ -109,8 +125,15 @@ function mapDispatchToProps(dispatch){
   }
 }
 
+function mapStateToProps(state){
+  return {
+    formValues: getFormValues('leave_form')(state)
+  }
+}
+
 LeaveForm = reduxForm({
-  form: 'leave_form'
+  form: 'leave_form',
+  validate
 })(LeaveForm);
 
-export default LeaveForm = connect(null,mapDispatchToProps)(LeaveForm);
+export default LeaveForm = connect(mapStateToProps,mapDispatchToProps)(LeaveForm);

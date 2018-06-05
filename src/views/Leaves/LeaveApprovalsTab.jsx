@@ -223,7 +223,7 @@ class LeaveApprovalsTab extends React.Component{
                                       <b>Type: </b>
                                       <span>{leaveApproval.leave_type.charAt(0).toUpperCase() + leaveApproval.leave_type.slice(1)}</span>
                                       <br />
-                                      <span>{moment(leaveApproval.end_date).diff(moment(leaveApproval.start_date),'days')} Days ({moment(leaveApproval.start_date).format("Do MMMM YYYY").toString()}  <b>-</b> {moment(leaveApproval.end_date).format("Do MMMM YYYY").toString() }) </span>
+                                      <span>{(moment(leaveApproval.end_date).diff(moment(leaveApproval.start_date),'days')) + 1} Days ({moment(leaveApproval.start_date).format("Do MMMM YYYY").toString()}  <b>-</b> {moment(leaveApproval.end_date).format("Do MMMM YYYY").toString() }) </span>
                                     </span>
                         }
                       />

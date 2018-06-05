@@ -10,8 +10,8 @@ import {
 import {
   Create,
   FlightTakeoff,
-  Battery60,
-  Today
+  LocalHotel,
+  SentimentDissatisfied
 } from "material-ui-icons";
 import LeaveForm from './LeaveForm';
 import Card from 'material-ui/Card';
@@ -34,7 +34,6 @@ import * as moment from 'moment';
 import { DateRange } from "material-ui-icons/index";
 import Chip from 'material-ui/Chip';
 import LeavesLifeCycle from './LeavesLifeCycle';
-import {LEAVES_QUOTA} from "../../config/apiConfig";
 import {getTotalLeaves} from "../../helpers/leavesHelper";
 
 
@@ -95,11 +94,6 @@ class MyLeavesTab extends React.Component{
   render(){
     const { classes, currentUserLeaves } = this.props;
     
-    const approvedLeavesThisMonth = currentUserLeaves.filter(leave => (
-      leave.start_date >= `${moment().format('YYYY')}-${moment().format('MM')}-01` &&
-      leave.status === "approved"
-    ));
-    
     const currentUserPendingRejectedLeaves = currentUserLeaves.filter(leave => (
       leave.status !== "approved"
     ));
@@ -107,6 +101,18 @@ class MyLeavesTab extends React.Component{
     const approvedLeavesThisYear = currentUserLeaves.filter(leave => (
       leave.start_date >= `${moment().format('YYYY')}-01-01` &&
       leave.status === "approved"
+    ));
+    
+    const annualLeavesThisYear = approvedLeavesThisYear.filter(leave => (
+      leave.leave_type === "annual"
+    ));
+  
+    const sickLeavesThisYear = approvedLeavesThisYear.filter(leave => (
+      leave.leave_type === 'sick'
+    ));
+    
+    const compensationLeavesThisYear = approvedLeavesThisYear.filter(leave => (
+      leave.leave_type === 'compensation'
     ));
     
     return(
@@ -124,49 +130,40 @@ class MyLeavesTab extends React.Component{
           </ItemGrid>
         </Grid>
         <Grid container>
-          <ItemGrid xs={12} sm={12} md={3}>
+          <ItemGrid xs={12} sm={12} md={4}>
             <StatsCard
               icon={FlightTakeoff}
               iconColor="green"
-              title="Leaves This Month"
-              description={getTotalLeaves(approvedLeavesThisMonth)}
+              title={<div>Annual Leaves<br/><br/></div>}
+              description={`${getTotalLeaves(annualLeavesThisYear)}/14`}
+              small="used"
               statIcon={DateRange}
-              statText="This month"
+              statText="Enjoy your life!"
             />
           </ItemGrid>
-          <ItemGrid xs={12} sm={12} md={3}>
+          <ItemGrid xs={12} sm={12} md={4}>
             <StatsCard
-              icon={Today}
-              iconColor="orange"
-              title="Leaves This Year"
-              description={getTotalLeaves(approvedLeavesThisYear)}
-              statIcon={DateRange}
-              statText="This year"
-            />
-          </ItemGrid>
-          <ItemGrid xs={12} sm={12} md={3}>
-            <StatsCard
-              icon={Battery60}
+              icon={LocalHotel}
               iconColor="red"
-              title="Leaves Remaining"
-              description={14 - getTotalLeaves(approvedLeavesThisYear)}
+              title={<div>Sick Leaves<br/><br/></div>}
+              description={`${getTotalLeaves(sickLeavesThisYear)}/60`}
+              small="used"
               statIcon={DateRange}
-              statText="This year"
+              statText="First 10 are fully paid!"
             />
           </ItemGrid>
-          <ItemGrid xs={12} sm={12} md={3}>
+          <ItemGrid xs={12} sm={12} md={4}>
             <StatsCard
-              icon={FlightTakeoff}
+              icon={SentimentDissatisfied}
               iconColor="purple"
-              title="Your Leaves Quota"
-              description={LEAVES_QUOTA}
+              title={<div>Compensation<br/>Leaves</div>}
+              description={getTotalLeaves(compensationLeavesThisYear)}
+              small="used"
               statIcon={DateRange}
-              statText="Leaves quota"
+              statText="Sorry for your loss"
             />
           </ItemGrid>
         </Grid>
-        
-        
         <Grid container>
           <ItemGrid xs={12} sm={12} md={6}>
             <Card className={classes.root}>
