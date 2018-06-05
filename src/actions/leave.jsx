@@ -1,5 +1,6 @@
 import * as types from './actionTypes'
 import {showNotification} from "./notification";
+import {HIDE_MODAL} from "./modal";
 
 export const setTab = (payload) => {
   return {
@@ -19,6 +20,7 @@ export const createLeaveSuccess = (payload) => {
       type: types.CREATE_LEAVE_SUCCESS,
       payload
     });
+    dispatch(HIDE_MODAL)
   }
 };
 
