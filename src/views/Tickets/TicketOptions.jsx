@@ -13,7 +13,7 @@ import TicketOption from "./TicketOption";
 class TicketOptions extends React.Component {
 
   componentDidMount() {
-    if (!this.props.allDepartments.length) {
+    if (this.props.allDepartments.length === 0) {
       this.props.fetchDepartments();
     }
   }

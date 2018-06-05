@@ -4,7 +4,7 @@ import { reducer as formReducer } from 'redux-form';
 import { department } from './department';
 import { userReducer } from './userReducer';
 import { modalReducer } from "./modalReducer";
-import { ticketReducer } from "./ticketReducer";
+import { ticket } from "./ticket";
 import { role } from './role';
 import { leave } from "./leave";
 import { permission } from "./permission";
@@ -17,7 +17,7 @@ const rootReducer = combineReducers({
   form: formReducer,
   users: userReducer,
   modals: modalReducer,
-  tickets: ticketReducer,
+  tickets: ticket,
   roles: role,
   leaves: leave,
   permissions: permission,
