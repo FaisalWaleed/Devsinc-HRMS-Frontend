@@ -136,6 +136,7 @@ class MyLeavesTab extends React.Component{
               iconColor="green"
               title={<div>Annual Leaves<br/><br/></div>}
               description={`${getTotalLeaves(annualLeavesThisYear)}/14`}
+              small="used"
               statIcon={DateRange}
               statText="Enjoy your life!"
             />
@@ -146,6 +147,7 @@ class MyLeavesTab extends React.Component{
               iconColor="red"
               title={<div>Sick Leaves<br/><br/></div>}
               description={`${getTotalLeaves(sickLeavesThisYear)}/60`}
+              small="used"
               statIcon={DateRange}
               statText="First 10 are fully paid!"
             />
@@ -156,6 +158,7 @@ class MyLeavesTab extends React.Component{
               iconColor="purple"
               title={<div>Compensation<br/>Leaves</div>}
               description={getTotalLeaves(compensationLeavesThisYear)}
+              small="used"
               statIcon={DateRange}
               statText="Sorry for your loss"
             />
