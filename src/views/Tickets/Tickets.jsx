@@ -8,6 +8,7 @@ import AssignedTicketsTab from "./AssignedTicketsTab";
 import { connect } from 'react-redux';
 import { setTab } from "../../actions/ticket";
 import TicketAdminTab from "./TicketAdminTab";
+import {hasPermission} from "../../helpers/permissionsHelper";
 
 class Tickets extends React.Component{
   
@@ -22,7 +23,7 @@ class Tickets extends React.Component{
   };
   
   render(){
-    const { tab } = this.props;
+    const { tab, userPermissions } = this.props;
     return(
       <Grid container>
         <ItemGrid xs={12} sm={12} md={12}>
@@ -35,13 +36,16 @@ class Tickets extends React.Component{
                   <Tabs centered={true} fullWidth={true} value={tab} onChange={this.handleTab}>
                     <Tab label="My Tickets" />
                     <Tab label="Assigned to Me" />
-                    <Tab label="All Tickets" />
+                    {
+                      hasPermission(userPermissions,["tickets_all_tickets"]) ? <Tab label="All Tickets" /> : null
+                    }
                   </Tabs>
                 </AppBar>
                 <br />
                 {tab === 0 && <MyTicketsTab/>}
                 {tab === 1 && <AssignedTicketsTab/> }
                 {tab === 2 && <TicketAdminTab/>}
+              
               </div>
             }
           />
@@ -59,7 +63,8 @@ function mapDispatchToProps(dispatch){
 
 function mapStateToProps(state){
   return {
-    tab: state.tickets.tab
+    tab: state.tickets.tab,
+    userPermissions: state.permissions.userPermissions
   }
 }
 

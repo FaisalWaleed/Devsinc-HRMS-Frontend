@@ -156,7 +156,7 @@ class Users extends React.Component{
                     "Contact",
                     "Manager",
                     `${hasPermission(userPermissions,["users_destroy"],true) ? "Delete" : ''}`,
-                    `${hasPermission(userPermissions,["users_update_alld"],true) ? "Edit" : ''}`
+                    `${hasPermission(userPermissions,["users_update_all"],true) ? "Edit" : ''}`
                   ]}
                   tableData={users}
                 />
