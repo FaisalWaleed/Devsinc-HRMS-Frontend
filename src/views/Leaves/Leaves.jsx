@@ -2,8 +2,7 @@ import React from 'react';
 import { Grid } from "material-ui";
 import {
   RegularCard,
-  ItemGrid,
-  Permissible
+  ItemGrid
 } from "components";
 import Tabs, { Tab } from 'material-ui/Tabs';
 import AppBar from 'material-ui/AppBar';

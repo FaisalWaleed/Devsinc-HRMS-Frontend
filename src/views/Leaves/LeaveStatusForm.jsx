@@ -6,20 +6,14 @@ import {
   ItemGrid,
   Danger,
   Button,
-  StatsCard,
 } from "components";
 import { Grid } from 'material-ui';
 import { Field, reduxForm } from 'redux-form';
-import {
-  FlightTakeoff,
-  LocalHotel,
-  SentimentDissatisfied,
-  DateRange
-} from "material-ui-icons";
 import Radio, { RadioGroup } from 'material-ui/Radio';
 import { FormControlLabel } from 'material-ui/Form';
 import { fetchUserLeavesHistory } from "../../api/leave";
 import {fetchUserLeavesHistoryFailure, fetchUserLeavesHistorySuccess} from "../../actions/leave";
+import LeaveStatsCards from "./LeaveStatsCards";
 
 class LeaveStatusForm extends React.Component{
   constructor(props){
@@ -48,40 +42,11 @@ class LeaveStatusForm extends React.Component{
       <form onSubmit={handleSubmit}>
         <Grid container>
           <ItemGrid xs={12} sm={12} md={12}>
-            <Grid container>
-              <ItemGrid xs={4} sm={4} md={4}>
-                <StatsCard
-                  icon={FlightTakeoff}
-                  iconColor="green"
-                  title={<div>Annual<br/>Leaves</div>}
-                  description={ userLeaves ? `${userLeaves.annual}/14` : null }
-                  small="used"
-                  statIcon={DateRange}
-                  statText="This Year"
-                />
-              </ItemGrid>
-              <ItemGrid xs={4} sm={4} md={4}>
-                <StatsCard
-                  icon={LocalHotel}
-                  iconColor="red"
-                  title={<div>Sick<br/>Leaves</div>}
-                  description={ userLeaves ? `${userLeaves.sick}/60` : null }
-                  small="used"
-                  statIcon={DateRange}
-                  statText="This Year"
-                />
-              </ItemGrid>
-              <ItemGrid xs={4} sm={4} md={4}>
-                <StatsCard
-                  icon={SentimentDissatisfied}
-                  iconColor="purple"
-                  title="Compensation Leaves"
-                  description={ userLeaves ? userLeaves.compensation : null}
-                  statIcon={DateRange}
-                  statText="This Year"
-                />
-              </ItemGrid>
-            </Grid>
+            <LeaveStatsCards
+              annualLeaves={userLeaves ? userLeaves.annual : null}
+              sickLeaves={userLeaves ? userLeaves.sick : null}
+              compensationLeaves={userLeaves ? userLeaves.compensation : null}
+            />
             <Grid container>
               <ItemGrid xs={12} sm={12} md={12}>
                 <RadioGroup
@@ -125,7 +90,7 @@ function mapDispatchToProps(dispatch){
 
 function mapStateToProps({leaves}, ownProps){
   return {
-    userLeaves: leaves.allUserLeavesHistory[ownProps.userId],
+    userLeaves: leaves.allUserLeavesSummary[ownProps.userId],
   }
 }
 

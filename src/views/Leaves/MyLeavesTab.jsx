@@ -4,18 +4,11 @@ import { Grid } from "material-ui";
 import {
   Button,
   ItemGrid,
-  Muted,
-  StatsCard
+  Muted
 } from "components";
-import {
-  Create,
-  FlightTakeoff,
-  LocalHotel,
-  SentimentDissatisfied
-} from "material-ui-icons";
+import { Create } from "material-ui-icons";
 import LeaveForm from './LeaveForm';
-import Card from 'material-ui/Card';
-import CardContent from 'material-ui/Card/CardContent';
+import Card, { CardContent } from 'material-ui/Card';
 import { withStyles } from "material-ui/styles/index";
 import {
   createLeaveFailure,
@@ -25,17 +18,11 @@ import {
 } from "../../actions/leave";
 import {createLeave, fetchLeaves} from "../../api/leave";
 import { connect } from 'react-redux';
-import Table from 'material-ui/Table';
-import TableBody from 'material-ui/Table/TableBody';
-import TableCell from 'material-ui/Table/TableCell';
-import TableHead from 'material-ui/Table/TableHead';
-import TableRow from 'material-ui/Table/TableRow';
 import * as moment from 'moment';
-import { DateRange } from "material-ui-icons/index";
-import Chip from 'material-ui/Chip';
-import LeavesLifeCycle from './LeavesLifeCycle';
 import {getTotalLeaves} from "../../helpers/leavesHelper";
-
+import LeaveStatsCards from "./LeaveStatsCards";
+import PendingRejectedLeavesTable from './PendingRejectedLeavesTable';
+import ApprovedLeavesTable from './ApprovedLeavesTable';
 
 const styles = theme => ({
   rightIcon: {
@@ -69,17 +56,6 @@ class MyLeavesTab extends React.Component{
     this.props.createLeave(values);
   }
   
-  handleLeaveLifeCycleClick(leave){
-    this.props.openModal(
-      types.CONTENT_MODAL,
-      {
-        fullscreen: false,
-        title: `Leave Details`,
-        content: <LeavesLifeCycle reason={leave.reason} leaveId={leave.id} />
-      }
-    )
-  }
-  
   handleCreateLeaveClick(){
     this.props.openModal(
       types.FORM_MODAL,
@@ -106,7 +82,7 @@ class MyLeavesTab extends React.Component{
     const annualLeavesThisYear = approvedLeavesThisYear.filter(leave => (
       leave.leave_type === "annual"
     ));
-  
+    
     const sickLeavesThisYear = approvedLeavesThisYear.filter(leave => (
       leave.leave_type === 'sick'
     ));
@@ -129,81 +105,19 @@ class MyLeavesTab extends React.Component{
             </Button>
           </ItemGrid>
         </Grid>
-        <Grid container>
-          <ItemGrid xs={12} sm={12} md={4}>
-            <StatsCard
-              icon={FlightTakeoff}
-              iconColor="green"
-              title={<div>Annual Leaves<br/><br/></div>}
-              description={`${getTotalLeaves(annualLeavesThisYear)}/14`}
-              small="used"
-              statIcon={DateRange}
-              statText="Enjoy your life!"
-            />
-          </ItemGrid>
-          <ItemGrid xs={12} sm={12} md={4}>
-            <StatsCard
-              icon={LocalHotel}
-              iconColor="red"
-              title={<div>Sick Leaves<br/><br/></div>}
-              description={`${getTotalLeaves(sickLeavesThisYear)}/60`}
-              small="used"
-              statIcon={DateRange}
-              statText="First 10 are fully paid!"
-            />
-          </ItemGrid>
-          <ItemGrid xs={12} sm={12} md={4}>
-            <StatsCard
-              icon={SentimentDissatisfied}
-              iconColor="purple"
-              title={<div>Compensation<br/>Leaves</div>}
-              description={getTotalLeaves(compensationLeavesThisYear)}
-              small="used"
-              statIcon={DateRange}
-              statText="Sorry for your loss"
-            />
-          </ItemGrid>
-        </Grid>
+        <LeaveStatsCards
+          annualLeaves={getTotalLeaves(annualLeavesThisYear)}
+          sickLeaves={getTotalLeaves(sickLeavesThisYear)}
+          compensationLeaves={getTotalLeaves(compensationLeavesThisYear)}
+        />
         <Grid container>
           <ItemGrid xs={12} sm={12} md={6}>
             <Card className={classes.root}>
               <CardContent>
                 <Muted>Leaves Pending/Rejected</Muted>
-                <Table className={classes.table}>
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>From</TableCell>
-                      <TableCell>To</TableCell>
-                      <TableCell>Type</TableCell>
-                      <TableCell>Current Status</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    { currentUserPendingRejectedLeaves.length
-                      ?
-                      currentUserPendingRejectedLeaves
-                        .map((leave,index) => (
-                            <TableRow key={index}
-                                      onClick={this.handleLeaveLifeCycleClick.bind(this,leave)}
-                                      hover
-                            >
-                              <TableCell component="th">{moment(leave.start_date).format("Do MMM")}</TableCell>
-                              <TableCell component="th">{moment(leave.end_date).format("Do MMM")}</TableCell>
-                              <TableCell>{leave.leave_type}</TableCell>
-                              <TableCell>
-                                {leave.status === "pending" ? <Chip style={{backgroundColor: '#d8d739'}} label="Pending" className={classes.chip} /> : null }
-                                {leave.status === "rejected" ? <Chip style={{backgroundColor: '#d84d30'}} label="Rejected" className={classes.chip} /> : null }
-                              </TableCell>
-                            </TableRow>
-                          )
-                        )
-                      :
-                      <TableRow>
-                        <TableCell><Muted>Nothing to show</Muted></TableCell>
-                      </TableRow>
-                    }
-                  </TableBody>
-                </Table>
+                <PendingRejectedLeavesTable
+                  leaves={currentUserPendingRejectedLeaves}
+                />
               </CardContent>
             </Card>
           </ItemGrid>
@@ -211,37 +125,9 @@ class MyLeavesTab extends React.Component{
             <Card className={classes.root}>
               <CardContent>
                 <Muted>Approved Leaves In {moment().format("YYYY")}</Muted>
-                <Table className={classes.table}>
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>From</TableCell>
-                      <TableCell>To</TableCell>
-                      <TableCell>Type</TableCell>
-                      <TableCell>Reason</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    { approvedLeavesThisYear.length
-                      ?
-                      approvedLeavesThisYear
-                        .map((leave,index) => (
-                          <TableRow key={index}
-                                    onClick={this.handleLeaveLifeCycleClick.bind(this,leave)}
-                                    hover
-                          >
-                            <TableCell component="th">{moment(leave.start_date).format("Do MMM")}</TableCell>
-                            <TableCell component="th">{moment(leave.end_date).format("Do MMM")}</TableCell>
-                            <TableCell>{leave.leave_type}</TableCell>
-                            <TableCell>{leave.reason}</TableCell>
-                          </TableRow>
-                        ))
-                      :
-                      <TableRow>
-                        <TableCell><Muted style={{display: 'block'}}>Nothing to show</Muted></TableCell>
-                      </TableRow>
-                    }
-                  </TableBody>
-                </Table>
+                <ApprovedLeavesTable
+                  leaves={approvedLeavesThisYear}
+                />
               </CardContent>
             </Card>
           </ItemGrid>

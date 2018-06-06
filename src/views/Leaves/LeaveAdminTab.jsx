@@ -1,16 +1,18 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { fetchAllLeaves } from "../../api/leave";
-import { fetchAllLeavesFailure, fetchAllLeavesSuccess } from "../../actions/leave";
+import { fetchAllLeavesSummary } from "../../api/leave";
+import { fetchAllLeavesSummaryFailure, fetchAllLeavesSummarySuccess } from "../../actions/leave";
 import Table, { TableCell, TableRow, TableHead, TableBody, TableSortLabel } from 'material-ui/Table'
 import ToolTip from 'material-ui/Tooltip'
-import { CustomInput } from 'components'
-
+import { CustomInput, Muted } from 'components'
+import * as types from "../../actions/actionTypes";
+import LeaveHistory from './LeaveHistory';
 
 class LeaveAdminTab extends React.Component{
   constructor(props){
     super(props);
     this.handleSort = this.handleSort.bind(this);
+    this.handleLeaveRowClick = this.handleLeaveRowClick.bind(this);
     this.state = {
       orderBy: null,
       order: null,
@@ -18,6 +20,10 @@ class LeaveAdminTab extends React.Component{
       displayedLeaves: this.props.allLeaves,
       search: null
     }
+  }
+  
+  componentDidMount(){
+    this.props.fetchAllLeavesSummary();
   }
   
   componentWillReceiveProps(nextProps){
@@ -59,17 +65,31 @@ class LeaveAdminTab extends React.Component{
     }
   }
   
-  componentDidMount(){
-    this.props.fetchAllLeaves();
+  handleLeaveRowClick(leave) {
+    this.props.openModal(
+      types.CONTENT_MODAL,
+      {
+        fullscreen: true,
+        title: `Leave summary for ${leave.name}`,
+        content:
+          <LeaveHistory
+            user_id={leave.user_id}
+            sickLeaves={leave.sick_leaves}
+            annualLeaves={leave.annual_leaves}
+            compensationLeaves={leave.compensation_leaves}
+          
+          />
+      }
+    )
   }
   
   render(){
     const { order, orderBy, displayedLeaves } = this.state;
     const tableHead = [
       { id: 'employee', numeric: false, disablePadding: false, label: 'Employee Name' },
-      { id: 'month_leaves', numeric: false, disablePadding: false, label: 'Leaves this Month'},
-      { id: 'year_leaves', numeric: false, disablePadding: false, label: 'Leaves this Year' },
-      { id: 'remaining_leaves', numeric: false, disablePadding: false, label: 'Remaining Leaves' }
+      { id: 'sick_leaves', numeric: false, disablePadding: false, label: 'Sick Leaves'},
+      { id: 'annual_leaves', numeric: false, disablePadding: false, label: 'Annual Leaves' },
+      { id: 'compensation_leaves', numeric: false, disablePadding: false, label: 'Compensation Leaves' }
     ];
     
     return(
@@ -120,17 +140,26 @@ class LeaveAdminTab extends React.Component{
           </TableHead>
           <TableBody>
             {
-              displayedLeaves.map((leave,index) => (
-                <TableRow
-                  hover
-                  key={index}
-                >
-                  <TableCell>{leave.name}</TableCell>
-                  <TableCell>{leave.month_leaves}</TableCell>
-                  <TableCell>{leave.year_leaves}</TableCell>
-                  <TableCell>{leave.remaining_leaves}</TableCell>
+              displayedLeaves.length ?
+                displayedLeaves.map((leave,index) => (
+                  <TableRow
+                    onClick={ this.handleLeaveRowClick.bind(this, leave) }
+                    hover
+                    key={index}
+                  >
+                    <TableCell>{leave.name}</TableCell>
+                    <TableCell>{leave.sick_leaves}</TableCell>
+                    <TableCell>{leave.annual_leaves}</TableCell>
+                    <TableCell>{leave.compensation_leaves}</TableCell>
+                  </TableRow>
+                ))
+                :
+                <TableRow>
+                  <TableCell><Muted>No Results Found</Muted></TableCell>
+                  <TableCell/>
+                  <TableCell/>
+                  <TableCell/>
                 </TableRow>
-              ))
             }
           </TableBody>
         </Table>
@@ -141,13 +170,14 @@ class LeaveAdminTab extends React.Component{
 
 function mapDispatchToProps(dispatch){
   return {
-    fetchAllLeaves: () => { dispatch(fetchAllLeaves(fetchAllLeavesSuccess,fetchAllLeavesFailure)) }
+    openModal: (modalType,modalProps = null) => { dispatch({ type: types.SHOW_MODAL, modalType: modalType, modalProps: modalProps}) },
+    fetchAllLeavesSummary: () => { dispatch(fetchAllLeavesSummary(fetchAllLeavesSummarySuccess,fetchAllLeavesSummaryFailure)) }
   }
 }
 
 function mapStateToProps({leaves}){
   return {
-    allLeaves: leaves.allLeaves
+    allLeaves: leaves.allLeavesSummary
   }
 }
 

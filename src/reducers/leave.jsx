@@ -44,7 +44,7 @@ export const leave = (state=initialState.leaves, action) => {
     case types.FETCH_USER_LEAVES_HISTORY_SUCCESS:
       return {
         ...state,
-        allUserLeavesHistory: {...state.allUserLeavesHistory, [action.payload.user_id] : action.payload}
+        allUserLeavesSummary: {...state.allUserLeavesSummary, [action.payload.user_id] : action.payload}
       };
     
     case types.FETCH_USER_LEAVES_HISTORY_FAILURE:
@@ -56,15 +56,21 @@ export const leave = (state=initialState.leaves, action) => {
     case types.FETCH_LEAVE_LIFECYCLE_FAILURE:
       return state;
       
-    case types.FETCH_ALL_LEAVES_SUCCESS:
-      return {...state, allLeaves: action.payload};
+    case types.FETCH_ALL_LEAVES_SUMMARY_SUCCESS:
+      return {...state, allLeavesSummary: action.payload};
       
-    case types.FETCH_ALL_LEAVES_FAILURE:
+    case types.FETCH_ALL_LEAVES_SUMMARY_FAILURE:
       return state;
 
     case types.SET_LEAVES_TAB:
       return {...state, tab: action.payload.tab};
     
+    case types.FETCH_ALL_USERS_LEAVES_HISTORY_SUCCESS:
+      return {...state, allUsersLeavesHistory: {...state.allUsersLeavesHistory, [action.payload[0].user_id] : action.payload } };
+  
+    case types.FETCH_ALL_USERS_LEAVES_HISTORY_FAILURE:
+      return state;
+      
     default:
       return state
   }

@@ -1,5 +1,5 @@
 import initialState from "./initialState";
-import {TOGGLE_MIN, TOGGLE_SIDEBAR} from "../actions/actionTypes";
+import { TOGGLE_SIDEBAR } from "../actions/actionTypes";
 
 export const sidebar =  (state = initialState.sidebar, action) => {
   switch(action.type){

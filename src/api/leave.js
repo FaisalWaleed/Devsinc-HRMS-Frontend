@@ -62,7 +62,7 @@ export const fetchLeaveLifeCycle = (params,successAction,failureAction) => {
   },successAction,failureAction, true);
 };
 
-export const fetchAllLeaves = (successAction, failureAction) => {
+export const fetchAllLeavesSummary = (successAction, failureAction) => {
   return request('leaves/all_leaves',{
     method: 'GET',
     headers: {
@@ -70,4 +70,16 @@ export const fetchAllLeaves = (successAction, failureAction) => {
       'Content-Type': 'application/json',
     }
   },successAction,failureAction,true)
+};
+
+export const fetchAllUsersLeaveHistory = (params,successAction,failureAction) => {
+  return request(`leaves/${params.user_id}/get_user_leaves`,{
+    method: 'GET',
+    headers: {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      }
+    }
+  },successAction,failureAction, true);
 };

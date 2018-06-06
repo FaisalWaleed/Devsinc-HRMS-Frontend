@@ -36,11 +36,12 @@ const initialState = {
   },
   leaves: {
     tab: 0,
-    allLeaves: [],
+    allLeavesSummary: [], //all user's leaves summary
     currentUserLeaves: [], // current user's leaves
     currentUserLeaveApprovals: [], // leaves current user can approve
-    allUserLeavesHistory: [], // number of leaves by user for leave approval
+    allUserLeavesSummary: [], // number of leaves by user for leave status form
     allLeavesLifecycle: [], // lifecycle of leaves
+    allUsersLeavesHistory: [] // all leaves by all users
   },
   permissions: {
     userRoles: [],
