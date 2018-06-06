@@ -138,16 +138,30 @@ export const fetchLeaveLifeCycleFailure = (payload) => {
   }
 };
 
-export const fetchAllLeavesSuccess = (payload) => {
+export const fetchAllLeavesSummarySuccess = (payload) => {
   return {
-    type: types.FETCH_ALL_LEAVES_SUCCESS,
+    type: types.FETCH_ALL_LEAVES_SUMMARY_SUCCESS,
     payload
   }
 };
 
-export const fetchAllLeavesFailure = (payload) => {
+export const fetchAllLeavesSummaryFailure = (payload) => {
   return {
-    type: types.FETCH_ALL_LEAVES_FAILURE,
+    type: types.FETCH_ALL_LEAVES_SUMMARY_FAILURE,
+    payload
+  }
+};
+
+export const fetchAllUsersLeaveHistorySuccess = (payload) => {
+  return {
+    type: types.FETCH_ALL_USERS_LEAVES_HISTORY_SUCCESS,
+    payload
+  }
+};
+
+export const fetchAllUsersLeaveHistoryFailure = (payload) => {
+  return {
+    type: types.FETCH_ALL_USERS_LEAVES_HISTORY_FAILURE,
     payload
   }
 };

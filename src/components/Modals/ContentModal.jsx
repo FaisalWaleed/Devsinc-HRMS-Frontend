@@ -17,6 +17,7 @@ function Transition(props) {
 const styles = {
   appBar: {
     position: 'relative',
+    marginBottom: '30px'
   },
   flex: {
     flex: 1,
