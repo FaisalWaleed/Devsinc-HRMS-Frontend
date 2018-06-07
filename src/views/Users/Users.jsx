@@ -23,6 +23,7 @@ import Tooltip from 'material-ui/Tooltip';
 import Table, { TableRow, TableHead, TableCell, TableBody } from 'material-ui/Table'
 import { withStyles } from 'material-ui/styles';
 import tableStyle from "variables/styles/tableStyle";
+import { Link } from 'react-router-dom';
 
 class Users extends React.Component{
   constructor(props){
@@ -31,24 +32,24 @@ class Users extends React.Component{
     this.handleEditUserSubmit = this.handleEditUserSubmit.bind(this);
     this.handleUserRowClick = this.handleUserRowClick.bind(this);
   }
-
+  
   componentDidMount() {
     this.props.fetchUsers();
   }
-
+  
   handleUserRowClick(){
-
+  
   }
-
+  
   handleCreateUserSubmit(values){
     this.props.clearFormErrors();
     this.props.createUser(values)
   }
-
+  
   handleEditUserSubmit(values){
     this.props.editUser(values);
   };
-
+  
   render(){
     const { userPermissions, users, classes } = this.props;
     return(
@@ -93,13 +94,13 @@ class Users extends React.Component{
                                       hover
                             >
                               <TableCell className={classes.tableCell}>
-                                <Avatar src={user.image} />
+                                <Link to={"/dashboard"}><Avatar src={user.image} /> </Link>
                               </TableCell>
-                              <TableCell className={classes.tableCell}>{user.name}</TableCell>
-                              <TableCell className={classes.tableCell}>{user.title}</TableCell>
-                              <TableCell className={classes.tableCell}>{user.email}</TableCell>
-                              <TableCell className={classes.tableCell}>{user.contact_number}</TableCell>
-                              <TableCell className={classes.tableCell}>{user.manager}</TableCell>
+                              <TableCell className={classes.tableCell}><Link style={{color: 'black'}} to={`/people/${user.id}`}>{user.name}</Link></TableCell>
+                              <TableCell className={classes.tableCell}><Link style={{color: 'black'}} to={`/people/${user.id}`}>{user.title}</Link></TableCell>
+                              <TableCell className={classes.tableCell}><Link style={{color: 'black'}} to={`/people/${user.id}`}>{user.email}</Link></TableCell>
+                              <TableCell className={classes.tableCell}><Link style={{color: 'black'}} to={`/people/${user.id}`}>{user.contact_number}</Link></TableCell>
+                              <TableCell className={classes.tableCell}><Link style={{color: 'black'}} to={`/people/${user.id}`}>{user.manager}</Link></TableCell>
                               <TableCell className={classes.tableCell}>
                                 <Permissible
                                   requiredPermissions={["users_update_all"]}
@@ -154,8 +155,8 @@ class Users extends React.Component{
                                             }
                                           )
                                         }
-
-
+                                      
+                                      
                                       />
                                     </Tooltip>
                                   </Permissible>

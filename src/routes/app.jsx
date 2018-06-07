@@ -6,12 +6,13 @@ import EditDepartmentsPage from "views/Departments/EditDepartment.jsx";
 import Users from "../views/Users/Users";
 import RolesPage from "views/Roles/Roles.jsx";
 import NewRolesPage from "views/Roles/New.jsx";
-import ProfilePage from "views/Profile/Profile.jsx";
+import ProfilePage from "views/Profile/EditProfile.jsx";
 import EditRolesPage from "views/Roles/Edit.jsx";
 import ShowRolesPage from "views/Roles/Role.jsx";
 import Tickets from "../views/Tickets/Tickets";
 import Leaves from "../views/Leaves/Leaves";
 import Permissions from "../views/Permissions/Permissions";
+import Profile from "../views/Profile/Profile";
 
 import {
   Home,
@@ -75,6 +76,15 @@ const appRoutes = [
     component: EditDepartmentsPage,
     notSidebar: true,
     requiredPermissions: ["departments_update"]
+  },
+  {
+    path: "/people/:id(\\d+)",
+    sidebarName: "People",
+    navbarName: "People",
+    icon: People,
+    component: Profile,
+    notSidebar: true,
+    requiredPermissions: ["users_show"]
   },
   {
     path: "/people",

@@ -21,6 +21,7 @@ const initialState = {
     }
   },
   users: {
+    allUserProfiles: {},
     allUsers: [],
     userCreateFormErrors: null,
     resetPasswordSuccess: false

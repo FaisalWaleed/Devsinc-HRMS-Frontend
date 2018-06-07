@@ -1,48 +1,33 @@
-import React from "react";
+import React from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
-import ProfileForm from './ProfileForm';
-import { 
-  getProfile, 
-  updateProfile 
-} from "api/user";
-
-import { 
-  getProfileSuccess, 
-  getProfileFailure, 
-  updateProfileSuccess, 
-  updateProfileFailure 
-} from "actions/user";
+import { getProfile } from '../../api/user'
+import { getProfileSuccess, getProfileFailure} from "../../actions/user";
 
 class Profile extends React.Component{
-  constructor(props){
-    super(props);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
+  
+  
   componentDidMount() {
-    const { dispatch, userId } = this.props;
-    dispatch(getProfile(userId, getProfileSuccess, getProfileFailure ));
+    this.props.getProfile(this.props.match.params.id, getProfileSuccess, getProfileFailure );
   }
-
-  handleSubmit(values){
-    const { dispatch, userId } = this.props;
-
-    dispatch(updateProfile(values, userId, updateProfileSuccess, updateProfileFailure));
-  }
-
+  
   render(){
-    return (
-          <ProfileForm onSubmit={this.handleSubmit}  />
-    );
+    return(
+      <h1>I am Profile page</h1>
+    )
   }
 }
 
-const mapStateToProps = ({ reduxTokenAuth: { currentUser: { attributes: { id }} }, users: { profileUpdated }  }) => ({
-  userId: id,
-  profileUpdated
-});
+function mapStateToProps(state,ownProps){
+  console.log("id",ownProps.match.params.id)
+  return {
+    profile: state.users.allUserProfiles[ownProps.match.params.id]
+  }
+}
 
-const routed = withRouter(Profile)
+function mapDispatchToProps(dispatch){
+  return {
+    getProfile: (params) => { dispatch(getProfile(params, getProfileSuccess, getProfileFailure )) }
+  }
+}
 
-export default connect(mapStateToProps, null)(routed);
+export default connect(mapStateToProps,mapDispatchToProps)(Profile)
