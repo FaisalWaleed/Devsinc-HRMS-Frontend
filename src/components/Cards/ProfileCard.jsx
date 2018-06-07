@@ -23,14 +23,14 @@ function ProfileCard({ ...props }) {
         avatar={<img src={avatar} alt="..." className={classes.img} />}
       />
       <CardContent className={classes.textAlign}>
-        {subtitle !== undefined ? (
-          <Typography component="h6" className={classes.cardSubtitle}>
-            {subtitle}
-          </Typography>
-        ) : null}
         {title !== undefined ? (
           <Typography component="h4" className={classes.cardTitle}>
             {title}
+          </Typography>
+        ) : null}
+        {subtitle !== undefined ? (
+          <Typography component="h6" className={classes.cardSubtitle}>
+            {subtitle}
           </Typography>
         ) : null}
         {description !== undefined ? (
