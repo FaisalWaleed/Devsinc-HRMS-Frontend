@@ -110,9 +110,9 @@ class ProfileForm extends React.Component {
   }
 }
 
-function mapStateToProps({ users }) {
+function mapStateToProps({ users }, ownProps) {
   return {
-    initialValues: users.profile
+    initialValues: users.allUserProfiles[ownProps.user_id]
   };
 }
 

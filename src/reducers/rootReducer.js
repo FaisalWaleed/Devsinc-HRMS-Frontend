@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 import { reduxTokenAuthReducer } from 'redux-token-auth';
 import { reducer as formReducer } from 'redux-form';
 import { department } from './department';
-import { userReducer } from './userReducer';
+import { user } from './user';
 import { modalReducer } from "./modalReducer";
 import { ticket } from "./ticket";
 import { role } from './role';
@@ -16,7 +16,7 @@ const rootReducer = combineReducers({
   departments: department,
   reduxTokenAuth:reduxTokenAuthReducer,
   form: formReducer,
-  users: userReducer,
+  users: user,
   modals: modalReducer,
   tickets: ticket,
   roles: role,

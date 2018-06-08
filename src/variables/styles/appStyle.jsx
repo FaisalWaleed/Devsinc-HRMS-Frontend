@@ -14,19 +14,19 @@ const appStyle = theme => ({
     [theme.breakpoints.up("md")]: {
       width: `calc(100% - ${drawerWidth}px)`
     },
-    overflow: "auto",
+    overflowY: "auto",
+    overflowX: "hidden",
     position: "relative",
     float: "right",
     ...transition,
     maxHeight: "100%",
-    width: "100%",
     overflowScrolling: 'touch'
   },
   mainPanelExpanded: {
     [theme.breakpoints.up("md")]: {
       width: `calc(100% - ${drawerWidthClosed}px)`
     },
-    overflow: "auto",
+    overflowX: "auto",
     position: "relative",
     float: "right",
     ...transition,
