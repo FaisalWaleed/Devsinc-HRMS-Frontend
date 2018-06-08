@@ -13,16 +13,17 @@ import Tickets from "../views/Tickets/Tickets";
 import Leaves from "../views/Leaves/Leaves";
 import Permissions from "../views/Permissions/Permissions";
 import Profile from "../views/Profile/Profile";
+import ResetPasswordPage from "../views/Landing/ResetPasswordPage";
 
 import {
   Home,
-  Person,
-  Notifications,
-  ErrorOutline,
+  Face,
+  Assignment,
   FlightTakeoff,
-  People
+  People,
+  Business,
+  DeviceHub
 } from "material-ui-icons";
-import ResetPasswordPage from "../views/Landing/ResetPasswordPage";
 
 
 const appRoutes = [
@@ -37,7 +38,7 @@ const appRoutes = [
     path: "/users/profile",
     sidebarName: "My Profile",
     navbarName: "Profile",
-    icon: Person,
+    icon: Face,
     component: ProfilePage,
     exact: true,
     requiredPermissions: ["users_show"]
@@ -46,7 +47,6 @@ const appRoutes = [
     path: "/login",
     sidebarName: "Landing",
     navbarName: "Landing",
-    icon: Notifications,
     component: LandingPage,
     unprotected: true
   },
@@ -54,7 +54,7 @@ const appRoutes = [
     path: "/departments",
     sidebarName: "Departments",
     navbarName: "Departments",
-    icon: Notifications,
+    icon: Business,
     exact: true,
     component: DepartmentsPage,
     requiredPermissions: ["departments_index"]
@@ -63,7 +63,6 @@ const appRoutes = [
     path: "/departments/new",
     sidebarName: "New Department",
     navbarName: "New Department",
-    icon: Notifications,
     component: NewDepartmentsPage,
     notSidebar: true,
     requiredPermissions: ["departments_create"]
@@ -72,7 +71,6 @@ const appRoutes = [
     path: "/departments/edit/:id(\\d+)",
     sidebarName: "Edit Department",
     navbarName: "Edit Department",
-    icon: Notifications,
     component: EditDepartmentsPage,
     notSidebar: true,
     requiredPermissions: ["departments_update"]
@@ -81,7 +79,6 @@ const appRoutes = [
     path: "/people/:id(\\d+)",
     sidebarName: "People",
     navbarName: "People",
-    icon: People,
     component: Profile,
     notSidebar: true,
     requiredPermissions: ["users_show"]
@@ -98,7 +95,7 @@ const appRoutes = [
     path: "/roles",
     sidebarName: "Roles",
     navbarName: "Roles",
-    icon: Notifications,
+    icon: DeviceHub,
     component: RolesPage,
     exact: true,
     requiredPermissions: ["roles_index"]
@@ -107,7 +104,6 @@ const appRoutes = [
     path: "/roles/new",
     sidebarName: "New Role",
     navbarName: "New Role",
-    icon: Notifications,
     component: NewRolesPage,
     notSidebar: true,
     requiredPermissions: ["roles_create"]
@@ -116,7 +112,6 @@ const appRoutes = [
     path: "/roles/edit/:id(\\d+)",
     sidebarName: "Edit Role",
     navbarName: "Edit Role",
-    icon: Notifications,
     component: EditRolesPage,
     notSidebar: true,
     requiredPermissions: ["roles_update"]
@@ -125,7 +120,6 @@ const appRoutes = [
     path: "/roles/:id(\\d+)",
     sidebarName: "Role",
     navbarName: "Role",
-    icon: Notifications,
     component: ShowRolesPage,
     notSidebar: true,
     requiredPermissions: ["roles_show"]
@@ -134,7 +128,7 @@ const appRoutes = [
     path: "/tickets",
     sidebarName: "Tickets",
     navbarName: "Tickets",
-    icon: ErrorOutline,
+    icon: Assignment,
     component: Tickets,
     requiredPermissions: ["tickets_index", "tickets_assigned", "tickets_create", "tickets_update", "tickets_ticket_option", "tickets_statuses"],
     atleastOnePerm: false
@@ -152,7 +146,6 @@ const appRoutes = [
     path: "/roles/permissions",
     sidebarName: "Permissions",
     navbarName: "Permissions",
-    icon: Notifications,
     component: Permissions,
     notSidebar: true,
     exact: true,
