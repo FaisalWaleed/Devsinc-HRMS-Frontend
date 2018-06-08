@@ -10,11 +10,16 @@ import moment from 'moment';
 import { withStyles } from 'material-ui/styles';
 import Chip from 'material-ui/Chip';
 import {filter} from "lodash";
+import { MenuItem } from 'material-ui/Menu';
+import { ListItemText } from 'material-ui/List';
 
 const styles = theme => ({
   tooltip: {
     fontSize: '15px',
     width: '150px'
+  },
+  formControl: {
+    margin: "0 0 0 0",
   }
 });
 
@@ -26,8 +31,9 @@ class TicketAdminTab extends React.Component{
       orderBy: null,
       order: null,
       displayedTickets: this.props.allTickets,
-      allTickets: this.props.allTickets,
-      search: null
+      filters: {
+        status: ""
+      }
     }
   }
 
@@ -38,7 +44,6 @@ class TicketAdminTab extends React.Component{
   componentWillReceiveProps(nextProps){
     this.setState({
       displayedTickets: nextProps.allTickets,
-      allTickets: nextProps.allTickets
     })
   }
 
@@ -48,7 +53,7 @@ class TicketAdminTab extends React.Component{
     if (this.state.orderBy === property && this.state.order === 'desc') {
       order = 'asc';
     }
-    let data = this.state.search ? this.state.displayedTickets : this.state.allTickets;
+    let data = this.state.displayedTickets;
     const displayedTickets =
       order === 'desc'
         ? data.sort((a, b) => (b[orderBy] < a[orderBy] ? -1 : 1))
@@ -56,27 +61,41 @@ class TicketAdminTab extends React.Component{
     this.setState({ displayedTickets, order, orderBy });
   };
 
+  filterDisplayedTickets(value){
+    if(value.length > 2) {
+      const {filters} = this.state;
+      let filteredTickets = this.props.allTickets;
+      for (let property in filters){
+        if(filters[property].length > 2) {
+          filteredTickets = filter(filteredTickets, ticket => (
+            isNaN(ticket[property])
+              ? ticket[property].toLowerCase().includes(filters[property].toLowerCase())
+              : ticket[property].includes(filters[property].toLowerCase())
+          ))
+        }
+      }
+      this.setState({displayedTickets: filteredTickets});
+    }
+    else{
+      this.setState({displayedTickets: this.props.allTickets});
+    }
+  }
+
   handleTableColumnSearch(property,value){
-    let newlyDisplayed = filter(
-      this.props.allTickets, ticket => (
-        isNaN(ticket[property])
-          ? ticket[property].toLowerCase().includes(value.toLowerCase())
-          : value.toLowerCase().includes(ticket[property])
-      )
-    );
-    this.setState({ displayedTickets: newlyDisplayed});
+    this.setState(
+      prevState => (
+        {...prevState, filters: {...prevState.filters, [property]: value}}), () => this.filterDisplayedTickets(value));
   }
 
   render(){
     const tableHead = [
-      { id: 'created_by', numeric: false, disablePadding: false, label: 'By', searchColumn: true },
-      { id: 'created_at', numeric: false, disablePadding: false, label: 'Date Started', searchColumn: true },
-      { id: 'title', numeric: false, disablePadding: false, label: 'Title', searchColumn: true },
-      { id: 'id', numeric: false, disablePadding: false, label: 'Department', searchColumn: true },
-      { id: 'overall_status', numeric: false, disablePadding: false, label: 'Status', searchColumn: false }
+      { id: 'created_by', numeric: false, disablePadding: false, label: 'By', type: "search" },
+      { id: 'created_at', numeric: false, disablePadding: false, label: 'Date Started', type: "search" },
+      { id: 'title', numeric: false, disablePadding: false, label: 'Title', type: "search" },
+      { id: 'status', numeric: false, disablePadding: false, label: 'Status', type: "dropdown", options: ["Open","Closed","Resolved"]}
     ];
 
-    const { displayedTickets, order, orderBy } = this.state;
+    const { displayedTickets, order, orderBy, filters } = this.state;
     const { classes } = this.props;
 
     return(
@@ -93,37 +112,59 @@ class TicketAdminTab extends React.Component{
                       padding={column.disablePadding ? 'none' : 'default'}
                       sortDirection={orderBy === column.id ? order : false}
                     >
-                      <Tooltip
-                        title={"Sort"}
-                        placement={column.numeric ? 'bottom-end' : 'bottom-start' }
-                        enterDelay={300}
+                      <TableSortLabel
+                        active={orderBy === column.id}
+                        direction={order}
+                        onClick={this.handleSort.bind(this,column.id)}
                       >
-                        <div>
-                          <TableSortLabel
-                            active={orderBy === column.id}
-                            direction={order}
-                            onClick={this.handleSort.bind(this,column.id)}
-                          >
-                            {column.searchColumn ?
-                              <CustomInput
-                                labelText={column.label}
-                                id="search"
-                                formControlProps={{
-                                  style: {margin: "0px 0 0 0"},
-                                  fullWidth: false
-                                }}
-                                inputProps={{
-                                  onChange: (event) => this.handleTableColumnSearch(column.id, event.target.value),
-                                  type: "text",
-                                  required: "text",
-                                  name: "search",
-                                  autoComplete: "search",
-                                }}
-                              /> : column.label
-                            }
-                          </TableSortLabel>
-                        </div>
-                      </Tooltip>
+                        {
+                          column.type === "search" ?
+                            <CustomInput
+                              labelText={column.label}
+                              id="search"
+                              formControlProps={{
+                                style: {margin: "27px 0 0 0"},
+                                fullWidth: false
+                              }}
+                              inputProps={{
+                                onChange: (event) => this.handleTableColumnSearch(column.id, event.target.value),
+                                type: "text",
+                                required: "text",
+                                name: "search",
+                                autoComplete: "search",
+                              }}
+                            /> : null
+                        }
+                        {
+                          column.type === "dropdown" ?
+                            <CustomInput
+                              isSelect={true}
+                              formControlProps={{
+                                fullWidth: true
+                              }}
+                              labelText={"Status"}
+                              inputProps={{
+                                value: filters.status ? filters.status : "*",
+                                onChange: (event) => (this.handleTableColumnSearch(column.id,event.target.value)),
+                                required: "required",
+                                name: "search",
+                                autoComplete: "search",
+                              }}
+                            >
+                              <MenuItem value={"*"} key="all">
+                                <ListItemText primary={"All"}/>
+                              </MenuItem>
+                              {
+                                column.options.map((option,index) => (
+                                  <MenuItem value={option} key={index}>
+                                    <ListItemText primary={option}/>
+                                  </MenuItem>
+                                ))
+                              }
+                            </CustomInput>
+                            : null
+                        }
+                      </TableSortLabel>
                     </TableCell>
                   ), this)
                 }
@@ -139,11 +180,10 @@ class TicketAdminTab extends React.Component{
                     <TableCell>{ticket.created_by}</TableCell>
                     <TableCell>{moment(ticket.created_at).format("Do MMM YYYY")}</TableCell>
                     <TableCell>{ticket.title}</TableCell>
-                    <TableCell>{ticket.id}</TableCell>
                     <TableCell>
-                      {ticket.overall_status.open.length !== 0 && <Tooltip classes={{tooltip: classes.tooltip}} title={<div> {ticket.overall_status.open.map((user,index)=> {return <div key={index}>{user}<br/></div>})}</div>} placement="bottom" ><Chip style={{backgroundColor: '#94d863'}} label="Open" className={classes.chip} /></Tooltip>}
-                      {ticket.overall_status.closed.length !== 0 && <Tooltip classes={{tooltip: classes.tooltip}} title={<div> {ticket.overall_status.closed.map((user,index)=> {return <div key={index}>{user}<br/></div>})}</div>} placement="bottom"><Chip style={{backgroundColor: '#ed8768'}} label="Closed" className={classes.chip} /></Tooltip>}
-                      {ticket.overall_status.completed.length !== 0 && <Tooltip classes={{tooltip: classes.tooltip}} title={<div> {ticket.overall_status.completed.map((user,index)=> {return <div key={index}>{user}<br/></div>})}</div>} placement="bottom"><Chip style={{backgroundColor: '#e5de5b'}} label="Completed" className={classes.chip} /></Tooltip>}
+                      {ticket.status === "Open" && <Tooltip classes={{tooltip: classes.tooltip}} title={<div> {ticket.overall_status.open.map((user,index)=> {return <div key={index}>{user}<br/></div>})}</div>} placement="bottom" ><Chip style={{backgroundColor: '#94d863'}} label="Open" className={classes.chip} /></Tooltip>}
+                      {ticket.status === "Closed" && <Tooltip classes={{tooltip: classes.tooltip}} title={<div> {ticket.overall_status.closed.map((user,index)=> {return <div key={index}>{user}<br/></div>})}</div>} placement="bottom"><Chip style={{backgroundColor: '#ed8768'}} label="Closed" className={classes.chip} /></Tooltip>}
+                      {ticket.status === "Completed" && <Tooltip classes={{tooltip: classes.tooltip}} title={<div> {ticket.overall_status.completed.map((user,index)=> {return <div key={index}>{user}<br/></div>})}</div>} placement="bottom"><Chip style={{backgroundColor: '#e5de5b'}} label="Completed" className={classes.chip} /></Tooltip>}
                     </TableCell>
                   </TableRow>
                 ))
