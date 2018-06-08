@@ -4,7 +4,7 @@ import { getProfile } from '../../api/user'
 import { getProfileSuccess, getProfileFailure} from "../../actions/user";
 import Paper from 'material-ui/Paper';
 import { Grid } from 'material-ui';
-import { ItemGrid, ProfileCard } from 'components';
+import { ItemGrid, ProfileCard, Muted } from 'components';
 import { withStyles } from 'material-ui/styles';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
@@ -22,17 +22,17 @@ const styles = (theme) => ({
   tooltip:{
     fontSize: '18px',
   }
-  
+
 });
 
 class Profile extends React.Component{
-  
+
   componentDidMount() {
     this.props.getProfile(this.props.match.params.id, getProfileSuccess, getProfileFailure );
   }
-  
+
   render(){
-    const { user, classes } = this.props;
+    const { user, classes, currentUserId } = this.props;
     return(
       user ?
         <Grid container>
@@ -44,15 +44,15 @@ class Profile extends React.Component{
                     title={user.name}
                     subtitle={`${user.title} at Devsinc`}
                     avatar={user.image}
-                    description={"Lorem ipsum etc blah blahLorem ipsum etc blah blahLorem ipsum etc blah blahLorem ipsum etc blah blahLorem ipsum etc blah blahLorem ipsum etc blah blah"}
-                    footer={<Link to="/users/profile">Edit Profile</Link>}
+                    description={"Some description about this user will be here. User will introduce themselves in 2-3 lines max. Some extra text for demonstration. Some extra text for demonstration. Some extra text for demonstration."}
+                    footer={currentUserId === user.id ? <Link to="/users/profile">Edit Profile</Link> : null}
                   />
                 </ItemGrid>
               </Grid>
               <br />
               <Grid container>
-                <ItemGrid xs={0} sm={0} md={1} />
-                <ItemGrid xs={12} sm={12} md={5}>
+                <ItemGrid xs={1} sm={1} md={1} />
+                <ItemGrid xs={10} sm={10} md={5}>
                   <label>Email Address: </label>
                   <span>{user.email}</span>
                   <br />
@@ -66,47 +66,47 @@ class Profile extends React.Component{
                   <span>{moment(user.dob).format("Do MMMM")}</span>
                 </ItemGrid>
                 <ItemGrid xs={12} sm={12} md={5}>
-                  <Grid justify="center">
-                    <label>Manager: &nbsp;&nbsp;</label>
-                    <Tooltip classes={{tooltip: classes.tooltip}} title={"Faisal Waleed"} placement="right">
-                      <Avatar className={classes.avatar} src={user.image}/>
-                    </Tooltip>
-                  </Grid>
+                  <label>Manager: &nbsp;&nbsp;</label>
+                  <Tooltip classes={{tooltip: classes.tooltip}} title={<div>{user.manager.name}</div>} placement="right">
+                    <Link to={`/people/${user.manager.id}`}>
+                      <Avatar className={classes.avatar} src={user.manager.image}/>
+                    </Link>
+                  </Tooltip>
                 </ItemGrid>
-                <ItemGrid xs={0} sm={0} md={1} />
+                <ItemGrid xs={1} sm={1} md={1} />
               </Grid>
               <br />
               <Grid container>
-                <ItemGrid xs={0} sm={0} md={1} />
-                <ItemGrid xs={12} sm={12} md={10}>
+                <ItemGrid xs={1} sm={1} md={1} />
+                <ItemGrid xs={10} sm={10} md={10}>
                   <h3>Team Members</h3>
-                  <Tooltip classes={{tooltip: classes.tooltip}} title={"Faisal Waleed"} placement="bottom">
-                    <Avatar className={classes.avatar} src={user.image}/>
-                  </Tooltip>
-                  <Tooltip classes={{tooltip: classes.tooltip}} title={"Faisal Waleed"} placement="bottom">
-                    <Avatar className={classes.avatar} src={user.image}/>
-                  </Tooltip>
-                  <Tooltip classes={{tooltip: classes.tooltip}} title={"Faisal Waleed"} placement="bottom">
-                    <Avatar className={classes.avatar} src={user.image}/>
-                  </Tooltip>
-                  <Tooltip classes={{tooltip: classes.tooltip}} title={"Faisal Waleed"} placement="bottom">
-                    <Avatar className={classes.avatar} src={user.image}/>
-                  </Tooltip>
+                  {
+                    user.team_members.length ?
+                      user.team_members.map((member, index) => (
+                        <Tooltip classes={{tooltip: classes.tooltip}} title={member.name} >
+                          <Link to={`/people/${member.id}`}>
+                            <Avatar className={classes.avatar} src={member.image}/>
+                          </Link>
+                        </Tooltip>
+                      ))
+                      : <Muted>No Team Members</Muted>
+                  }
                 </ItemGrid>
-                <ItemGrid xs={0} sm={0} md={1} />
+                <ItemGrid xs={1} sm={1} md={1} />
               </Grid>
               <br /><br /><br />
             </Paper>
           </ItemGrid>
         </Grid>
-        : null
+        : <h1>404: Not Found</h1>
     )
   }
 }
 
 function mapStateToProps(state,ownProps){
   return {
-    user: state.users.allUserProfiles[ownProps.match.params.id]
+    user: state.users.allUserProfiles[ownProps.match.params.id],
+    currentUserId: state.reduxTokenAuth.currentUser.attributes.id
   }
 }
 

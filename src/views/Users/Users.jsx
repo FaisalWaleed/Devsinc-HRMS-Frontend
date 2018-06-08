@@ -1,6 +1,6 @@
 import React from 'react';
 import { Grid } from "material-ui";
-import { RegularCard, Button, ItemGrid, Permissible, Muted } from "components";
+import { CustomInput, RegularCard, Button, ItemGrid, Permissible, Muted } from "components";
 import { connect } from 'react-redux';
 import {fetchUsers, deleteUser, editUser, createUser, activateUser} from "../../api/user";
 import {
@@ -31,27 +31,53 @@ class Users extends React.Component{
     this.handleCreateUserSubmit = this.handleCreateUserSubmit.bind(this);
     this.handleEditUserSubmit = this.handleEditUserSubmit.bind(this);
     this.handleUserRowClick = this.handleUserRowClick.bind(this);
+    this.handleUsersSearchInputChange = this.handleUsersSearchInputChange.bind(this);
+    this.state = {
+      currentlyDisplayedUsers: this.props.users
+    }
   }
-  
+
+  componentWillReceiveProps(nextProps){
+    this.setState({
+      currentlyDisplayedUsers: nextProps.users
+    })
+  }
+
   componentDidMount() {
     this.props.fetchUsers();
   }
-  
+
   handleUserRowClick(){
-  
+
   }
-  
+
   handleCreateUserSubmit(values){
     this.props.clearFormErrors();
     this.props.createUser(values)
   }
-  
+
   handleEditUserSubmit(values){
     this.props.editUser(values);
   };
-  
+
+  handleUsersSearchInputChange(searchTerm){
+    if(searchTerm.length > 2) {
+      this.setState({
+        currentlyDisplayedUsers: this.props.users.filter((user) => (
+          user.name.toLowerCase().includes(searchTerm.toLowerCase())
+        ))
+      })
+    }
+    else{
+      this.setState({
+        currentlyDisplayedUsers: this.props.users
+      })
+    }
+  }
+
   render(){
     const { userPermissions, users, classes } = this.props;
+    const { currentlyDisplayedUsers } = this.state;
     return(
       <Grid container>
         <ItemGrid xs={12} sm={12} md={12}>
@@ -66,6 +92,22 @@ class Users extends React.Component{
                   >
                     <Button onClick={this.props.openModal.bind(this,types.FORM_MODAL,{title: 'Create New User', form: <UserForm onSubmit={this.handleCreateUserSubmit} isNew={true} />, fullscreen: true  })} color="primary">Create a New User</Button>
                   </Permissible>
+                  <br />
+                  <CustomInput
+                    labelText="Search People"
+                    id="search"
+                    formControlProps={{
+                      style: {margin: "0px 0 0 0"},
+                      fullWidth: false
+                    }}
+                    inputProps={{
+                      onChange: (event) => this.handleUsersSearchInputChange(event.target.value),
+                      type: "text",
+                      required: "text",
+                      name: "search",
+                      autoComplete: "search",
+                    }}
+                  />
                 </ItemGrid>
                 <ItemGrid xs={12} sm={12} md={12}>
                   <div className={classes.tableResponsive}>
@@ -87,8 +129,8 @@ class Users extends React.Component{
                         </TableRow>
                       </TableHead>
                       <TableBody>
-                        { users.length ?
-                          users.map((user,index) => (
+                        { currentlyDisplayedUsers.length ?
+                          currentlyDisplayedUsers.map((user,index) => (
                             <TableRow key={index}
                                       onClick={this.handleUserRowClick.bind(this,user)}
                                       hover
@@ -100,7 +142,7 @@ class Users extends React.Component{
                               <TableCell className={classes.tableCell}><Link style={{color: 'black'}} to={`/people/${user.id}`}>{user.title}</Link></TableCell>
                               <TableCell className={classes.tableCell}><Link style={{color: 'black'}} to={`/people/${user.id}`}>{user.email}</Link></TableCell>
                               <TableCell className={classes.tableCell}><Link style={{color: 'black'}} to={`/people/${user.id}`}>{user.contact_number}</Link></TableCell>
-                              <TableCell className={classes.tableCell}><Link style={{color: 'black'}} to={`/people/${user.id}`}>{user.manager}</Link></TableCell>
+                              <TableCell className={classes.tableCell}><Tooltip title={user.manager.name}><Link to={`/people/${user.manager.id}`}><Avatar src={user.manager.image}/></Link></Tooltip></TableCell>
                               <TableCell className={classes.tableCell}>
                                 <Permissible
                                   requiredPermissions={["users_update_all"]}
@@ -155,8 +197,8 @@ class Users extends React.Component{
                                             }
                                           )
                                         }
-                                      
-                                      
+
+
                                       />
                                     </Tooltip>
                                   </Permissible>
