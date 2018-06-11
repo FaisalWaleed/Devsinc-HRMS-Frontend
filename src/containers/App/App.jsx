@@ -122,7 +122,7 @@ class App extends React.Component {
                 }
                 
                 <div className={sidebarOpen ? classes.mainPanel : classes.mainPanelExpanded } ref="mainPanel">
-                  {this.checkLoginPath() ? null :
+                  {this.checkUnprotectedPages() ? null :
                     <Header
                       routes={appRoutes}
                       handleDrawerToggle={this.handleDrawerToggle}
