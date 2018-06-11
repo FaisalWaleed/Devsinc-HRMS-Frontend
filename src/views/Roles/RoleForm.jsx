@@ -40,7 +40,7 @@ class RoleForm extends React.Component {
                 <div>
                   <Grid container>
                     <ItemGrid xs={4} sm={4} md={4}>
-                      <Field name="title" type="text" component={CustomInputWrapper} custominputprops={{labelText: "Title"}} />
+                      <Field name="title" type="text" component={CustomInputWrapper} custominputprops={{labelText: "Role Name"}} />
                     </ItemGrid>
                     <ItemGrid xs={4} sm={4} md={4}>
                       <Field name="department_id"
