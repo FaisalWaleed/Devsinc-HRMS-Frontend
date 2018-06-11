@@ -42,41 +42,6 @@ class RoleForm extends React.Component {
                     <ItemGrid xs={4} sm={4} md={4}>
                       <Field name="title" type="text" component={CustomInputWrapper} custominputprops={{labelText: "Role Name"}} />
                     </ItemGrid>
-                    <ItemGrid xs={4} sm={4} md={4}>
-                      <Field name="department_id"
-                             component={({input}) => (
-                               <CustomInput
-                                 isSelect={true}
-                                 formControlProps={{
-                                   fullWidth: true
-                                 }}
-                                 labelText={"Department"}
-                                 inputProps={{
-                                   value: input.value,
-                                   onChange: (event) => {if(event.target.value) return input.onChange(event, event.target.value);},
-                                   required: "required",
-                                   name: "department_id",
-                                   autoComplete: "department_id",
-                                 }}
-                               >
-                                 {
-                                   departments ?
-                                     departments.map((department, index) => (
-                                         <MenuItem
-                                           key={index}
-                                           value={department.id}
-                                         >
-                                           <ListItemText primary={department.name} />
-                                         </MenuItem>
-                                       )
-                                     )
-                                     : null
-                                 }
-                               </CustomInput>
-                             )
-                             }
-                      />
-                    </ItemGrid>
                   </Grid>
                   <Grid container>
                     <ItemGrid xs={6} sm={6} md={6}>
