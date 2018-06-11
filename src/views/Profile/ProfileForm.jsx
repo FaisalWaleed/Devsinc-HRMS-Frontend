@@ -69,6 +69,9 @@ class ProfileForm extends React.Component {
                     </ItemGrid>
                   </Grid>
                   <Grid container>
+                    <ItemGrid xs={12} sm={12} md={12}>
+                      <Field name="about_me" type="text" component={CustomInputWrapper} custominputprops={{labelText: "About Me:"}} multiline={true} rows={2} />
+                    </ItemGrid>
                   </Grid>
                   <Grid container>
                     <ItemGrid xs={12} sm={12} md={12}>
