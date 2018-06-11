@@ -9,21 +9,19 @@ import {
   CustomInput,
   ItemGrid
 } from "components";
-import { Field } from 'redux-form';
+import { Field, change } from 'redux-form';
 import ticketOptionStyle from './styles/ticketOptionStyle';
 import { connect } from 'react-redux';
 import {withStyles} from "material-ui/styles/index";
 import {fetchTicketOption} from "../../api/ticket";
 import {fetchTicketOptionFailure, fetchTicketOptionSuccess} from "../../actions/ticket";
 
-
-
 class TicketOption extends React.Component{
-  
+
   render(){
-    
-    const {classes, allDepartments, ticketOptions, ticketOptionsChosen, fields, index, option} = this.props;
-    
+
+    const {classes, allDepartments, ticketOptions, ticketOptionsChosen, fields, index, option, resetField} = this.props;
+
     return (
       <Grid key={index} container>
         <ItemGrid xs={4} sm={4} md={4}>
@@ -37,7 +35,13 @@ class TicketOption extends React.Component{
                      labelText={"Department"}
                      inputProps={{
                        value: input.value,
-                       onChange: (event) => {if(event.target.value){this.props.fetchTicketOption({id: event.target.value});}return input.onChange(event, event.target.value);},
+                       onChange: (event) => {
+                         if(event.target.value){
+                           resetField('ticket_form',`${option}.role_id`,null)
+                           this.props.fetchTicketOption({id: event.target.value});
+                         }
+                         return input.onChange(event, event.target.value);
+                       },
                        required: "required",
                        name: input.name,
                        autoComplete: "department_id",
@@ -65,7 +69,7 @@ class TicketOption extends React.Component{
           >
           </Field>
         </ItemGrid>
-        {ticketOptionsChosen[index].department_id !== 0 && ticketOptionsChosen[index].department_id != null ?
+        {ticketOptionsChosen[index].department_id !== 0 && ticketOptionsChosen[index].department_id ?
           <ItemGrid xs={3} sm={3} md={3}>
             <Field name={`${option}.role_id`} component={({input}) => (
               <CustomInput
@@ -76,7 +80,7 @@ class TicketOption extends React.Component{
                 labelText={"Role"}
                 inputProps={{
                   value: input.value,
-                  onChange: (event) => input.onChange(event, event.target.value),
+                  onChange: (event) => { resetField('ticket_form',`${option}.user_id`,[]); return input.onChange(event, event.target.value)},
                   required: "required",
                   name: input.name,
                   autoComplete: "role_id",
@@ -184,7 +188,8 @@ class TicketOption extends React.Component{
 
 function mapDispatchToProps(dispatch){
   return {
-    fetchTicketOption: (params) => {dispatch(fetchTicketOption(params,fetchTicketOptionSuccess,fetchTicketOptionFailure))}
+    fetchTicketOption: (params) => {dispatch(fetchTicketOption(params,fetchTicketOptionSuccess,fetchTicketOptionFailure))},
+    resetField: (formName, fieldName, value) => { dispatch(change(formName,fieldName,value)) }
   }
 }
 
