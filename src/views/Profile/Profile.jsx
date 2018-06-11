@@ -22,15 +22,16 @@ const styles = (theme) => ({
   tooltip:{
     fontSize: '18px',
   }
-
+  
 });
 
 class Profile extends React.Component{
-
+  
   componentDidMount() {
-    this.props.getProfile(this.props.match.params.id, getProfileSuccess, getProfileFailure );
+    let userId = this.props.match.params.id ? this.props.match.params.id : this.props.currentUserId;
+    this.props.getProfile(userId, getProfileSuccess, getProfileFailure);
   }
-
+  
   render(){
     const { user, classes, currentUserId } = this.props;
     return(
@@ -44,8 +45,8 @@ class Profile extends React.Component{
                     title={user.name}
                     subtitle={`${user.title} at Devsinc`}
                     avatar={user.image}
-                    description={"Some description about this user will be here. User will introduce themselves in 2-3 lines max. Some extra text for demonstration. Some extra text for demonstration. Some extra text for demonstration."}
-                    footer={currentUserId === user.id ? <Link to="/users/profile">Edit Profile</Link> : null}
+                    description={user.about_me}
+                    footer={currentUserId === user.id ? <Link to="/profile/edit">Edit Profile</Link> : null}
                   />
                 </ItemGrid>
               </Grid>
@@ -104,8 +105,9 @@ class Profile extends React.Component{
 }
 
 function mapStateToProps(state,ownProps){
+  let userId = ownProps.match.params.id ? ownProps.match.params.id : state.reduxTokenAuth.currentUser.attributes.id;
   return {
-    user: state.users.allUserProfiles[ownProps.match.params.id],
+    user: state.users.allUserProfiles[userId],
     currentUserId: state.reduxTokenAuth.currentUser.attributes.id
   }
 }

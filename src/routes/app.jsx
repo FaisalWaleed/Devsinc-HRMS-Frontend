@@ -6,7 +6,7 @@ import EditDepartmentsPage from "views/Departments/EditDepartment.jsx";
 import Users from "../views/Users/Users";
 import RolesPage from "views/Roles/Roles.jsx";
 import NewRolesPage from "views/Roles/New.jsx";
-import ProfilePage from "views/Profile/EditProfile.jsx";
+import EditProfile from "views/Profile/EditProfile.jsx";
 import EditRolesPage from "views/Roles/Edit.jsx";
 import ShowRolesPage from "views/Roles/Role.jsx";
 import Tickets from "../views/Tickets/Tickets";
@@ -35,12 +35,21 @@ const appRoutes = [
     component: DashboardPage
   },
   {
-    path: "/users/profile",
-    sidebarName: "My Profile",
+    path: "/profile",
+    sidebarName: "Profile",
     navbarName: "Profile",
     icon: Face,
-    component: ProfilePage,
+    component: Profile,
     exact: true,
+    requiredPermissions: ["users_show"]
+  },
+  {
+    path: "/profile/edit",
+    sidebarName: "Update Profile",
+    navbarName: "Update Profile",
+    notSidebar: true,
+    component: EditProfile,
+    exact: false,
     requiredPermissions: ["users_show"]
   },
   {
