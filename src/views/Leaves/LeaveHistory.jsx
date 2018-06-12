@@ -28,7 +28,7 @@ class LeaveHistory extends React.Component{
   
   render(){
     
-    const { classes, userLeaves = [], sickLeaves, annualLeaves, compensationLeaves } = this.props;
+    const { classes, userLeaves = [], sickLeaves, annualLeaves, compensationLeaves, workFromHome } = this.props;
     
     const userPendingRejectedLeaves = userLeaves.filter(leave => (
       leave.status !== "approved"
@@ -46,6 +46,7 @@ class LeaveHistory extends React.Component{
             sickLeaves={sickLeaves}
             annualLeaves={annualLeaves}
             compensationLeaves={compensationLeaves}
+            workFromHome={workFromHome}
           />
           <Grid container>
             <ItemGrid xs={12} sm={12} md={6}>

@@ -91,6 +91,10 @@ class MyLeavesTab extends React.Component{
       leave.leave_type === 'compensation'
     ));
     
+    const workFromHome = approvedLeavesThisYear.filter(leave => (
+      leave.leave_type === 'wfh'
+    ));
+    
     return(
       <Grid container>
         <Grid container>
@@ -109,6 +113,7 @@ class MyLeavesTab extends React.Component{
           annualLeaves={getTotalLeaves(annualLeavesThisYear)}
           sickLeaves={getTotalLeaves(sickLeavesThisYear)}
           compensationLeaves={getTotalLeaves(compensationLeavesThisYear)}
+          workFromHome={getTotalLeaves(workFromHome)}
         />
         <Grid container>
           <ItemGrid xs={12} sm={12} md={6}>

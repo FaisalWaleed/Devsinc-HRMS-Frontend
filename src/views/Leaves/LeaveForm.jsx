@@ -79,6 +79,9 @@ class LeaveForm extends React.Component{
                            <MenuItem value={"compensation"} key={2}>
                              <ListItemText primary={"Compensation"}/>
                            </MenuItem>
+                           <MenuItem value={"wfh"} key={1}>
+                             <ListItemText primary={"Work From Home"}/>
+                           </MenuItem>
                          </CustomInput>
                        )}
                 >

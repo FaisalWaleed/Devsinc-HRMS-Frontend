@@ -77,7 +77,7 @@ class LeaveAdminTab extends React.Component{
             sickLeaves={leave.sick_leaves}
             annualLeaves={leave.annual_leaves}
             compensationLeaves={leave.compensation_leaves}
-          
+            workFromHome={leave.work_from_home}
           />
       }
     )
@@ -89,7 +89,8 @@ class LeaveAdminTab extends React.Component{
       { id: 'employee', numeric: false, disablePadding: false, label: 'Employee Name' },
       { id: 'sick_leaves', numeric: false, disablePadding: false, label: 'Sick Leaves'},
       { id: 'annual_leaves', numeric: false, disablePadding: false, label: 'Annual Leaves' },
-      { id: 'compensation_leaves', numeric: false, disablePadding: false, label: 'Compensation Leaves' }
+      { id: 'compensation_leaves', numeric: false, disablePadding: false, label: 'Compensation Leaves' },
+      { id: 'work_from_home', numeric: false, disablePadding: false, label: 'Work From Home' }
     ];
     
     return(
@@ -151,6 +152,7 @@ class LeaveAdminTab extends React.Component{
                     <TableCell>{leave.sick_leaves}</TableCell>
                     <TableCell>{leave.annual_leaves}</TableCell>
                     <TableCell>{leave.compensation_leaves}</TableCell>
+                    <TableCell>{leave.work_from_home}</TableCell>
                   </TableRow>
                 ))
                 :
