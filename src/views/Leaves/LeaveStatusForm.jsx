@@ -45,7 +45,8 @@ class LeaveStatusForm extends React.Component{
             <LeaveStatsCards
               annualLeaves={userLeaves ? userLeaves.annual : null}
               sickLeaves={userLeaves ? userLeaves.sick : null}
-              compensationLeaves={userLeaves ? userLeaves.compensation : null}
+                compensationLeaves={userLeaves ? userLeaves.compensation : null}
+              workFromHome={userLeaves ? userLeaves.workFromHome : null}
             />
             <Grid container>
               <ItemGrid xs={12} sm={12} md={12}>
