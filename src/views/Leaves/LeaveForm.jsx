@@ -17,9 +17,6 @@ import * as moment from 'moment';
 import { validateLeaveForm as validate, required } from './validateLeaveForm';
 
 class LeaveForm extends React.Component{
-  componentWillReceiveProps(nextProps){
-    console.log(nextProps.values);
-  }
   
   render(){
     const {error, handleSubmit, submitting, closeModal, formValues } = this.props;

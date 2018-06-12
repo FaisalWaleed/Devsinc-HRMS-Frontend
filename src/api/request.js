@@ -1,5 +1,3 @@
-import {APP_ERROR_OCCURED} from "../actions/error";
-
 const request = (path, opts = {}, successAction, failureAction, auth = false) => {
   return (dispatch) => {
     if (auth) {

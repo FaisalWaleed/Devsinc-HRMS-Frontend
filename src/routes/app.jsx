@@ -14,6 +14,7 @@ import Leaves from "../views/Leaves/Leaves";
 import Permissions from "../views/Permissions/Permissions";
 import Profile from "../views/Profile/Profile";
 import ResetPasswordPage from "../views/Landing/ResetPasswordPage";
+import TicketAdminStats from "../views/Tickets/TicketAdminStats";
 
 import {
   Home,
@@ -139,6 +140,17 @@ const appRoutes = [
     navbarName: "Tickets",
     icon: Assignment,
     component: Tickets,
+    requiredPermissions: ["tickets_index", "tickets_assigned", "tickets_create", "tickets_update", "tickets_ticket_option", "tickets_statuses"],
+    atleastOnePerm: false,
+    exact: true
+  },
+  {
+    path: "/tickets/admin/statistics",
+    sidebarName: "Tickets Statistics",
+    navbarName: "Tickets Statistics",
+    icon: Assignment,
+    component: TicketAdminStats,
+    notSidebar: true,
     requiredPermissions: ["tickets_index", "tickets_assigned", "tickets_create", "tickets_update", "tickets_ticket_option", "tickets_statuses"],
     atleastOnePerm: false
   },
