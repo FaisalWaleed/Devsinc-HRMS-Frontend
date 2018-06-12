@@ -37,7 +37,7 @@ class TicketOption extends React.Component{
                        value: input.value,
                        onChange: (event) => {
                          if(event.target.value){
-                           resetField('ticket_form',`${option}.role_id`,null)
+                           resetField('ticket_form',`${option}.title_id`,null)
                            this.props.fetchTicketOption({id: event.target.value});
                          }
                          return input.onChange(event, event.target.value);
@@ -71,32 +71,32 @@ class TicketOption extends React.Component{
         </ItemGrid>
         {ticketOptionsChosen[index].department_id !== 0 && ticketOptionsChosen[index].department_id ?
           <ItemGrid xs={3} sm={3} md={3}>
-            <Field name={`${option}.role_id`} component={({input}) => (
+            <Field name={`${option}.title_id`} component={({input}) => (
               <CustomInput
                 isSelect={true}
                 formControlProps={{
                   fullWidth: true
                 }}
-                labelText={"Role"}
+                labelText={"Title"}
                 inputProps={{
                   value: input.value,
                   onChange: (event) => { resetField('ticket_form',`${option}.user_id`,[]); return input.onChange(event, event.target.value)},
                   required: "required",
                   name: input.name,
-                  autoComplete: "role_id",
+                  autoComplete: "title_id",
                 }}
               >
                 <MenuItem value={0} key="all">
-                  <ListItemText primary={"All Roles"}/>
+                  <ListItemText primary={"All Titles"}/>
                 </MenuItem>
                 {
                   ticketOptions[ticketOptionsChosen[index].department_id]
-                    ? Object.values(ticketOptions[ticketOptionsChosen[index].department_id].roles).map((role,index) => (
+                    ? Object.values(ticketOptions[ticketOptionsChosen[index].department_id].titles).map((title,index) => (
                       <MenuItem
                         key={index}
-                        value={role.role_id}
+                        value={title.title_id}
                       >
-                        <ListItemText primary={role.role_name}/>
+                        <ListItemText primary={title.title}/>
                       </MenuItem>
                     ))
                     : null
@@ -108,7 +108,7 @@ class TicketOption extends React.Component{
             </Field>
           </ItemGrid> : null
         }
-        {(ticketOptionsChosen[index].department_id !== 0 && ticketOptionsChosen[index].role_id !== 0 && ticketOptionsChosen[index].role_id != null) ?
+        {(ticketOptionsChosen[index].department_id !== 0 && ticketOptionsChosen[index].title_id !== 0 && ticketOptionsChosen[index].title_id != null) ?
           <ItemGrid xs={4} sm={4} md={4}>
             <Field name={`${option}.user_id`} component={({input}) => {
               input.value = input.value ? input.value : [];
@@ -124,8 +124,8 @@ class TicketOption extends React.Component{
                       {selected.indexOf(0) !== -1
                         ? <Chip key={0} label={"All Users"} className={classes.chip}/>
                         : selected.map(value => <Chip key={value} label={
-                          ticketOptions[ticketOptionsChosen[index].department_id].roles[ticketOptionsChosen[index].role_id].users[ticketOptions[ticketOptionsChosen[index].department_id].roles[ticketOptionsChosen[index].role_id].users.findIndex(user => user.id === value)].first_name + " " +
-                          ticketOptions[ticketOptionsChosen[index].department_id].roles[ticketOptionsChosen[index].role_id].users[ticketOptions[ticketOptionsChosen[index].department_id].roles[ticketOptionsChosen[index].role_id].users.findIndex(user => user.id === value)].last_name } className={classes.chip}/>)}
+                          ticketOptions[ticketOptionsChosen[index].department_id].titles[ticketOptionsChosen[index].title_id].users[ticketOptions[ticketOptionsChosen[index].department_id].titles[ticketOptionsChosen[index].title_id].users.findIndex(user => user.id === value)].first_name + " " +
+                          ticketOptions[ticketOptionsChosen[index].department_id].titles[ticketOptionsChosen[index].title_id].users[ticketOptions[ticketOptionsChosen[index].department_id].titles[ticketOptionsChosen[index].title_id].users.findIndex(user => user.id === value)].last_name } className={classes.chip}/>)}
                     </div>
                   ),
                   multiple: true,
@@ -153,8 +153,8 @@ class TicketOption extends React.Component{
                 </MenuItem>
                 {
                   ticketOptions[ticketOptionsChosen[index].department_id] ?
-                    ticketOptions[ticketOptionsChosen[index].department_id].roles[ticketOptionsChosen[index].role_id] ?
-                      ticketOptions[ticketOptionsChosen[index].department_id].roles[ticketOptionsChosen[index].role_id].users.map((user,index) => (
+                    ticketOptions[ticketOptionsChosen[index].department_id].titles[ticketOptionsChosen[index].title_id] ?
+                      ticketOptions[ticketOptionsChosen[index].department_id].titles[ticketOptionsChosen[index].title_id].users.map((user,index) => (
                           <MenuItem
                             key={index}
                             value={user.id}
