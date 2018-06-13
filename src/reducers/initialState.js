@@ -61,6 +61,9 @@ const initialState = {
   },
   sidebar: {
     open: true
+  },
+  titles: {
+    allTitles: []
   }
 };
 

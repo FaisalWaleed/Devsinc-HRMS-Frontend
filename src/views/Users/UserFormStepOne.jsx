@@ -17,7 +17,7 @@ import { required, isEmail } from './validate';
 import validate from './validate';
 
 const UserFormStepOne = (props) => {
-  const { users, handleSubmit } = props;
+  const { users, titles, handleSubmit } = props;
   return (
     <Form onSubmit={handleSubmit}>
       <Grid container>
@@ -35,7 +35,40 @@ const UserFormStepOne = (props) => {
           </Grid>
           <Grid container>
             <ItemGrid xs={4} sm={4} md={4}>
-              <Field validate={[required]} name="title" required="required" autoComplete="title" type="text" custominputprops={{labelText: 'Title'}} component={CustomInputWrapper} />
+              <Field validate={[required]} name="title_id" required="required" autoComplete="title" type="text" custominputprops={{labelText: 'Title'}} component={({input}, meta) => (
+                <div>
+                  <CustomInput
+                    isSelect={true}
+                    formControlProps={{
+                      fullWidth: true
+                    }}
+                    labelText={"Title"}
+                    inputProps={{
+                      value: input.value,
+                      onChange: (event) => {if(event.target.value) return input.onChange(event, event.target.value);},
+                      required: "required",
+                      name: "title_id",
+                      autoComplete: "title",
+                    }}
+                  >
+                    {
+                      titles ?
+                        titles.map((title, index) => (
+                            <MenuItem
+                              key={index}
+                              value={title.id}
+                            >
+                              <ListItemText primary={title.name} />
+                            </MenuItem>
+                          )
+                        )
+                        : null
+                    }
+                  </CustomInput>
+                  { (meta.touched && meta.error) ? <small style={{color: 'red'}}>{meta.error}</small> : null}
+                </div>
+              )
+              } />
             </ItemGrid>
             <ItemGrid xs={4} sm={4} md={4}>
               <Field name="reporting_to"
