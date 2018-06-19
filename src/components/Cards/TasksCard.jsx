@@ -9,7 +9,6 @@ import {
   Tabs,
   Tab
 } from "material-ui";
-import { BugReport, Code, Cloud } from "material-ui-icons";
 
 import { Tasks } from "components";
 
@@ -18,14 +17,20 @@ import { bugs, website, server } from "variables/general";
 import tasksCardStyle from "variables/styles/tasksCardStyle";
 
 class TasksCard extends React.Component {
-  state = {
-    value: 0
+  
+  constructor(props){
+    super(props);
+    this.state = {
+      tab: 0
+    }
+  }
+  
+  handleChange = (event, tab) => {
+    this.setState({ tab });
   };
-  handleChange = (event, value) => {
-    this.setState({ value });
-  };
+  
   render() {
-    const { classes } = this.props;
+    const { classes, title, tabs } = this.props;
     return (
       <Card className={classes.card}>
         <CardHeader
@@ -34,78 +39,41 @@ class TasksCard extends React.Component {
             title: classes.cardTitle,
             content: classes.cardHeaderContent
           }}
-          title="Tasks:"
+          title={title}
           action={
             <Tabs
               classes={{
                 flexContainer: classes.tabsContainer
               }}
-              value={this.state.value}
+              value={this.state.tab}
               onChange={this.handleChange}
               indicatorClassName={classes.displayNone}
               textColor="inherit"
             >
-              <Tab
-                classes={{
-                  wrapper: classes.tabWrapper,
-                  rootLabelIcon: classes.labelIcon,
-                  label: classes.label,
-                  rootInheritSelected: classes.rootInheritSelected
-                }}
-                icon={<BugReport className={classes.tabIcon} />}
-                label={"Bugs"}
-              />
-              <Tab
-                classes={{
-                  wrapper: classes.tabWrapper,
-                  rootLabelIcon: classes.labelIcon,
-                  label: classes.label,
-                  rootInheritSelected: classes.rootInheritSelected
-                }}
-                icon={<Code className={classes.tabIcon} />}
-                label={"Website"}
-              />
-              <Tab
-                classes={{
-                  wrapper: classes.tabWrapper,
-                  rootLabelIcon: classes.labelIcon,
-                  label: classes.label,
-                  rootInheritSelected: classes.rootInheritSelected
-                }}
-                icon={<Cloud className={classes.tabIcon} />}
-                label={"Server"}
-              />
+              {
+                tabs.map((tab) => (
+                  <Tab
+                    classes={{
+                      wrapper: classes.tabWrapper,
+                      rootLabelIcon: classes.labelIcon,
+                      label: classes.label,
+                      rootInheritSelected: classes.rootInheritSelected
+                    }}
+                    icon={<tab.icon className={classes.tabIcon} />}
+                    label={tab.label}
+                  />
+                ))
+              }
             </Tabs>
           }
         />
         <CardContent>
-          {this.state.value === 0 && (
-            <Typography component="div">
-              <Tasks
-                checkedIndexes={[0, 3]}
-                tasksIndexes={[0, 1, 2, 3]}
-                tasks={bugs}
-              />
-            </Typography>
-          )}
-          {this.state.value === 1 && (
-            <Typography component="div">
-              <Tasks
-                checkedIndexes={[0]}
-                tasksIndexes={[0, 1]}
-                tasks={website}
-              />
-            </Typography>
-          )}
-          {this.state.value === 2 && (
-            <Typography component="div">
-              <Tasks
-                checkedIndexes={[1]}
-                tasksIndexes={[0, 1, 2]}
-                tasks={server}
-              />
-            </Typography>
-          )}
+          {tabs.map((tab,index) => (
+            this.state.tab === index && (
+              tab.content
+            )
+          ))
+          }
         </CardContent>
       </Card>
     );
