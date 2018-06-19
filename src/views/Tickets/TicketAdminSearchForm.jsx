@@ -31,7 +31,7 @@ class TicketAdminSearchForm extends React.Component{
       <DateRangePickerWrapper
         startDateFieldName="start_date"
         endDateFieldName="end_date"
-        isOutsideRange={(day) => day < moment()}
+        isOutsideRange={(day) => false}
         block
         small
         {...fields}
@@ -44,13 +44,13 @@ class TicketAdminSearchForm extends React.Component{
     
     const statusOptions = [
       {value: "all", label: "All"},
-      {value: "open", label: "Open"},
-      {value: "closed", label: "Closed"},
-      {value: "completed", label: "Completed"}
+      {value: "Open", label: "Open"},
+      {value: "Closed", label: "Closed"},
+      {value: "Completed", label: "Completed"}
     ];
   
     //Normalizers
-    const onlyId = value => ( value.value );
+    const onlyId = value => ( value ? value.value : '' );
   
     return(
       <Grid container>
@@ -108,6 +108,9 @@ class TicketAdminSearchForm extends React.Component{
                              autoComplete: "status",
                            }}
                          >
+                           <MenuItem value={0} key={0}>
+                             <ListItemText primary={"Sent To All"} />
+                           </MenuItem>
                            {
                              departments.map((department,index) => (
                                <MenuItem value={department.id} key={index}>

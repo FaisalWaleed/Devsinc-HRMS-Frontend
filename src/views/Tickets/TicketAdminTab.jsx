@@ -63,7 +63,7 @@ class TicketAdminTab extends React.Component{
   filterDisplayedTickets(value){
     if(value.length > 2) {
       const {filters} = this.state;
-      let filteredTickets = this.props.allTickets;
+      let filteredTickets = this.props.searchedTickets;
       for (let property in filters){
         if(filters[property].length > 2) {
           filteredTickets = filter(filteredTickets, ticket => (
@@ -76,7 +76,7 @@ class TicketAdminTab extends React.Component{
       this.setState({displayedTickets: filteredTickets});
     }
     else{
-      this.setState({displayedTickets: this.props.allTickets});
+      this.setState({displayedTickets: this.props.searchedTickets});
     }
   }
 
@@ -96,6 +96,7 @@ class TicketAdminTab extends React.Component{
   render(){
     const tableHead = [
       { id: 'created_by', numeric: false, disablePadding: false, label: 'By', type: "search" },
+      { id: 'created_for', numeric: false, disablePadding: false, label: 'For', type: "search" },
       { id: 'created_at', numeric: false, disablePadding: false, label: 'Date Started', type: "search" },
       { id: 'title', numeric: false, disablePadding: false, label: 'Title', type: "search" },
       { id: 'status', numeric: false, disablePadding: false, label: 'Status', type: "dropdown", options: ["Open","Closed","Resolved"]}
@@ -188,12 +189,13 @@ class TicketAdminTab extends React.Component{
                     key={index}
                   >
                     <TableCell>{ticket.created_by}</TableCell>
+                    <TableCell>{ticket.created_for}</TableCell>
                     <TableCell>{moment(ticket.created_at).format("Do MMM YYYY")}</TableCell>
                     <TableCell>{ticket.title}</TableCell>
                     <TableCell>
-                      {ticket.status === "Open" && <Tooltip classes={{tooltip: classes.tooltip}} title={<div> {ticket.overall_status.open.map((user,index)=> {return <div key={index}>{user}<br/></div>})}</div>} placement="bottom" ><Chip style={{backgroundColor: '#94d863'}} label="Open" className={classes.chip} /></Tooltip>}
-                      {ticket.status === "Closed" && <Tooltip classes={{tooltip: classes.tooltip}} title={<div> {ticket.overall_status.closed.map((user,index)=> {return <div key={index}>{user}<br/></div>})}</div>} placement="bottom"><Chip style={{backgroundColor: '#ed8768'}} label="Closed" className={classes.chip} /></Tooltip>}
-                      {ticket.status === "Completed" && <Tooltip classes={{tooltip: classes.tooltip}} title={<div> {ticket.overall_status.completed.map((user,index)=> {return <div key={index}>{user}<br/></div>})}</div>} placement="bottom"><Chip style={{backgroundColor: '#e5de5b'}} label="Completed" className={classes.chip} /></Tooltip>}
+                      {ticket.status === "Open" && <Chip style={{backgroundColor: '#94d863'}} label="Open" className={classes.chip} />}
+                      {ticket.status === "Closed" && <Chip style={{backgroundColor: '#ed8768'}} label="Closed" className={classes.chip} />}
+                      {ticket.status === "Completed" && <Chip style={{backgroundColor: '#e5de5b'}} label="Completed" className={classes.chip} />}
                     </TableCell>
                   </TableRow>
                 ))
