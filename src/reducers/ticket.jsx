@@ -64,10 +64,10 @@ export const ticket = (state = initialState.tickets,action) => {
     case types.SET_TICKETS_TAB:
       return {...state, tab: action.payload.tab};
       
-    case types.FETCH_ALL_TICKETS_SUCCESS:
-      return {...state , allTickets: action.payload };
+    case types.FETCH_SEARCHED_TICKETS_SUCCESS:
+      return {...state , searchedTickets: action.payload };
     
-    case types.FETCH_ALL_TICKETS_FAILURE:
+    case types.FETCH_SEARCHED_TICKETS_FAILURE:
       return state;
       
     default:

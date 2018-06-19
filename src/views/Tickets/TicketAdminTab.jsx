@@ -1,17 +1,19 @@
 import React from 'react';
 import Table, { TableCell, TableRow, TableHead, TableBody, TableSortLabel } from 'material-ui/Table'
 import { Grid } from "material-ui";
-import { ItemGrid, CustomInput } from 'components';
+import { ItemGrid, CustomInput, Button } from 'components';
 import Tooltip from 'material-ui/Tooltip';
 import { connect } from 'react-redux';
-import {fetchAllTicketsFailure, fetchAllTicketsSuccess} from "../../actions/ticket";
-import {fetchAllTickets} from "../../api/ticket";
+import {fetchSearchedTicketsFailure, fetchSearchedTicketsSuccess} from "../../actions/ticket";
+import {fetchSearchedTickets} from "../../api/ticket";
 import moment from 'moment';
 import { withStyles } from 'material-ui/styles';
 import Chip from 'material-ui/Chip';
 import {filter} from "lodash";
 import { MenuItem } from 'material-ui/Menu';
 import { ListItemText } from 'material-ui/List';
+import { Link } from 'react-router-dom';
+import TicketAdminSearchForm from "./TicketAdminSearchForm";
 
 const styles = theme => ({
   tooltip: {
@@ -27,23 +29,20 @@ class TicketAdminTab extends React.Component{
 
   constructor(props){
     super(props);
+    this.handleSearchSubmit = this.handleSearchSubmit.bind(this);
     this.state = {
       orderBy: null,
       order: null,
-      displayedTickets: this.props.allTickets,
+      displayedTickets: this.props.searchedTickets,
       filters: {
         status: ""
       }
     }
   }
 
-  componentDidMount(){
-    this.props.fetchAllTickets();
-  }
-
   componentWillReceiveProps(nextProps){
     this.setState({
-      displayedTickets: nextProps.allTickets,
+      displayedTickets: nextProps.searchedTickets,
     })
   }
 
@@ -87,6 +86,13 @@ class TicketAdminTab extends React.Component{
         {...prevState, filters: {...prevState.filters, [property]: value}}), () => this.filterDisplayedTickets(value));
   }
 
+  handleSearchSubmit(values){
+    values.start_date ? values.start_date = values.start_date.format("YYYY-MM-DD") : null;
+    values.end_date ? values.end_date = values.end_date.format("YYYY-MM-DD") : null;
+    console.log(values);
+    this.props.fetchSearchedTickets(values);
+  }
+  
   render(){
     const tableHead = [
       { id: 'created_by', numeric: false, disablePadding: false, label: 'By', type: "search" },
@@ -101,6 +107,10 @@ class TicketAdminTab extends React.Component{
     return(
       <Grid container>
         <ItemGrid xs={12} sm={12} md={12}>
+          <Button color="primary"><Link style={{color: "#FFFFFF"}} to={"/tickets/admin/statistics"}>Statistics</Link></Button>
+          <br /><br />
+          <TicketAdminSearchForm onSubmit={this.handleSearchSubmit} />
+          <br/>
           <Table>
             <TableHead>
               <TableRow>
@@ -198,13 +208,13 @@ class TicketAdminTab extends React.Component{
 
 function mapStateToProps(state){
   return {
-    allTickets: state.tickets.allTickets
+    searchedTickets: state.tickets.searchedTickets
   }
 }
 
 function mapDispatchToProps(dispatch){
   return {
-    fetchAllTickets: () => { dispatch(fetchAllTickets(fetchAllTicketsSuccess,fetchAllTicketsFailure)) }
+    fetchSearchedTickets: (params) => { dispatch(fetchSearchedTickets(params,fetchSearchedTicketsSuccess,fetchSearchedTicketsFailure)) }
   }
 }
 

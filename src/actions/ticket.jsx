@@ -118,12 +118,12 @@ export const fetchTicketStatusesFailure = (payload) => ({
   payload
 });
 
-export const fetchAllTicketsSuccess = (payload) => ({
-  type: types.FETCH_ALL_TICKETS_SUCCESS,
+export const fetchSearchedTicketsSuccess = (payload) => ({
+  type: types.FETCH_SEARCHED_TICKETS_SUCCESS,
   payload
 });
 
-export const fetchAllTicketsFailure = (payload) => ({
-  type: types.FETCH_ALL_TICKETS_FAILURE,
+export const fetchSearchedTicketsFailure = (payload) => ({
+  type: types.FETCH_SEARCHED_TICKETS_FAILURE,
   payload
 });

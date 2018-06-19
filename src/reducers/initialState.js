@@ -30,7 +30,7 @@ const initialState = {
     tab: 0,
     createdTickets: [],
     assignedTickets: [],
-    allTickets: [],
+    searchedTickets: [],
     ticketOptions: {},
     ticketComments: {},
     ticketStatuses: {}

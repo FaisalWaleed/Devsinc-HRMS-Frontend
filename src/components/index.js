@@ -22,13 +22,14 @@ import IconButton from "./CustomButtons/IconButton.jsx";
 import CustomInput from "./CustomInput/CustomInput.jsx";
 
 // ##############################
-// // // CustomInput
+// // // CustomInputWrapper
 // #############################
 import ErrorBoundary from "./ErrorBoundary/ErrorBoundary";
 import CustomInputWrapper from "./CustomInputWrapper/CustomInputWrapper";
 import FileInput from "./FileInput/FileInput";
 import DateRangePickerWrapper from './DateRangePickerWrapper/DateRangePickerWrapper';
 import Permissible from './Permissible/Permissible';
+import SelectWrapper from './SelectWrapper/SelectWrapper'
 
 // ##############################
 // // // Footer
@@ -102,6 +103,7 @@ export {
   // CustomInput
   CustomInput,
   CustomInputWrapper,
+  SelectWrapper,
   DateRangePickerWrapper,
   FileInput,
   // Footer

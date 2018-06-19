@@ -1,6 +1,5 @@
 import React from "react";
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
 import { Grid } from "material-ui";
 import { 
   RegularCard, 
@@ -67,34 +66,29 @@ class Role extends React.Component{
         }
       />
     ];  
-  }
+  };
 
   addUserFields = () => {
     const { roleId, dispatch } = this.props;
     dispatch(fetchUsersForRole(roleId, fetchUsersForRoleSuccess, fetchUsersForRoleFailure ));
     this.setState({ showFields : true} );
-  }
+  };
 
   addUsersToRole = () => {
     const { dispatch, roleId } = this.props;
     this.setState({ showFields: false, value: [] });
     const params = { role_users: this.state.value, role_id: roleId};
     dispatch(addUsersToRole(params, addUsersToRoleSuccess, addUsersToRoleFailure));
-    console.log("the value to send ",params);
-  }
+  };
 
   handleChange = (value) => {
     this.setState({ value });
-    console.log(`Selected: ${value}`);
-  }
+  };
 
   render(){
-    const { roleUsers, usersForRole } = this.props;
-    console.log("the users", roleUsers, "my state", this.state, "usersForRole", usersForRole);
-    const users = roleUsers? map(roleUsers.users, this.usersWithButtons) : [];
-
     const { value, showFields } = this.state;
-    // const value = selectedOption && selectedOption.value;
+    const { roleUsers, usersForRole } = this.props;
+    const users = roleUsers? map(roleUsers.users, this.usersWithButtons) : [];
 
     return (
         <div>
@@ -113,16 +107,16 @@ class Role extends React.Component{
                     {
                       showFields?
                         <div> 
-                          <Select 
-                            name="role_users"
-                            value={value}
-                            onChange={this.handleChange}
-                            multi
-                            closeOnSelect={false}
-                            removeSelected={true}
-                            // simpleValue
-                            options={usersForRole}
-                          />
+                            <Select
+                              name="role_users"
+                              value={value}
+                              onChange={this.handleChange}
+                              multi
+                              closeOnSelect={false}
+                              removeSelected={true}
+                              // simpleValue
+                              options={usersForRole}
+                            />
                           <Button onClick={() => this.addUsersToRole()} color="primary">Add Selected</Button> 
                         </div>:
                         <Button onClick={() => this.addUserFields()} color="primary">Add Users</Button>
@@ -149,6 +143,4 @@ function mapDispatchToProps(dispatch){
   }
 }
 
-const routed = withRouter(Role)
-
-export default connect(mapStateToProps, mapDispatchToProps)(routed);
+export default connect(mapStateToProps, mapDispatchToProps)(Role);

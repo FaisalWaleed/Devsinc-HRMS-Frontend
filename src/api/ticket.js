@@ -61,8 +61,10 @@ export const fetchTicketStatuses = (params, successAction, failureAction) => {
   },successAction,failureAction, true);
 };
 
-export const fetchAllTickets = (successAction, failureAction) => {
-  return request('tickets/all_tickets',{
+export const fetchSearchedTickets = (params, successAction, failureAction) => {
+  let url = 'tickets/search?';
+  Object.keys(params).forEach(key => url += `${key}=${params[key]}&`);
+  return request(url,{
     method: 'GET',
     headers: {
       'Accept': 'application/json',

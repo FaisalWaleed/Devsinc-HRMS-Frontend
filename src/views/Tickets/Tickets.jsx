@@ -37,7 +37,7 @@ class Tickets extends React.Component{
                     <Tab label="My Tickets" />
                     <Tab label="Assigned to Me" />
                     {
-                      hasPermission(userPermissions,["tickets_all_tickets"]) ? <Tab label="All Tickets" /> : null
+                      hasPermission(userPermissions,["tickets_search"]) ? <Tab label="All Tickets" /> : null
                     }
                   </Tabs>
                 </AppBar>
