@@ -33,7 +33,7 @@ class TicketAdminTab extends React.Component{
     this.state = {
       orderBy: null,
       order: null,
-      displayedTickets: this.props.allTickets,
+      displayedTickets: this.props.searchedTickets,
       filters: {
         status: ""
       }
@@ -42,7 +42,7 @@ class TicketAdminTab extends React.Component{
 
   componentWillReceiveProps(nextProps){
     this.setState({
-      displayedTickets: nextProps.allTickets,
+      displayedTickets: nextProps.searchedTickets,
     })
   }
 
@@ -208,7 +208,7 @@ class TicketAdminTab extends React.Component{
 
 function mapStateToProps(state){
   return {
-    allTickets: state.tickets.searchedTickets
+    searchedTickets: state.tickets.searchedTickets
   }
 }
 
