@@ -2,7 +2,6 @@ import React from 'react';
 import Table, { TableCell, TableRow, TableHead, TableBody, TableSortLabel } from 'material-ui/Table'
 import { Grid } from "material-ui";
 import { ItemGrid, CustomInput, Button } from 'components';
-import Tooltip from 'material-ui/Tooltip';
 import { connect } from 'react-redux';
 import {fetchSearchedTicketsFailure, fetchSearchedTicketsSuccess} from "../../actions/ticket";
 import {fetchSearchedTickets} from "../../api/ticket";
@@ -26,7 +25,7 @@ const styles = theme => ({
 });
 
 class TicketAdminTab extends React.Component{
-
+  
   constructor(props){
     super(props);
     this.handleSearchSubmit = this.handleSearchSubmit.bind(this);
@@ -39,13 +38,13 @@ class TicketAdminTab extends React.Component{
       }
     }
   }
-
+  
   componentWillReceiveProps(nextProps){
     this.setState({
       displayedTickets: nextProps.searchedTickets,
     })
   }
-
+  
   handleSort = (property) => {
     const orderBy = property;
     let order = 'desc';
@@ -59,7 +58,7 @@ class TicketAdminTab extends React.Component{
         : data.sort((a, b) => (a[orderBy] < b[orderBy] ? -1 : 1));
     this.setState({ displayedTickets, order, orderBy });
   };
-
+  
   filterDisplayedTickets(value){
     if(value.length > 2) {
       const {filters} = this.state;
@@ -79,13 +78,13 @@ class TicketAdminTab extends React.Component{
       this.setState({displayedTickets: this.props.searchedTickets});
     }
   }
-
+  
   handleTableColumnSearch(property,value){
     this.setState(
       prevState => (
         {...prevState, filters: {...prevState.filters, [property]: value}}), () => this.filterDisplayedTickets(value));
   }
-
+  
   handleSearchSubmit(values){
     values.start_date ? values.start_date = values.start_date.format("YYYY-MM-DD") : null;
     values.end_date ? values.end_date = values.end_date.format("YYYY-MM-DD") : null;
@@ -101,10 +100,10 @@ class TicketAdminTab extends React.Component{
       { id: 'title', numeric: false, disablePadding: false, label: 'Title', type: "search" },
       { id: 'status', numeric: false, disablePadding: false, label: 'Status', type: "dropdown", options: ["Open","Closed","Resolved"]}
     ];
-
+    
     const { displayedTickets, order, orderBy, filters } = this.state;
     const { classes } = this.props;
-
+    
     return(
       <Grid container>
         <ItemGrid xs={12} sm={12} md={12}>
