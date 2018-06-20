@@ -21,7 +21,6 @@ import {
 } from "../../actions/ticket";
 import Table, { TableHead, TableRow, TableCell, TableBody } from 'material-ui/Table';
 import moment from 'moment';
-import Badge from 'material-ui/Badge';
 
 class Dashboard extends React.Component {
   
@@ -36,10 +35,7 @@ class Dashboard extends React.Component {
     const tabs = [
       {
         icon: Assignment,
-        label:
-          <Badge badgeContent={4} color="primary">
-            <span>Tickets</span>
-          </Badge>,
+        label: "Tickets",
         content:
           <Table>
             <TableHead>
