@@ -14,7 +14,7 @@ const dashboardStyle = {
   },
   paper: {
     width: '100%',
-    padding: '2%'
+    padding: '1.5%'
   },
   avatar: {
     display: 'inline-block',
@@ -25,6 +25,19 @@ const dashboardStyle = {
   },
   tooltip:{
     fontSize: '18px',
+  },
+  center:{
+    width: '100%',
+    textAlign: 'center'
+  },
+  subHeading:{
+    paddingBottom: '-90px',
+    display: 'block',
+    marginBottom: '20px'
+  },
+  subHeadingText:{
+    fontSize: '18px',
+    textDecoration: 'underline'
   }
 };
 

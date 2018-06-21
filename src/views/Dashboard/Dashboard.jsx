@@ -2,7 +2,9 @@ import React from "react";
 import { withStyles, Grid } from "material-ui";
 import {
   ItemGrid,
-  TasksCard
+  TasksCard,
+  Muted,
+  StatsCard
 } from "components";
 import Chip from 'material-ui/Chip';
 import Avatar from 'material-ui/Avatar';
@@ -21,17 +23,30 @@ import {
 } from "../../actions/ticket";
 import Table, { TableHead, TableRow, TableCell, TableBody } from 'material-ui/Table';
 import moment from 'moment';
+import {BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend, Tooltip as ChartTooltip, ResponsiveContainer} from 'recharts';
+import {DateRange, FlightTakeoff} from "material-ui-icons/index";
+import {fetchUserLeavesHistory} from "../../api/leave";
+import {fetchUserLeavesHistoryFailure, fetchUserLeavesHistorySuccess} from "../../actions/leave";
+
 
 class Dashboard extends React.Component {
   
   componentDidMount() {
     this.props.getProfile(this.props.currentUserId, getProfileSuccess, getProfileFailure);
     this.props.fetchAssignedTickets();
-    
+    this.props.fetchUserLeavesHistory({user_id: parseInt(this.props.currentUserId)});
   }
   
   render() {
-    const { classes, user, assignedTickets } = this.props;
+    const { classes, user, assignedTickets,userLeaves } = this.props;
+    
+    const data = [
+      {name: 'Sick', Yours: userLeaves ? userLeaves.sick : 0, Total: 60},
+      {name: 'Annual', Yours: userLeaves ? userLeaves.annual : 0, Total: 14},
+      {name: 'Death', Yours: userLeaves ? userLeaves.compensation : 0, Total: 20},
+      {name: 'WFH', Yours: userLeaves ? userLeaves.workFromHome : 0, Total: 20}
+    ];
+    
     const tabs = [
       {
         icon: Assignment,
@@ -77,32 +92,95 @@ class Dashboard extends React.Component {
       }
     ];
     
-    return (
-      <Paper className={classes.paper}>
-        <Grid container>
-          <ItemGrid xs={12} sm={12} md={8}>
-            <h5>Welcome Usama Kamran!</h5>
-            <br />
-          </ItemGrid>
-          <ItemGrid xs={12} sm={12} md={4}>
-            <label>Your Manager: &nbsp;&nbsp;</label>
-            <Tooltip classes={{tooltip: classes.tooltip}} title={<div>{user ? user.manager.name : null}</div>} placement="bottom">
-              <Link to={`/people/${user ? user.manager.id : null}`}>
-                <Avatar className={classes.avatar} src={user ? user.manager.image : null}/>
-              </Link>
-            </Tooltip>
-          </ItemGrid>
-        </Grid>
-        <Grid container>
+    if(user) {
+      return (
+        <Paper className={classes.paper}>
           <ItemGrid xs={12} sm={12} md={12}>
-            <TasksCard
-              title={""}
-              tabs={tabs}
-            />
+            <h5>Welcome {user ? user.name : null}!</h5>
+            <br/>
           </ItemGrid>
-        </Grid>
-      </Paper>
-    );
+          <Grid container>
+            <ItemGrid xs={12} sm={12} md={3}>
+              <label>Your Manager: &nbsp;&nbsp;</label>
+              <Tooltip classes={{tooltip: classes.tooltip}} title={<div>{user ? user.manager.name : null}</div>}
+                       placement="bottom">
+                <Link to={`/people/${user ? user.manager.id : null}`}>
+                  <Avatar className={classes.avatar} src={user ? user.manager.image : null}/>
+                </Link>
+              </Tooltip>
+            </ItemGrid>
+            <ItemGrid xs={12} sm={12} md={9}>
+              <label>Your Team: &nbsp;&nbsp;</label>
+              {
+                user.team_members.length ?
+                  user.team_members.map((member, index) => (
+                    <Tooltip classes={{tooltip: classes.tooltip}} title={member.name}>
+                      <Link to={`/people/${member.id}`}>
+                        <Avatar className={classes.avatar} src={member.image}/>
+                      </Link>
+                    </Tooltip>
+                  ))
+                  : <Muted>No Team Members</Muted>
+              }
+            </ItemGrid>
+          </Grid>
+          <br/><br/>
+          <Grid container justify="center" spacing={16} alignItems="center">
+            <Paper className={classes.paper} elevation={6}>
+              <Grid container>
+                <ItemGrid xs={12} sm={12} md={12}>
+                  <div className={classes.subHeading}>
+                    <Muted>
+                      <div className={classes.subHeadingText}>Leaves</div>
+                    </Muted>
+                  </div>
+                </ItemGrid>
+                
+                <ItemGrid xs={12} sm={12} md={5}>
+                  <ResponsiveContainer width='100%' height={300}>
+                    <BarChart
+                      data={data}
+                      margin={{top: 20, right: 30, left: 20, bottom: 5}}
+                    >
+                      <CartesianGrid strokeDasharray="3 3"/>
+                      <XAxis dataKey="name"/>
+                      <YAxis/>
+                      <ChartTooltip/>
+                      <Legend/>
+                      <Bar dataKey="Yours" stackId="a" fill="#82ca9d"/>
+                      <Bar dataKey="Total" stackId="a" fill="#8884d8"/>
+                    </BarChart>
+                  </ResponsiveContainer>
+                </ItemGrid>
+                <ItemGrid xs={12} sm={12} md={5}>
+                  <StatsCard
+                    icon={FlightTakeoff}
+                    iconColor="green"
+                    title={<div>Leaves Applications<br/><br/></div>}
+                    description={'20'}
+                    small="pending"
+                    statIcon={DateRange}
+                    statText="Approve Leaves!"
+                  />
+                </ItemGrid>
+              </Grid>
+            </Paper>
+          </Grid>
+          
+          <br/><br/><br/><br/><br/><br/><br/><br/>
+          
+          <Grid container>
+            <ItemGrid xs={12} sm={12} md={12}>
+              <TasksCard
+                title={""}
+                tabs={tabs}
+              />
+            </ItemGrid>
+          </Grid>
+        </Paper>
+      );
+    }
+    else return null;
   }
 }
 
@@ -111,7 +189,8 @@ function mapStateToProps(state){
   return {
     user: state.users.allUserProfiles[userId],
     currentUserId: userId,
-    assignedTickets: state.tickets.assignedTickets
+    assignedTickets: state.tickets.assignedTickets,
+    userLeaves: state.leaves.allUserLeavesSummary[userId],
   }
 }
 
@@ -119,6 +198,7 @@ function mapDispatchToProps(dispatch){
   return {
     getProfile: (params) => { dispatch(getProfile(params, getProfileSuccess, getProfileFailure )) },
     fetchAssignedTickets: () => { dispatch(fetchAssignedTickets(fetchAssignedTicketsSuccess,fetchAssignedTicketsFailure)) },
+    fetchUserLeavesHistory: (params) => {dispatch(fetchUserLeavesHistory(params,fetchUserLeavesHistorySuccess,fetchUserLeavesHistoryFailure))}
   }
 }
 
