@@ -1,20 +1,22 @@
-import DashboardPage from "views/Dashboard/Dashboard.jsx";
-import LandingPage from "views/Landing/Landing.jsx";
-import DepartmentsPage from "views/Departments/Departments.jsx";
-import NewDepartmentsPage from "views/Departments/NewDepartment.jsx";
-import EditDepartmentsPage from "views/Departments/EditDepartment.jsx";
-import Users from "../views/Users/Users";
-import RolesPage from "views/Roles/Roles.jsx";
-import NewRolesPage from "views/Roles/New.jsx";
-import EditProfile from "views/Profile/EditProfile.jsx";
-import EditRolesPage from "views/Roles/Edit.jsx";
-import ShowRolesPage from "views/Roles/Role.jsx";
-import Tickets from "../views/Tickets/Tickets";
-import Leaves from "../views/Leaves/Leaves";
-import Permissions from "../views/Permissions/Permissions";
-import Profile from "../views/Profile/Profile";
-import ResetPasswordPage from "../views/Landing/ResetPasswordPage";
-import TicketAdminStats from "../views/Tickets/TicketAdminStats";
+import {
+  DashboardPage,
+  LandingPage,
+  DepartmentsPage,
+  NewDepartmentsPage,
+  EditDepartmentsPage,
+  TicketAdminStats,
+  ShowRolesPage,
+  RolesPage,
+  NewRolesPage,
+  EditRolesPage,
+  Leaves,
+  ResetPasswordPage,
+  EditProfile,
+  Profile,
+  Tickets,
+  Users,
+  Permissions,
+} from './asyncComponents'
 
 import {
   Home,
@@ -25,7 +27,6 @@ import {
   Business,
   DeviceHub
 } from "material-ui-icons";
-
 
 const appRoutes = [
   {
