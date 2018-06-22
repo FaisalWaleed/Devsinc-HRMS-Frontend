@@ -12,7 +12,7 @@ import {
   dangerColor
 } from "variables/styles";
 
-const buttonStyle = {
+const buttonStyle = theme =>({
   button: {
     backgroundColor: grayColor,
     color: "#FFFFFF",
@@ -131,7 +131,12 @@ const buttonStyle = {
   disabled: {
     opacity: "0.65",
     pointerEvents: "none"
+  },
+  floatRightMdUp: {
+    [theme.breakpoints.up("md")]: {
+      float: 'right'
+    },
   }
-};
+});
 
 export default buttonStyle;

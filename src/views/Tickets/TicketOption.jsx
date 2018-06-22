@@ -24,7 +24,7 @@ class TicketOption extends React.Component{
 
     return (
       <Grid key={index} container>
-        <ItemGrid xs={4} sm={4} md={4}>
+        <ItemGrid xs={12} sm={12} md={4}>
           <Field name={`${option}.department_id`}
                  component={({input}) => (
                    <CustomInput

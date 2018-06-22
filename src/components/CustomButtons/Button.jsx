@@ -13,13 +13,15 @@ function RegularButton({ ...props }) {
     children,
     fullWidth,
     disabled,
+    floatRightMdUp,
     ...rest
   } = props;
   const btnClasses = cx({
     [classes[color]]: color,
     [classes.round]: round,
     [classes.fullWidth]: fullWidth,
-    [classes.disabled]: disabled
+    [classes.disabled]: disabled,
+    [classes.floatRightMdUp]: floatRightMdUp
   });
   return (
     <Button {...rest} className={classes.button + " " + btnClasses}>
@@ -43,7 +45,8 @@ RegularButton.propTypes = {
   ]),
   round: PropTypes.bool,
   fullWidth: PropTypes.bool,
-  disabled: PropTypes.bool
+  disabled: PropTypes.bool,
+  floatRightMdUp: PropTypes.bool
 };
 
 export default withStyles(buttonStyle)(RegularButton);
