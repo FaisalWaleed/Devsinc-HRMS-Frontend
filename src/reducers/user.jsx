@@ -49,7 +49,14 @@ export const user = (state = initialState,action) => {
     case types.RESET_PASSWORD_SUCCESS:
       window.location = "/dashboard";
       return {...state, resetPasswordSuccess: true };
+      
     case types.RESET_PASSWORD_FAILURE:
+      return state;
+  
+    case types.FETCH_DASHBOARD_SUCCESS:
+      return {...state, dashboard: action.payload };
+      
+    case types.FETCH_DASHBOARD_FAILURE:
       return state;
     
     default:

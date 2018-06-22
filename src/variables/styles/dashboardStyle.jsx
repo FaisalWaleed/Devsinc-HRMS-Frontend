@@ -14,7 +14,8 @@ const dashboardStyle = {
   },
   paper: {
     width: '100%',
-    padding: '1.5%'
+    padding: '1.5%',
+    marginBottom: '8vh'
   },
   avatar: {
     display: 'inline-block',
