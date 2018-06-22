@@ -162,3 +162,17 @@ export const activateUserFailure = (payload) => {
     payload
   }
 };
+
+export const fetchDashboardSuccess = (payload) => {
+  return {
+    type: types.FETCH_DASHBOARD_SUCCESS,
+    payload
+  }
+};
+
+export const fetchDashboardFailure = (payload) => {
+  return {
+    type: types.FETCH_DASHBOARD_FAILURE,
+    payload
+  }
+};

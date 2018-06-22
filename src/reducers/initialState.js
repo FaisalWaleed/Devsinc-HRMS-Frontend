@@ -21,6 +21,7 @@ const initialState = {
     }
   },
   users: {
+    dashboard: {},
     allUserProfiles: {},
     allUsers: [],
     userCreateFormErrors: null,

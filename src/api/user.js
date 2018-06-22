@@ -72,3 +72,13 @@ export const activateUser = (userId, successAction, failureAction) => {
     body: JSON.stringify({ id: userId })
   },successAction,failureAction, true)
 };
+
+export const fetchDashboard = (userId, successAction, failureAction) => {
+  return request(`admin/users/${userId}/dashboard`,{
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    },
+  },successAction,failureAction,true)
+};

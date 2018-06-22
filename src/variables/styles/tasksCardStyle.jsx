@@ -15,7 +15,7 @@ const tasksCardStyle = theme => ({
     flex: "none",
     ...cardHeader,
     ...defaultFont,
-    background: "linear-gradient(60deg, #ab47bc, #8e24aa)",
+    background: "linear-gradient(60deg, #16a9a0, #16a9a0)",
     ...primaryBoxShadow
   },
   cardTitle: {
@@ -49,7 +49,7 @@ const tasksCardStyle = theme => ({
     height: "44px",
     width: "110px",
     minWidth: "72px",
-    paddingLeft: "14px",
+    paddingLeft: "24px",
     borderRadius: "3px"
   },
   tabsContainer: {
@@ -62,7 +62,7 @@ const tasksCardStyle = theme => ({
   tabs: {
     width: "110px",
     minWidth: "70px",
-    paddingLeft: "12px"
+    paddingLeft: "20px"
   },
   cardHeaderContent: {
     flex: "none"
@@ -72,7 +72,7 @@ const tasksCardStyle = theme => ({
     textTransform: "uppercase",
     fontSize: "12px",
     fontWeight: "400",
-    marginLeft: "-10px"
+    marginLeft: "-20px"
   },
   rootInheritSelected: {
     backgroundColor: "rgba(255, 255, 255, 0.2)",
