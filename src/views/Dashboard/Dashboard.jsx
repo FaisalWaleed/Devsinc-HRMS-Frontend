@@ -45,7 +45,7 @@ class Dashboard extends React.Component {
     const data = [
       {name: 'Sick', "Your Leaves": userLeaves ? userLeaves.sick : 0 },
       {name: 'Annual', "Your Leaves": userLeaves ? userLeaves.annual : 0 },
-      {name: 'Death', "Your Leaves": userLeaves ? userLeaves.compensation : 0, },
+      {name: 'Compensation', "Your Leaves": userLeaves ? userLeaves.compensation : 0, },
       {name: 'WFH', "Your Leaves": userLeaves ? userLeaves.workFromHome : 0 }
     ];
     
