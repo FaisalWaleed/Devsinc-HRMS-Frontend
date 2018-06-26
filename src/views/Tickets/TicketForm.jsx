@@ -63,11 +63,11 @@ class TicketForm extends React.Component {
             : null
           }
           <Hidden smUp>
-            <ItemGrid xs={5} sm={5}>
-              <Button onClick={closeModal} disabled={submitting} color="primary">Cancel</Button>
-            </ItemGrid>
-            <ItemGrid xs={5} sm={5}>
+            <ItemGrid xs={12} sm={12}>
               <Button disabled={submitting} onClick={handleSubmit} color="primary">Send Ticket</Button>
+            </ItemGrid>
+            <ItemGrid xs={12} sm={12}>
+              <Button onClick={closeModal} disabled={submitting} color="primary">Cancel</Button>
             </ItemGrid>
           </Hidden>
           

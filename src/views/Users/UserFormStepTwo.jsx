@@ -40,7 +40,7 @@ const UserFormStepTwo = (props) => {
       </IconButton>
       {fields.map((position, index) => (
         <Grid container key={index}>
-          <ItemGrid xs={4} sm={4} md={4}>
+          <ItemGrid xs={12} sm={12} md={4}>
             <Field name={`${position}.role`} type="text" component={({input,label,...custom}) =>
               <CustomInput
                 labelText="Role"
@@ -60,7 +60,7 @@ const UserFormStepTwo = (props) => {
             }
             />
           </ItemGrid>
-          <ItemGrid xs={3} sm={3} md={3}>
+          <ItemGrid xs={12} sm={12} md={3}>
             <Field name={`${position}.from`} type="number" component={({input,label,...custom}) =>
               <CustomInput
                 labelText="From"
@@ -80,7 +80,7 @@ const UserFormStepTwo = (props) => {
             }
             />
           </ItemGrid>
-          <ItemGrid xs={3} sm={3} md={3}>
+          <ItemGrid xs={12} sm={12} md={3}>
             <Field name={`${position}.to`} type="number" component={({input,label,...custom}) =>
               <CustomInput
                 labelText="To"
@@ -100,7 +100,7 @@ const UserFormStepTwo = (props) => {
             }
             />
           </ItemGrid>
-          <ItemGrid xs={2} sm={2} md={2}>
+          <ItemGrid xs={12} sm={12} md={2}>
             <IconButton
               color="inherit"
               aria-label="Remove"
@@ -148,13 +148,13 @@ const UserFormStepTwo = (props) => {
             </ItemGrid>
           </Grid>
           <Grid container>
-            <ItemGrid xs={4} sm={4} md={4}>
+            <ItemGrid xs={12} sm={12} md={4}>
               <Field validate={[required]} name="contact_number" required="required" autoComplete="contact_number" type="tel" custominputprops={{labelText: 'Contact Number'}} component={CustomInputWrapper} />
             </ItemGrid>
-            <ItemGrid xs={4} sm={4} md={4}>
+            <ItemGrid xs={12} sm={12} md={4}>
               <Field name="emergency_contact_person_number" required="required" autoComplete="emergency_contact_person_number" type="tel" custominputprops={{labelText: 'Emergency Contact Number'}} component={CustomInputWrapper} />
             </ItemGrid>
-            <ItemGrid xs={4} sm={4} md={4}>
+            <ItemGrid xs={12} sm={12} md={4}>
               <Field name="emergency_contact_person_relation" required="required" autoComplete="emergency_contact_person_relation" type="text" custominputprops={{labelText: 'Emergency Contact Person Relation'}} component={CustomInputWrapper} />
             </ItemGrid>
           </Grid>

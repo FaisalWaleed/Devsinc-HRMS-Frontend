@@ -33,7 +33,7 @@ class UserFormStepThree extends React.Component {
     return (
       <Form onSubmit={handleSubmit}>
         <Grid container>
-          <ItemGrid xs={4} sm={4} md={4}>
+          <ItemGrid xs={12} sm={12} md={4}>
             <br/>
             <Field name="join_date" validate={[required]}  component={(input,label,custom) => (
               <DatePicker

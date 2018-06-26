@@ -7,6 +7,13 @@ import ToolTip from 'material-ui/Tooltip'
 import { CustomInput, Muted } from 'components'
 import * as types from "../../actions/actionTypes";
 import LeaveHistory from './LeaveHistory';
+import tableStyle from 'variables/styles/tableStyle';
+import { withStyles } from 'material-ui/styles';
+
+const styles = theme => ({
+  ...tableStyle(theme)
+  }
+);
 
 class LeaveAdminTab extends React.Component{
   constructor(props){
@@ -85,6 +92,7 @@ class LeaveAdminTab extends React.Component{
   
   render(){
     const { order, orderBy, displayedLeaves } = this.state;
+    const { classes } = this.props;
     const tableHead = [
       { id: 'employee', numeric: false, disablePadding: false, label: 'Employee Name' },
       { id: 'sick_leaves', numeric: false, disablePadding: false, label: 'Sick Leaves'},
@@ -110,61 +118,63 @@ class LeaveAdminTab extends React.Component{
             autoComplete: "search",
           }}
         />
-        <Table>
-          <TableHead>
-            <TableRow>
-              {
-                tableHead.map((column) => (
-                  <TableCell
-                    key={column.id}
-                    numeric={column.numeric}
-                    padding={column.disablePadding ? 'none' : 'default'}
-                    sortDirection={orderBy === column.id ? order : false}
-                  >
-                    <ToolTip
-                      title={"Sort"}
-                      placement={column.numeric ? 'bottom-end' : 'bottom-start' }
-                      enterDelay={300}
+        <div className={classes.tableResponsive}>
+          <Table className={classes.table}>
+            <TableHead>
+              <TableRow>
+                {
+                  tableHead.map((column) => (
+                    <TableCell
+                      key={column.id}
+                      numeric={column.numeric}
+                      padding={column.disablePadding ? 'none' : 'default'}
+                      sortDirection={orderBy === column.id ? order : false}
                     >
-                      <TableSortLabel
-                        active={orderBy === column.id}
-                        direction={order}
-                        onClick={this.handleSort.bind(this,column.id)}
+                      <ToolTip
+                        title={"Sort"}
+                        placement={column.numeric ? 'bottom-end' : 'bottom-start' }
+                        enterDelay={300}
                       >
-                        {column.label}
-                      </TableSortLabel>
-                    </ToolTip>
-                  </TableCell>
-                ), this)
-              }
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {
-              displayedLeaves.length ?
-                displayedLeaves.map((leave,index) => (
-                  <TableRow
-                    onClick={ this.handleLeaveRowClick.bind(this, leave) }
-                    hover
-                    key={index}
-                  >
-                    <TableCell>{leave.name}</TableCell>
-                    <TableCell>{leave.sick_leaves}</TableCell>
-                    <TableCell>{leave.annual_leaves}</TableCell>
-                    <TableCell>{leave.compensation_leaves}</TableCell>
-                    <TableCell>{leave.work_from_home}</TableCell>
+                        <TableSortLabel
+                          active={orderBy === column.id}
+                          direction={order}
+                          onClick={this.handleSort.bind(this,column.id)}
+                        >
+                          {column.label}
+                        </TableSortLabel>
+                      </ToolTip>
+                    </TableCell>
+                  ), this)
+                }
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {
+                displayedLeaves.length ?
+                  displayedLeaves.map((leave,index) => (
+                    <TableRow
+                      onClick={ this.handleLeaveRowClick.bind(this, leave) }
+                      hover
+                      key={index}
+                    >
+                      <TableCell>{leave.name}</TableCell>
+                      <TableCell>{leave.sick_leaves}</TableCell>
+                      <TableCell>{leave.annual_leaves}</TableCell>
+                      <TableCell>{leave.compensation_leaves}</TableCell>
+                      <TableCell>{leave.work_from_home}</TableCell>
+                    </TableRow>
+                  ))
+                  :
+                  <TableRow>
+                    <TableCell><Muted>No Results Found</Muted></TableCell>
+                    <TableCell/>
+                    <TableCell/>
+                    <TableCell/>
                   </TableRow>
-                ))
-                :
-                <TableRow>
-                  <TableCell><Muted>No Results Found</Muted></TableCell>
-                  <TableCell/>
-                  <TableCell/>
-                  <TableCell/>
-                </TableRow>
-            }
-          </TableBody>
-        </Table>
+              }
+            </TableBody>
+          </Table>
+        </div>
       </div>
     )
   }
@@ -183,4 +193,4 @@ function mapStateToProps({leaves}){
   }
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(LeaveAdminTab);
+export default connect(mapStateToProps,mapDispatchToProps)(withStyles(styles)(LeaveAdminTab));

@@ -38,6 +38,9 @@ const styles = theme => ({
     minWidth: 700,
     overflowX: 'scroll'
   },
+  overflowAuto: {
+    overflow: 'auto'
+  }
 });
 
 
@@ -61,45 +64,47 @@ class Permissions extends React.Component{
               <div>
                 {
                   Object.keys(permissionsObject).map( (group,index) => (
-                    <ExpansionPanel key={index}>
+                    <ExpansionPanel CollapseProps={{ classes: {container: classes.overflowAuto } }} key={index}>
                       <ExpansionPanelSummary expandIcon={<ExpandMore />}>
                         <span>{group}</span>
                       </ExpansionPanelSummary>
                       <ExpansionPanelDetails>
-                        <Table className={classes.table}>
-                          <TableHead>
-                            <TableRow>
-                              <TableCell>Permissions</TableCell>
-                              {
-                                roles && roles.map((role, index) => (
-                                  <TableCell key={index}>{role.title}</TableCell>
-                                ))
-                              }
-                            </TableRow>
-                          </TableHead>
-                          <TableBody>
-                            { Object.keys(permissionsObject[group]).map( (permission_id,index) => (
-                              <TableRow key={index}>
-                                <TableCell style={{minWidth: "160px"}} component="th" scope="row">{permissionsObject[group][permission_id].permission_display}</TableCell>
+                        <div className={classes.tableResponsive}>
+                          <Table className={classes.table}>
+                            <TableHead>
+                              <TableRow>
+                                <TableCell>Permissions</TableCell>
                                 {
-                                  roles && roles.map((role, index) => {
-                                    let checked = permissionsObject[group][permission_id].allowed_for.includes(role.id);
-                                    let params = {role_id: role.id, permission_id: permission_id};
-                                    return <TableCell key={index}>
-                                      <Checkbox
-                                        checked={checked}
-                                        onChange={() => {
-                                          checked ? this.props.revokePermissionFromRole(params) : this.props.allowPermissionToRole(params);
-                                        }}
-                                        value="check"
-                                      />
-                                    </TableCell>
-                                  })
+                                  roles && roles.map((role, index) => (
+                                    <TableCell key={index}>{role.title}</TableCell>
+                                  ))
                                 }
                               </TableRow>
-                            ) )}
-                          </TableBody>
-                        </Table>
+                            </TableHead>
+                            <TableBody>
+                              { Object.keys(permissionsObject[group]).map( (permission_id,index) => (
+                                <TableRow key={index}>
+                                  <TableCell style={{minWidth: "160px"}} component="th" scope="row">{permissionsObject[group][permission_id].permission_display}</TableCell>
+                                  {
+                                    roles && roles.map((role, index) => {
+                                      let checked = permissionsObject[group][permission_id].allowed_for.includes(role.id);
+                                      let params = {role_id: role.id, permission_id: permission_id};
+                                      return <TableCell key={index}>
+                                        <Checkbox
+                                          checked={checked}
+                                          onChange={() => {
+                                            checked ? this.props.revokePermissionFromRole(params) : this.props.allowPermissionToRole(params);
+                                          }}
+                                          value="check"
+                                        />
+                                      </TableCell>
+                                    })
+                                  }
+                                </TableRow>
+                              ) )}
+                            </TableBody>
+                          </Table>
+                        </div>
                       </ExpansionPanelDetails>
                     </ExpansionPanel>
                   ))

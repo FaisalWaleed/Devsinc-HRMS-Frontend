@@ -136,7 +136,7 @@ class Users extends React.Component{
                                       hover
                             >
                               <TableCell className={classes.tableCell}>
-                                <Link to={"/dashboard"}><Avatar src={user.image} /> </Link>
+                                <Link to={`/people/${user.id}`}><Avatar src={user.image} /> </Link>
                               </TableCell>
                               <TableCell className={classes.tableCell}><Link style={{color: 'black'}} to={`/people/${user.id}`}>{user.name}</Link></TableCell>
                               <TableCell className={classes.tableCell}><Link style={{color: 'black'}} to={`/people/${user.id}`}>{user.title}</Link></TableCell>
