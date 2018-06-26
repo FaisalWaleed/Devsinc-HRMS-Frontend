@@ -57,7 +57,7 @@ class TicketAdminSearchForm extends React.Component{
         <ItemGrid xs={12} sm={12} md={12}>
           <Form onSubmit={handleSubmit}>
             <Grid container>
-              <ItemGrid xs={6} sm={6} md={6}>
+              <ItemGrid xs={12} sm={12} md={6}>
                 <label>Created By</label>
                 <Field
                   name="created_by"
@@ -68,7 +68,7 @@ class TicketAdminSearchForm extends React.Component{
                   options={usersForSelect}
                 />
               </ItemGrid>
-              <ItemGrid xs={6} sm={6} md={6}>
+              <ItemGrid xs={12} sm={12} md={6}>
                 <label>Assigned To</label>
                 <Field
                   name="assigned_to"
@@ -82,7 +82,7 @@ class TicketAdminSearchForm extends React.Component{
             </Grid>
             <br /><br />
             <Grid container>
-              <ItemGrid xs={4} sm={4} md={4}>
+              <ItemGrid xs={12} sm={12} md={4}>
                 <label>Start Date / End Date</label>
                 <Fields
                   names={['start_date', 'end_date']}
@@ -90,7 +90,7 @@ class TicketAdminSearchForm extends React.Component{
                   format={formatDates}
                 />
               </ItemGrid>
-              <ItemGrid xs={4} sm={4} md={4}>
+              <ItemGrid xs={12} sm={12} md={4}>
                 <Field name="department"
                        component={({input}) => (
                          <CustomInput
@@ -122,7 +122,7 @@ class TicketAdminSearchForm extends React.Component{
                        )}
                 />
               </ItemGrid>
-              <ItemGrid xs={4} sm={4} md={4}>
+              <ItemGrid xs={12} sm={12} md={4}>
                 <Field name="status"
                        component={({input}) => (
                          <CustomInput

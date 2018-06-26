@@ -39,10 +39,10 @@ class RoleForm extends React.Component {
               content={
                 <div>
                   <Grid container>
-                    <ItemGrid xs={4} sm={4} md={4}>
+                    <ItemGrid xs={12} sm={12} md={4}>
                       <Field name="title" type="text" component={CustomInputWrapper} custominputprops={{labelText: "Title"}} />
                     </ItemGrid>
-                    <ItemGrid xs={4} sm={4} md={4}>
+                    <ItemGrid xs={12} sm={12} md={4}>
                       <Field name="department_id"
                              component={({input}) => (
                                <CustomInput
@@ -79,7 +79,7 @@ class RoleForm extends React.Component {
                     </ItemGrid>
                   </Grid>
                   <Grid container>
-                    <ItemGrid xs={6} sm={6} md={6}>
+                    <ItemGrid xs={12} sm={12} md={6}>
                       <Field name="description" type="text" component={CustomInputWrapper} custominputprops={{labelText: "Description"}} />
                     </ItemGrid>
                   </Grid>

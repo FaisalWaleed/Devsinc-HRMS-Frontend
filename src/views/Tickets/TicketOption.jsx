@@ -24,7 +24,7 @@ class TicketOption extends React.Component{
 
     return (
       <Grid key={index} container>
-        <ItemGrid xs={4} sm={4} md={4}>
+        <ItemGrid xs={12} sm={12} md={4}>
           <Field name={`${option}.department_id`}
                  component={({input}) => (
                    <CustomInput
@@ -70,7 +70,7 @@ class TicketOption extends React.Component{
           </Field>
         </ItemGrid>
         {ticketOptionsChosen[index].department_id !== 0 && ticketOptionsChosen[index].department_id ?
-          <ItemGrid xs={3} sm={3} md={3}>
+          <ItemGrid xs={12} sm={12} md={3}>
             <Field name={`${option}.title_id`} component={({input}) => (
               <CustomInput
                 isSelect={true}
@@ -109,7 +109,7 @@ class TicketOption extends React.Component{
           </ItemGrid> : null
         }
         {(ticketOptionsChosen[index].department_id !== 0 && ticketOptionsChosen[index].title_id !== 0 && ticketOptionsChosen[index].title_id != null) ?
-          <ItemGrid xs={4} sm={4} md={4}>
+          <ItemGrid xs={12} sm={12} md={4}>
             <Field name={`${option}.user_id`} component={({input}) => {
               input.value = input.value ? input.value : [];
               return <CustomInput

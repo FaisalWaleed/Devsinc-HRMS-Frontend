@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom';
 import moment from 'moment';
 import Avatar from 'material-ui/Avatar';
 import Tooltip from 'material-ui/Tooltip';
+import Hidden from 'material-ui/Hidden';
 
 const styles = (theme) => ({
   avatar: {
@@ -52,20 +53,53 @@ class Profile extends React.Component{
               </Grid>
               <br />
               <Grid container>
-                <ItemGrid xs={1} sm={1} md={1} />
-                <ItemGrid xs={10} sm={10} md={5}>
-                  <label>Email Address: </label>
-                  <span>{user.email}</span>
+                <Hidden mdUp>
+                  <ItemGrid xs={12} sm={12} md={1} />
+                  <ItemGrid xs={12} sm={12} md={5}>
+                    <label>Email Address: </label>
+                  </ItemGrid>
+                  <ItemGrid xs={12} sm={12} md={5}>
+                    <span>{user.email}</span>
+                  </ItemGrid>
                   <br />
-                  <label>Contact Number: </label>
-                  <span>{user.contact_number}</span>
+                  <ItemGrid xs={12} sm={12} md={5}>
+                    <label>Contact Number: </label>
+                  </ItemGrid>
+                  <ItemGrid xs={12} sm={12} md={5}>
+                    <span>{user.contact_number}</span>
+                  </ItemGrid>
                   <br />
-                  <label>Secondary Contact Number: </label>
-                  <span>{user.secondary_contact_number}</span>
+                  <ItemGrid xs={12} sm={12} md={5}>
+                    <label>Secondary Contact Number: </label>
+                  </ItemGrid>
+                  <ItemGrid xs={12} sm={12} md={5}>
+                    <span>{user.secondary_contact_number}</span>
+                  </ItemGrid>
                   <br />
-                  <label>Birthday: </label>
-                  <span>{moment(user.dob).format("Do MMMM")}</span>
-                </ItemGrid>
+                  <ItemGrid xs={12} sm={12} md={5}>
+                    <label>Birthday: </label>
+                  </ItemGrid>
+                  <ItemGrid xs={12} sm={12} md={5}>
+                    
+                    <span>{moment(user.dob).format("Do MMMM")}</span>
+                  </ItemGrid>
+                </Hidden>
+                <Hidden mdDown>
+                  <ItemGrid xs={1} sm={1} md={1} />
+                  <ItemGrid xs={10} sm={10} md={5}>
+                    <label>Email Address: </label>
+                    <span>{user.email}</span>
+                    <br />
+                    <label>Contact Number: </label>
+                    <span>{user.contact_number}</span>
+                    <br />
+                    <label>Secondary Contact Number: </label>
+                    <span>{user.secondary_contact_number}</span>
+                    <br />
+                    <label>Birthday: </label>
+                    <span>{moment(user.dob).format("Do MMMM")}</span>
+                  </ItemGrid>
+                </Hidden>
                 <ItemGrid xs={12} sm={12} md={5}>
                   <label>Manager: &nbsp;&nbsp;</label>
                   <Tooltip classes={{tooltip: classes.tooltip}} title={<div>{user.manager.name}</div>} placement="right">
@@ -78,9 +112,11 @@ class Profile extends React.Component{
               </Grid>
               <br />
               <Grid container>
-                <ItemGrid xs={1} sm={1} md={1} />
-                <ItemGrid xs={10} sm={10} md={10}>
-                  <h3>Team Members</h3>
+                <Hidden mdDown>
+                  <ItemGrid xs={1} sm={1} md={1} />
+                </Hidden>
+                <ItemGrid xs={12} sm={12} md={10}>
+                  <h4>Team Members</h4>
                   {
                     user.team_members.length ?
                       user.team_members.map((member, index) => (
@@ -93,7 +129,9 @@ class Profile extends React.Component{
                       : <Muted>No Team Members</Muted>
                   }
                 </ItemGrid>
-                <ItemGrid xs={1} sm={1} md={1} />
+                <Hidden mdDown>
+                  <ItemGrid xs={1} sm={1} md={1} />
+                </Hidden>
               </Grid>
               <br /><br /><br />
             </Paper>

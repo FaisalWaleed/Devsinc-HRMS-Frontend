@@ -13,6 +13,7 @@ import { MenuItem } from 'material-ui/Menu';
 import { ListItemText } from 'material-ui/List';
 import { Link } from 'react-router-dom';
 import TicketAdminSearchForm from "./TicketAdminSearchForm";
+import tableStyle from 'variables/styles/tableStyle';
 
 const styles = theme => ({
   tooltip: {
@@ -21,7 +22,8 @@ const styles = theme => ({
   },
   formControl: {
     margin: "0 0 0 0",
-  }
+  },
+  ...tableStyle(theme)
 });
 
 class TicketAdminTab extends React.Component{
@@ -111,96 +113,98 @@ class TicketAdminTab extends React.Component{
           <br /><br />
           <TicketAdminSearchForm onSubmit={this.handleSearchSubmit} />
           <br/>
-          <Table>
-            <TableHead>
-              <TableRow>
-                {
-                  tableHead.map((column) => (
-                    <TableCell
-                      key={column.id}
-                      numeric={column.numeric}
-                      padding={column.disablePadding ? 'none' : 'default'}
-                      sortDirection={orderBy === column.id ? order : false}
-                    >
-                      <TableSortLabel
-                        active={orderBy === column.id}
-                        direction={order}
-                        onClick={this.handleSort.bind(this,column.id)}
+          <div className={classes.tableResponsive}>
+            <Table className={classes.table}>
+              <TableHead>
+                <TableRow>
+                  {
+                    tableHead.map((column) => (
+                      <TableCell
+                        key={column.id}
+                        numeric={column.numeric}
+                        padding={column.disablePadding ? 'none' : 'default'}
+                        sortDirection={orderBy === column.id ? order : false}
                       >
-                        {
-                          column.type === "search" ?
-                            <CustomInput
-                              labelText={column.label}
-                              id="search"
-                              formControlProps={{
-                                style: {margin: "27px 0 0 0"},
-                                fullWidth: false
-                              }}
-                              inputProps={{
-                                onChange: (event) => this.handleTableColumnSearch(column.id, event.target.value),
-                                type: "text",
-                                required: "text",
-                                name: "search",
-                                autoComplete: "search",
-                              }}
-                            /> : null
-                        }
-                        {
-                          column.type === "dropdown" ?
-                            <CustomInput
-                              isSelect={true}
-                              formControlProps={{
-                                fullWidth: true
-                              }}
-                              labelText={"Status"}
-                              inputProps={{
-                                value: filters.status ? filters.status : "*",
-                                onChange: (event) => (this.handleTableColumnSearch(column.id,event.target.value)),
-                                required: "required",
-                                name: "search",
-                                autoComplete: "search",
-                              }}
-                            >
-                              <MenuItem value={"*"} key="all">
-                                <ListItemText primary={"All"}/>
-                              </MenuItem>
-                              {
-                                column.options.map((option,index) => (
-                                  <MenuItem value={option} key={index}>
-                                    <ListItemText primary={option}/>
-                                  </MenuItem>
-                                ))
-                              }
-                            </CustomInput>
-                            : null
-                        }
-                      </TableSortLabel>
-                    </TableCell>
-                  ), this)
+                        <TableSortLabel
+                          active={orderBy === column.id}
+                          direction={order}
+                          onClick={this.handleSort.bind(this,column.id)}
+                        >
+                          {
+                            column.type === "search" ?
+                              <CustomInput
+                                labelText={column.label}
+                                id="search"
+                                formControlProps={{
+                                  style: {margin: "27px 0 0 0"},
+                                  fullWidth: false
+                                }}
+                                inputProps={{
+                                  onChange: (event) => this.handleTableColumnSearch(column.id, event.target.value),
+                                  type: "text",
+                                  required: "text",
+                                  name: "search",
+                                  autoComplete: "search",
+                                }}
+                              /> : null
+                          }
+                          {
+                            column.type === "dropdown" ?
+                              <CustomInput
+                                isSelect={true}
+                                formControlProps={{
+                                  fullWidth: true
+                                }}
+                                labelText={"Status"}
+                                inputProps={{
+                                  value: filters.status ? filters.status : "*",
+                                  onChange: (event) => (this.handleTableColumnSearch(column.id,event.target.value)),
+                                  required: "required",
+                                  name: "search",
+                                  autoComplete: "search",
+                                }}
+                              >
+                                <MenuItem value={"*"} key="all">
+                                  <ListItemText primary={"All"}/>
+                                </MenuItem>
+                                {
+                                  column.options.map((option,index) => (
+                                    <MenuItem value={option} key={index}>
+                                      <ListItemText primary={option}/>
+                                    </MenuItem>
+                                  ))
+                                }
+                              </CustomInput>
+                              : null
+                          }
+                        </TableSortLabel>
+                      </TableCell>
+                    ), this)
+                  }
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {
+                  displayedTickets.map((ticket,index) => (
+                    <TableRow
+                      hover
+                      key={index}
+                    >
+                      <TableCell>{ticket.created_by}</TableCell>
+                      <TableCell>{ticket.created_for}</TableCell>
+                      <TableCell>{moment(ticket.created_at).format("Do MMM YYYY")}</TableCell>
+                      <TableCell>{ticket.title}</TableCell>
+                      <TableCell>
+                        {ticket.status === "Open" && <Chip style={{backgroundColor: '#94d863'}} label="Open" className={classes.chip} />}
+                        {ticket.status === "Closed" && <Chip style={{backgroundColor: '#ed8768'}} label="Closed" className={classes.chip} />}
+                        {ticket.status === "Completed" && <Chip style={{backgroundColor: '#e5de5b'}} label="Completed" className={classes.chip} />}
+                      </TableCell>
+                    </TableRow>
+                  ))
                 }
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {
-                displayedTickets.map((ticket,index) => (
-                  <TableRow
-                    hover
-                    key={index}
-                  >
-                    <TableCell>{ticket.created_by}</TableCell>
-                    <TableCell>{ticket.created_for}</TableCell>
-                    <TableCell>{moment(ticket.created_at).format("Do MMM YYYY")}</TableCell>
-                    <TableCell>{ticket.title}</TableCell>
-                    <TableCell>
-                      {ticket.status === "Open" && <Chip style={{backgroundColor: '#94d863'}} label="Open" className={classes.chip} />}
-                      {ticket.status === "Closed" && <Chip style={{backgroundColor: '#ed8768'}} label="Closed" className={classes.chip} />}
-                      {ticket.status === "Completed" && <Chip style={{backgroundColor: '#e5de5b'}} label="Completed" className={classes.chip} />}
-                    </TableCell>
-                  </TableRow>
-                ))
-              }
-            </TableBody>
-          </Table>
+              </TableBody>
+            </Table>
+          </div>
         </ItemGrid>
       </Grid>
     )

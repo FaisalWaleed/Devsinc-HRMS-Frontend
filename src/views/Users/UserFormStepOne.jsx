@@ -23,18 +23,18 @@ const UserFormStepOne = (props) => {
       <Grid container>
         <ItemGrid xs={12} sm={12} md={12}>
           <Grid container>
-            <ItemGrid xs={4} sm={4} md={4}>
+            <ItemGrid xs={12} sm={12} md={4}>
               <Field validate={[required, isEmail]} name="email" required="required" autoComplete="email" type="email" custominputprops={{labelText: 'Company E-mail'}} component={CustomInputWrapper} />
             </ItemGrid>
-            <ItemGrid xs={4} sm={4} md={4}>
+            <ItemGrid xs={12} sm={12} md={4}>
               <Field validate={[required]} name="first_name" required="required" autoComplete="first_name" type="text" custominputprops={{labelText: 'First Name'}} component={CustomInputWrapper} />
             </ItemGrid>
-            <ItemGrid xs={4} sm={4} md={4}>
+            <ItemGrid xs={12} sm={12} md={4}>
               <Field validate={[required]} name="last_name" required="required" autoComplete="last_name" type="text" custominputprops={{labelText: 'Last Name'}} component={CustomInputWrapper} />
             </ItemGrid>
           </Grid>
           <Grid container>
-            <ItemGrid xs={4} sm={4} md={4}>
+            <ItemGrid xs={12} sm={12} md={4}>
               <Field validate={[required]} name="title_id" required="required" autoComplete="title" type="text" custominputprops={{labelText: 'Title'}} component={({input}, meta) => (
                 <div>
                   <CustomInput
@@ -70,7 +70,7 @@ const UserFormStepOne = (props) => {
               )
               } />
             </ItemGrid>
-            <ItemGrid xs={4} sm={4} md={4}>
+            <ItemGrid xs={12} sm={12} md={4}>
               <Field name="reporting_to"
                      validate={[required]}
                      component={({input}, meta) => (
@@ -109,7 +109,7 @@ const UserFormStepOne = (props) => {
                      }
               />
             </ItemGrid>
-            <ItemGrid xs={4} sm={4} md={4}>
+            <ItemGrid xs={12} sm={12} md={4}>
               <Field name="buddy_id"
                      component={({input}) => (
                        <CustomInput

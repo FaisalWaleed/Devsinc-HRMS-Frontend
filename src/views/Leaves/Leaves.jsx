@@ -33,7 +33,7 @@ class Leaves extends React.Component{
             content={
               <div>
                 <AppBar position="static" color={"inherit"}>
-                  <Tabs centered={true} fullWidth={true} value={tab} onChange={this.handleTab}>
+                  <Tabs centered scrollable fullWidth={true} value={tab} onChange={this.handleTab}>
                     <Tab label="My Leaves" />
                     <Tab label="Leave Approvals" />
                     {

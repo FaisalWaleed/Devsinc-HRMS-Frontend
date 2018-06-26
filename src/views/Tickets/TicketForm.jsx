@@ -14,6 +14,7 @@ import TicketOptions from './TicketOptions';
 import { DatePicker } from 'material-ui-pickers'
 import * as moment from 'moment';
 import { KeyboardArrowLeft, KeyboardArrowRight } from 'material-ui-icons';
+import Hidden from 'material-ui/Hidden';
 
 class TicketForm extends React.Component {
   render() {
@@ -25,54 +26,56 @@ class TicketForm extends React.Component {
           <ItemGrid xs={12} sm={12} md={12}>
             <br />
             <FieldArray name={"ticket_options"} component={TicketOptions}/>
-            <Grid container>
-              <ItemGrid xs={12} sm={12} md={12}>
-                <Field name="title" required="required" autoComplete="title" type="text" custominputprops={{labelText: 'Title'}} component={CustomInputWrapper} />
-              </ItemGrid>
-            </Grid>
-            <Grid container>
-              <ItemGrid xs={12} sm={12} md={12}>
-                <Field name="description" type="text" multiline={true} rows="2" required="required" autoComplete="description" custominputprops={{labelText: "Description"}} component={CustomInputWrapper} />
-              </ItemGrid>
-            </Grid>
-            <Grid container>
-              <ItemGrid xs={12} sm={12} md={12}>
-                <br />
-                <Field name="due_date" component={(input,label,custom) => (
-                  <DatePicker
-                    label="Due Date"
-                    {...input}
-                    {...custom}
-                    format="Do MMMM YYYY"
-                    value={input.input.value ? moment(input.input.value) : null }
-                    onChange={(event) => input.input.onChange(event.format("YYYY-MM-DD"))}
-                    disablePast={true}
-                    leftArrowIcon={<KeyboardArrowLeft/>}
-                    rightArrowIcon={<KeyboardArrowRight/>}
-                    InputProps={{
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <IconButton>
-                            <DateRange />
-                          </IconButton>
-                        </InputAdornment>
-                      ),
-                    }}
-                  />
-                )} />
-              </ItemGrid>
-            </Grid>
           </ItemGrid>
+          <ItemGrid xs={12} sm={12} md={12}>
+            <Field name="title" required="required" autoComplete="title" type="text" custominputprops={{labelText: 'Title'}} component={CustomInputWrapper} />
+          </ItemGrid>
+          <ItemGrid xs={12} sm={12} md={12}>
+            <Field name="description" type="text" multiline={true} rows="2" required="required" autoComplete="description" custominputprops={{labelText: "Description"}} component={CustomInputWrapper} />
+          </ItemGrid>
+          <ItemGrid xs={12} sm={12} md={12}>
+            <Field name="due_date" component={(input,label,custom) => (
+              <DatePicker
+                label="Due Date"
+                {...input}
+                {...custom}
+                format="Do MMMM YYYY"
+                value={input.input.value ? moment(input.input.value) : null }
+                onChange={(event) => input.input.onChange(event.format("YYYY-MM-DD"))}
+                disablePast={true}
+                leftArrowIcon={<KeyboardArrowLeft/>}
+                rightArrowIcon={<KeyboardArrowRight/>}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton>
+                        <DateRange />
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            )} />
+          </ItemGrid>
+          <br/>
+          {error
+            ? <Danger>{error}</Danger>
+            : null
+          }
+          <Hidden smUp>
+            <ItemGrid xs={12} sm={12}>
+              <Button disabled={submitting} onClick={handleSubmit} color="primary">Send Ticket</Button>
+            </ItemGrid>
+            <ItemGrid xs={12} sm={12}>
+              <Button onClick={closeModal} disabled={submitting} color="primary">Cancel</Button>
+            </ItemGrid>
+          </Hidden>
+          
+          <Hidden mdDown>
+            <Button onClick={closeModal} disabled={submitting} color="primary">Cancel</Button>
+            <Button disabled={submitting} onClick={handleSubmit} color="primary">Send Ticket</Button>
+          </Hidden>
         </Grid>
-        <br/>
-        {error
-          ? <Danger>{error}</Danger>
-          : null
-        }
-        <div>
-          <Button onClick={closeModal} disabled={submitting} color="primary">Cancel</Button>
-          <Button disabled={submitting} onClick={handleSubmit} color="primary">Send Ticket</Button>
-        </div>
       </form>
     );
   };

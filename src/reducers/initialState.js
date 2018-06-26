@@ -61,7 +61,7 @@ const initialState = {
     appError: false
   },
   sidebar: {
-    open: true
+    open: false
   },
   titles: {
     allTitles: []
