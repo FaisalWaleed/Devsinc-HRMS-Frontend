@@ -6,22 +6,39 @@ import {
 } from "components";
 import Tabs, { Tab } from 'material-ui/Tabs';
 import AppBar from 'material-ui/AppBar';
-import MyLeavesTab from './MyLeavesTab';
-import LeaveApprovalsTab from "./LeaveApprovalsTab";
-import LeaveAdminTab from './LeaveAdminTab';
 import { connect } from 'react-redux';
-import {hasPermission} from "../../helpers/permissionsHelper";
+import { hasPermission } from "../../helpers/permissionsHelper";
 import { setTab } from "../../actions/leave";
+import Loadable from "react-loadable";
+import { Loading } from "../../routes/asyncComponents";
+
+const MyLeavesTab = Loadable({
+  loader: () => import("./MyLeavesTab.jsx"),
+  loading: Loading,
+  timeout: 10000, // 10 seconds
+});
+
+const LeaveApprovalsTab = Loadable({
+  loader: () => import("./LeaveApprovalsTab.jsx"),
+  loading: Loading,
+  timeout: 10000, // 10 seconds
+});
+
+const LeaveAdminTab = Loadable({
+  loader: () => import("./LeaveAdminTab.jsx"),
+  loading: Loading,
+  timeout: 10000, // 10 seconds
+});
 
 class Leaves extends React.Component{
   constructor(props){
     super(props);
   }
-
+  
   handleTab = (event, tab) => {
     this.props.setTab({tab: tab})
   };
-
+  
   render(){
     const { userPermissions, tab } = this.props;
     return(
@@ -39,24 +56,18 @@ class Leaves extends React.Component{
                     {
                       hasPermission(userPermissions,["leaves_all_leaves"]) ? <Tab label="Leave Summary" /> : null
                     }
-
+                  
                   </Tabs>
                 </AppBar>
                 <br />
-                {tab === 0 &&
-                <MyLeavesTab/>
-                }
-                {tab === 1 &&
-                <LeaveApprovalsTab/>
-                }
-                {tab === 2 &&
-                <LeaveAdminTab />
-                }
+                {tab === 0 && <MyLeavesTab/> }
+                {tab === 1 && <LeaveApprovalsTab/> }
+                {tab === 2 && <LeaveAdminTab/> }
               </div>
             }
           />
         </ItemGrid>
-
+      
       </Grid>
     )
   }

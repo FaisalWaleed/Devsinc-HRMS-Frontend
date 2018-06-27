@@ -51,5 +51,8 @@
   "bugs": {
     "url": "https://github.com/creativetimofficial/material-dashboard-react/issues"
   },
-  "homepage": ""
+  "homepage": "",
+  "devDependencies": {
+    "webpack-bundle-analyzer": "^2.13.1"
+  }
 }
