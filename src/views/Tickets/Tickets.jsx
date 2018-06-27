@@ -3,12 +3,31 @@ import { Grid } from "material-ui";
 import { RegularCard, ItemGrid } from "components";
 import Tabs, { Tab } from 'material-ui/Tabs';
 import AppBar from 'material-ui/AppBar';
-import MyTicketsTab from "./MyTicketsTab";
-import AssignedTicketsTab from "./AssignedTicketsTab";
 import { connect } from 'react-redux';
 import { setTab } from "../../actions/ticket";
-import TicketAdminTab from "./TicketAdminTab";
 import {hasPermission} from "../../helpers/permissionsHelper";
+import Loadable from "react-loadable";
+import { Loading } from "../../routes/asyncComponents";
+
+const MyTicketsTab = Loadable({
+  loader: () => import("./MyTicketsTab.jsx"),
+  loading: Loading,
+  timeout: 10000, // 10 seconds
+});
+
+
+const AssignedTicketsTab = Loadable({
+  loader: () => import("./AssignedTicketsTab.jsx"),
+  loading: Loading,
+  timeout: 10000, // 10 seconds
+});
+
+
+const TicketAdminTab = Loadable({
+  loader: () => import("./TicketAdminTab.jsx"),
+  loading: Loading,
+  timeout: 10000, // 10 seconds
+});
 
 class Tickets extends React.Component{
   

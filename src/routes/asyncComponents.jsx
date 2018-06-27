@@ -1,7 +1,7 @@
 import React from 'react';
 import Loadable from 'react-loadable';
 
-const Loading = (props) => {
+export const Loading = (props) => {
   if(props.pastDelay)
     return <h1>Please Wait ...</h1>
   else if(props.error){
