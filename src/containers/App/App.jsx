@@ -20,12 +20,29 @@ import { unprotectedPages } from '../../config/unprotectedPagesConfig';
 import Unauthorized from "../../views/Errors/Unauthorized";
 import { hasPermission } from "../../helpers/permissionsHelper";
 import { closeNotification } from "../../actions/notification";
-import OverlayLoader from 'react-overlay-loading/lib/OverlayLoader'
 import {toggleSidebar} from "../../actions/sidebar";
+import { BubbleSpinLoader } from 'react-css-loaders';
 
 
 const requireSignIn = generateRequireSignInWrapper({
   redirectPathIfNotSignedIn: '/login',
+});
+
+const styles = theme => ({
+  overlay: {
+    position: "fixed",
+    zIndex: "999",
+    height: '100vh',
+    width: '100%',
+    overflow: 'show',
+    margin: 'auto',
+    top: '0',
+    left: '0',
+    bottom: '0',
+    right: '0',
+    backgroundColor: 'rgba(0,0,0,0.9)'
+  },
+    ...appStyle(theme)
 });
 
 
@@ -95,16 +112,14 @@ class App extends React.Component {
             <ModalRoot />
             { isLoading
               ?
-              <OverlayLoader
-                color={'#16bbb2'} // default is white
-                loader="PacmanLoader" // check below for more loaders
-                text="Please wait . . ."
-                active={true}
-                backgroundColor={'black'} // default is black
-                opacity=".9" // default is .9
-              >
-                <div style={{height: '100vh'}} />
-              </OverlayLoader>
+              <div className={classes.overlay}>
+                <BubbleSpinLoader
+                  style={{marginTop: '20%'}}
+                  color="#16a9a0"
+                  duration="1"
+                  size="15"
+                />
+              </div>
               :
               <div className={classes.wrapper}>
                 {
@@ -180,4 +195,4 @@ function mapDispatchToProps(dispatch){
   }
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(withStyles(appStyle)(App));
+export default connect(mapStateToProps,mapDispatchToProps)(withStyles(styles)(App));
