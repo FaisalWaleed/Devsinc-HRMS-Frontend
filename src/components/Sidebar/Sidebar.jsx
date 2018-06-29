@@ -74,6 +74,7 @@ const Sidebar = ({ ...props }) => {
         <a onClick={props.handleDrawerToggle} className={classes.logoLink}>
           <div className={classes.logoImage}>
             <img src={logo} alt="logo" className={classes.img} />
+            <span className={classes.logoText}>E V S I N C</span>
           </div>
           {logoText}
         </a>

@@ -9,7 +9,7 @@ import ModalRoot from '../../components/Modals/ModalRoot';
 import appRoutes from "routes/app.jsx";
 import appStyle from "variables/styles/appStyle.jsx";
 import image from "assets/img/sidebar.jpg";
-import logo from "assets/img/devsinc_logo.png";
+import logo from "assets/img/letter.png";
 import { generateRequireSignInWrapper } from "redux-token-auth";
 import MomentUtils from 'material-ui-pickers/utils/moment-utils';
 import MuiPickersUtilsProvider from 'material-ui-pickers/utils/MuiPickersUtilsProvider';
