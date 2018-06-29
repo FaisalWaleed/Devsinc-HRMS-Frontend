@@ -130,8 +130,7 @@ material-dashboard-react
     │   └── index.jsx
     ├── variables
     │   ├── charts.jsx
-    │   ├── general.jsx
-    │   └── styles.jsx
+    │   └── styles.jsx  
     └── views
         ├── Dashboard
         │   └── Dashboard.jsx

@@ -35,7 +35,7 @@ function Footer({ ...props }) {
         </div>
         <p className={classes.right}>
           <span>
-            <a target="_blank" href="http://devsinc.com" className={classes.a}>
+            <a target="_blank" rel="noopener noreferrer" href="http://devsinc.com" className={classes.a}>
               Developers Incorporate
             </a>
             &nbsp;

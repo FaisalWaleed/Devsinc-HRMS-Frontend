@@ -21,9 +21,6 @@ import * as types from "../../actions/actionTypes";
 import {hasPermission} from "../../helpers/permissionsHelper";
 
 class Departments extends React.Component {
-  constructor(props){
-    super(props);
-  }
 
   componentDidMount() {
     this.props.fetchDepartments();
@@ -31,7 +28,6 @@ class Departments extends React.Component {
 
   departmentWithButtons = (department) => {
     const { id } = department;
-    const { permissions } = this.props;
 
     return [
       ...drop(values(department)),

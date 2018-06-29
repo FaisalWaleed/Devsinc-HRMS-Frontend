@@ -35,7 +35,6 @@ export const updateRole = (params, id, successAction, failureAction) => {
 };
 
 export const fetchUsersForRole = (id , successAction, failureAction) => {
-  console.log("about to fetch users for role");
   return request(`admin/roles/${id}/assignable_users`, {}, successAction, failureAction, true);
 };
 

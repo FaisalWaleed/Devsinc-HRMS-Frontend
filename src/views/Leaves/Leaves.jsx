@@ -31,9 +31,6 @@ const LeaveAdminTab = Loadable({
 });
 
 class Leaves extends React.Component{
-  constructor(props){
-    super(props);
-  }
   
   handleTab = (event, tab) => {
     this.props.setTab({tab: tab})

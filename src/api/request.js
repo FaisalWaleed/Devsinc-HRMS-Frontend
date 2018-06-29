@@ -17,13 +17,11 @@ const request = (path, opts = {}, successAction, failureAction, auth = false) =>
         }
         else{
           res.json().then((res) => {
-            console.log("the results", res, "the path", path);
             dispatch(successAction(res));
           })
         }
       })
       .catch(error => {
-        console.log("in catch:",error);
         dispatch(failureAction(error))
       })
   }

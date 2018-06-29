@@ -5,15 +5,9 @@ import {
   Card,
   CardContent,
   CardHeader,
-  Typography,
   Tabs,
   Tab
 } from "material-ui";
-
-import { Tasks } from "components";
-
-import { bugs, website, server } from "variables/general";
-
 import tasksCardStyle from "variables/styles/tasksCardStyle";
 
 class TasksCard extends React.Component {

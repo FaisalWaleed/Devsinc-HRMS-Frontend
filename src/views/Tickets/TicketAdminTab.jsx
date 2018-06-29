@@ -90,7 +90,6 @@ class TicketAdminTab extends React.Component{
   handleSearchSubmit(values){
     values.start_date ? values.start_date = values.start_date.format("YYYY-MM-DD") : null;
     values.end_date ? values.end_date = values.end_date.format("YYYY-MM-DD") : null;
-    console.log(values);
     this.props.fetchSearchedTickets(values);
   }
   

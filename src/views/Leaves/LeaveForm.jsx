@@ -19,7 +19,7 @@ import { validateLeaveForm as validate, required } from './validateLeaveForm';
 class LeaveForm extends React.Component{
   
   render(){
-    const {error, handleSubmit, submitting, closeModal, formValues } = this.props;
+    const { handleSubmit, submitting, closeModal, formValues } = this.props;
     const renderDates = fields => (
       <DateRangePickerWrapper
         startDateFieldName="start_date"

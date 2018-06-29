@@ -25,7 +25,6 @@ class Landing extends React.Component{
         this.props.history.push('/dashboard');
       })
       .catch((error) => {
-        console.log(error);
         if(!error.response){
           throw new SubmissionError({
             _error: "Something went wrong. Please try again later."

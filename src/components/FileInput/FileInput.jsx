@@ -32,11 +32,11 @@ export default class FileInput  extends Component{
   }
   
   render(){
-    const { input: { value } } = this.props;
-    const {input,label, required, meta, url } = this.props;
+    const {input,label, url } = this.props;
     return(
       <div>
         <img
+          alt="preview.png"
           style={{width: '100%', display: 'block', height: 'auto', borderRadius: '30%'}}
           src={this.state.newChosen ? this.state.imagePreviewUrl : url ? url : this.state.imagePreviewUrl}  />
         <label>{label}</label>

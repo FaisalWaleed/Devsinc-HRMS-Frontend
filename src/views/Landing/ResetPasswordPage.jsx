@@ -16,7 +16,6 @@ class ResetPasswordPage extends React.Component{
   }
   
   handleResetPasswordSubmit(values){
-    console.log(values);
     this.props.resetPassword(values);
   }
   
@@ -34,7 +33,7 @@ class ResetPasswordPage extends React.Component{
         }
         <Grid container>
           <ItemGrid xs={12} sm={12} md={12}>
-            <img src={logo} />
+            <img alt="Devsinc.png" src={logo} />
             <Muted>Your Technology Partner</Muted>
           </ItemGrid>
         </Grid>

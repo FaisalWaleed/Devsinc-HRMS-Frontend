@@ -7,7 +7,6 @@ import {
   Toolbar,
   IconButton,
   Hidden,
-  Button
 } from "material-ui";
 import cx from "classnames";
 
@@ -16,16 +15,16 @@ import headerStyle from "variables/styles/headerStyle.jsx";
 import HeaderLinks from "./HeaderLinks";
 
 function Header({ ...props }) {
-  function makeBrand() {
-    var name;
-    props.routes.map((prop, key) => {
-      if (prop.path === props.location.pathname) {
-        name = prop.navbarName;
-      }
-      return null;
-    });
-    return name;
-  }
+  // function makeBrand() {
+  //   var name;
+  //   props.routes.map((prop, key) => {
+  //     if (prop.path === props.location.pathname) {
+  //       name = prop.navbarName;
+  //     }
+  //     return null;
+  //   });
+  //   return name;
+  // }
   const { classes, color } = props;
   const appBarClasses = cx({
     [" " + classes[color]]: color
@@ -34,6 +33,7 @@ function Header({ ...props }) {
     <AppBar className={classes.appBar + appBarClasses}>
       <Toolbar className={classes.container}>
         <div className={classes.flex}>
+          {/*can be used for header links */}
           {/* Here we create navbar brand, based on route name */}
           {/*<Button href="#" className={classes.title}>*/}
             {/*{makeBrand()}*/}

@@ -16,7 +16,6 @@ import { Lock, LockOpen,Edit } from "material-ui-icons";
 import * as types from '../../actions/actionTypes';
 import UserForm from './UserForm';
 import {HIDE_MODAL} from "../../actions/modal";
-import { map } from 'lodash';
 import { hasPermission } from "../../helpers/permissionsHelper";
 import Avatar from 'material-ui/Avatar';
 import Tooltip from 'material-ui/Tooltip';
@@ -76,7 +75,7 @@ class Users extends React.Component{
   }
 
   render(){
-    const { userPermissions, users, classes } = this.props;
+    const { userPermissions, classes } = this.props;
     const { currentlyDisplayedUsers } = this.state;
     return(
       <Grid container>

@@ -107,7 +107,6 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 function mapStateToProps({ departments, roles }) {
-  console.log("this is the role", roles);
   return {
     departments: departments.departments,
     initialValues: roles.role
