@@ -61,7 +61,7 @@ class HeaderLinks extends React.Component {
               <Person className={classes.links} />
               <Hidden mdUp>
                 <p onClick={this.handleClick} className={classes.linkText}>
-                  Profile
+                  {profile.first_name} {profile.last_name}
                 </p>
               </Hidden>
             </IconButton>

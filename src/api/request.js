@@ -1,3 +1,5 @@
+import { BASE_URL } from "../config/apiConfig";
+
 const request = (path, opts = {}, successAction, failureAction, auth = false) => {
   return (dispatch) => {
     if (auth) {
@@ -8,7 +10,7 @@ const request = (path, opts = {}, successAction, failureAction, auth = false) =>
         'access-token': localStorage.getItem('access-token'),
       }
     }
-    fetch(`http://localhost:3000/api/v1/${path}`, opts)
+    fetch(`${BASE_URL}${path}`, opts)
       .then((res) => {
         if(!res.ok){
           res.json().then((errorResponse) => {
