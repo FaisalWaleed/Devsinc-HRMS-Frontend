@@ -1,55 +1,71 @@
 import React from "react";
 import BigCalendar from 'react-big-calendar';
 import moment from 'moment';
-import events from './events'
-import 'react-big-calendar/lib/css/react-big-calendar.css'
-
-// Setup the localizer by providing the moment (or globalize) Object
-// to the correct localizer.
-moment.locale('en-GB');
-BigCalendar.momentLocalizer(moment); // or globalizeLocalizer
-
+import 'react-big-calendar/lib/css/react-big-calendar.css';
+import { Grid } from 'material-ui';
+import { ItemGrid } from 'components';
+import { GOOGLE_CALENDAR_API_KEY } from "../../config/apiConfig";
+import Paper from 'material-ui/Paper';
+import events from "./events";
 
 
-
-
-
-
-const allViews = Object
-  .keys(BigCalendar.Views)
-  .map(k => BigCalendar.Views[k])
+BigCalendar.momentLocalizer(moment);
 
 class Calendar extends React.Component {
-
+  constructor(props){
+    super(props);
+    this.state = {
+      events: []
+    }
+  }
+  
+  componentDidMount(){
+    this.getPublicHolidays();
+  }
+  
+  getPublicHolidays(){
+    fetch(`https://www.googleapis.com/calendar/v3/calendars/en.pk%23holiday%40group.v.calendar.google.com/events?key=${GOOGLE_CALENDAR_API_KEY}`)
+      .then((response) => ( response.json()))
+      .then((jsonRes) => {
+        if(jsonRes.items !== undefined)
+          this.setState({events: jsonRes.items });
+      })
+      .catch((error) => console.log(error));
+  }
+  
   eventStyleGetter(event, start, end, isSelected){
-    console.log(event);
-    var backgroundColor = '#' + event.hexColor;
-    var style = {
-      backgroundColor: backgroundColor,
-      borderRadius: '0px',
-      opacity: 0.8,
-      color: 'white',
-      border: '0px',
-      display: 'block'
-    };
+    
     return {
-      style: style
+      style: {
+        backgroundColor: "#94f98f",
+        borderRadius: '20px',
+        color: 'black',
+        border: '2px solid #eee',
+        display: 'block'
+      }
     };
-
   }
   render(){
+    console.log(this.state.events);
     return (
-      <div style={{ height: 700 }}>
-        <BigCalendar
-          events={events}
-          step={60}
-          views={allViews}
-          defaultDate={new Date()}
-          onSelectSlot={(this.slotSelected)}
-          onSelectEvent={(this.eventSelected)}
-          eventPropGetter={(this.eventStyleGetter)}
-        />
-      </div>
+      <Grid container>
+        <ItemGrid xs={12} sm={12} md={12}>
+          <Paper>
+            <div style={{ height: 700 }}>
+              <BigCalendar
+                popup
+                events={this.state.events}
+                startAccessor={(event) => moment(event.start.date).toDate()}
+                endAccessor={(event) => moment(event.end.date).toDate()}
+                titleAccessor="summary"
+                views={["day","month","week"]}
+                defaultDate={new Date()}
+                eventPropGetter={(this.eventStyleGetter)}
+              />
+            </div>
+          </Paper>
+        </ItemGrid>
+      </Grid>
     );
   }
 }

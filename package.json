@@ -40,8 +40,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject",
-    "dev": "NODE_PATH=./src npm run start"
+    "eject": "react-scripts eject"
   },
   "repository": {
     "type": "git",

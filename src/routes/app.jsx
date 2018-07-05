@@ -16,6 +16,7 @@ import {
   Tickets,
   Users,
   Permissions,
+  Calendar
 } from './asyncComponents'
 
 import {
@@ -25,7 +26,8 @@ import {
   FlightTakeoff,
   People,
   Business,
-  DeviceHub
+  DeviceHub,
+  DateRange
 } from "material-ui-icons";
 
 const appRoutes = [
@@ -178,7 +180,7 @@ const appRoutes = [
     path: "/calendar",
     sidebarName: "Calendar",
     navbarName: "Calendar",
-    icon: Notifications,
+    icon: DateRange,
     component: Calendar,
     notSidebar: false,
     exact: true,

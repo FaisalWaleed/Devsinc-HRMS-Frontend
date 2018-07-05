@@ -117,3 +117,9 @@ export const Leaves = Loadable({
   loading: Loading,
   timeout: 10000, // 10 seconds
 });
+
+export const Calendar = Loadable({
+  loader: () => import("../views/Calendar/Calendar"),
+  loading: Loading,
+  timeout: 10000, // 10 seconds
+});
