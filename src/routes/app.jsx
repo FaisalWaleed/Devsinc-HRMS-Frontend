@@ -16,6 +16,7 @@ import {
   Tickets,
   Users,
   Permissions,
+  Calendar
 } from './asyncComponents'
 
 import {
@@ -25,7 +26,8 @@ import {
   FlightTakeoff,
   People,
   Business,
-  DeviceHub
+  DeviceHub,
+  DateRange
 } from "material-ui-icons";
 
 const appRoutes = [
@@ -173,6 +175,17 @@ const appRoutes = [
     exact: true,
     requiredPermissions: ["roles_allow_permission", "roles_revoke_permission"],
     atleastOnePerm: false
+  },
+  {
+    path: "/calendar",
+    sidebarName: "Calendar",
+    navbarName: "Calendar",
+    icon: DateRange,
+    component: Calendar,
+    notSidebar: false,
+    exact: true,
+    // requiredPermissions: ["roles_allow_permission", "roles_revoke_permission"],
+    // atleastOnePerm: false
   },
   {
     path: "/welcome",
