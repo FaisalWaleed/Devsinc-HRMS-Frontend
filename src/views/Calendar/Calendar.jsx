@@ -6,8 +6,6 @@ import { Grid } from 'material-ui';
 import { ItemGrid } from 'components';
 import { GOOGLE_CALENDAR_API_KEY } from "../../config/apiConfig";
 import Paper from 'material-ui/Paper';
-import events from "./events";
-
 
 BigCalendar.momentLocalizer(moment);
 

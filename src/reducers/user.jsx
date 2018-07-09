@@ -58,6 +58,12 @@ export const user = (state = initialState,action) => {
       
     case types.FETCH_DASHBOARD_FAILURE:
       return state;
+      
+    case types.FETCH_ORGANO_CHART_SUCCESS:
+      return {...state, organoChartJSON: action.payload};
+      
+    case types.FETCH_ORGANO_CHART_FAILURE:
+      return state;
     
     default:
       return state;

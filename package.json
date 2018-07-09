@@ -25,6 +25,7 @@
     "react-event-timeline": "^1.5.1",
     "react-google-maps": "^9.4.5",
     "react-loadable": "^5.4.0",
+    "react-orgchart": "^1.0.5",
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.0.17",

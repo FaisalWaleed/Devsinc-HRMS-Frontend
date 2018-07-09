@@ -16,7 +16,8 @@ import {
   Tickets,
   Users,
   Permissions,
-  Calendar
+  Calendar,
+  Organization
 } from './asyncComponents'
 
 import {
@@ -182,6 +183,15 @@ const appRoutes = [
     navbarName: "Calendar",
     icon: DateRange,
     component: Calendar,
+    notSidebar: false,
+    exact: true,
+  },
+  {
+    path: "/organization",
+    sidebarName: "Organization",
+    navbarName: "Organization",
+    icon: DateRange,
+    component: Organization,
     notSidebar: false,
     exact: true,
     // requiredPermissions: ["roles_allow_permission", "roles_revoke_permission"],

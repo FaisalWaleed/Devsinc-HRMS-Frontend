@@ -1,0 +1,7 @@
+#organochart .orgNodeChildGroup .nodeGroupLineVerticalMiddle {
+    border-right: solid 3px red
+}
+
+#organochart .nodeLineBorderTop {
+    border-top: solid 3px red;
+}

@@ -3,7 +3,7 @@ import Loadable from 'react-loadable';
 
 export const Loading = (props) => {
   if(props.pastDelay)
-    return <h1>Please Wait ...</h1>
+    return <h1>Please Wait ...</h1>;
   else if(props.error){
     return <div>Error! <button onClick={ props.retry }>Retry</button></div>;
   }
@@ -122,4 +122,10 @@ export const Calendar = Loadable({
   loader: () => import("../views/Calendar/Calendar"),
   loading: Loading,
   timeout: 10000, // 10 seconds
+});
+
+export const Organization = Loadable({
+  loader: () => import("../views/Organization/Organization"),
+  loading: Loading,
+  timeout: 10000, //10 seconds
 });

@@ -176,3 +176,17 @@ export const fetchDashboardFailure = (payload) => {
     payload
   }
 };
+
+export const fetchOrganoChartSuccess = (payload) => {
+  return {
+    type: types.FETCH_ORGANO_CHART_SUCCESS,
+    payload
+  }
+};
+
+export const fetchOrganoChartFailure = (payload) => {
+  return {
+    type: types.FETCH_ORGANO_CHART_FAILURE,
+    payload
+  }
+};
